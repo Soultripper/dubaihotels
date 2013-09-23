@@ -1,0 +1,68 @@
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (21.8ms)[0m  [1mALTER TABLE "cities" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mFixture Delete (0.5ms)[0m  [1mDELETE FROM "cities"[0m
+  [1m[35mFixture Insert (0.4ms)[0m  INSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('Dubai', -782831, '2013-09-16 16:57:20', '2013-09-16 16:57:20', 900393581)
+  [1m[36mFixture Insert (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('London', -2601889, '2013-09-16 16:57:20', '2013-09-16 16:57:20', 165566181)[0m
+  [1m[35m (1.0ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "cities" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mCity Load (0.6ms)[0m  [1mSELECT "cities".* FROM "cities" WHERE "cities"."name" = 'Dubai' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+Connecting to database specified by database.yml
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "cities" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mFixture Delete (0.3ms)[0m  [1mDELETE FROM "cities"[0m
+  [1m[35mFixture Insert (0.8ms)[0m  INSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('Dubai', -782831, '2013-09-16 16:57:47', '2013-09-16 16:57:47', 900393581)
+  [1m[36mFixture Insert (0.1ms)[0m  [1mINSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('London', -2601889, '2013-09-16 16:57:47', '2013-09-16 16:57:47', 165566181)[0m
+  [1m[35m (1.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "cities" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mCity Load (0.6ms)[0m  [1mSELECT "cities".* FROM "cities" WHERE "cities"."name" = 'Dubai' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+Connecting to database specified by database.yml
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "cities" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mFixture Delete (0.2ms)[0m  [1mDELETE FROM "cities"[0m
+  [1m[35mFixture Insert (0.5ms)[0m  INSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('Dubai', -782831, '2013-09-16 16:58:47', '2013-09-16 16:58:47', 900393581)
+  [1m[36mFixture Insert (0.3ms)[0m  [1mINSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('London', -2601889, '2013-09-16 16:58:47', '2013-09-16 16:58:47', 165566181)[0m
+  [1m[35m (29.5ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "cities" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mCity Load (0.6ms)[0m  [1mSELECT "cities".* FROM "cities" WHERE "cities"."name" = 'Dubai' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+Connecting to database specified by database.yml
+Unable to load vcr_cassettes/booking/hotels/dubai, underlying cause No such file to load -- vcr_cassettes/booking/hotels/dubai 
+
+ /Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activesupport-3.2.13/lib/active_support/dependencies.rb:317:in `rescue in depend_on'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activesupport-3.2.13/lib/active_support/dependencies.rb:312:in `depend_on'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activesupport-3.2.13/lib/active_support/dependencies.rb:225:in `require_dependency'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activerecord-3.2.13/lib/active_record/fixtures.rb:767:in `try_to_load_dependency'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activerecord-3.2.13/lib/active_record/fixtures.rb:782:in `block in require_fixture_classes'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activerecord-3.2.13/lib/active_record/fixtures.rb:779:in `each'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activerecord-3.2.13/lib/active_record/fixtures.rb:779:in `require_fixture_classes'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/activerecord-3.2.13/lib/active_record/fixtures.rb:762:in `fixtures'
+/Users/Sky/Desktop/Ruby/Projects/hotels/test/test_helper.rb:15:in `<class:TestCase>'
+/Users/Sky/Desktop/Ruby/Projects/hotels/test/test_helper.rb:10:in `<top (required)>'
+/Users/Sky/Desktop/Ruby/Projects/hotels/test/unit/booking/client_test.rb:1:in `require'
+/Users/Sky/Desktop/Ruby/Projects/hotels/test/unit/booking/client_test.rb:1:in `<top (required)>'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:10:in `require'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:10:in `block (2 levels) in <main>'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:9:in `each'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:9:in `block in <main>'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:4:in `select'
+/Users/Sky/.rbenv/versions/1.9.3-rc1/lib/ruby/gems/1.9.1/gems/rake-10.1.0/lib/rake/rake_test_loader.rb:4:in `<main>'
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "cities" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "cities" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL
+Connecting to database specified by database.yml
+  [1m[36m (0.5ms)[0m  [1mALTER TABLE "cities" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mFixture Delete (0.6ms)[0m  [1mDELETE FROM "cities"[0m
+  [1m[35mFixture Insert (0.9ms)[0m  INSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('Dubai', -782831, '2013-09-16 17:01:55', '2013-09-16 17:01:55', 900393581)
+  [1m[36mFixture Insert (0.2ms)[0m  [1mINSERT INTO "cities" ("name", "booking_id", "created_at", "updated_at", "id") VALUES ('London', -2601889, '2013-09-16 17:01:55', '2013-09-16 17:01:55', 165566181)[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "cities" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36mCity Load (0.7ms)[0m  [1mSELECT "cities".* FROM "cities" WHERE "cities"."name" = 'Dubai' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
