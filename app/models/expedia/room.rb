@@ -1,0 +1,29 @@
+module Expedia
+  class Room
+
+    attr_reader :data
+
+    def initialize(data)
+      @data = data
+    end
+
+    def self.find_in(destination)
+      Client.hotels_in(destination).map {|h| new h}
+    end
+
+    def chargeable_rates
+      data['RateInfos']['RateInfo']['ChargeableRateInfo']
+    end
+
+    def total_rate
+      chargeable_rates['@total']
+    end
+    
+    private 
+    def method_missing(method, *args, &block)
+      @data[method.to_s]
+    end
+
+  end
+
+end

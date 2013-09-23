@@ -1,0 +1,1338 @@
+body {
+color: #666;
+font-size: 12px;
+line-height: 20px;
+font-family: Arial,Helvetica,Sans,Sans-Serif,"Sans Serif";
+line-height: 1;
+}
+
+#datepicker{
+  display: none
+}
+.calendar_date_button {
+  float: left;
+  width: 180px;
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  border-left: none;
+  cursor: pointer;
+  height: 36px;
+  border-radius: 2px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  color: #666;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button.selected {
+  cursor: default;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button:hover {
+  background-color: #fff;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkin_date {
+  margin-right: 3px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkin_date.selected {
+  background-color: #61b7ea;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#70c2ed), to(#61b7ea));
+  background-image: -webkit-linear-gradient(top, #70c2ed, #61b7ea);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#70c2ed), to(#61b7ea));
+  background-image: -moz-linear-gradient(top, #70c2ed, #61b7ea);
+  background-image: -ms-linear-gradient(top, #70c2ed, #61b7ea);
+  background-image: -o-linear-gradient(top, #70c2ed, #61b7ea);
+  background-image: linear-gradient(top, #70c2ed, #61b7ea);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#70c2ed',EndColorStr='#61b7ea',GradientType=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#70c2ed', EndColorStr='#61b7ea',GradientType=0)";
+  border-color: #6ea1be;
+  color: #fff;
+  margin-bottom: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkout_date.selected {
+  background-color: #d69d46;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#deaf52), to(#d69d46));
+  background-image: -webkit-linear-gradient(top, #deaf52, #d69d46);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#deaf52), to(#d69d46));
+  background-image: -moz-linear-gradient(top, #deaf52, #d69d46);
+  background-image: -ms-linear-gradient(top, #deaf52, #d69d46);
+  background-image: -o-linear-gradient(top, #deaf52, #d69d46);
+  background-image: linear-gradient(top, #deaf52, #d69d46);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#deaf52',EndColorStr='#d69d46',GradientType=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#deaf52', EndColorStr='#d69d46',GradientType=0)";
+  border-color: #bd893c;
+  color: #fff;
+  margin-bottom: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button span.date {
+  display: inline-block;
+  font-size: 32px;
+  line-height: 37px;
+  margin-left: 5px;
+  float: left;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkout_date > span.date {
+  margin-left: 0;
+  border-left: 5px solid #f0af4d;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkout_date.selected > span.date {
+  margin-left: 5px;
+  border-left: none;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_checkin_date > span.date {
+  border-left: 5px solid #70c2ed;
+  margin-left: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button.selected > span.date {
+  margin-left: 5px;
+  border-left: none;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button span.date_detail {
+  display: inline-block;
+  font-size: 11px;
+  line-height: 14px;
+  margin-top: 2px;
+  width: 150px;
+  overflow: hidden;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button span.date_detail span.date_string {
+  font-size: 10px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button span.date_detail > span.date_label {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button span.date_inner {
+  margin-left: 4px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+.calendar_date_button > div {
+  float: left;
+  width: 100px;
+  margin-top: 4px;
+  margin-left: 4px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container {
+  margin-bottom: 6px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .calendar_room_type_button {
+  float: left;
+  width: 198px;
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  color: #666;
+  cursor: pointer;
+  font-weight: bold;
+  height: 42px;
+  padding-top: 6px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .calendar_room_type_button > span {
+  line-height: 38px;
+  display: inline-block;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single:hover, #calendar_roomtype_container .roomtype_single.selected {
+  background-color: #f6f6f6;
+  border-color: #ccc;
+  border-left: 5px solid #b93037;
+  width: 194px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single:hover > .roomsprite, #calendar_roomtype_container .roomtype_single.selected > .roomsprite {
+  background-position: -217px -298px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single:hover span, #calendar_roomtype_container .roomtype_single.selected span {
+  margin-left: -4px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .calendar_room_type_button:hover .roomsprite, #calendar_roomtype_container .calendar_room_type_button.selected .roomsprite {
+  opacity: 1;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double {
+  border-radius: 2px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double span {
+  margin-left: 5px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double:hover, #calendar_roomtype_container .roomtype_double.selected {
+  background-color: #f6f6f6;
+  width: 196px;
+  border-color: #ccc;
+  border-left: 5px solid #b93037;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double:hover span, #calendar_roomtype_container .roomtype_double.selected span {
+  margin-left: -2px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomsprite.double {
+  background-position: -254px -260px;
+  margin-left: 5px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double:hover > .roomsprite, #calendar_roomtype_container .roomtype_double.selected > .roomsprite {
+  background-position: -258px -298px;
+  margin-right: 3px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomsprite.kids {
+  background-position: -303px -260px;
+  margin-left: 10px;
+  margin-right: 5px;
+  width: 52px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids:hover, #calendar_roomtype_container .roomtype_kids.selected {
+  background-color: #fff;
+  width: 194px;
+  border-left: 5px solid #b93037;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids:hover > .roomsprite, #calendar_roomtype_container .roomtype_kids.selected > .roomsprite {
+  background-position: -309px -298px;
+  margin-left: 12px;
+  margin-right: -1px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomsprite {
+  width: 44px;
+  display: inline-block;
+  background-image: url("http://ie2.trivago.com/images/layoutimages/osp/osp_sprite_31.png");
+  background-repeat: no-repeat;
+  height: 40px;
+  float: left;
+  opacity: .7;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single {
+  border-radius: 2px;
+  margin-right: 6px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double {
+  width: 200px;
+  margin-right: 6px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids {
+  border-radius: 2px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomsprite.single {
+  background-position: -214px -260px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single:hover, #calendar_roomtype_container .roomtype_double:hover, #calendar_roomtype_container .roomtype_kids:hover {
+  background-color: #fff;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single:hover, #calendar_roomtype_container .roomtype_double:hover, #calendar_roomtype_container .roomtype_kids:hover {
+  border: 1px solid #ccc;
+  padding-left: 4px;
+  color: #333;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double.selected:hover {
+  background-color: #fff;
+  width: 196px;
+  border-left: 5px solid #b93037;
+  padding-left: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double.selected:hover span {
+  margin-left: -3px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_double.selected:hover > .roomsprite {
+  background-position: -258px -298px;
+  margin-right: 4px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single.selected:hover {
+  background-color: #fff;
+  border-left: 5px solid #b93037;
+  width: 194px;
+  padding-left: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single.selected:hover > .roomsprite {
+  background-position: -217px -298px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_single.selected:hover span {
+  margin-left: -4px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids.selected {
+  background-color: #f6f6f6;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids.selected:hover {
+  border-left: 5px solid #b93037;
+  background-color: #fff;
+  width: 190px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_roomtype_container .roomtype_kids.selected:hover > .roomsprite {
+  margin-left: 8px;
+}
+
+.group:after {
+clear: both;
+content: " ";
+display: block;
+font-size: 0;
+height: 0;
+visibility: hidden;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#js_dealform_calendar .ui-datepicker-prev.ui-state-disabled:hover, #js_dealform_calendar .ui-datepicker-next.ui-state-disabled:hover, #js_dealform_calendar .ui-datepicker-other-month.ui-datepicker-unselectable.ui-state-disabled:hover {
+  background-color: #f6f6f6;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#js_dealform_calendar .ui-datepicker-prev.ui-state-disabled:hover span, #js_dealform_calendar .ui-datepicker-next.ui-state-disabled:hover span, #js_dealform_calendar .ui-datepicker-other-month.ui-datepicker-unselectable.ui-state-disabled:hover span {
+  opacity: .3;
+  -ms-filter: "alpha(opacity=30)";
+  filter: alpha(opacity=30);
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#js_dealform_calendar .ui-datepicker-unselectable.ui-state-disabled {
+  background-color: #f6f6f6 !important;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .roomtype9 {
+  background-position: -54px -509px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.selection {
+  height: auto;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail {
+  background-color: #f6f6f6;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  width: 602px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail > span {
+  font-size: 15px;
+  font-weight: bold;
+  height: 17px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  float: left;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.room_type_button_kids {
+  margin-bottom: -1px !important;
+  border-bottom: 1px solid #f6f6f6 !important;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.line {
+  height: 1px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo {
+  padding-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo span {
+  font-size: 12px;
+  color: #666;
+  font-weight: bold;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo div.column {
+  float: left;
+  width: 20%;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo div.column.middle {
+  float: left;
+  width: 20%;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo div.column.last {
+  float: left;
+  width: 55%;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo div.column.first {
+  margin-left: 10px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo span.kids_group_roomaction {
+  margin-right: 20px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container button.find_room {
+  float: right;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 5px 5px 5px 30px;
+  border-radius: 2px;
+  width: 175px;
+  text-align: left;
+  color: #666;
+  border: 1px solid #ccc;
+  background-color: #f6f6f6;
+  cursor: pointer;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container button.find_room:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container button.find_room span.glass {
+  background-image: url("http://ie2.trivago.com/images/layoutimages/osp/osp_sprite_31.png");
+  background-position: -330px -62px;
+  display: inline-block;
+  float: right;
+  height: 18px;
+  width: 30px;
+  margin-top: 2px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container div.kids_group_detail_roominfo a, #calendar_container div.kids_group_detail_roominfo a:visited, #calendar_container div.kids_group_detail_roominfo a:active, #calendar_container div.kids_group_detail_roominfo a:hover {
+  color: #555;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .sbHolder {
+  width: 60px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .sbHolder ul {
+  width: 60px;
+  z-index: 1001;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_child_container {
+  float: left;
+  margin-right: 10px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_child_container.error {
+  border: 0;
+  margin: 0;
+  margin-right: 10px;
+  padding: 0;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_child_container.error .sbHolder {
+  border-color: #d9bb87;
+  background-color: #ffefbe;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_child_container.error .sbHolder .sbToggleBase {
+  border-left-color: #d9bb87;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_children_container > span {
+  display: none;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_children_container.single > span.single {
+  display: block;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_children_container.multi > span.multi {
+  display: block;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#calendar_container .room_row_container > span {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* line 18, ../../app/assets/stylesheets/search.css.scss */
+#dealform_tooltip_wrapper {
+  height: 60px;
+  position: absolute;
+  z-index: 101;
+  top: 32px;
+  left: 339px;
+  margin-top: 10px;
+  background-repeat: no-repeat;
+  background-position: top center;
+  width: 110px;
+  padding-top: 9px;
+}
+
+ol, ul {
+list-style: none;
+list-style-type: none;
+list-style-position: outside;
+font-style: normal;
+}
+
+ul.hotel_prices li {
+width: 134px;
+float: left;
+height: 15px;
+line-height: 15px;
+border-bottom: 1px solid #eee;
+// padding-top: 2px;
+cursor: pointer;
+overflow: hidden;
+}
+
+ul.hotel_prices li em {
+color: #666;
+float: left;
+line-height: 14px;
+overflow: hidden;
+padding-left: 3px;
+font-style: normal;
+}
+
+ul.hotel_prices li strong {
+color: #0030cd;
+float: right;
+line-height: 14px;
+padding-right: 3px;
+}
+
+ul.hotel_prices li.single_price:hover {
+background-color: #eee;
+}
+
+ul.hotel_prices li.even {
+margin-left: 10px;
+}
+
+ul.hotel_prices li.last {
+border-bottom: 1px solid transparent;
+}
+
+.c_button {
+cursor: pointer;
+background: none no-repeat left center;
+// line-height: 34px;
+margin: 10px auto;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+background-image: -webkit-linear-gradient(bottom,rgba(255,255,255,0),rgba(255,255,255,0.15));
+background-image: -moz-linear-gradient(bottom,rgba(255,255,255,0),rgba(255,255,255,0.15));
+background-image: -o-linear-gradient(bottom,rgba(255,255,255,0),rgba(255,255,255,0.15));
+background-image: -ms-linear-gradient(bottom,rgba(255,255,255,0),rgba(255,255,255,0.15));
+background-image: linear-gradient(to top,rgba(255,255,255,0),rgba(255,255,255,0.15));
+border: 1px solid rgba(0,1,1,0.15);
+color: white;
+text-align: center;
+font-weight: bold;
+font-size: 12px;
+color: #666;
+}
+
+
+.item_nav li.info {
+line-height: 12px;
+margin-right: 10px;
+}
+
+.item_nav li.distance {
+line-height: 12px;
+margin-right: 13px;
+}
+
+.item_nav li.distance strong {
+line-height: 22px;
+font-size: 16px;
+height: 21px;
+display: block;
+}
+
+
+.item_nav li.distance span {
+font-size: 10px;
+font-weight: normal;
+}
+
+
+.item_nav {
+width: 278px;
+}
+
+.item_nav li.info .hotel_info {
+display: block;
+margin-left: 7px;
+width: 20px;
+height: 21px;
+background-position: -85px -260px;
+opacity: .8;
+}
+
+.item_nav li.info span {
+font-size: 10px;
+display: block;
+font-size: 10px;
+height: 13px;
+line-height: 13px;
+font-weight: normal;
+}
+.img_sprite_moon {
+background-image: url("http://ie2.trivago.com/images/layoutimages/moon/moon_sprite_26.png");
+background-repeat: no-repeat;
+text-indent: -9999px;
+}
+
+.item_nav li.c_button {
+float: left;
+height: 34px;
+width: 34px;
+margin-right: 12px;
+margin-top: 0;
+margin-bottom: 0;
+margin-left: 0;
+color: #666;
+}
+.item_nav li.available_on .arrow_down {
+background-position: -58px -325px;
+opacity: .6;
+}
+.item_nav li.available_on .arrow {
+border-left: 1px solid #ccc;
+display: inline-block;
+float: left;
+height: 24px;
+margin-top: 5px;
+width: 22px;
+}
+.item_nav li.available_on.all_prices>span i {
+font-size: 10px;
+display: block;
+font-style: normal;
+margin-top: -10px;
+font-weight: normal;
+}
+.item_nav li.available_on.all_prices {
+line-height: 25px;
+}
+.item_nav li.available_on {
+height: 34px;
+width: 132px;
+margin: 0;
+}
+.item_nav li.available_on.all_prices .c_label {
+margin-top: 0!important;
+}
+.item_nav li.available_on .c_label {
+display: inline-block;
+overflow: hidden;
+width: 108px;
+float: left;
+margin-top: 1px;
+}
+.standard {
+display: block;
+width: 132px;
+height: 34px;
+background-color: #f6f6f6;
+color: #666;
+overflow: hidden;
+}
+
+
+#js_right_bar .city_list li.item, #js_right_bar .city_list li.poi, #js_right_bar .city_list li.path {
+border-bottom: 1px solid #ddd;
+cursor: pointer;
+height: 40px;
+}
+#js_right_bar .city_list li.visitable {
+position: relative;
+}
+#js_right_bar .city_list li {
+color: #000;
+font-size: 12px;
+line-height: 15px;
+margin: 0;
+overflow: hidden;
+position: relative;
+}
+#js_right_bar .city_list li .info img {
+float: left;
+height: 30px;
+margin: 0 5px 7px 0;
+width: 30px;
+border-radius: 2px;
+}
+#js_right_bar .city_list li {
+color: #000;
+font-size: 12px;
+line-height: 15px;
+margin: 0;
+overflow: hidden;
+position: relative;
+}
+#js_right_bar .city_list li .info em {
+color: #333;
+}
+#js_right_bar .city_list li .info a, #js_right_bar .city_list li .info em, #js_right_bar .city_list li .info span, #js_right_bar .city_list li .info strong {
+vertical-align: top;
+}
+.city_list.history li.bookmarkable .info em, .city_list.topdeals li.bookmarkable .info em {
+height: 14px;
+overflow: hidden;
+width: 170px;
+}
+em {
+cursor: pointer;
+font-style: normal;
+}
+
+.hotellist .hotel {
+  background: none repeat scroll 0 0 #fff;
+  display: inline-block;
+  height: auto;
+  line-height: 20px;
+  position: relative;
+  width: 614px;
+  border-top: 3px double #aaa;
+  margin-top: 0;
+  padding-bottom: 9px;
+  padding-top: 16px;
+}
+
+.memberProfileDisabled {
+display: none;
+}
+.filtergroup {
+padding: 5px;
+border-bottom: 1px solid #ddd;
+position: relative;
+}
+
+.filtergroup ul.stars{
+  width: 225px;
+}
+
+.filtergroup h4 {
+font-weight: bold;
+color: #333;
+line-height: 12px;
+font-size: 12px;
+margin-bottom: 0px
+}
+
+.filtergroup ul li.stars_1 {
+background-position: -1px -48px;
+}
+.filtergroup ul li.stars_1.checked {
+background-position: -1px 2px;
+}
+.filtergroup ul li.stars_2 {
+background-position: -45px -48px;
+}
+.filtergroup ul li.stars_2.checked {
+background-position: -45px 2px;
+}
+.filtergroup ul li.stars_3 {
+background-position: -89px -48px;
+}
+.filtergroup ul li.stars_3.checked {
+background-position: -89px 2px;
+}
+.filtergroup ul li.stars_4 {
+background-position: -133px -48px;
+}
+.filtergroup ul li.stars_4.checked {
+background-position: -133px 2px;
+}
+.filtergroup ul li.stars_5 {
+background-position: -177px -48px;
+}
+.filtergroup ul li.stars_5.checked {
+background-position: -177px 2px;
+}
+.filtergroup ul li.stars.checked {
+background-color: #fff;
+opacity: 1;
+-ms-filter: "alpha(opacity=100)";
+filter: alpha(opacity=100);
+border: 1px solid rgba(0,1,1,0.3);
+}
+.filtergroup ul li.stars {
+background-color: #eee;
+opacity: .65;
+-ms-filter: "alpha(opacity=65)";
+filter: alpha(opacity=65);
+}
+.filtergroup ul li.filter {
+height: 34px;
+width: 34px;
+background-image: url("http://ie2.trivago.com/images/layoutimages/moon/moon_sprite_26.png");
+background-repeat: no-repeat;
+}
+.filtergroup ul li:first-child {
+margin-left: 12px;
+}
+.filtergroup ul li {
+float: left;
+margin-right: 8px;
+opacity: .85;
+-ms-filter: "alpha(opacity=85)";
+filter: alpha(opacity=85);
+}
+
+.hotel_rating{
+  width:80px;
+  height:16px;
+  margin:0 0 20px 0;
+  padding:0;
+  list-style:none;
+  clear:both;
+  position:relative;
+  background: url(star-matrix.gif) no-repeat 0 0;
+}
+/* add these classes to the ul to effect the change to the correct number of stars */
+.nostar {background-position:0 0}
+.stars1 {background-position:0 -96px}
+.stars2 {background-position:0 -112px}
+.stars3 {background-position:0 -128px}
+.stars4 {background-position:0 -144px}
+.stars5 {background-position:0 -160px}
+
+.hotel_rating{
+  margin-bottom: 5px;
+}
+ul.hotel_rating li {
+  cursor: pointer;
+ /*ie5 mac doesn't like it if the list is floated\*/
+  float:left;
+  /* end hide*/
+  text-indent:-999em;
+}
+ul.hotel_rating li a {
+  position:absolute;
+  left:0;
+  top:0;
+  width:16px;
+  height:16px;
+  text-decoration:none;
+  z-index: 200;
+}
+ul.hotel_rating li.one a {left:0}
+ul.hotel_rating li.two a {left:16px;}
+ul.hotel_rating li.three a {left:32px;}
+ul.hotel_rating li.four a {left:48px;}
+ul.hotel_rating li.five a {left:64px;}
+// ul.hotel_rating li a:hover {
+//   z-index:2;
+//   width:80px;
+//   height:16px;
+//   overflow:hidden;
+//   left:0; 
+//   background: url(star-matrix.gif) no-repeat 0 0
+// }
+// ul.hotel_rating li.one a:hover {background-position:0 -96px;}
+// ul.hotel_rating li.two a:hover {background-position:0 -112px;}
+// ul.hotel_rating li.three a:hover {background-position:0 -128px}
+// ul.hotel_rating li.four a:hover {background-position:0 -144px}
+// ul.hotel_rating li.five a:hover {background-position:0 -160px}
+/* end rating code */
+h3{margin:0 0 2px 0;font-size:110%}
+
+.subnav_top {
+overflow: visible;
+position: absolute;
+right: 0;
+top: 0;
+z-index: 1002;
+}
+.dropup, .dropdown {
+position: relative;
+}
+.dropdown .arrow {
+background-position: -96px -330px;
+border-left: 1px solid #ccc;
+display: inline-block;
+float: right;
+height: 15px;
+margin-left: 5px;
+margin-top: 3px;
+opacity: .6;
+width: 20px;
+}
+.flag_sprite.uk {
+background-position: 0 -29px;
+}
+.dropdown .flag_sprite {
+margin-top: 3px;
+}
+.flag_sprite {
+float: left;
+height: 13px;
+width: 20px;
+padding-right: 5px;
+background-image: url("http://ie1.trivago.com/images/layoutimages/flags/locale/imagemap_all_flags_5.png");
+background-repeat: no-repeat;
+}#js_toolbar_localization {
+margin-top: 3px;
+}
+.dropdown-menu {
+position: absolute;
+top: 100%;
+right: 0;
+z-index: 1000;
+display: none;
+float: left;
+padding: 0;
+margin: 0;
+list-style: none;
+background-color: #fff;
+border: 1px solid #ccc;
+border: 1px solid rgba(0,0,0,0.2);
+-webkit-background-clip: padding-box;
+-moz-background-clip: padding;
+background-clip: padding-box;
+border-radius: 2px 0 2px 2px;
+}.wrap {
+margin: 0 auto;
+width: 616px;
+}
+.dd-lang {
+float: left;
+width: 130px;
+border-right: 1px solid #cdcdcd;
+margin-right: -1px;
+font-weight: normal;
+}
+
+.dd-currency {
+float: left;
+width: 99px;
+border-left: 1px solid #ccc;
+font-weight: normal;
+}
+.locale-box ul.dd-currency li {
+padding-right: 4px;
+padding-left: 4px;
+}
+.dd-currency li.label {
+font-weight: bold;
+}
+.nav-pills li.dropdown, .nav-pills li.button {
+float: left;
+font-weight: bold;
+line-height: 20px;
+background-color: #f6f6f6;
+border: 1px solid #ccc;
+}
+#menu_locale {
+border-radius: 0 2px 2px 0;
+}
+
+#menu_profile {
+border-radius: 2px 0 0 2px;
+}
+
+.locale-box ul.dd-currency li {
+padding-right: 4px;
+padding-left: 4px;
+}
+.subnav_top {
+overflow: visible;
+position: absolute;
+right: 0;
+top: 0;
+z-index: 1002;
+}
+.nav-pills li.dropdown:first-child {
+margin-right: -2px;
+}
+.nav-tabs li.dropdown, .nav-pills li.dropdown, .nav-pills li.button {
+float: left;
+font-weight: bold;
+line-height: 20px;
+background-color: #f6f6f6;
+border: 1px solid #ccc;
+}
+.nav-pills li.dropdown:last-child em, .nav-pills li.dropdown:last-child a {
+border-right: 0;
+}
+.nav-tabs li.dropdown em, .nav-pills li.dropdown em, .nav-tabs li.dropdown a, .nav-pills li.dropdown a {
+display: block;
+padding: 2px 4px;
+}
+.nav-pills li.dropdown em {
+opacity: .9;
+}
+.nav-tabs li.dropdown em, .nav-pills li.dropdown em, .nav-tabs li.dropdown a, .nav-pills li.dropdown a {
+color: #999;
+}
+.nav-tabs li.dropdown em, .nav-pills li.dropdown em, .nav-tabs li.dropdown a, .nav-pills li.dropdown a, .nav-pills li.button a {
+display: block;
+padding: 2px 4px;
+float: left;
+}
+.nav-tabs li em, .nav-pills li em, .nav-tabs li a, .nav-pills li a {
+color: #888;
+}.dropdown-menu li.label:hover {
+background-color: #fff;
+}
+
+.locale-box li.link:hover {
+color: #4e4e4e;
+cursor: pointer;
+background-color: #f6f6f6;
+}
+
+.itemlistcontrol {
+display: block;
+}
+.clear {
+clear: both;
+}
+.itemlistcontrol {
+height: 27px;
+margin-top: 8px;
+position: relative;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 10px;
+}
+
+.itemlistcontrol .sbHolder {
+margin-top: 0;
+float: right;
+width: 180px;
+background-color: #f6f6f6;
+color: #666;
+height: 24px;
+}
+.sbHolder {
+margin-top: 4px;
+background-color: #fff;
+border: 1px solid #ccc;
+height: 20px;
+position: relative;
+width: 212px;
+border-radius: 2px 2px 2px 2px;
+}
+
+.itemlistcontrol .sbHolder .sbSelector {
+line-height: 24px;
+color: #666;
+height: 24px;
+width: 157px;
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+outline: 0;
+text-decoration: none;
+color: #333;
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+outline: 0;
+text-decoration: none;
+color: #333;
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover {
+outline: 0;
+text-decoration: none;
+color: #333;
+}
+.sbSelector {
+color: #aaa;
+display: block;
+height: 22px;
+left: 0;
+line-height: 22px;
+outline: 0;
+overflow: hidden;
+padding-right: 23px;
+position: absolute;
+text-indent: 5px;
+top: 0;
+width: 191px;
+}
+.itemlistcontrol .sbHolder .sbToggleBase {
+height: 15px;
+margin-top: 4px;
+}
+.sbToggleBase {
+border-radius: 0 2px 2px 0;
+border-color: #ccc;
+border-style: solid;
+border-width: 0 0 0 1px;
+display: block;
+height: 20px;
+outline: 0;
+position: absolute;
+right: 0;
+top: 0;
+width: 21px;
+}
+
+.itemlistcontrol .sbHolder span.sort_criterion {
+font-weight: bold;
+}
+
+#js_itemlistcontrol_sort {
+display: none;
+}
+.itemlistcontrol .sbHolder ul.sbOptions {
+width: 180px;
+top: 24px!important;
+}
+.sbOptions {
+background-color: #fff;
+border: solid 1px #ccc;
+list-style: none;
+left: -1px;
+margin: 0;
+padding: 0;
+position: absolute;
+top: 20px!important;
+z-index: 2;
+overflow-y: auto;
+max-height: 177px!important;
+}
+
+.hotel {
+background: none repeat scroll 0 0 #fff;
+// display: inline-block;
+height: auto;
+line-height: 20px;
+position: relative;
+width: 614px;
+border-top: 3px double #aaa;
+margin-top: 0;
+padding-bottom: 9px;
+padding-top: 9px;
+}
+
+.itemlistcontrol .sbHolder ul.sbOptions li {
+overflow: hidden;
+}
+.sbOptions a:hover, .sbOptions li:hover, .sbOptions a:focus, .sbOptions li.sbFocus {
+background-color: #f6f6f6;
+}
+.sbOptions li {
+padding: 2px 0 2px 4px;
+cursor: pointer;
+height: 18px;
+line-height: 18px;
+overflow: hidden;
+color: #000;
+display: block;
+}
+
+.itemlistcontrol .sbHolder .sbToggleBase .sbToggle {
+background-position: -97px -330px;
+}
+.sbToggleBase .sbToggle {
+background-image: url("http://ie2.trivago.com/images/layoutimages/moon/moon_sprite_26.png");
+background-repeat: no-repeat;
+background-position: -17px -327px;
+height: 20px;
+width: 21px;
+display: block;
+}
+
+.hotel .deal .label {
+display: inline-block;
+overflow: hidden;
+width: 108px;
+float: left;
+width: 108px;
+height: 100%;
+line-height: 34px;
+}
+div.main_price.reduced {
+box-shadow: inset 0 0 0 1px #e6e6e6;
+}
+.threecol {
+background-color: #fff;
+text-align: center;
+position: relative;
+height: 123px;
+padding-top: 3px;
+}
+div.main_price {
+border-radius: 2px;
+cursor: pointer;
+position: relative;
+}
+.last {
+margin-right: 0;
+}
+.threecol {
+width: 134px;
+}
+.threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol {
+margin-right: 10px;
+}
+.threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol {
+float: left;
+min-height: 1px;
+}
+
+div.main_price.reduced .saving_35 {
+background-position: -120px 0;
+}
+div.main_price.reduced .saving_20, div.main_price.reduced .saving_25, div.main_price.reduced .saving_30, div.main_price.reduced .saving_35, div.main_price.reduced .saving_40, div.main_price.reduced .saving_45, div.main_price.reduced .saving_50, div.main_price.reduced .saving_55, div.main_price.reduced .saving_60, div.main_price.reduced .saving_65, div.main_price.reduced .saving_70, div.main_price.reduced .saving_75, div.main_price.reduced .saving_80, div.main_price.reduced .saving_85, div.main_price.reduced .saving_90, div.main_price.reduced .saving_95 {
+background-image: url("http://ie2.trivago.com/images/layoutimages/moon/moon_sprite_discount.png");
+background-repeat: no-repeat;
+width: 35px;
+height: 38px;
+display: block;
+position: absolute;
+top: 1px;
+right: 1px;
+}
+
+
+div.main_price strong {
+color: #0030cd;
+display: inline;
+font-size: 21px;
+padding-bottom: 14px;
+font-weight: bold;
+}div.main_price .price_max {
+height: 23px;
+margin: 0;
+text-decoration: none;
+}
+div.main_price strong.price_min {
+font-size: 15px;
+}
+.deal {
+width: 134px;
+height: 36px;
+background-color: #2ba6cb;
+position: absolute;
+bottom: 0;
+left: 0;
+margin: 0;
+line-height: 24px;
+color: #fff;
+}
+
+.hotel .deal .arrow_right {
+background-position: -133px -328px;
+}
+.hotel .deal .arrow {
+border-left: 1px solid #0e8c0e;
+display: inline-block;
+float: left;
+height: 24px;
+width: 16px;
+margin-top: 4px;
+}
+.main_price .partner_name {
+  color: #888;
+  display: block;
+  font-size: 12px;
+  padding: 8px 0 4px 0;
+}

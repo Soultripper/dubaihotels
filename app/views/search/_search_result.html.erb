@@ -1,0 +1,50 @@
+<!-- Hotel -->
+
+<% present(hotel, ExpediaHotelPresenter) do |presenter| %>
+  <div class="row hotel">
+    <div class="large-3 columns small-3">
+      <%= presenter.image_link %>
+    </div>
+    <div class="large-6 columns">
+      <h6><%= presenter.name %></h6> 
+      <%= content_tag :ul, class: "hotel_rating stars#{presenter.hotelRating}" do %>
+        <li class="one"><a href="#" title="1 Star">1</a></li>
+        <li class="two"><a href="#" title="2 Stars">2</a></li>
+        <li class="three"><a href="#" title="3 Stars">3</a></li>
+        <li class="four"><a href="#" title="4 Stars">4</a></li>
+        <li class="five"><a href="#" title="5 Stars">5</a></li>
+      <% end %>
+
+      <ul class="hotel_prices">
+        <li class="single_price price"><em>Expedia</em><strong><%= presenter.total %></strong></li>
+        <li class="single_price price even"><em>Booking.com</em><strong>£362</strong></li>
+     <!--    <li class="single_price price"><em>ebooker</em><strong>£362</strong></li>
+        <li class="single_price price even"><em>Lastminute.com</em><strong>£362</strong></li> -->
+      </ul>
+    <ul class="item_nav">
+      <li class="rating js_slideout_trigger val_5 c_button standard" id="js_button_rating_1817055" data-slideout="rating-1817055" title="View reviews about Ramada Jumeirah">
+        <strong>85</strong>
+        <span class="img_sprite_moon rating_smiley rating5"><!-- --></span>
+      </li>
+      <li class="distance map js_slideout_trigger c_button standard" data-slideout="map-1817055" id="js_button_map_1817055" title="Distance from city centre to Ramada Jumeirah"><strong>1.2</strong><span>miles</span></li>
+      <li class="info js_slideout_trigger c_button standard" data-slideout="info-1817055" id="js_button_info_1817055" title="View information about Ramada Jumeirah">
+        <span class="img_sprite_moon hotel_info"><!-- --></span>
+        <span>Info</span>
+      </li>
+      <li class="available_on deals js_slideout_trigger c_button standard all_prices">
+        <span class="c_label">View all prices <i>from 16 websites</i></span><span class="img_sprite_moon arrow arrow_down"></span>
+      </li>
+    </ul>
+    </div>
+    <div onclick="window.Clickout.shortClick(this, false);" class="threecol last main_price js_cClickoutLink reduced">
+      <span class="saving_35"><!----></span>
+      <strong class="partner_name ">Expedia.com</strong>
+      <div class="price_max">
+        <span class="wrapper"><span class="price"><del><%= presenter.total %></del></span></span>
+      </div>
+      <strong class="price_min"><%= presenter.total %></strong>
+      <div class="c_button deal" type="button"><span class="label">View Deal</span><span class="img_sprite_moon arrow arrow_right"></span></div>
+    </div>  
+  </div>
+<% end %>
+<!-- End Hotel -->

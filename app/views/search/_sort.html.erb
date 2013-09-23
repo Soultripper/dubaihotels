@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="large-12 columns "> 
+    <div id="js_itemlistcontrol" class="itemlistcontrol collapsed clear">
+      <div class="thirteencol">
+        <div class="sbHolder" style="z-index: 1000;">
+          <span class="sbToggleBase"><a href="#" class="sbToggle"></a></span>
+          <a href="#" class="sbSelector">Sort by <span class="sort_criterion">Popularity</span></a>
+          <ul id="js_itemlistcontrol_sort" class="order_by sbOptions" data-sort="relevance desc" style="display: none;">
+            <%= sort_option :popularity, 'Popularity' %>
+            <%= sort_option :rating, 'Rating' %>
+            <%= sort_option :price, 'Price' %>
+            <%= sort_option :proximity, 'Distance' %>
+            <%= sort_option :a_z, 'A-Z' %>
+          </ul>
+        </div>      
+      </div>
+    </div>
+  </div>
+</div>
