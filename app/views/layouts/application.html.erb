@@ -38,13 +38,11 @@
     <!-- This is source ordered to be pulled to the left on larger screens -->
     <div class="large-2 columns ">     
       <div class="filtergroup group " id="fg_stars">
-        <h4>Stars</h4>
+        <h4>Maximum Stars</h4>
         <ul class="stars">
-          <li id="js_boxStars1" class="c_button filter js_box stars stars_1 checked" title="0/ 1 star hotels"><!-- // --></li>
-          <li id="js_boxStars2" class="c_button filter js_box stars stars_2 checked" title="2 star hotels"><!-- // --></li>
-          <li id="js_boxStars3" class="c_button filter js_box stars stars_3 checked" title="3 star hotels"><!-- // --></li>
-          <li id="js_boxStars4" class="c_button filter js_box stars stars_4 checked"  title="4 star hotels"><!-- // --></li>
-          <li id="js_boxStars5" class="c_button filter js_box stars stars_5 checked" title="5 star hotels"><!-- // --></li>
+          <% 5.times.with_index do |i| %>
+            <%= star_rating i+1 %>
+          <% end %>
         </ul>
       </div>           
     </div>

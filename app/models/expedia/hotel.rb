@@ -65,6 +65,10 @@ module Expedia
       self['RoomRateDetailsList']['RoomRateDetails'] if self['RoomRateDetailsList']
     end
 
+    def images
+      return unless self.HotelImages
+      self.HotelImages['HotelImage']
+    end
 
     private 
 

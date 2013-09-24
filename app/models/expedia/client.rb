@@ -6,7 +6,7 @@ class Expedia::Client
     end
 
     def page_size
-      50
+      20
     end
 
     def hotel(id, options=nil)
@@ -32,7 +32,7 @@ class Expedia::Client
     end
 
     def destination_room_availability(destination, room_search, sort=nil)      
-      cache_key = "#{__method__}_#{destination.parameterize}_#{room_search.to_s}_#{Expedia.currency_code}_#{sort}"
+      cache_key = "#{__method__}_#{destination.parameterize}_#{room_search.to_s}_#{Expedia.currency_code}_#{sort}_min_stars#{room_search.min_stars}"
       fetch(cache_key, 4.hours) do
         Log.info "Checking availability for '#{destination}' for room_search: #{room_search.to_hash}, cached to #{cache_key}"   
         params = rooms_params_from_search room_search, {destinationString: destination}        
@@ -72,17 +72,32 @@ class Expedia::Client
     def rooms_params_from_search(room_search, params={})
       room_group = room_search.no_of_adults.to_s
       room_group += "#{room_search.children.join(',')}" if room_search.children?
-      params.merge({
-        arrivalDate:    room_search.start_date.to_date.strftime('%m/%d/%Y'),
-        departureDate:  room_search.end_date.to_date.strftime('%m/%d/%Y'),
-        "room#{room_search.no_of_rooms}"=> room_group
-      })
+
+      add_stars(room_search, params)
+      add_dates(room_search, params)
+
+      params.merge({ "room#{room_search.no_of_rooms}"=> room_group })
     end
 
     def hotel_list(params, sort=nil)
       response = sort ? api.get_list(params.merge({sort: sort, numberOfResults: page_size})) : api.get_list(params)
       hotels = response.body['HotelListResponse']['HotelList']['HotelSummary']
       hotels.is_a?(Array) ? hotels : [hotels]
+    end
+
+    def add_stars(room_search, params)
+      return if room_search.all_stars? 
+      params.merge!({           
+        minStarRating:  room_search.min_stars,
+        maxStarRating:  room_search.max_stars
+      })
+    end
+
+    def add_dates(room_search, params)
+      params.merge!({ 
+        arrivalDate:    room_search.start_date.to_date.strftime('%m/%d/%Y'),
+        departureDate:  room_search.end_date.to_date.strftime('%m/%d/%Y')
+      })      
     end
 
   end

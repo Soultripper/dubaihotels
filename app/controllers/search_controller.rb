@@ -10,7 +10,7 @@ class SearchController < ApplicationController
   protected
 
   def room_search
-    @search = RoomSearch.new start_date, end_date
+    @search = RoomSearch.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars}
   end
 
   def start_date
@@ -33,6 +33,14 @@ class SearchController < ApplicationController
     params["sort"] || :popularity
   end
 
-  helper_method :currency, :sort, :start_date, :end_date
+  def min_stars
+    params['min_stars'] || 1
+  end
+
+  def max_stars
+    params['max_stars'] || 5
+  end
+
+  helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars
 
 end

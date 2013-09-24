@@ -40,10 +40,42 @@
 
     $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
     $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});
-
     $(document).on('click', 'li[data-link]', function(){window.location = $(this).data('link')});
+    $(document).on('click', 'ul li.stars', stars.select);
+    $('.hotel').on('click', '[data-show-photos]', photos.show);
 
-    $(document).on('click', 'ul li.stars', function(){$(this).toggleClass('checked')});
   });
+
+  var stars = {
+    select: function(){
+      $(this).prevAll().addClass('checked');
+      $(this).nextAll().removeClass('checked');
+      $(this).addClass('checked');
+      window.location = updateQueryStringParameter(window.location.href, 'max_stars', $(this).data('stars'));
+    }
+  };
+
+  var photos = {
+    show: function(){
+      var rowId = '#hotel-photos-' + $(this).data('show-photos');
+      $(rowId).toggleClass('active');
+    }
+  };
+
+  var sorter = {
+    sort: function(){
+    }
+  }
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
+  separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
+}
 
  

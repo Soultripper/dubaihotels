@@ -4,13 +4,11 @@
       <div class="thirteencol">
         <div class="sbHolder" style="z-index: 1000;">
           <span class="sbToggleBase"><a href="#" class="sbToggle"></a></span>
-          <a href="#" class="sbSelector">Sort by <span class="sort_criterion">Popularity</span></a>
+          <a href="#" class="sbSelector">Sort by <span class="sort_criterion"><%= sort_options[current_sort] %></span></a>
           <ul id="js_itemlistcontrol_sort" class="order_by sbOptions" data-sort="relevance desc" style="display: none;">
-            <%= sort_option :popularity, 'Popularity' %>
-            <%= sort_option :rating, 'Rating' %>
-            <%= sort_option :price, 'Price' %>
-            <%= sort_option :proximity, 'Distance' %>
-            <%= sort_option :a_z, 'A-Z' %>
+            <% sort_options.each_pair do |key, val| %>
+              <%= sort_option key, val %>
+            <% end %>
           </ul>
         </div>      
       </div>

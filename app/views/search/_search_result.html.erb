@@ -1,10 +1,14 @@
 <!-- Hotel -->
 
 <% present(hotel, ExpediaHotelPresenter) do |presenter| %>
-  <div class="row hotel">
+  <div class="row hotel" id="hotel-<%= hotel.hotelId %>">
     <div class="large-3 columns small-3">
-      <%= presenter.image_link %>
+      <span class="img_overlay" data-show-photos="<%= hotel.hotelId %>">
+        <%= image_tag presenter.image, size: "138x138", class: 'img'  %>
+      </span>
     </div>
+
+
     <div class="large-6 columns">
       <h6><%= presenter.name %></h6> 
       <%= content_tag :ul, class: "hotel_rating stars#{presenter.hotelRating}" do %>
@@ -43,8 +47,15 @@
         <span class="wrapper"><span class="price"><del><%= presenter.total %></del></span></span>
       </div>
       <strong class="price_min"><%= presenter.total %></strong>
-      <div class="c_button deal" type="button"><span class="label">View Deal</span><span class="img_sprite_moon arrow arrow_right"></span></div>
+      <div class="c_button deal" type="button">
+        <%= presenter.link_content do %>
+          <span class="label">View Deal</span>
+          <span class="img_sprite_moon arrow arrow_right"></span>
+        <% end %>
+      </div>
     </div>  
+
+    <%= render partial:'photos', locals: {presenter: presenter} %> 
   </div>
 <% end %>
 <!-- End Hotel -->
