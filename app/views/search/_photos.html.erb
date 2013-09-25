@@ -1,0 +1,21 @@
+<div class="row hotel_photos">
+  <div class="large-12 columns">
+    <div id="hotel-photos-<%=presenter.hotelId%>" class="js-hotel-information hotel_info hotel_info_images" data-id="2717">
+      <div class="hotel_info_content">
+        <div class="hotel_info_image_cont swipe" data-width="6580">
+          <div class="hotel_info_image swipe-wrap">
+            <%= image_tag 'blank.gif', style: "background-image: url(#{presenter.main_image})", height: "350", id: "hotel-photo-#{presenter.hotelId}", class: 'img' %>
+          </div>
+        </div>
+        <div class="hotel_info_thumbs">
+          <% presenter.images.each do |img| %>
+            <%= image_tag 'blank.gif', style: "background-image: url(#{img['thumbnailUrl']})", class: 'img' %>
+          <% end %>
+        </div>
+      </div>
+      <div class="js-hotel-info hotel_info_close" data-show-photos="<%=presenter.hotelId%>">
+        <span class="btn outline_dark">close</span>
+      </div>
+    </div>        
+  </div>
+</div>   

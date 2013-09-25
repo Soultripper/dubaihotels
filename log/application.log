@@ -132,3 +132,366 @@
  INFO bgoslots: Checking availability for 'dubai' for room_search: {:end_date=>Sat, 28 Sep 2013, :start_date=>Thu, 26 Sep 2013, :no_of_rooms=>1, :no_of_adults=>2, :min_stars=>1, :max_stars=>"4"}, cached to destination_room_availability_dubai_2013-09-26_2013-09-28_rooms1_adults2_no_children_min_stars1_max_stars4_GBP_PRICE_min_stars1
  INFO bgoslots: Checking availability for 'dubai' for room_search: {:end_date=>Sat, 28 Sep 2013, :start_date=>Thu, 26 Sep 2013, :no_of_rooms=>1, :no_of_adults=>2, :min_stars=>1, :max_stars=>"4"}, cached to destination_room_availability_dubai_2013-09-26_2013-09-28_rooms1_adults2_no_children_min_stars1_max_stars4_GBP_ALPHA_min_stars1
  INFO bgoslots: Checking availability for 'dubai' for room_search: {:end_date=>Sat, 28 Sep 2013, :start_date=>Thu, 26 Sep 2013, :no_of_rooms=>1, :no_of_adults=>2, :min_stars=>1, :max_stars=>"3"}, cached to destination_room_availability_dubai_2013-09-26_2013-09-28_rooms1_adults2_no_children_min_stars1_max_stars3_GBP_ALPHA_min_stars1
+ INFO bgoslots: Fetching hotels by destination 'Dubai', cached to hotels_by_destination_dubai_USD_
+ERROR bgoslots: Failed to retrieve Expedia hotel: 271903
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230973
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272246
+ERROR bgoslots: Failed to retrieve Expedia hotel: 398560
+ERROR bgoslots: Failed to retrieve Expedia hotel: 276372
+ERROR bgoslots: Failed to retrieve Expedia hotel: 273911
+ERROR bgoslots: Failed to retrieve Expedia hotel: 308911
+ERROR bgoslots: Failed to retrieve Expedia hotel: 257492
+ERROR bgoslots: Failed to retrieve Expedia hotel: 253398
+ERROR bgoslots: Failed to retrieve Expedia hotel: 430458
+ERROR bgoslots: Failed to retrieve Expedia hotel: 131893
+ERROR bgoslots: Failed to retrieve Expedia hotel: 349057
+ERROR bgoslots: Failed to retrieve Expedia hotel: 414388
+ERROR bgoslots: Failed to retrieve Expedia hotel: 276183
+ERROR bgoslots: Failed to retrieve Expedia hotel: 322548
+ERROR bgoslots: Failed to retrieve Expedia hotel: 271613
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272813
+ERROR bgoslots: Failed to retrieve Expedia hotel: 389679
+ERROR bgoslots: Failed to retrieve Expedia hotel: 367111
+ERROR bgoslots: Failed to retrieve Expedia hotel: 203576
+ERROR bgoslots: Failed to retrieve Expedia hotel: 215337
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272247
+ERROR bgoslots: Failed to retrieve Expedia hotel: 239112
+ERROR bgoslots: Failed to retrieve Expedia hotel: 312028
+ERROR bgoslots: Failed to retrieve Expedia hotel: 400013
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230407
+ERROR bgoslots: Failed to retrieve Expedia hotel: 261145
+ERROR bgoslots: Failed to retrieve Expedia hotel: 362192
+ERROR bgoslots: Failed to retrieve Expedia hotel: 271977
+ERROR bgoslots: Failed to retrieve Expedia hotel: 208488
+ERROR bgoslots: Failed to retrieve Expedia hotel: 389989
+ERROR bgoslots: Failed to retrieve Expedia hotel: 404973
+ERROR bgoslots: Failed to retrieve Expedia hotel: 350925
+ERROR bgoslots: Failed to retrieve Expedia hotel: 216934
+ERROR bgoslots: Failed to retrieve Expedia hotel: 362196
+ERROR bgoslots: Failed to retrieve Expedia hotel: 335305
+ERROR bgoslots: Failed to retrieve Expedia hotel: 321751
+ERROR bgoslots: Failed to retrieve Expedia hotel: 246213
+ERROR bgoslots: Failed to retrieve Expedia hotel: 106548
+ERROR bgoslots: Failed to retrieve Expedia hotel: 259159
+ERROR bgoslots: Failed to retrieve Expedia hotel: 403650
+ERROR bgoslots: Failed to retrieve Expedia hotel: 251610
+ERROR bgoslots: Failed to retrieve Expedia hotel: 245183
+ERROR bgoslots: Failed to retrieve Expedia hotel: 276191
+ERROR bgoslots: Failed to retrieve Expedia hotel: 325969
+ERROR bgoslots: Failed to retrieve Expedia hotel: 375468
+ERROR bgoslots: Failed to retrieve Expedia hotel: 243666
+ERROR bgoslots: Failed to retrieve Expedia hotel: 307195
+ERROR bgoslots: Failed to retrieve Expedia hotel: 338907
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272504
+ERROR bgoslots: Failed to retrieve Expedia hotel: 413302
+ERROR bgoslots: Failed to retrieve Expedia hotel: 252675
+ERROR bgoslots: Failed to retrieve Expedia hotel: 311433
+ERROR bgoslots: Failed to retrieve Expedia hotel: 395568
+ERROR bgoslots: Failed to retrieve Expedia hotel: 273007
+ERROR bgoslots: Failed to retrieve Expedia hotel: 323556
+ERROR bgoslots: Failed to retrieve Expedia hotel: 236942
+ERROR bgoslots: Failed to retrieve Expedia hotel: 346628
+ERROR bgoslots: Failed to retrieve Expedia hotel: 334732
+ERROR bgoslots: Failed to retrieve Expedia hotel: 273422
+ERROR bgoslots: Failed to retrieve Expedia hotel: 310075
+ERROR bgoslots: Failed to retrieve Expedia hotel: 313921
+ERROR bgoslots: Failed to retrieve Expedia hotel: 388666
+ERROR bgoslots: Failed to retrieve Expedia hotel: 264582
+ERROR bgoslots: Failed to retrieve Expedia hotel: 322492
+ERROR bgoslots: Failed to retrieve Expedia hotel: 267350
+ERROR bgoslots: Failed to retrieve Expedia hotel: 264999
+ERROR bgoslots: Failed to retrieve Expedia hotel: 250063
+ERROR bgoslots: Failed to retrieve Expedia hotel: 144420
+ERROR bgoslots: Failed to retrieve Expedia hotel: 144100
+ERROR bgoslots: Failed to retrieve Expedia hotel: 266846
+ERROR bgoslots: Failed to retrieve Expedia hotel: 343254
+ERROR bgoslots: Failed to retrieve Expedia hotel: 310981
+ERROR bgoslots: Failed to retrieve Expedia hotel: 327882
+ERROR bgoslots: Failed to retrieve Expedia hotel: 278642
+ERROR bgoslots: Failed to retrieve Expedia hotel: 234288
+ERROR bgoslots: Failed to retrieve Expedia hotel: 362162
+ERROR bgoslots: Failed to retrieve Expedia hotel: 248621
+ERROR bgoslots: Failed to retrieve Expedia hotel: 312215
+ERROR bgoslots: Failed to retrieve Expedia hotel: 244829
+ERROR bgoslots: Failed to retrieve Expedia hotel: 370016
+ERROR bgoslots: Failed to retrieve Expedia hotel: 326000
+ERROR bgoslots: Failed to retrieve Expedia hotel: 145466
+ERROR bgoslots: Failed to retrieve Expedia hotel: 419496
+ERROR bgoslots: Failed to retrieve Expedia hotel: 400478
+ERROR bgoslots: Failed to retrieve Expedia hotel: 419330
+ERROR bgoslots: Failed to retrieve Expedia hotel: 405045
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230406
+ERROR bgoslots: Failed to retrieve Expedia hotel: 419777
+ERROR bgoslots: Failed to retrieve Expedia hotel: 354677
+ERROR bgoslots: Failed to retrieve Expedia hotel: 271704
+ERROR bgoslots: Failed to retrieve Expedia hotel: 216586
+ERROR bgoslots: Failed to retrieve Expedia hotel: 263771
+ERROR bgoslots: Failed to retrieve Expedia hotel: 223381
+ERROR bgoslots: Failed to retrieve Expedia hotel: 324583
+ERROR bgoslots: Failed to retrieve Expedia hotel: 105804
+ERROR bgoslots: Failed to retrieve Expedia hotel: 259932
+ERROR bgoslots: Failed to retrieve Expedia hotel: 274264
+ERROR bgoslots: Failed to retrieve Expedia hotel: 224783
+ERROR bgoslots: Failed to retrieve Expedia hotel: 376448
+ERROR bgoslots: Failed to retrieve Expedia hotel: 276125
+ERROR bgoslots: Failed to retrieve Expedia hotel: 357165
+ERROR bgoslots: Failed to retrieve Expedia hotel: 267287
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230535
+ERROR bgoslots: Failed to retrieve Expedia hotel: 339418
+ERROR bgoslots: Failed to retrieve Expedia hotel: 435218
+ERROR bgoslots: Failed to retrieve Expedia hotel: 404629
+ERROR bgoslots: Failed to retrieve Expedia hotel: 277191
+ERROR bgoslots: Failed to retrieve Expedia hotel: 427908
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272671
+ERROR bgoslots: Failed to retrieve Expedia hotel: 266891
+ERROR bgoslots: Failed to retrieve Expedia hotel: 421501
+ERROR bgoslots: Failed to retrieve Expedia hotel: 309473
+ERROR bgoslots: Failed to retrieve Expedia hotel: 248909
+ERROR bgoslots: Failed to retrieve Expedia hotel: 256374
+ERROR bgoslots: Failed to retrieve Expedia hotel: 395572
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230431
+ERROR bgoslots: Failed to retrieve Expedia hotel: 374180
+ERROR bgoslots: Failed to retrieve Expedia hotel: 376560
+ERROR bgoslots: Failed to retrieve Expedia hotel: 426595
+ERROR bgoslots: Failed to retrieve Expedia hotel: 268518
+ERROR bgoslots: Failed to retrieve Expedia hotel: 414115
+ERROR bgoslots: Failed to retrieve Expedia hotel: 313240
+ERROR bgoslots: Failed to retrieve Expedia hotel: 265196
+ERROR bgoslots: Failed to retrieve Expedia hotel: 117980
+ERROR bgoslots: Failed to retrieve Expedia hotel: 245536
+ERROR bgoslots: Failed to retrieve Expedia hotel: 311571
+ERROR bgoslots: Failed to retrieve Expedia hotel: 270293
+ERROR bgoslots: Failed to retrieve Expedia hotel: 337768
+ERROR bgoslots: Failed to retrieve Expedia hotel: 205580
+ERROR bgoslots: Failed to retrieve Expedia hotel: 248258
+ERROR bgoslots: Failed to retrieve Expedia hotel: 421356
+ERROR bgoslots: Failed to retrieve Expedia hotel: 247805
+ERROR bgoslots: Failed to retrieve Expedia hotel: 234702
+ERROR bgoslots: Failed to retrieve Expedia hotel: 254077
+ERROR bgoslots: Failed to retrieve Expedia hotel: 261839
+ERROR bgoslots: Failed to retrieve Expedia hotel: 323502
+ERROR bgoslots: Failed to retrieve Expedia hotel: 409362
+ERROR bgoslots: Failed to retrieve Expedia hotel: 252138
+ERROR bgoslots: Failed to retrieve Expedia hotel: 347640
+ERROR bgoslots: Failed to retrieve Expedia hotel: 308055
+ERROR bgoslots: Failed to retrieve Expedia hotel: 274988
+ERROR bgoslots: Failed to retrieve Expedia hotel: 222308
+ERROR bgoslots: Failed to retrieve Expedia hotel: 348412
+ERROR bgoslots: Failed to retrieve Expedia hotel: 372529
+ERROR bgoslots: Failed to retrieve Expedia hotel: 411193
+ERROR bgoslots: Failed to retrieve Expedia hotel: 348040
+ERROR bgoslots: Failed to retrieve Expedia hotel: 211574
+ERROR bgoslots: Failed to retrieve Expedia hotel: 275359
+ERROR bgoslots: Failed to retrieve Expedia hotel: 421594
+ERROR bgoslots: Failed to retrieve Expedia hotel: 144131
+ERROR bgoslots: Failed to retrieve Expedia hotel: 375285
+ERROR bgoslots: Failed to retrieve Expedia hotel: 256509
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230534
+ERROR bgoslots: Failed to retrieve Expedia hotel: 258672
+ERROR bgoslots: Failed to retrieve Expedia hotel: 375313
+ERROR bgoslots: Failed to retrieve Expedia hotel: 404666
+ERROR bgoslots: Failed to retrieve Expedia hotel: 411203
+ERROR bgoslots: Failed to retrieve Expedia hotel: 321944
+ERROR bgoslots: Failed to retrieve Expedia hotel: 438518
+ERROR bgoslots: Failed to retrieve Expedia hotel: 439226
+ERROR bgoslots: Failed to retrieve Expedia hotel: 412283
+ERROR bgoslots: Failed to retrieve Expedia hotel: 441384
+ERROR bgoslots: Failed to retrieve Expedia hotel: 441961
+ERROR bgoslots: Failed to retrieve Expedia hotel: 442181
+ERROR bgoslots: Failed to retrieve Expedia hotel: 111765
+ERROR bgoslots: Failed to retrieve Expedia hotel: 171106
+ERROR bgoslots: Failed to retrieve Expedia hotel: 226549
+ERROR bgoslots: Failed to retrieve Expedia hotel: 227507
+ERROR bgoslots: Failed to retrieve Expedia hotel: 389406
+ERROR bgoslots: Failed to retrieve Expedia hotel: 368348
+ERROR bgoslots: Failed to retrieve Expedia hotel: 365618
+ERROR bgoslots: Failed to retrieve Expedia hotel: 267032
+ERROR bgoslots: Failed to retrieve Expedia hotel: 264379
+ERROR bgoslots: Failed to retrieve Expedia hotel: 324941
+ERROR bgoslots: Failed to retrieve Expedia hotel: 260021
+ERROR bgoslots: Failed to retrieve Expedia hotel: 439237
+ERROR bgoslots: Failed to retrieve Expedia hotel: 385343
+ERROR bgoslots: Failed to retrieve Expedia hotel: 353867
+ERROR bgoslots: Failed to retrieve Expedia hotel: 374101
+ERROR bgoslots: Failed to retrieve Expedia hotel: 406525
+ERROR bgoslots: Failed to retrieve Expedia hotel: 353957
+ERROR bgoslots: Failed to retrieve Expedia hotel: 417393
+ERROR bgoslots: Failed to retrieve Expedia hotel: 424914
+ERROR bgoslots: Failed to retrieve Expedia hotel: 421451
+ERROR bgoslots: Failed to retrieve Expedia hotel: 254525
+ERROR bgoslots: Failed to retrieve Expedia hotel: 208292
+ERROR bgoslots: Failed to retrieve Expedia hotel: 324380
+ERROR bgoslots: Failed to retrieve Expedia hotel: 211758
+ERROR bgoslots: Failed to retrieve Expedia hotel: 335259
+ERROR bgoslots: Failed to retrieve Expedia hotel: 342187
+ERROR bgoslots: Failed to retrieve Expedia hotel: 336169
+ERROR bgoslots: Failed to retrieve Expedia hotel: 277584
+ERROR bgoslots: Failed to retrieve Expedia hotel: 117869
+ERROR bgoslots: Failed to retrieve Expedia hotel: 382454
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272825
+ERROR bgoslots: Failed to retrieve Expedia hotel: 368558
+ERROR bgoslots: Failed to retrieve Expedia hotel: 212774
+ERROR bgoslots: Failed to retrieve Expedia hotel: 273459
+ERROR bgoslots: Failed to retrieve Expedia hotel: 340150
+ERROR bgoslots: Failed to retrieve Expedia hotel: 322618
+ERROR bgoslots: Failed to retrieve Expedia hotel: 233991
+ERROR bgoslots: Failed to retrieve Expedia hotel: 326768
+ INFO bgoslots: Found 373 Expedia hotels in Dubai
+ INFO bgoslots: Found 373 Expedia hotels in Dubai
+ INFO bgoslots: Fetching hotel: 274263. 0/373
+ INFO bgoslots: Fetching hotel: 134841. 1/373
+ INFO bgoslots: Fetching hotel: 172396. 2/373
+ INFO bgoslots: Fetching hotel: 389935. 3/373
+ INFO bgoslots: Fetching hotel: 230974. 4/373
+ INFO bgoslots: Fetching hotel: 323688. 5/373
+ INFO bgoslots: Fetching hotel: 425197. 6/373
+ INFO bgoslots: Fetching hotel: 211985. 7/373
+ INFO bgoslots: Fetching hotel: 172395. 8/373
+ INFO bgoslots: Fetching hotel: 207369. 9/373
+ INFO bgoslots: Fetching hotel: 311048. 10/373
+ INFO bgoslots: Fetching hotel: 397790. 11/373
+ INFO bgoslots: Fetching hotel: 193069. 12/373
+ INFO bgoslots: Fetching hotel: 259451. 13/373
+ INFO bgoslots: Fetching hotel: 355578. 14/373
+ INFO bgoslots: Fetching hotel: 335835. 15/373
+ INFO bgoslots: Fetching hotel: 230772. 16/373
+ INFO bgoslots: Fetching hotel: 230771. 17/373
+ INFO bgoslots: Fetching hotel: 106230. 18/373
+ INFO bgoslots: Fetching hotel: 169550. 19/373
+ INFO bgoslots: Fetching hotel: 336202. 20/373
+ INFO bgoslots: Fetching hotel: 259959. 21/373
+ INFO bgoslots: Fetching hotel: 238067. 22/373
+ INFO bgoslots: Fetching hotel: 333462. 23/373
+ INFO bgoslots: Fetching hotel: 311507. 24/373
+ INFO bgoslots: Fetching hotel: 247676. 25/373
+ INFO bgoslots: Fetching hotel: 230411. 26/373
+ INFO bgoslots: Fetching hotel: 246326. 27/373
+ INFO bgoslots: Fetching hotel: 393200. 28/373
+ INFO bgoslots: Fetching hotel: 422392. 29/373
+ INFO bgoslots: Fetching hotel: 366153. 30/373
+ INFO bgoslots: Fetching hotel: 111598. 31/373
+ INFO bgoslots: Fetching hotel: 364994. 32/373
+ INFO bgoslots: Fetching hotel: 251045. 33/373
+ INFO bgoslots: Fetching hotel: 268500. 34/373
+ INFO bgoslots: Fetching hotel: 261886. 35/373
+ INFO bgoslots: Fetching hotel: 340117. 36/373
+ INFO bgoslots: Fetching hotel: 338909. 37/373
+ INFO bgoslots: Fetching hotel: 267368. 38/373
+ INFO bgoslots: Fetching hotel: 231573. 39/373
+ INFO bgoslots: Fetching hotel: 176878. 40/373
+ INFO bgoslots: Fetching hotel: 274442. 41/373
+ INFO bgoslots: Fetching hotel: 341549. 42/373
+ INFO bgoslots: Fetching hotel: 429235. 43/373
+ INFO bgoslots: Fetching hotel: 235978. 44/373
+ INFO bgoslots: Fetching hotel: 226464. 45/373
+ INFO bgoslots: Fetching hotel: 199445. 46/373
+ INFO bgoslots: Fetching hotel: 152977. 47/373
+ INFO bgoslots: Fetching hotel: 213179. 48/373
+ INFO bgoslots: Fetching hotel: 212685. 49/373
+ INFO bgoslots: Fetching hotel: 416025. 50/373
+ INFO bgoslots: Fetching hotel: 350850. 51/373
+ INFO bgoslots: Fetching hotel: 197154. 52/373
+ INFO bgoslots: Fetching hotel: 326571. 53/373
+ INFO bgoslots: Fetching hotel: 256598. 54/373
+ INFO bgoslots: Fetching hotel: 418468. 55/373
+ INFO bgoslots: Fetching hotel: 273836. 56/373
+ INFO bgoslots: Fetching hotel: 328263. 57/373
+ INFO bgoslots: Fetching hotel: 227286. 58/373
+ INFO bgoslots: Fetching hotel: 217350. 59/373
+ INFO bgoslots: Fetching hotel: 231353. 60/373
+ INFO bgoslots: Fetching hotel: 245547. 61/373
+ INFO bgoslots: Fetching hotel: 202156. 62/373
+ INFO bgoslots: Fetching hotel: 375552. 63/373
+ INFO bgoslots: Fetching hotel: 200500. 64/373
+ INFO bgoslots: Fetching hotel: 336201. 65/373
+ INFO bgoslots: Fetching hotel: 243861. 66/373
+ INFO bgoslots: Fetching hotel: 420711. 67/373
+ INFO bgoslots: Fetching hotel: 256106. 68/373
+ INFO bgoslots: Fetching hotel: 364503. 69/373
+ INFO bgoslots: Fetching hotel: 191084. 70/373
+ INFO bgoslots: Fetching hotel: 270377. 71/373
+ INFO bgoslots: Fetching hotel: 270267. 72/373
+ INFO bgoslots: Fetching hotel: 377942. 73/373
+ INFO bgoslots: Fetching hotel: 257508. 74/373
+ INFO bgoslots: Fetching hotel: 326439. 75/373
+ INFO bgoslots: Fetching hotel: 356014. 76/373
+ INFO bgoslots: Fetching hotel: 426791. 77/373
+ INFO bgoslots: Fetching hotel: 385215. 78/373
+ INFO bgoslots: Fetching hotel: 424477. 79/373
+ INFO bgoslots: Fetching hotel: 343992. 80/373
+ INFO bgoslots: Fetching hotel: 216128. 81/373
+ INFO bgoslots: Fetching hotel: 307789. 82/373
+ INFO bgoslots: Fetching hotel: 359174. 83/373
+ INFO bgoslots: Fetching hotel: 375482. 84/373
+ INFO bgoslots: Fetching hotel: 427184. 85/373
+ INFO bgoslots: Fetching hotel: 114572. 86/373
+ INFO bgoslots: Fetching hotel: 266916. 87/373
+ INFO bgoslots: Fetching hotel: 344762. 88/373
+ INFO bgoslots: Fetching hotel: 201740. 89/373
+ INFO bgoslots: Fetching hotel: 379501. 90/373
+ INFO bgoslots: Fetching hotel: 172540. 91/373
+ INFO bgoslots: Fetching hotel: 349227. 92/373
+ INFO bgoslots: Fetching hotel: 172692. 93/373
+ INFO bgoslots: Fetching hotel: 354781. 94/373
+ INFO bgoslots: Fetching hotel: 220785. 95/373
+ INFO bgoslots: Fetching hotel: 230975. 96/373
+ INFO bgoslots: Fetching hotel: 340302. 97/373
+ INFO bgoslots: Fetching hotel: 192855. 98/373
+ INFO bgoslots: Fetching hotel: 272680. 99/373
+ INFO bgoslots: Fetching hotel: 392646. 100/373
+ INFO bgoslots: Fetching hotel: 273122. 101/373
+ INFO bgoslots: Fetching hotel: 341886. 102/373
+ INFO bgoslots: Fetching hotel: 211877. 103/373
+ INFO bgoslots: Fetching hotel: 258420. 104/373
+ INFO bgoslots: Fetching hotel: 344038. 105/373
+ INFO bgoslots: Fetching hotel: 235612. 106/373
+ INFO bgoslots: Fetching hotel: 336711. 107/373
+ INFO bgoslots: Fetching hotel: 267495. 108/373
+ INFO bgoslots: Fetching hotel: 421532. 109/373
+ INFO bgoslots: Fetching hotel: 338989. 110/373
+ INFO bgoslots: Fetching hotel: 142037. 111/373
+ INFO bgoslots: Fetching hotel: 252308. 112/373
+ INFO bgoslots: Fetching hotel: 198428. 113/373
+ INFO bgoslots: Fetching hotel: 230536. 114/373
+ INFO bgoslots: Fetching hotel: 230409. 115/373
+ INFO bgoslots: Fetching hotel: 328432. 116/373
+ INFO bgoslots: Fetching hotel: 117100. 117/373
+ INFO bgoslots: Fetching hotel: 227479. 118/373
+ INFO bgoslots: Fetching hotel: 246212. 119/373
+ INFO bgoslots: Fetching hotel: 214847. 120/373
+ INFO bgoslots: Fetching hotel: 273546. 121/373
+ INFO bgoslots: Fetching hotel: 211629. 122/373
+ INFO bgoslots: Fetching hotel: 389252. 123/373
+ INFO bgoslots: Fetching hotel: 128620. 124/373
+ INFO bgoslots: Fetching hotel: 348363. 125/373
+ INFO bgoslots: Fetching hotel: 387734. 126/373
+ INFO bgoslots: Fetching hotel: 144424. 127/373
+ INFO bgoslots: Fetching hotel: 250386. 128/373
+ INFO bgoslots: Fetching hotel: 238177. 129/373
+ INFO bgoslots: Fetching hotel: 194955. 130/373
+ INFO bgoslots: Fetching hotel: 359493. 131/373
+ INFO bgoslots: Fetching hotel: 172397. 132/373
+ INFO bgoslots: Fetching hotel: 349053. 133/373
+ INFO bgoslots: Fetching hotel: 136907. 134/373
+ INFO bgoslots: Fetching hotel: 184808. 135/373
+ INFO bgoslots: Fetching hotel: 372836. 136/373
+ INFO bgoslots: Fetching hotel: 342001. 137/373
+ INFO bgoslots: Fetching hotel: 397276. 138/373
+ INFO bgoslots: Fetching hotel: 364359. 139/373
+ INFO bgoslots: Fetching hotel: 251033. 140/373
+ INFO bgoslots: Fetching hotel: 199609. 141/373
+ INFO bgoslots: Fetching hotel: 250965. 142/373
+ INFO bgoslots: Fetching hotel: 230648. 143/373
+ INFO bgoslots: Fetching hotel: 271903. 144/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 271903
+ INFO bgoslots: Fetching hotel: 230973. 145/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 230973
+ INFO bgoslots: Fetching hotel: 272246. 146/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 272246
+ INFO bgoslots: Fetching hotel: 398560. 147/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 398560
+ INFO bgoslots: Fetching hotel: 276372. 148/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 276372
+ INFO bgoslots: Fetching hotel: 273911. 149/373
+ERROR bgoslots: Failed to retrieve Expedia hotel: 273911
+ INFO bgoslots: Fetching hotel: 308911. 150/373
