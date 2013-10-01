@@ -1,6 +1,4 @@
 class Hotel < ActiveRecord::Base
-  # acts_as_copy_target
-  acts_as_gmappable
 
   attr_accessible :address1, :address2, :airport_code, :chain_code_id, :check_in_time, :check_out_time, 
         :city, :confidence, :country, :ean_hotel_id, :high_rate, :latitude, :location, :longitude, :low_rate, 
@@ -20,11 +18,6 @@ class Hotel < ActiveRecord::Base
   def ean_attributes
     @ean_attributes ||= HotelAttributeLink.where(ean_hotel_id: self.ean_hotel_id).to_a
   end
-
-  def gmaps4rails_address
-    #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
-    "#{self.address1}, #{self.city}, #{self.country}" 
-  end  
 
   def ean_amenities
     @ean_amenities ||= HotelAttributeLink.where(ean_hotel_id: self.ean_hotel_id).amenities

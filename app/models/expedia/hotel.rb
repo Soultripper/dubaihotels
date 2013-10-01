@@ -70,11 +70,19 @@ module Expedia
     end
 
     def rate_info
-      room_rate_details['RateInfos']['RateInfo'] if room_rate_details
+      top_room_rate['RateInfos']['RateInfo'] if top_room_rate
+    end
+
+    def top_room_rate
+      room_rate_details[0] if room_rate_details
     end
 
     def room_rate_details
       self['RoomRateDetailsList']['RoomRateDetails'] if self['RoomRateDetailsList']
+    end
+
+    def rooms_count
+      room_rate_details.count if room_rate_details
     end
 
     # def images

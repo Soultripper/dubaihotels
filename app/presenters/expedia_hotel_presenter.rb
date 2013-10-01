@@ -43,6 +43,10 @@ class ExpediaHotelPresenter < BasePresenter
     Utilities.to_currency hotel.total.to_f / total_nights, {precision:0, unit: unit}
   end
 
+  def total_rooms
+    hotel.rooms_count
+  end
+
   def images
     return [] unless model
     model.ean_hotel_images.take(10)

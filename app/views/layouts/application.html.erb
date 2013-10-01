@@ -25,13 +25,11 @@
 
 </head>
 <body>
-<!-- Requires Foundation 4 | visit http://foundation.zurb.com to download -->
-
 <!-- Header and Nav -->
   <div class="full-row">
     <div class="large-12  columns">
       <div class="panel">
-        <h1 class="center">Dubai Hotels</h1>
+        <h1 class="center"><%= destination.capitalize %> Hotels</h1>
         <%= render "date_search" %>
       </div>
       <%= render 'nav' %>     
@@ -86,28 +84,9 @@
   </div>
  
  
-  <!-- Footer -->
- 
-  <footer class="row">
-    <div class="large-12 columns">
-      <hr />
-      <div class="row">
-        <div class="large-5 columns">
-          <p>&copy; Copyright no one at all. Go to town.</p>
-        </div>
-        <div class="large-7 columns">
-          <ul class="inline-list right">
-            <li><a href="#">Section 1</a></li>
-            <li><a href="#">Section 2</a></li>
-            <li><a href="#">Section 3</a></li>
-            <li><a href="#">Section 4</a></li>
-            <li><a href="#">Section 5</a></li>
-            <li><a href="#">Section 6</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>    
+  <!-- Footer --> 
+  <%= render 'layouts/footer' %>
+
 </body>
 </html>
 

@@ -1,6 +1,15 @@
 .hotel_rooms{
   display: none;
 }
+.preloader{
+    text-align: center;
+}
+
+.preloader img{
+  height: 48px;
+  width: 48px;
+}
+
 .hotel_deal:first-child {
 border-top: none;
 }

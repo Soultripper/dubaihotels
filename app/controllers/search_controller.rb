@@ -1,10 +1,15 @@
 class SearchController < ApplicationController
 
-  def index
-    Expedia.currency_code = currency
+  before_filter {Expedia.currency_code = currency}
+  def index    
     # ratings = Expedia::Hotel.with_ratings([5])
     # @hotels = Expedia::Hotel.available_for_ids ratings, room_search, sort
     @hotels = Expedia::Hotel.available(destination, room_search, sort)
+  end
+
+  def hotels
+    @hotels = Expedia::Hotel.available(destination, room_search, sort)
+    render 'index'
   end
 
 
@@ -12,7 +17,7 @@ class SearchController < ApplicationController
 
 
   def destination
-    params["destination"] || "dubai"
+    (params["id"] || "dubai").gsub('-hotels', '')
   end
 
   def currency
@@ -24,6 +29,6 @@ class SearchController < ApplicationController
   end
 
 
-  helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars
+  helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars, :destination
 
 end
