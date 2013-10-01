@@ -4,6 +4,7 @@ Hotels::Application.routes.draw do
 
   root :to => 'search#index'
 
+  resources :hotels, only: [:show] 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

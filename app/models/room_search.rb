@@ -34,5 +34,9 @@ class RoomSearch
     s_children = children? ?  children.join('_') : "no_children"
     "#{start_date.to_date.to_s}_#{end_date.to_date.to_s}_rooms#{no_of_rooms}_adults#{no_of_adults}_#{s_children}_min_stars#{min_stars}_max_stars#{max_stars}"
   end
+
+  def total_nights
+    (end_date - start_date).to_i
+  end
    
 end

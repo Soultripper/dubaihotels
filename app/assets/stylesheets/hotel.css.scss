@@ -1,16 +1,15 @@
 
-
-.hotel_info.active {
-height: 380px;
+.hotel_photos {
+  height: 380px;
+  display: none;
 }
 .hotel_info {
-height: 0px;
-font-size: 13px;
-line-height: normal;
-position: relative;
-overflow: hidden;
--webkit-transition: height 0.2s linear;
-transition: height 0.2s linear;
+  font-size: 13px;
+  line-height: normal;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: height 0.2s linear;
+  transition: height 0.2s linear;
 }
 
 .hotel_info_image {
@@ -61,15 +60,12 @@ border-top: 1px solid #e6e9ea;
 padding-top: 20px;
 }
 
-.hotel_info.active .hotel_info_content {
-display: block;
-}
 .hotel_info_images .hotel_info_content {
 overflow: hidden;
 }
 .hotel_info_content {
 border-top: 1px solid #e6e9ea;
-display: none;
+
 height: 340px;
 overflow: auto;
 padding: 20px;
@@ -134,4 +130,8 @@ display: inline-block;
 height: 8px;
 margin-right: 5px;
 width: 10px;
+}
+
+.hotel_map{
+  display: none
 }

@@ -35,7 +35,7 @@ class Expedia::Client
       cache_key = "#{__method__}_#{destination.parameterize}_#{room_search.to_s}_#{Expedia.currency_code}_#{sort}_min_stars#{room_search.min_stars}"
       fetch(cache_key, 4.hours) do
         Log.info "Checking availability for '#{destination}' for room_search: #{room_search.to_hash}, cached to #{cache_key}"   
-        params = rooms_params_from_search room_search, {destinationString: destination}        
+        params = rooms_params_from_search room_search, {destinationString: destination, maxRatePlanCount: 30}        
         hotel_list params, sort
       end
     end
@@ -55,7 +55,8 @@ class Expedia::Client
         params = rooms_params_from_search room_search, {hotelId: hotel_id}
         Log.info "Checking hotel rooom availability for hotel id '#{hotel_id}' for room_search: #{room_search.to_hash}, cached to #{cache_key}"        
         response = api.get_availability(params)
-        response.body['HotelRoomAvailabilityResponse']['HotelRoomResponse']
+        rooms = response.body['HotelRoomAvailabilityResponse']['HotelRoomResponse']
+        rooms.is_a?(Array) ? rooms : [rooms]
       end
     end
 
@@ -76,7 +77,7 @@ class Expedia::Client
       add_stars(room_search, params)
       add_dates(room_search, params)
 
-      params.merge({ "room#{room_search.no_of_rooms}"=> room_group })
+      params.merge({ "room#{room_search.no_of_rooms}"=> room_group, options: 'ROOM_RATE_DETAILS' })
     end
 
     def hotel_list(params, sort=nil)

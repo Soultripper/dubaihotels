@@ -2,26 +2,22 @@ class ExpediaHotelPresenter < BasePresenter
   extend Forwardable
 
   presents :hotel
-  def_delegators :hotel, :id, :name, :deepLink, :thumbNailUrl, :hotelRating, :confidenceRating
+  def_delegators :model, :id, :name, :deepLink, :star_rating, :confidence, :to_gmaps4rails, :latitude, :longitude, :address1, :city
 
   def model
-    @model ||= Expedia::Hotel.find(hotel.hotelId)
+    @model ||= Hotel.find_by_ean_hotel_id hotel.hotelId
   end
 
   def hotelId
     id || hotel.hotelId
   end
 
-  def root_image_url
-    "http://images.travelnow.com/"
-  end
-
   def thumbnail
-    "#{root_image_url}#{thumbNailUrl}"
+    default_image.thumbnail_url if default_image
   end
 
   def image
-    "#{root_image_url}#{thumbNailUrl.gsub('_t','_b')}"
+    default_image.url if default_image
   end
 
   def thumbnail_link
@@ -33,30 +29,32 @@ class ExpediaHotelPresenter < BasePresenter
   end
 
   def link_content
-    content_tag :a,  href: deepLink,  alt:"Book now at #{name}", target: '_blank' do 
+    content_tag :a,  href: '',  alt:"Book now at #{name}", target: '_blank' do 
       yield if block_given?
     end
   end
 
   def rating
-    "#{confidenceRating}/100"
+    "#{confidence}/100"
   end
 
-  def total
+  def total(total_nights)
     unit = Currency.codes[Expedia.currency_code.upcase.to_sym]
-    Utilities.to_currency hotel.total, {precision:0, unit: unit}
+    Utilities.to_currency hotel.total.to_f / total_nights, {precision:0, unit: unit}
   end
 
   def images
     return [] unless model
-    model.images.take(10)
+    model.ean_hotel_images.take(10)
   end
 
-  def main_image
+  def default_image
     return [] unless model
-    images.first['url']
+    model.ean_hotel_images.find &:default_image    
   end
 
-
+  def address
+    "#{address1}, #{city}"
+  end
 
 end

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  attribute_id: 
+  language_code: MyString
+  description: MyString
+  attribute_type: MyString
+  sub_type: MyString
+
+two:
+  attribute_id: 
+  language_code: MyString
+  description: MyString
+  attribute_type: MyString
+  sub_type: MyString

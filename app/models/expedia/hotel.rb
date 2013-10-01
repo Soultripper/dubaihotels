@@ -3,15 +3,27 @@ module Expedia
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    field :_id, type: Integer, default: ->{ id}
+    embeds_many :images, class_name: 'Expedia::Image'
 
-    def self.find_or_fetch(id)  
-      find(id) || fetch(id)
+    field :_id, type: Integer, default: ->{ self.hotelId}
+
+    def self.create_from_csv(row)
+      fields = row.to_hash
+      fields['hotelId'] = fields.first[1]
+      with(safe:false).create(fields)
     end
 
-    def self.fetch(id)  
-      with(safe:false).create(Client.hotel(id))
+   def self.check_room_availability(id, room_search)
+      Client.hotel_room_availability(id, room_search).map {|r| Room.new r}
     end
+
+    # def self.find_or_fetch(id)  
+    #   find(id) || fetch(id)
+    # end
+
+    # def self.fetch(id)  
+    #   with(safe:false).create(Client.hotel(id))
+    # end
 
     def self.find_by_ids(ids, sort=:popularity)
       Client.hotels_by_ids(ids.join(','), sort_lookup(sort)).map {|hotel| new hotel}
@@ -33,12 +45,12 @@ module Expedia
       self.in({'HotelSummary.hotelRating'=> stars}).map &:_id
     end
 
-    def id
-      self.HotelSummary['hotelId'] if self.HotelSummary
-    end
+    # def id
+    #   self.HotelSummary['hotelId'] if self.HotelSummary
+    # end
 
     def check_room_availability(room_search)
-      Client.hotel_room_availability(id, room_search).map {|r| Room.new r}
+      Hotel.check_room_availability(id, room_search).map {|r| Room.new r}
     end
 
     # def name
@@ -65,10 +77,10 @@ module Expedia
       self['RoomRateDetailsList']['RoomRateDetails'] if self['RoomRateDetailsList']
     end
 
-    def images
-      return unless self.HotelImages
-      self.HotelImages['HotelImage']
-    end
+    # def images
+    #   return unless self.HotelImages
+    #   self.HotelImages['HotelImage']
+    # end
 
     private 
 

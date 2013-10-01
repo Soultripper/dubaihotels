@@ -1,0 +1,53 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ean_hotel_id: 1
+  sequence_number: 1
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state_province: MyString
+  postal_code: MyString
+  country: MyString
+  latitude: 1.5
+  longitude: 1.5
+  airport_code: MyString
+  property_category: MyString
+  property_currency: MyString
+  star_rating: 1.5
+  confidence: 1
+  supplier_type: MyString
+  location: MyString
+  chain_code_id: MyString
+  region_id: MyString
+  high_rate: 1.5
+  low_rate: 1.5
+  check_in_time: MyString
+  check_out_time: MyString
+
+two:
+  ean_hotel_id: 1
+  sequence_number: 1
+  name: MyString
+  address1: MyString
+  address2: MyString
+  city: MyString
+  state_province: MyString
+  postal_code: MyString
+  country: MyString
+  latitude: 1.5
+  longitude: 1.5
+  airport_code: MyString
+  property_category: MyString
+  property_currency: MyString
+  star_rating: 1.5
+  confidence: 1
+  supplier_type: MyString
+  location: MyString
+  chain_code_id: MyString
+  region_id: MyString
+  high_rate: 1.5
+  low_rate: 1.5
+  check_in_time: MyString
+  check_out_time: MyString

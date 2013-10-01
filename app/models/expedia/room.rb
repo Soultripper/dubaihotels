@@ -15,7 +15,7 @@ module Expedia
       data['RateInfos']['RateInfo']['ChargeableRateInfo']
     end
 
-    def total_rate
+    def total
       chargeable_rates['@total']
     end
     

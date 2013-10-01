@@ -19,6 +19,7 @@ gem 'log4r'
 # gem 'mongo'
 gem "mongoid"
 
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -1,0 +1,75 @@
+.hotel_amenities 
+{
+  display: none;
+}
+
+.hotel_amenities.open > .columns{
+  height: 200px;
+}
+
+.hotel_amenities .hotel_features li {
+  float: left;
+  line-height: 30px;
+  margin-top: 20px;
+  padding: 0 20px 0 40px;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 33%;
+  word-wrap: normal;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.hotel_features li.feature_pet-friendly:after {background-position: -1652px -52px;}
+.hotel_features li.feature_gay-friendly:after {background-position: -1743px -53px;}
+.hotel_features li.feature_parking:after {background-position: -929px -52px;}
+.hotel_features li.feature_pool:after {background-position: -1143px -50px;}
+.hotel_features li.feature_spa:after {background-position: -1624px -51px;}
+.hotel_features li.feature_gym:after {background-position: -1683px -49px;}
+.hotel_features li.feature_room-service:after {background-position: -782px -53px;}
+.hotel_features li.feature_24-hour-reception:after {background-position: -814px -50px;}
+.hotel_features li.feature_childcare-available:after {background-position: -1053px -51px;}
+.hotel_features li.feature_boutique:after {background-position: -992px -53px;}
+.hotel_features li.feature_sauna:after {background-position: -1503px -51px;}
+.hotel_features li.feature_elevator:after {background-position: -1022px -54px;}
+.hotel_features li.feature_meeting-rooms:after {background-position: -1113px -52px;}
+.hotel_features li.feature_laundry-service:after {background-position: -1593px -51px;}
+.hotel_features li.feature_onsite-doctor:after {background-position: -1263px -51px;}
+.hotel_features li.feature_wifi:after {background-position: -1173px -51px;}
+.hotel_features li.feature_bar:after {background-position: -1231px -53px;}
+.hotel_features li.feature_baby-cot:after {background-position: -842px -51px;}
+.hotel_features li.feature_business-centre:after {background-position: -1473px -52px;}
+.hotel_features li.feature_hot-tub:after {background-position: -1354px -53px;}
+.hotel_features li.feature_wheelchair-friendly:after {background-position: -1291px -53px;}
+.hotel_features li.feature_non-smoking-rooms:after {background-position: -963px -53px;}
+.hotel_features li.feature_beach:after {background-position: -1532px -52px;}
+.hotel_features li.feature_restaurant:after {background-position: -1200px -53px;}
+.hotel_features li.feature_family-friendly:after {background-position: -1713px -56px;}
+.hotel_features li.feature_airport-shuttle:after {background-position: -1083px -52px;}
+.hotel_features li.feature_free-internet-access:after {background-position: -1323px -53px;}
+.hotel_features li.feature_internet-access:after {background-position: -1323px -53px;}
+.hotel_features li.feature_steam:after {background-position: -1383px -54px;}
+
+.hotel_amenities .hotel_features li:after {
+  background-color: #26B7DC;
+  background-image: url(sprite-icons@2x.png);
+  background-size: 2200px auto;
+  border-radius: 15px;
+  content: '';
+  height: 30px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 30px;
+}

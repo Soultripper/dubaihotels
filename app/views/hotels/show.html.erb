@@ -1,0 +1,27 @@
+
+  <% @rooms.each do |room| %>
+    <% present(room, ExpediaRoomPresenter) do |presenter| %>
+      <div class="row hotel_deal">
+        <div class="large-12 columns">
+          <a href="http://www.booking.com/searchresults.en-gb.html?city=-782831" class="js-external-deal" data-id="2421" data-name="Mina A Salam Madinat Jumeirah" data-provider="booking.com" data-price="638" data-price-total="638" data-currency="GBP" data-img="http://s.top10cdn.com/images/5931075/138/138" data-index="" data-stars="" data-room="Ocean Deluxe King Room" data-analytics="deals-table">
+            <div class="large-2 columns hotel_agent">
+              <span class="agent" data-provider="expedia.com">Expedia.com</span>
+            </div>
+            <div class="large-4 columns agent_usp">LOW RATES: best price guarantee!</div>
+            <div class="large-6 columns l">
+              <div class="room_details">
+                <div class="room_name"><%= presenter.description %></div>
+                <ul class="room_features"></ul>
+              </div>
+              <div class="room_price">
+                <div class="price_container"><small>£</small><%= presenter.total @search.total_nights %></div>
+                <div class="button_container">
+                  <button>Go</button>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    <% end %>
+  <% end %>

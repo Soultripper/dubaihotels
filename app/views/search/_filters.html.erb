@@ -1,0 +1,14 @@
+<!-- This is source ordered to be pulled to the left on larger screens -->
+    
+<div class="filtergroup group " id="fg_stars">
+  <h4>Maximum Stars</h4>
+  <ul class="stars">
+    <% 5.times.with_index do |i| %>
+      <%= star_rating i+1 %>
+    <% end %>
+  </ul>
+</div>   
+<div class="filtergroup group " id="fg_stars">
+  <h4>Price Range</h4>
+  <input type="text" id="priceSlider" name="rangeName" value="10;100" data-type="double" data-prefix="£"  />
+</div>
