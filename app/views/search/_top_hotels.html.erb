@@ -1,0 +1,22 @@
+<!-- On small devices this column is hidden -->
+<aside class="large-3 columns hide-for-small" id="js_right_bar">
+  <ul class="city_list history">
+    <% if false #@hotel_search.hotels %>
+      <% @hotel_search.hotels.take(20).each do |hotel| %>
+        <% present(hotel, HotelPresenter) do |presenter| %>
+          <li class="item visitable bookmarkable" title="Ramada Jumeirah" data-item="1817055" data-path="549">
+            <div class="info">
+              <%= presenter.thumbnail_link %>
+              <em><%= presenter.name %></em>
+              <br>
+              <div class="js_sidebaritem_rating">
+                <strong><%= presenter.rating %></strong>
+                <span class="img_sprite_moon stars cat4"><!-- --></span>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ul>
+</aside> 

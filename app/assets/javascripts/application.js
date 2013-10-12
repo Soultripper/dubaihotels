@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require foundation
 //= require jquery.ui.all
+//= require angular
+//= require angular-resource
 //= require_tree .
 
 $(document).foundation();

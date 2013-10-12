@@ -1,0 +1,19 @@
+<div class="row hotel_photos" id="hotel-photos-{{hotel.id}}">
+  <div class="large-12 columns">
+    <div  class="js-hotel-information hotel_info hotel_info_images">
+      <div class="hotel_info_content">
+        <div class="hotel_info_image_cont swipe" data-width="6580">
+          <div class="hotel_info_image swipe-wrap">
+            <img src="assets/blank.gif" style="background-image: url({{hotel.main_image}})" height="350" id="hotel-photo-{{hotel.id}}" class="img">
+          </div>
+        </div>
+        <div class="hotel_info_thumbs" >
+          <img src="assets/blank.gif" style="background-image: url({{image.thumbnail_url}})" height="350" id="hotel-photo-{{hotel.id}}" class="img" data-main="{{image.url}}" ng-repeat="image in hotel.images">
+        </div>
+      </div>
+      <div class="js-hotel-info hotel_info_close" data-show-photos="{{hotel.id}}">
+        <span class="btn outline_dark">close</span>
+      </div>
+    </div>        
+  </div>
+</div>   

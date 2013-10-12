@@ -11,12 +11,23 @@ module Expedia
       Client.hotels_in(destination).map {|h| new h}
     end
 
+    def description
+      data['roomDescription']
+    end
+
     def chargeable_rates
       data['RateInfos']['RateInfo']['ChargeableRateInfo']
     end
 
     def total
       chargeable_rates['@total']
+    end
+
+    def commonize
+      {
+        description: description,
+        price: total
+      }
     end
     
     private 

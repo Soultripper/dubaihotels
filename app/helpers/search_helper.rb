@@ -23,6 +23,7 @@ module SearchHelper
       popularity: 'Popularity',
       rating: 'Rating',
       price: 'Price',
+      price_reverse: 'Price Desc',
       proximity: 'Distance',
       a_z: 'A-Z'
     }

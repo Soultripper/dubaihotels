@@ -3,7 +3,7 @@
 <!--[if lt IE 7 ]> <html class="ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]>    <html class="ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]>    <html class="ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" ng-app="Hotels"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
 	
@@ -18,13 +18,10 @@
 	<%= stylesheet_link_tag    "application" %>
 	<%= javascript_include_tag "vendor/custom.modernizr" %>
   <%= csrf_meta_tags %>
-
-  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-  <%= javascript_include_tag "application" %>
   
-
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </head>
-<body>
+<body ng-cloak>
 <!-- Header and Nav -->
   <div class="full-row">
     <div class="large-12  columns">
@@ -42,51 +39,19 @@
       <%= render 'filters' %>
     </div>
 
-    <!-- Main Feed -->
-    <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
-    <div class="large-6 columns "> 
-      
-      <%= render 'sort' %>
+    <ng-view></ng-view>   
 
-      <div class="row">
-        <div class="large-12 columns "> 
-          <% @hotels.each.with_index do |hotel, index| %>
-            <%= render(partial: "search_result", locals:{hotel: hotel, last: index==@hotels.length-1}) if hotel.room_rate_details %>
-          <% end %>
-          <hr />
-        </div>
-      </div>
+             
+          <%#= render template: "templates/hotels/hotel"%>
 
-    </div>
  
     <!-- Right Sidebar -->
-    <!-- On small devices this column is hidden -->
-    <aside class="large-3 columns hide-for-small" id="js_right_bar">
-      <ul class="city_list history">
-        <% @hotels.take(20).each do |hotel| %>
-          <% present(hotel, ExpediaHotelPresenter) do |presenter| %>
-            <li class="item visitable bookmarkable" title="Ramada Jumeirah" data-item="1817055" data-path="549">
-              <div class="info">
-                <%= presenter.thumbnail_link %>
-                <em><%= presenter.name %></em>
-                <br>
-                <div class="js_sidebaritem_rating">
-                  <strong><%= presenter.rating %></strong>
-                  <span class="img_sprite_moon stars cat4"><!-- --></span>
-                </div>
-              </div>
-            </li>
-          <% end %>
-        <% end %>
-      </ul>
-    </aside>
- 
+    <%= render 'top_hotels' %>
   </div>
- 
  
   <!-- Footer --> 
   <%= render 'layouts/footer' %>
-
+  <%= javascript_include_tag "application" %>
 </body>
 </html>
 

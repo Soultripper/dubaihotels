@@ -11,13 +11,18 @@ gem 'thin'
 gem 'nokogiri'
 gem 'dalli'
 gem 'memcachier'
-gem 'expedia'
+# gem 'expedia'
+gem 'faraday'
 
 gem 'simple_form'
 gem 'log4r'
 # gem 'bson_ext'
 # gem 'mongo'
 gem "mongoid"
+gem 'angularjs-rails'
+gem "jbuilder"
+gem 'money'
+gem 'kaminari' #for pagination
 
 
 # Gems used only for assets and not required
@@ -37,8 +42,8 @@ end
 
 group :development do
   gem "awesome_print"
-  gem 'better_errors'
-  gem "binding_of_caller"
+  # gem 'better_errors'
+  # gem "binding_of_caller"
 end
 
 group :test do

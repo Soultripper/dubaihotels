@@ -1,6 +1,6 @@
 <% present(@search, SearchPresenter) do |presenter| %>
 
-  <%= simple_form_for :room_search, url: '/', method: 'GET' do |f| %>
+  <%= simple_form_for :search_criteria, url: '/', method: 'GET' do |f| %>
     <%= f.input :start_date, :as => :hidden, :input_html => { :value => presenter.start_date.strftime('%F'), id: 'start_date', name: 'start_date' } %>
     <%= f.input :end_date, :as => :hidden, :input_html => { :value => presenter.end_date.strftime('%F'), id: 'end_date', name: 'end_date' } %>
     <%= f.input :currency, :as => :hidden, :input_html => { :value => currency, id: 'currency', name: 'currency'} %>

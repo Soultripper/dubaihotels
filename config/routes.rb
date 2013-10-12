@@ -4,9 +4,9 @@ Hotels::Application.routes.draw do
 
   root :to => 'search#index'
 
-  resources :hotels, only: [:show] 
+  resources :hotels, only: [:index, :show] 
 
-  get '/:id', to: 'search#hotels', constraints: {id: /.*-hotels/}
+  get '/:id', to: 'search#index', constraints: {id: /.*-hotels/}
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

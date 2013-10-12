@@ -1,0 +1,10 @@
+
+<div class="row hotel_map" id="map-{{hotel.id}}" data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}">
+  <div class="large-10 large-centered columns">
+    <span>{{hotel.getAddress()}}</span>
+    <div class="map_container"> 
+      <div id="google-map-{{hotel.id}}" class="gmaps4rails_map"></div>
+    </div>    
+  </div>        
+</div>
+

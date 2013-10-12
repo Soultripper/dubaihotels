@@ -1,25 +1,41 @@
 class Hotel < ActiveRecord::Base
+  include HotelScopes
 
   attr_accessible :address1, :address2, :airport_code, :chain_code_id, :check_in_time, :check_out_time, 
         :city, :confidence, :country, :ean_hotel_id, :high_rate, :latitude, :location, :longitude, :low_rate, 
         :name, :postal_code, :property_category, :property_currency, :region_id, :sequence_number, :star_rating, 
         :state_province, :supplier_type
 
-  # has_many :hotel_images, :foreign_key => 'ean_hotel_id'
+  has_many :images, :class_name => "HotelImage"
 
   def self.cols
     "ean_hotel_id, sequence_number,name, address1,address2,city,state_province,postal_code ,country,latitude,longitude,airport_code,property_category,property_currency,star_rating,confidence, supplier_type,location,chain_code_id,region_id,high_rate,low_rate,check_in_time,check_out_time"
   end
 
-  def ean_hotel_images
-    @ean_hotel_images ||= HotelImage.where(ean_hotel_id: self.ean_hotel_id).to_a
+  def provider_deals
+    @provider_deals ||= []
   end
 
-  def ean_attributes
-    @ean_attributes ||= HotelAttributeLink.where(ean_hotel_id: self.ean_hotel_id).to_a
+  def offer
+    @offer ||= {}
   end
 
-  def ean_amenities
-    @ean_amenities ||= HotelAttributeLink.where(ean_hotel_id: self.ean_hotel_id).amenities
+  def check_offer(provider_hotel)
+    if (provider_hotel[:min_price].to_f < offer[:min_price].to_f) || offer[:min_price].blank?
+      offer[:min_price] = provider_hotel[:min_price].to_f
+      offer[:provider] = provider_hotel[:provider]
+    end
+    offer[:max_price]  =  provider_hotel[:max_price].to_f if provider_hotel[:max_price].to_f > offer[:max_price].to_f
   end
+
+  def to_json
+    Jbuilder.encode do |json|
+      json.(self, :id, :address1, :address2, :city, :country,
+              :latitude, :location, :longitude, :name, :postal_code,
+              :star_rating, :state_province, :main_image)
+      # json.images self.images.take(10), :url, :thumbnail_url, :caption, :width, :height
+      # json.provider self.provider_deals
+    end
+  end
+
 end

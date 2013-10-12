@@ -1,11 +1,11 @@
 <!-- Hotel -->
 
-<% present(hotel, ExpediaHotelPresenter) do |presenter| %>
-  <div class="row hotel" id="hotel-<%= presenter.hotelId %>">
+<% present(hotel, HotelPresenter) do |presenter| %>
+  <div class="row hotel" id="hotel-<%= presenter.id %>">
     <div class="large-12 columns">
       <div class="row">
         <div class="large-3 columns small-3">
-          <span class="img_overlay" data-slide-toggle="#hotel-photos-<%= presenter.hotelId %>">
+          <span class="img_overlay" data-slide-toggle="#hotel-photos-<%= presenter.id %>">
             <%= image_tag presenter.image, size: "138x138", class: 'img'  %>
           </span>
         </div>
@@ -22,7 +22,7 @@
           <% end %>
 
           <ul class="hotel_prices">
-            <li class="single_price price"><em>Expedia</em><strong><%= presenter.total(@search.total_nights) %></strong></li>
+            <li class="single_price price"><em>Expedia</em><strong><%#= presenter.total(@search.total_nights) %></strong></li>
             <li class="single_price price even"><em>Booking.com</em><strong>N/A</strong></li>
             <li class="single_price price"><em>Agoda.com</em><strong>N/A</strong></li>
             <li class="single_price price even"><em>Lastminute.com</em><strong>N/A</strong></li>
@@ -32,13 +32,13 @@
             <strong>85</strong>
             <span class="img_sprite_moon rating_smiley rating5"><!-- --></span>
           </li>
-          <li class="distance map c_button standard" data-map="map-<%=presenter.hotelId%>" id="js_button_map_1817055" title="Distance from city centre to Ramada Jumeirah"><strong>1.2</strong><span>miles</span></li>
-          <li class="info c_button standard" id="js_button_info_1817055" title="View information about Ramada Jumeirah" data-slide-toggle="#amenities-<%= presenter.hotelId %>">
+          <li class="distance map c_button standard" data-map="map-<%=presenter.id%>" id="js_button_map_1817055" title="Distance from city centre to Ramada Jumeirah"><strong>1.2</strong><span>miles</span></li>
+          <li class="info c_button standard" id="js_button_info_1817055" title="View information about Ramada Jumeirah" data-slide-toggle="#amenities-<%= presenter.id %>">
             <span class="img_sprite_moon hotel_info"><!-- --></span>
             <span>Info</span>
           </li>
-          <li class="available_on deals c_button standard all_prices" data-retrieve-rooms="<%= presenter.hotelId %>" data-container="#rooms-<%= presenter.hotelId %>" data-url="<%= hotel_path(params.merge({id:presenter.hotelId}))%>">
-            <span class="c_label">See all <i><%=presenter.total_rooms %> deals</i></span><span class="img_sprite_moon arrow arrow_down"></span>
+          <li class="available_on deals c_button standard all_prices" data-retrieve-rooms="<%= presenter.id %>" data-container="#rooms-<%= presenter.id %>" data-url="<%= hotel_path(params.merge({id:presenter.id}))%>">
+            <span class="c_label">See all <i><%#=presenter.total_rooms %> deals</i></span><span class="img_sprite_moon arrow arrow_down"></span>
           </li>
         </ul>
         </div>
@@ -46,9 +46,9 @@
           <span class="saving_35"><!----></span>
           <strong class="partner_name ">Expedia.com</strong>
           <div class="price_max">
-            <span class="wrapper"><span class="price"><del><%= presenter.total(@search.total_nights) %></del></span></span>
+            <span class="wrapper"><span class="price"><del><%#= presenter.total(@search.total_nights) %></del></span></span>
           </div>
-          <strong class="price_min"><%= presenter.total(@search.total_nights) %></strong>
+          <strong class="price_min"><%#= presenter.total(@search.total_nights) %></strong>
           <div class="c_button deal" type="button">
             <%= presenter.link_content do %>
               <span class="label">View Deal</span>
@@ -61,7 +61,7 @@
       <%= render partial: 'map',        locals: {presenter: presenter, last: last} %> 
       <%= render partial: 'amenities',  locals: {presenter: presenter} %> 
 
-      <div class="hotel_rooms"  id="rooms-<%=presenter.hotelId%>">
+      <div class="hotel_rooms"  id="rooms-<%=presenter.id%>">
         <div class="preloader">
           <%= image_tag 'preloader.gif' %>
         </div>

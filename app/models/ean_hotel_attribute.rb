@@ -1,4 +1,4 @@
-class HotelAttribute < ActiveRecord::Base
+class EanHotelAttribute < ActiveRecord::Base
   attr_accessible :attribute_id, :attribute_type, :description, :language_code, :sub_type
 
   def self.cols

@@ -13,8 +13,8 @@ module Expedia
       with(safe:false).create(fields)
     end
 
-   def self.check_room_availability(id, room_search)
-      Client.hotel_room_availability(id, room_search).map {|r| Room.new r}
+   def self.check_room_availability(id, search_criteria)
+      Client.hotel_room_availability(id, search_criteria).map {|r| Room.new r}
     end
 
     # def self.find_or_fetch(id)  
@@ -33,12 +33,12 @@ module Expedia
       Client.hotels_by_destination(destination, sort_lookup(sort)).map {|hotel| new hotel}
     end
 
-    def self.available(destination, room_search, sort=:popularity)
-      Client.destination_room_availability(destination, room_search, sort_lookup(sort)).map {|hotel| new hotel}
+    def self.available(destination, search_criteria, sort=:popularity)
+      Client.destination_room_availability(destination, search_criteria, sort_lookup(sort)).map {|hotel| new hotel}
     end
 
-    def self.available_for_ids(hotel_ids, room_search, sort=:popularity)
-      Client.hotels_availability(hotel_ids.join(','), room_search, sort_lookup(sort)).map {|hotel| new hotel}
+    def self.available_for_ids(hotel_ids, search_criteria, sort=:popularity)
+      Client.hotels_availability(hotel_ids.join(','), search_criteria, sort_lookup(sort)).map {|hotel| new hotel}
     end
 
     def self.with_ratings(stars)
@@ -49,8 +49,8 @@ module Expedia
     #   self.HotelSummary['hotelId'] if self.HotelSummary
     # end
 
-    def check_room_availability(room_search)
-      Hotel.check_room_availability(id, room_search).map {|r| Room.new r}
+    def check_room_availability(search_criteria)
+      Hotel.check_room_availability(id, search_criteria).map {|r| Room.new r}
     end
 
     # def name
@@ -74,21 +74,53 @@ module Expedia
     end
 
     def top_room_rate
-      room_rate_details[0] if room_rate_details
+      room_rates[0] if room_rates
     end
 
     def room_rate_details
       self['RoomRateDetailsList']['RoomRateDetails'] if self['RoomRateDetailsList']
     end
 
-    def rooms_count
-      room_rate_details.count if room_rate_details
+    def rooms
+      return [] unless room_rate_details
+      @rooms ||= if room_list?
+        room_rate_details.map {|room| Expedia::Room.new room}
+      else
+        [Expedia::Room.new(room_rate_details)]
+      end
     end
+
+    def rooms_count
+      rooms.count
+    end
+
+    def room_list?
+      room_rate_details.is_a? Array
+    end
+
+    def room_rates
+      rooms.map{|r| r.total.to_f}.sort
+    end
+
 
     # def images
     #   return unless self.HotelImages
     #   self.HotelImages['HotelImage']
     # end
+
+    def commonize
+      {
+        provider: :expedia,
+        provider_hotel_id: id,
+        room_count: rooms_count,
+        min_price: room_rates[0],
+        max_price: room_rates[-1],
+        rooms: rooms.map(&:commonize)
+      }
+    rescue
+      Log.error "Hotel #{id} failed to convert"
+      nil
+    end
 
     private 
 

@@ -25,8 +25,6 @@ class CreateHotels < ActiveRecord::Migration
       t.float :low_rate
       t.string :check_in_time
       t.string :check_out_time
-
-      t.timestamps
     end
   end
 end

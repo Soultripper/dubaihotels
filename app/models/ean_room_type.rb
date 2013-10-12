@@ -1,4 +1,4 @@
-class RoomType < ActiveRecord::Base
+class EanRoomType < ActiveRecord::Base
   attr_accessible :description, :ean_hotel_id, :image, :language_code, :name, :room_type_id
 
   def self.cols
@@ -6,6 +6,6 @@ class RoomType < ActiveRecord::Base
   end  
 
   def ean_hotel
-    @ean_hotel ||= Hotel.find_by_ean_hotel_id self.ean_hotel_id
+    @ean_hotel ||= EanHotel.find_by_ean_hotel_id self.ean_hotel_id
   end
 end

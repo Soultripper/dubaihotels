@@ -1,9 +1,9 @@
 
-<div class="row hotel_map" id="map-<%=presenter.hotelId%>" data-lat="<%=presenter.latitude%>" data-lng="<%=presenter.longitude%>">
+<div class="row hotel_map" id="map-<%=presenter.id%>" data-lat="<%=presenter.latitude%>" data-lng="<%=presenter.longitude%>">
   <div class="large-10 large-centered columns">
     <span><%=presenter.address %></span>
     <div class="map_container"> 
-      <%= content_tag :div, '',id: "google-map-#{presenter.hotelId}", class: "gmaps4rails_map" %>
+      <%= content_tag :div, '',id: "google-map-#{presenter.id}", class: "gmaps4rails_map" %>
     </div>    
   </div>        
 </div>

@@ -1,0 +1,160 @@
+<div class="row" ng-controller="HotelCtrl" >
+  <div class="large-12 columns" >          
+    <div class="row hotel" id="hotel-{{hotel.id}}" ng-repeat="hotel in hotels">
+      <div class="large-12 columns">
+        <div class="row">
+          <div class="large-3 columns small-3">
+            <span class="img_overlay" data-slide-toggle="#hotel-photos-{{hotel.id}}">
+              <img ng-src="{{hotel.main_image}}" height='138' width='138' class='img'>
+            </span>
+          </div>
+          <div class="large-6 columns">
+            <h6>{{hotel.name}} - {{hotel.providers.length}}</h6> 
+            <ul class="hotel_rating stars{{hotel.star_rating}}">
+              <li class="one"><a href="#" title="1 Star">1</a></li>
+              <li class="two"><a href="#" title="2 Stars">2</a></li>
+              <li class="three"><a href="#" title="3 Stars">3</a></li>
+              <li class="four"><a href="#" title="4 Stars">4</a></li>
+              <li class="five"><a href="#" title="5 Stars">5</a></li>
+            </ul>
+
+            <ul class="hotel_prices">
+              <li class="single_price price"><em>Expedia</em><strong>{{hotel.providers[0].min_price}}</strong></li>
+              <li class="single_price price even"><em>Booking.com</em><strong>N/A</strong></li>
+              <li class="single_price price"><em>Agoda.com</em><strong>N/A</strong></li>
+              <li class="single_price price even"><em>Lastminute.com</em><strong>N/A</strong></li>
+            </ul>
+          <ul class="item_nav">
+            <li class="rating val_5 c_button standard">
+              <strong>{{hotel.rating}}</strong>
+              <span class="img_sprite_moon rating_smiley rating5"><!-- --></span>
+            </li>
+            <li class="distance map c_button standard" data-map="map-{{hotel.id}}"><strong>{{hotel.distance}}</strong><span>miles</span></li>
+            <li class="info c_button standard" data-slide-toggle="#amenities-{{hotel.id}}">
+              <span class="img_sprite_moon hotel_info"><!-- --></span>
+              <span>Info</span>
+            </li>
+            <li class="available_on deals c_button standard all_prices" data-retrieve-rooms="{{hotel.id}}" data-container="#rooms-{{hotel.id}}" data-url="http://path_to_show_hotel_rooms">
+              <span class="c_label">See all <i>{{hotel.providers[0].room_count}} deals</i></span><span class="img_sprite_moon arrow arrow_down"></span>
+            </li>
+          </ul>
+          </div>
+          <div  class="threecol last main_price reduced">
+            <span class="saving_35"><!----></span>
+            <strong class="partner_name ">Expedia.com</strong>
+            <div class="price_max">
+              <span class="wrapper"><span class="price"><del>{{hotel.providers[0].max_price}}</del></span></span>
+            </div>
+            <strong class="price_min">{{hotel.providers[0].min_price}}</strong>
+            <div class="c_button deal" type="button">
+              <a href="{{hotel.deepLink}}"  alt="Book now at {{hotel.name}}" target='_blank'>
+                <span class="label">View Deal</span>
+                <span class="img_sprite_moon arrow arrow_right"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHOTOS -->
+        <div class="row hotel_photos" id="hotel-photos-{{hotel.id}}">
+          <div class="large-12 columns">
+            <div  class="js-hotel-information hotel_info hotel_info_images">
+              <div class="hotel_info_content">
+                <div class="hotel_info_image_cont swipe" data-width="6580">
+                  <div class="hotel_info_image swipe-wrap">
+                    <img src="assets/blank.gif" style="background-image: url({{hotel.main_image}})" height="350" id="hotel-photo-{{hotel.id}}" class="img">
+                  </div>
+                </div>
+                <div class="hotel_info_thumbs" >
+                  <img src="assets/blank.gif" style="background-image: url({{image.thumbnail_url}})" height="350" id="hotel-photo-{{hotel.id}}" class="img" data-main="{{image.url}}" ng-repeat="image in hotel.images">
+                </div>
+              </div>
+              <div class="js-hotel-info hotel_info_close" data-show-photos="{{hotel.id}}">
+                <span class="btn outline_dark">close</span>
+              </div>
+            </div>        
+          </div>
+        </div>  
+
+        <!-- MAPS -->  
+        <div class="row hotel_map" id="map-{{hotel.id}}" data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}">
+          <div class="large-10 large-centered columns">
+            <span>{{hotel.getAddress()}}</span>
+            <div class="map_container"> 
+              <div id="google-map-{{hotel.id}}" class="gmaps4rails_map"></div>
+            </div>    
+          </div>        
+        </div>
+
+        <!-- AMENITIES -->  
+        <div class="row hotel_amenities" id="amenities-{{hotel.id}}">
+          <div class="large-10 columns large-centered">
+            <ul class="hotel_features">
+              <li class="feature_wifi">
+                  WiFi
+              </li><li class="feature_parking">
+                  Parking
+              </li><li class="feature_restaurant">
+                  Restaurant
+              </li><li class="feature_pool">
+                  Pool
+              </li><li class="feature_spa">
+                  Spa
+              </li><li class="feature_gym">
+                  Gym
+              </li><li class="feature_room-service">
+                  Room service
+              </li><li class="feature_bar">
+                  Bar
+              </li><li class="feature_non-smoking-rooms">
+                  Non-smoking rooms
+              </li><li class="feature_family-friendly">
+                  Family friendly
+              </li><li class="feature_24-hour-reception">
+                  24 hour reception
+              </li><li class="feature_pet-friendly">
+                  Pet friendly
+              </li><li class="feature_childcare-available">
+                  Childcare available
+              </li><li class="feature_airport-shuttle">
+                  Airport shuttle
+              </li><li class="feature_boutique">
+                  Boutique
+              </li><li class="feature_baby-cot">
+                  Baby cot
+              </li><li class="feature_free-internet-access">
+                  Free Internet access
+              </li><li class="feature_internet-access">
+                  Internet access
+              </li><li class="feature_steam">
+                  Steam room
+              </li><li class="feature_sauna">
+                  Sauna
+              </li><li class="feature_business-centre">
+                  Business centre
+              </li><li class="feature_wheelchair-friendly">
+                  Wheelchair friendly
+              </li><li class="feature_elevator">
+                  Elevator
+              </li><li class="feature_gay-friendly">
+                  Gay friendly
+              </li><li class="feature_laundry-service">
+                  Laundry service
+              </li><li class="feature_meeting-rooms">
+                  Meeting rooms
+              </li><li class="feature_onsite-doctor">
+                  Doctor on call
+              </li>
+            </ul>
+          </div>        
+        </div>
+        <div class="hotel_rooms"  id="rooms-{{hotel.id}}">
+          <div class="preloader">
+            <img src="assets/preloader.gif">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />        
+  </div>
+</div>

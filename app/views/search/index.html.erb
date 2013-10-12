@@ -1,0 +1,32 @@
+<!-- Header and Nav -->
+  <div class="full-row">
+    <div class="large-12  columns">
+      <div class="panel">
+        <h1 class="center"><%= destination.capitalize %> Hotels</h1>
+        <%= render "date_search" %>
+      </div>
+      <%= render 'nav' %>     
+    </div>
+  </div>
+  <!-- End Header and Nav -->
+  <div class="row">
+    <!-- Nav Sidebar -->    
+    <div class="large-2 columns "> 
+      <%= render 'filters' %>
+    </div>
+
+    <!-- Main Feed -->
+    <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
+    <div class="large-6 columns " ng-controller="HotelCtrl" >       
+      <%= render 'sort' %>
+      <div class="row">
+        <div class="large-12 columns" >          
+          <%= render template: "templates/hotels/hotel"%>
+          <hr />        
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Right Sidebar -->
+    <%= render 'top_hotels' %>
+  </div>
