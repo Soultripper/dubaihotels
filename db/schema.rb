@@ -11,7 +11,62 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130927104719) do
+ActiveRecord::Schema.define(:version => 20131014143535) do
+
+  create_table "booking_hotels", :force => true do |t|
+    t.string  "district"
+    t.integer "nr_rooms"
+    t.string  "city"
+    t.string  "check_in_to"
+    t.string  "check_in_from"
+    t.float   "minrate"
+    t.string  "url"
+    t.integer "review_nr"
+    t.string  "address"
+    t.float   "commission"
+    t.integer "ranking"
+    t.integer "city_id"
+    t.string  "review_score"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.integer "max_rooms_in_reservation"
+    t.integer "max_persons_in_reservation"
+    t.string  "name"
+    t.integer "hoteltype_id"
+    t.boolean "preferred"
+    t.string  "country_code"
+    t.boolean "class_is_estimated"
+    t.boolean "is_closed"
+    t.string  "check_out_to"
+    t.string  "check_out_from"
+    t.string  "zip"
+    t.string  "contractchain_id"
+    t.float   "maxrate"
+    t.integer "classification"
+    t.string  "languagecode"
+    t.string  "currencycode"
+  end
+
+  create_table "cities", :force => true do |t|
+    t.string   "country_code"
+    t.string   "language_code"
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "timezone_name"
+    t.string   "timezone_offset"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "countries", :force => true do |t|
+    t.string   "area"
+    t.string   "country_code"
+    t.string   "language_code"
+    t.string   "name"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "ean_hotel_attribute_links", :force => true do |t|
     t.integer "ean_hotel_id"
@@ -21,7 +76,6 @@ ActiveRecord::Schema.define(:version => 20130927104719) do
   end
 
   add_index "ean_hotel_attribute_links", ["ean_hotel_id"], :name => "index_ean_hotel_attributes_on_ean_hotel_id"
-
 
   create_table "ean_hotel_attributes", :force => true do |t|
     t.integer "attribute_id"
@@ -72,6 +126,28 @@ ActiveRecord::Schema.define(:version => 20130927104719) do
 
   add_index "ean_hotels", ["star_rating", "city"], :name => "index_ean_hotels_on_star_rating_and_city"
 
+  create_table "ean_room_types", :force => true do |t|
+    t.integer "ean_hotel_id"
+    t.integer "room_type_id"
+    t.string  "language_code"
+    t.string  "image"
+    t.string  "name"
+    t.text    "description"
+  end
+
+  create_table "hotel_images", :force => true do |t|
+    t.integer "hotel_id"
+    t.string  "caption"
+    t.string  "url"
+    t.integer "width"
+    t.integer "height"
+    t.integer "byte_size"
+    t.string  "thumbnail_url"
+    t.boolean "default_image"
+  end
+
+  add_index "hotel_images", ["hotel_id"], :name => "index_hotel_images_on_hotel_id"
+
   create_table "hotels", :force => true do |t|
     t.integer "ean_hotel_id"
     t.integer "sequence_number"
@@ -101,27 +177,5 @@ ActiveRecord::Schema.define(:version => 20130927104719) do
 
   add_index "hotels", ["ean_hotel_id"], :name => "index_hotels_on_ean_hotel_id", :unique => true
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
-
-  create_table "hotel_images", :force => true do |t|
-    t.integer "hotel_id"
-    t.string  "caption"
-    t.string  "url"
-    t.integer "width"
-    t.integer "height"
-    t.integer "byte_size"
-    t.string  "thumbnail_url"
-    t.boolean "default_image"
-  end
-
-  add_index "hotel_images", ["hotel_id"], :name => "index_hotel_images_on_hotel_id"
-
-  create_table "ean_room_types", :force => true do |t|
-    t.integer "ean_hotel_id"
-    t.integer "room_type_id"
-    t.string  "language_code"
-    t.string  "image"
-    t.string  "name"
-    t.text    "description"
-  end
 
 end

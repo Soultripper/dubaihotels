@@ -25,14 +25,14 @@ function HotelCtrl($scope, $route, $routeParams, $timeout, $location,  Hotel) {
   }
 
   var poller = function() {
-    if(!$routeParams.id) return;
+    // if(!$routeParams.id) return;
     Hotel.get({id: $routeParams.id, page_no: param('page_no', 1) , sort: param('sort'), end_date: param('end_date'), start_date: param('start_date')}, function(response) {
       data.calls++;
 
       $scope.hotels = response.hotels;
       $scope.total_hotels = response.total_hotels;
       $scope.available_hotels = response.available_hotels;
-      if(!response.finished && data.calls < 5)
+      if(!response.finished && data.calls < 10)
         $timeout(poller, 2000);
     });      
   };

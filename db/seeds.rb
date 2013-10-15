@@ -7,3 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # cities = City.create([{ name: 'Dubai', booking_id: '-782831' }, {name: 'London', booking_id: '-2601889'}])
+
+
+City.seed_from_booking

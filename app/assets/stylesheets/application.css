@@ -11,6 +11,7 @@
  *= require_self
  *= require foundation_and_overrides
  *= require jquery.ui.all
+ *= requre_directory ./css
  *= require_tree .
  */
 

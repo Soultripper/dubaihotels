@@ -1,25 +1,35 @@
-require 'nokogiri'
-require 'open-uri'
 class Booking::Client 
 
   class << self 
-  # attr_accessible :title, :body
 
     def url
-       "http://www.booking.com"
+       "https://#{Booking::Config.username}:#{Booking::Config.password}@distribution-xml.booking.com/json"
     end
 
-    def hotels_in(city_name, page_no=1, rows=20)
-      offset = (page_no-1) * rows
-      city = City.where(name: city_name).first     
-      request("/searchresults.en-gb.html?city=#{city.booking_id}&rows=#{rows}&offset=#{offset}") do |doc|
-        doc.css('.hotel_name_link').map {|f| f.content} 
+    def http
+      Faraday.new(url: url) do |faraday|
+        faraday.headers['Accept-Encoding'] = 'gzip,deflate'
+        faraday.request  :url_encoded             # form-encode POST params
+        faraday.response :logger                  # log requests to STDOUT
+        faraday.response :gzip 
+        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
       end
     end
 
-    def request(query, &block)
-      doc = Nokogiri::HTML(open("#{url}#{query}"))
-      yield doc if block_given?
+    def hotels(params={})
+      parse_response(http.get(url + '/bookings.getHotels', params))
+    end
+    
+    def cities(params={})
+      parse_response(http.get(url + '/bookings.getCities', params))
+    end
+
+    def countries(params={})
+      parse_response(http.get(url + '/bookings.getCountries', params))
+    end
+
+    def parse_response(response)
+      JSON.parse response.body if response
     end
   end
 end

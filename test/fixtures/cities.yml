@@ -1,9 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-dubai:
-  name: Dubai
-  booking_id: -782831
+one:
+  country_code: MyString
+  language_code: MyString
+  name: MyString
+  latitude: 1.5
+  longitude: 1.5
+  timezone_name: MyString
+  timezone_offset: MyString
 
-london:
-  name: London
-  booking_id: -2601889
+two:
+  country_code: MyString
+  language_code: MyString
+  name: MyString
+  latitude: 1.5
+  longitude: 1.5
+  timezone_name: MyString
+  timezone_offset: MyString
