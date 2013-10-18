@@ -63,7 +63,8 @@ module Hotels
 
     # Enable the asset pipeline
     config.assets.enabled = true
-
+    config.assets.initialize_on_precompile = false
+    
     Mongoid.raise_not_found_error = false
     Mongoid.protect_sensitive_fields = false
 
