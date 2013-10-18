@@ -17,6 +17,7 @@
 //= require zepto/default
 //= require angular
 //= require angular-resource
+//= require_self
 //= require_tree .
 
 $(document).foundation();

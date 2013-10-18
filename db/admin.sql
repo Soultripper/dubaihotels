@@ -77,7 +77,7 @@ FROM (
 		AND similarity(h.name, e.name) >0.8 ) AS matched_hotel
 WHERE matched_hotel.hotel_id = hotels.id and hotels.ean_hotel_id IS NULL
 
--- PHASE 7 - MATCH FUZZY NAME ((0.8 correlation) AND WITHIN 500
+-- PHASE 7 - MATCH FUZZY NAME ((0.85 correlation) AND WITHIN 1000
 UPDATE hotels SET ean_hotel_id =  matched_hotel.ean_hotel_id
 FROM ( 
 	SELECT DISTINCT e.id AS ean_hotel_id, h.id AS hotel_id 
@@ -85,6 +85,17 @@ FROM (
 	JOIN hotels h ON ST_DWithin(e.geog, h.geog, 1000) 
 		WHERE h.ean_hotel_id IS NULL 
 		AND similarity(h.name, e.name) >0.85 ) AS matched_hotel
+WHERE matched_hotel.hotel_id = hotels.id and hotels.ean_hotel_id IS NULL
+
+
+-- PHASE 8 - MATCH FUZZY NAME ((0.75 correlation) AND WITHIN 2000
+UPDATE hotels SET ean_hotel_id =  matched_hotel.ean_hotel_id
+FROM ( 
+	SELECT DISTINCT e.id AS ean_hotel_id, h.id AS hotel_id 
+	FROM ean_hotels e
+	JOIN hotels h ON ST_DWithin(e.geog, h.geog, 2000) 
+		WHERE h.ean_hotel_id IS NULL 
+		AND similarity(h.name, e.name) >0.75 ) AS matched_hotel
 WHERE matched_hotel.hotel_id = hotels.id and hotels.ean_hotel_id IS NULL
 
 -- 
@@ -101,7 +112,7 @@ select * from hotels where name = 'La Viareggina'
 select * from ean_hotels where name ='Haus Sonnheim'
 
 select count(*) from hotels where ean_hotel_id is not null
-
+select count(*) from ean_hotels
 select * from ean_hotels limit 1
 
 -- Try 500 metres with 0.6 5 (
@@ -109,7 +120,7 @@ select * from ean_hotels limit 1
 -- 
 select e.id, e.name AS ean_name, h.name, e.city, h.city, e.postal_code, h.postal_code, ST_Distance(e.geog, h.geog) as dist
 from ean_hotels e
-join hotels h on ST_DWithin(e.geog, h.geog, 1000) and similarity(h.name, e.name) >0.85
+join hotels h on ST_DWithin(e.geog, h.geog, 5000) and similarity(h.name, e.name) >0.75
 where h.ean_hotel_id is null
 
 select e.id, h.id, e.name AS ean_hotel_id, h.name, e.city, h.city, e.postal_code, h.postal_code, ST_Distance(e.geog, h.geog) as dist
