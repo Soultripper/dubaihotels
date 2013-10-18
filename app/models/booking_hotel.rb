@@ -5,7 +5,8 @@ class BookingHotel < ActiveRecord::Base
   attr_accessible :district,:nr_rooms,:city,:check_in_to,:check_in_from,:minrate,:url,
                   :review_nr,:address,:commission,:ranking,:city_id,:review_score,:longitude,:latitude,:max_rooms_in_reservation,
                   :max_persons_in_reservation,:name,:hoteltype_id,:preferred,:country_code,:class_is_estimated,:is_closed,
-                  :check_out_to,:check_out_from,:zip,:contractchain_id,:classification,:maxrate,:languagecode,:currencycode
+                  :check_out_to,:check_out_from,:zip,:contractchain_id,:classification,:maxrate,:languagecode,:currencycode, :id
+
   def self.from_booking(json)
     BookingHotel.new  id: json['hotel_id'],
       district: json['district'],
@@ -41,17 +42,12 @@ class BookingHotel < ActiveRecord::Base
       currencycode: json['currencycode']
   end                  
 
-  def self.seed_from_booking
-    offset, hotels = 0, []
-
-    while booking_hotels = Booking::Seed.hotels(offset)
-      hotels += booking_hotels
-      offset += 1000
+  def self.seed_from_booking(offset=0, rows=1000)
+    delete_all if offset == 0
+    while booking_hotels = Booking::Seed.hotels(offset, rows)
+      import booking_hotels, :validate => false
+      offset += rows
     end
 
-    transaction do 
-      delete_all
-      import hotels
-    end
   end
 end

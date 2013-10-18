@@ -2,7 +2,7 @@ Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  root :to => 'search#index'
+  root :to => 'app#index'
 
   resources :hotels, only: [:index, :show] 
 

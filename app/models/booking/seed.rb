@@ -13,8 +13,8 @@ module Booking::Seed
       countries.map  {|country| Country.from_booking country}
     end
 
-    def hotels(offset=0)
-      hotels = Booking::Client.hotels offset: offset, rows: 1000
+    def hotels(offset=0, rows=1000)
+      hotels = Booking::Client.hotels offset: offset, rows: rows
       return nil if hotels.empty?
       hotels.map  {|hotel| BookingHotel.from_booking hotel}
     end

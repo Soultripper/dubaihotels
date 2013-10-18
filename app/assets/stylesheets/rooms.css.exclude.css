@@ -1,0 +1,140 @@
+.hotel_rooms{
+  display: none;
+}
+.preloader{
+    text-align: center;
+}
+
+.preloader img{
+  height: 48px;
+  width: 48px;
+}
+
+.hotel_deal:first-child {
+border-top: none;
+}
+.hotel_deal {
+border-left: 1px solid #e6e9ea;
+border-right: 1px solid #e6e9ea;
+border-top: 1px solid #e6e9ea;
+font-size: 13px;
+line-height: 16px;
+font-weight: 600;
+height: 80px;
+}
+
+.hotel_deal a {
+color: #183446;
+display: block;
+height: 80px;
+overflow: hidden;
+}
+.hotel_deal .span2 {
+width: 20%;
+width: calc(140px - 0px);
+}
+.hotel_deal .hotel_agent {
+margin-left: -1px;
+}
+.hotel_deal .agent {
+margin: 27px auto 0 auto;
+}
+.agent[data-provider="agoda.com"] {
+background-position: 0 -90px;
+width: 62px;
+}
+.agent[data-provider="booking.com"] {
+background-position: 0 0;
+width: 98px;
+}
+.agent[data-provider="expedia.com"] {
+background-position: 0 -60px;
+width: 110px;
+}
+.agent {
+background-image: url(sprite-logos@2x.png);
+background-size: 500px auto;
+background-repeat: no-repeat;
+display: block;
+height: 25px;
+text-indent: -9999px;
+}
+
+.hotel_deal .agent_usp, .hotel_deal .room_details {
+margin-top: 24px;
+}
+
+.hotel_deal .room_details {
+float: left;
+margin-right: 10px;
+width: 180px;
+}
+
+.hotel_deal .room_details .room_name {
+display: inline-block;
+font-weight: 400;
+max-width: 100%;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+word-wrap: normal;
+}
+
+.hotel_deal .room_details .room_features {
+color: #10C0BC;
+display: block;
+font-size: 12px;
+margin-top: 5px;
+max-width: 100%;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+word-wrap: normal;
+}
+
+.hotel_deal .room_price {
+float: right;
+}
+
+.hotel_deal .room_price .price_container {
+font-size: 24px;
+font-weight: 700;
+float: left;
+line-height: 80px;
+margin-right: 20px;
+text-align: right;
+}
+
+.hotel_deal .room_price small {
+font-size: 18px;
+}
+
+
+.hotel_deal .button_container {
+float: right;
+margin-top: 10px;
+text-align: center;
+width: 70px;
+}
+
+
+.btn, button {
+background-color: #FE5048;
+border: 1px solid #FE0F04;
+border-radius: 1px;
+color: #fff;
+cursor: pointer;
+display: block;
+font-family: 'Open Sans', sans-serif;
+font-size: 14px;
+line-height: 40px;
+height: 40px;
+margin: 0;
+padding: 0;
+text-align: center;
+width: 100%;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}

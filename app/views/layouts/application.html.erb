@@ -22,33 +22,9 @@
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </head>
 <body ng-cloak>
-<!-- Header and Nav -->
-  <div class="full-row">
-    <div class="large-12  columns">
-      <div class="panel">
-        <h1 class="center"><%= destination.capitalize %> Hotels</h1>
-        <%= render "date_search" %>
-      </div>
-      <%= render 'nav' %>     
-    </div>
-  </div>
-  <!-- End Header and Nav -->
-  <div class="row">
-    <!-- Nav Sidebar -->    
-    <div class="large-2 columns "> 
-      <%= render 'filters' %>
-    </div>
 
-    <ng-view></ng-view>   
-
-             
-          <%#= render template: "templates/hotels/hotel"%>
-
- 
-    <!-- Right Sidebar -->
-    <%= render 'top_hotels' %>
-  </div>
- 
+  <%= yield %>
+   
   <!-- Footer --> 
   <%= render 'layouts/footer' %>
   <%= javascript_include_tag "application" %>

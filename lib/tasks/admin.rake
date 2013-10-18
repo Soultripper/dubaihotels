@@ -38,7 +38,7 @@ namespace :admin do
     import_expedia_file EanHotel, 'ActivePropertyList'
     import_expedia_file EanHotelImage, 'HotelImageList'
     import_expedia_file EanRoomType, 'RoomTypeList'
-    import_expedia_file EanHotelAttributeLink, 'PropertyAttributeLink'
+    #import_expedia_file EanHotelAttributeLink, 'PropertyAttributeLink'
     import_expedia_file EanHotelAttribute, 'AttributeList'
   end
 

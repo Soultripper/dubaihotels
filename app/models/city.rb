@@ -1,7 +1,7 @@
 class City < ActiveRecord::Base
   attr_accessible :id, :country_code, :language_code, :latitude, :longitude, :name, :timezone_name, :timezone_offset
 
-  def from_booking(json)
+  def self.from_booking(json)
     City.new  id:           json['city_id'],
       country_code:         json['countrycode'],
       language_code:        json['languagecode'], 

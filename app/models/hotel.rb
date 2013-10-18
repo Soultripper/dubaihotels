@@ -1,6 +1,7 @@
 class Hotel < ActiveRecord::Base
   include HotelScopes
-
+  acts_as_mappable :lat_column_name => :latitude,
+                   :lng_column_name => :longitude
   attr_accessible :address1, :address2, :airport_code, :chain_code_id, :check_in_time, :check_out_time, 
         :city, :confidence, :country, :ean_hotel_id, :high_rate, :latitude, :location, :longitude, :low_rate, 
         :name, :postal_code, :property_category, :property_currency, :region_id, :sequence_number, :star_rating, 
