@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/frontfoot/zepto-rails.git
+  revision: ca71163613f201ddfca1189d2173a1e2f9e72d73
+  specs:
+    zepto-rails (0.8.0)
+      rails (>= 3.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -196,4 +203,5 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   vcr
   webmock
+  zepto-rails!
   zurb-foundation (~> 4.0.0)

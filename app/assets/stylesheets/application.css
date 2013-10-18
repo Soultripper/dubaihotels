@@ -9,10 +9,9 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require foundation_and_overrides
  *= require jquery.ui.all
- *= requre_directory ./css
- *= require_tree .
+ *= require foundation.min.css
+ *= require app
  */
 
 /*.center{

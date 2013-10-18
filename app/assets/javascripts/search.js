@@ -41,7 +41,7 @@ $(function(){
   $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
   $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});
   $(document).on('click', 'li[data-link]', function(){window.location = $(this).data('link')});
-  $(document).on('click', 'ul li.stars', HI.stars.select);
+  // $(document).on('click', 'ul li.stars', HI.stars.select);
 
   $('.hotel').on('click', '[data-slide-toggle]', function(){ $($(this).data('slide-toggle')).slideToggle()});
   $('.hotel').on('click', '[data-show-toggle]', function(){ $($(this).data('show-toggle')).toggleClass('open')});
