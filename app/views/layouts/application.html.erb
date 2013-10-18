@@ -3,7 +3,7 @@
 <!--[if lt IE 7 ]> <html class="ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]>    <html class="ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]>    <html class="ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" ng-app="Hotels"> <!--<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" > <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
 	<!-- Uncomment to make IE8 render like IE7 -->
@@ -14,13 +14,12 @@
 	
 	<title>Hot 5</title>
   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/9a61c6c9-8114-405c-9358-29dcb0b2c617.css"/>
-	<%= stylesheet_link_tag    "application" %>
-  
+	<%= stylesheet_link_tag    "application" %>  
   <%= csrf_meta_tags %>
   
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </head>
-<body>
+<body >
    <%= yield %>
   <!-- Footer --> 
   <%= render 'layouts/footer' %>

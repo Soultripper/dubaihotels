@@ -13,19 +13,19 @@ var actions = {
   'get':    {method:'GET', isArray:true}
 };
 
-app.factory("Hotel", function($resource){
+app.factory("Hotel", function($resource){  
   return $resource(":id/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort", {page_no: 1});
 })
 
 function HotelCtrl($scope, $route, $routeParams, $timeout, $location,  Hotel) {
   var data = { hotels: [], calls: 1 };
-  
+  alert('test')
   var param = function(name, default_val){
     return  $location.search()[name] || default_val;
   }
 
   var poller = function() {
-    // if(!$routeParams.id) return;
+    if(!$routeParams.id) return;
     Hotel.get({id: $routeParams.id, page_no: param('page_no', 1) , sort: param('sort'), end_date: param('end_date'), start_date: param('start_date')}, function(response) {
       data.calls++;
 
