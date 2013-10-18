@@ -6,28 +6,25 @@
 <!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" ng-app="Hotels"> <!--<![endif]-->
 <head>
 	<meta charset="utf-8" />
-	
 	<!-- Uncomment to make IE8 render like IE7 -->
 	<!-- <meta http-equiv="X-UA-Compatible" content="IE=7" /> -->
 	
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-
+	<title>Hot 5</title>
+   <link type="text/css" rel="stylesheet" href="http://fast.fonts.net/cssapi/9a61c6c9-8114-405c-9358-29dcb0b2c617.css"/>
 	<%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
 	<%= javascript_include_tag "vendor/custom.modernizr" %>
   <%= csrf_meta_tags %>
   
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 </head>
 <body ng-cloak>
-
-  <%= yield %>
-   
+   <%= yield %>
   <!-- Footer --> 
   <%= render 'layouts/footer' %>
-  <%= javascript_include_tag "application" %>
 </body>
 </html>
 
