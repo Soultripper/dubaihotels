@@ -104,7 +104,9 @@ WHERE matched_hotel.hotel_id = hotels.id and hotels.ean_hotel_id IS NULL
 -- 	JOIN hotels h ON ST_DWithin(e.geog, h.geog, 1000) AND e.name ILIKE h.name 
 -- 	WHERE h.ean_hotel_id IS NULL 
 
-select * from ean_hotels where id = 291041
+select count(*) from ean_hotels e
+left join hotels h on h.ean_hotel_id = e.id
+where h.id is null
 select * from hotels where ean_hotel_id in (291041) or id = 309515
 
 select * from hotels where name = 'La Viareggina'
