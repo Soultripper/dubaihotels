@@ -1,0 +1,63 @@
+<section>
+  <div class="row">
+      <div class="large-12 small-12 columns text-center">
+          <h2>Popular destinations</h2>
+        </div>
+        <div class="large-12 small-12 columns">
+          <div class="locations-list">
+              <div class="large-2 small-6 large-offset-1 columns">
+                  <p>North America</p>
+                    <ul id="location-nav1">
+                      <% north_america.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>South America</p>
+                    <ul id="location-nav2">
+                      <% south_america.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>Europe</p>
+                    <ul id="location-nav3">
+                      <% europe.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>Middle East/Africa</p>
+                    <ul id="location-nav4">
+                      <% middle_east_africa.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-3 small-6 end columns">
+                  <p>Asia/Pacific</p>
+                    <ul id="location-nav5">
+                      <% asia_pacific.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+            </div>
+            <div class="locations-select">
+                <select>
+                    <optgroup label="North America">
+                        <option value="123">New York</option>
+                        <option value="445">Seattle</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                        <option value="890">London</option>
+                        <option value="10101">Barcelona</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
