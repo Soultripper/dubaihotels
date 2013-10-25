@@ -1,0 +1,80 @@
+<section>
+  <div class="row">
+      <div class="large-12 small-12 columns text-center">
+          <h2>Popular destinations</h2>
+        </div>
+        <div class="large-12 small-12 columns">
+          <div class="locations-list">
+              <div class="large-2 small-6 large-offset-1 columns">
+                  <p>North America</p>
+                    <ul id="location-nav1">
+                      <% north_america.each do |city| %>
+                        <%= city_link city %>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>South America</p>
+                    <ul id="location-nav2">
+                      <% south_america.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>Europe</p>
+                    <ul id="location-nav3">
+                      <% europe.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-2 small-6 columns">
+                  <p>Middle East/Africa</p>
+                    <ul id="location-nav4">
+                      <% middle_east_africa.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+                <div class="large-3 small-6 end columns">
+                  <p>Asia/Pacific</p>
+                    <ul id="location-nav5">
+                      <% asia_pacific.each do |city| %>
+                        <li><a href="#"><%= city %></a></li>
+                      <% end %>
+                    </ul>
+                </div>
+            </div>
+            <div class="locations-select">
+                <select>
+                    <optgroup label="North America">
+                      <% north_america.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>
+                    <optgroup label="South America">
+                      <% south_america.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>
+                    <optgroup label="Europe">
+                      <% europe.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>                                        
+                    <optgroup label="Middle East/Africa">
+                      <% middle_east_africa.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>   
+                    <optgroup label="Asia/Pacific">
+                      <% asia_pacific.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>                       
+                </select>
+            </div>
+        </div>
+    </div>
+</section>

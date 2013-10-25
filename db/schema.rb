@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131014143535) do
+ActiveRecord::Schema.define(:version => 20131022095514) do
 
   create_table "booking_hotels", :force => true do |t|
     t.string  "district"
@@ -45,7 +45,10 @@ ActiveRecord::Schema.define(:version => 20131014143535) do
     t.integer "classification"
     t.string  "languagecode"
     t.string  "currencycode"
+    t.integer "geog",                       :limit => 0
   end
+
+  add_index "booking_hotels", ["geog"], :name => "booking_hotels_geog_idx"
 
   create_table "cities", :force => true do |t|
     t.string   "country_code"
@@ -55,9 +58,14 @@ ActiveRecord::Schema.define(:version => 20131014143535) do
     t.float    "longitude"
     t.string   "timezone_name"
     t.string   "timezone_offset"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "geog",            :limit => 0
   end
+
+  add_index "cities", ["country_code"], :name => "cities_country_code_idx"
+  add_index "cities", ["geog"], :name => "cities_geog_idx"
+  add_index "cities", ["name"], :name => "cities_name_idx"
 
   create_table "countries", :force => true do |t|
     t.string   "area"
@@ -122,8 +130,12 @@ ActiveRecord::Schema.define(:version => 20131014143535) do
     t.float   "low_rate"
     t.string  "check_in_time"
     t.string  "check_out_time"
+    t.integer "geog",              :limit => 0
   end
 
+  add_index "ean_hotels", ["city"], :name => "ean_hotels_city_idx"
+  add_index "ean_hotels", ["country"], :name => "ean_hotels_country_idx"
+  add_index "ean_hotels", ["geog"], :name => "ean_hotels_geog_idx"
   add_index "ean_hotels", ["star_rating", "city"], :name => "index_ean_hotels_on_star_rating_and_city"
 
   create_table "ean_room_types", :force => true do |t|
@@ -165,13 +177,50 @@ ActiveRecord::Schema.define(:version => 20131014143535) do
     t.string  "property_currency"
     t.integer "ean_hotel_id"
     t.integer "booking_hotel_id"
+    t.integer "geog",              :limit => 0
   end
 
-  add_index "hotels", ["ean_hotel_id"], :name => "index_hotels_on_ean_hotel_id", :unique => true
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
-  add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
+  add_index "hotels", ["ean_hotel_id"], :name => "ean_hotel_id_idx"
+  add_index "hotels", ["geog"], :name => "hotels_geog_idx"
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
+  add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
 
+  create_table "locations", :force => true do |t|
+    t.string  "city"
+    t.integer "city_id"
+    t.string  "region"
+    t.integer "region_id"
+    t.string  "country"
+    t.string  "country_code"
+    t.string  "language_code"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.string  "slug"
+  end
+
+  create_table "region_booking_hotel_lookups", :force => true do |t|
+    t.integer "region_id"
+    t.integer "booking_hotel_id"
+  end
+
+  add_index "region_booking_hotel_lookups", ["region_id", "booking_hotel_id"], :name => "region_booking_hotel_lookups_region_id_booking_hotel_id_idx"
+
+  create_table "regions", :force => true do |t|
+    t.integer "region_id"
+    t.string  "country_code"
+    t.string  "language_code"
+    t.string  "name"
+    t.string  "region_type"
+  end
+
+  create_table "spatial_ref_sys", :id => false, :force => true do |t|
+    t.integer "srid",                      :null => false
+    t.string  "auth_name", :limit => 256
+    t.integer "auth_srid"
+    t.string  "srtext",    :limit => 2048
+    t.string  "proj4text", :limit => 2048
+  end
 
 end

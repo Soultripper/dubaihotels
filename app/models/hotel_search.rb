@@ -4,7 +4,7 @@ class HotelSearch
   attr_accessor :total_hotels
 
   def initialize(query, search_criteria)
-    @query, @search_criteria, @state = query, search_criteria, :new
+    @query, @search_criteria = query, search_criteria
   end
 
   def self.find_or_create(query, search_criteria)
@@ -20,7 +20,7 @@ class HotelSearch
     @started = true
     load_all_hotels
     persist
-    by_destination
+    search_by_destination
     self
   end
 
@@ -52,7 +52,7 @@ class HotelSearch
     results_counter[:expedia][:finished]
   end
 
-  def by_destination
+  def search_by_destination
     @hotels = []
     Thread.new do
       request_expedia_hotels
@@ -63,23 +63,39 @@ class HotelSearch
 
   def request_expedia_hotels
     response = Expedia::HotelRoomSearch.by_destination(query, search_criteria)
+
     response.page_hotels do |expedia_hotels|
       results_counter[:expedia][:pages] += 1
       Log.debug "#{expedia_hotels.count} Expedia hotels found of page #{results_counter[:expedia][:pages]}"
       expedia_hotels.each do |ex_hotel|
         hotel = @all_hotels.find {|hotel| hotel.ean_hotel_id == ex_hotel.id}
         next unless hotel
-        hotel.check_offer ex_hotel.commonize 
-        hotel.provider_deals << ex_hotel.commonize 
+        hotel.compare_and_add_hotel ex_hotel 
         @hotels << hotel
-
       end
+
      persist
     end
 
     results_counter[:expedia][:finished] = true
     persist
     Log.debug "#{@hotels.count} Expedia hotels loaded"
+  end
+
+
+  def request_booking_hotels
+    booking_hotels = Booking::HotelRoomSearch.by_city_ids(query, search_criteria)
+    Log.debug "#{booking_hotels.count} Booking hotels found"
+    booking_hotels.each do |booking_hotel|
+      hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id}
+      next unless hotel
+      hotel.compare_and_add_hotel booking_hotel 
+      @hotels << hotel
+    end
+
+    results_counter[:booking][:finished] = true
+    persist
+    Log.debug "#{@hotels.count} Booking hotels loaded"
   end
 
   def persist
@@ -89,9 +105,6 @@ class HotelSearch
   def cache_key
     search_criteria.as_json.merge({query:query})
   end
-
-
-
 
   def results_counter
     @results_counter ||={

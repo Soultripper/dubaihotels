@@ -24,8 +24,20 @@ class Booking::Client
       parse_response(http.get(url + '/bookings.getCities', params))
     end
 
+    def regions(params={})
+      parse_response(http.get(url + '/bookings.getRegions', params))
+    end
+
+    def region_hotels(params={})
+      parse_response(http.get(url + '/bookings.getRegionHotels', params))
+    end
+
     def countries(params={})
       parse_response(http.get(url + '/bookings.getCountries', params))
+    end
+
+    def get_hotel_availability(params={})
+      parse_response(http.get(url + '/bookings.getHotelAvailability', params))
     end
 
     def parse_response(response)

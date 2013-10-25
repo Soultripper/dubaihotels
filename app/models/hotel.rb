@@ -21,7 +21,13 @@ class Hotel < ActiveRecord::Base
     @offer ||= {}
   end
 
-  def check_offer(provider_hotel)
+  def compare_and_add(hotel_response)
+    data = hotel_response.commonize
+    compare common_hotel_data 
+    provider_deals << common_hotel_data
+  end
+
+  def compare(provider_hotel)
     if (provider_hotel[:min_price].to_f < offer[:min_price].to_f) || offer[:min_price].blank?
       offer[:min_price] = provider_hotel[:min_price].to_f
       offer[:provider] = provider_hotel[:provider]

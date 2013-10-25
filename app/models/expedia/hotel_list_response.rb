@@ -18,9 +18,9 @@ module Expedia
 
     def hotels
       if hotel_list?
-        hotels_summary.map {|hotel| Expedia::Hotel.new(hotel)}
+        hotels_summary.map {|hotel| Expedia::HotelResponse.new(hotel)}
       else
-        Expedia::Hotel.new(hotels_summary)
+        Expedia::HotelResponse.new(hotels_summary)
       end
     end
 

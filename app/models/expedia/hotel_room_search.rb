@@ -22,6 +22,10 @@ class Expedia::HotelRoomSearch
     new(search_criteria).by_destination(destination, params)
   end
 
+  def self.check_room_availability(hotel_id, search_criteria)
+    Expedia::Client.hotel_room_availability(hotel_id, search_criteria).map {|r| Expedia::Room.new r}
+  end
+
   def by_destination(destination, options={})        
     params = search_params.merge(options).merge({destinationString: destination})   
     create_response Expedia::Client.get_list('HotelListResponse', params, CACHE_OPTIONS)

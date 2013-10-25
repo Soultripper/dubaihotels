@@ -5,11 +5,11 @@
         </div>
         <div class="large-12 small-12 columns">
           <div class="locations-list">
-              <div class="large-2 small-6 large-offset-1 columns">
+            <div class="large-2 small-6 large-offset-1 columns">
                   <p>North America</p>
                     <ul id="location-nav1">
                       <% north_america.each do |city| %>
-                        <li><a href="#"><%= city %></a></li>
+                        <%= city_link city %>
                       <% end %>
                     </ul>
                 </div>
@@ -17,7 +17,7 @@
                   <p>South America</p>
                     <ul id="location-nav2">
                       <% south_america.each do |city| %>
-                        <li><a href="#"><%= city %></a></li>
+                        <%= city_link city %>
                       <% end %>
                     </ul>
                 </div>
@@ -49,13 +49,30 @@
             <div class="locations-select">
                 <select>
                     <optgroup label="North America">
-                        <option value="123">New York</option>
-                        <option value="445">Seattle</option>
+                     <% north_america.each_pair do |slug, city| %>         
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>
+                    <optgroup label="South America">
+                      <% south_america.each_pair do |slug, city| %>                       
+                        <option><%= city %></option>
+                      <% end %>
                     </optgroup>
                     <optgroup label="Europe">
-                        <option value="890">London</option>
-                        <option value="10101">Barcelona</option>
-                    </optgroup>
+                      <% europe.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>                                        
+                    <optgroup label="Middle East/Africa">
+                      <% middle_east_africa.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>   
+                    <optgroup label="Asia/Pacific">
+                      <% asia_pacific.each do |city| %>                      
+                        <option><%= city %></option>
+                      <% end %>
+                    </optgroup>                       
                 </select>
             </div>
         </div>
