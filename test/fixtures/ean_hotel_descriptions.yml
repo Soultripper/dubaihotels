@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ean_hotel_id: 1
+  language_code: MyString
+  description: MyText
+
+two:
+  ean_hotel_id: 1
+  language_code: MyString
+  description: MyText

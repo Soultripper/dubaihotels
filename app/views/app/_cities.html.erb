@@ -25,7 +25,7 @@
                   <p>Europe</p>
                     <ul id="location-nav3">
                       <% europe.each do |city| %>
-                        <li><a href="#"><%= city %></a></li>
+                        <%= city_link city %>
                       <% end %>
                     </ul>
                 </div>
@@ -33,7 +33,7 @@
                   <p>Middle East/Africa</p>
                     <ul id="location-nav4">
                       <% middle_east_africa.each do |city| %>
-                        <li><a href="#"><%= city %></a></li>
+                        <%= city_link city %>
                       <% end %>
                     </ul>
                 </div>
@@ -41,7 +41,7 @@
                   <p>Asia/Pacific</p>
                     <ul id="location-nav5">
                       <% asia_pacific.each do |city| %>
-                        <li><a href="#"><%= city %></a></li>
+                        <%= city_link city %>
                       <% end %>
                     </ul>
                 </div>

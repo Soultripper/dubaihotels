@@ -19,7 +19,7 @@ gem 'log4r'
 # gem 'bson_ext'
 # gem 'mongo'
 gem "mongoid"
-gem 'angularjs-rails'
+
 gem "jbuilder"
 gem 'money'
 gem 'kaminari' #for pagination
@@ -40,6 +40,9 @@ group :assets do
   gem 'compass-rails' # you need this or you get an err
   gem 'zurb-foundation', '~> 4.0.0'
   gem 'masonry-rails'
+  gem 'angularjs-rails'
+  gem 'underscore-rails'
+  gem 'accountingjs-rails'
 end
 
 group :development do

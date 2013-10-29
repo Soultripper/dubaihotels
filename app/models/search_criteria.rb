@@ -3,7 +3,7 @@ class SearchCriteria
 
   attr_accessor :children, :min_stars, :max_stars
 
-  def initialize(start_date=1.week.from_now, end_date=2.weeks.from_now, args={})
+  def initialize(start_date=20.days.from_now, end_date=3.weeks.from_now, args={})
     @start_date, @end_date = start_date, end_date
     @no_of_rooms    = args[:no_of_rooms]    || 1
     @no_of_adults   = args[:no_of_adults]   || 2

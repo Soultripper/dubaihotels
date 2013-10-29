@@ -20,22 +20,26 @@ class Booking::HotelRoomSearch
 
   def by_city_ids(city_ids, options={})        
     params = search_params.merge(options).merge({city_ids: city_ids})  
-    Booking::Client.get_hotel_availability(params)
+    create_response Booking::Client.get_hotel_availability(params)
   end
 
   protected
 
-  def create_response(expedia_response)
-    response = Expedia::HotelListResponse.new(expedia_response)
-    # Notify Observers
+  def create_response(booking_response)
+    @response = Booking::HotelListResponse.new(booking_response)
   end
 
   def search_params
     @params = DEFAULT_PARAMS
     @params.merge!({available_rooms: search_criteria.no_of_rooms, guest_qty: search_criteria.no_of_adults})
+    add_currency_code
     add_children
     add_stars
     add_dates
+  end
+
+  def add_currency_code
+    @params.merge!(currency_code: search_criteria.currency_code)
   end
 
   def add_children

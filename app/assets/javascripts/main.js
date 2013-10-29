@@ -1,5 +1,23 @@
 var HI = function(){
   
+  var init = function(){
+
+    $('#hotel-results').on('click', '[data-slide-toggle]', function(e){ 
+      e.preventDefault();
+      $($(this).data('slide-toggle')).slideToggle();
+    });
+
+    $('#hotel-results').on('click', '[data-show-toggle]', function(){ $($(this).data('show-toggle')).toggleClass('open')});
+
+    $('.hotel_info_thumbs img').hover(HI.photos.displayMain);
+    $('#hotel-results').on('click', '[data-show-map]', HI.map.show);
+    $('#hotel-results').on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
+
+    $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
+    $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});
+    $(document).on('click', 'li[data-link]', function(){window.location = $(this).data('link')});    
+  }
+
   var mapOptions = {
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -31,9 +49,10 @@ var HI = function(){
     options: function(){
 
     },
-    show: function(){
+    show: function(e){
+      e.preventDefault();
       var $self = $(this); 
-      var $mapContainer = $('#' + $self.data('map'));
+      var $mapContainer = $('#' + $self.data('show-map'));
       var loaded        = $self.data('map-loaded');
 
       $mapContainer.slideToggle(function(){
@@ -42,7 +61,7 @@ var HI = function(){
           var lat = $mapContainer.data('lat');
           var lng = $mapContainer.data('lng');
           var mapCenter = {center: new google.maps.LatLng(lat, lng)};   
-          var map = new google.maps.Map(document.getElementById('google-' + $self.data('map')), $.extend( mapCenter, HI.mapOptions ));
+          var map = new google.maps.Map(document.getElementById('google-' + $self.data('show-map')), $.extend( mapCenter, HI.mapOptions ));
           var marker = new google.maps.Marker({
               position: mapCenter.center,
               map: map
@@ -73,6 +92,7 @@ var HI = function(){
   };
 
   return {
+    init: init,
     stars: stars,
     photos: photos,
     sorter: sorter,

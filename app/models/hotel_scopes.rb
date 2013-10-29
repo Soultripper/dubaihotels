@@ -5,8 +5,8 @@ module HotelScopes
   end
 
   module ClassMethods
-    def by_city(name)
-      where('city ILIKE ?', name)
+    def by_location(location)
+      where('city ILIKE ? and country_code = ?', location.city, location.country_code)
     end
 
     def by_star_ratings(min, max)
@@ -16,6 +16,7 @@ module HotelScopes
     def with_images
       includes(:images)
     end
+
   end
 
   def main_image

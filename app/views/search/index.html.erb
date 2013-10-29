@@ -1,241 +1,46 @@
-<header>
+<div ng-controller="SearchResultsCtrl">
+  <%= render 'header' %>
+
+  <section>
     <div class="row">
-        <div class="large-2 small-12 columns text-center">
-            <img src="assets/masthead/hot5-logo-simple.gif" width="140" height="64" alt="Hot5" />
-        </div>
-        <div class="large-8 small-12 columns text-center">
-            <form id="search" action="">
-                <div class="large-4 small-12 columns text center">
-                    <input type="text" id="search" placeholder="Destination" class="search-icon" tabindex="1" />
-                </div>
-                <div class="large-3 small-12 columns">
-                    <input type="text" id="checkindate" placeholder="Check in" class="date-icon" tabindex="2" />
-                </div>
-                <div class="large-3 small-12 columns">
-                    <input type="text" id="checkoutdate" placeholder="Check out" class="date-icon" tabindex="3" />
-                </div>
-                <div class="large-2 small-12 columns">
-                    <input type="submit" name="searchbutton" id="searchbutton" value="Search" tabindex="4">
-                </div>
-            </form>
-        </div>
-        <div class="large-2 small-12 columns text-center">
-            <ul class="social">
-                <li class="pinterest"><a href="#"><img src="assets/masthead/pinterest-icon.gif" width="36" height="36" alt="Pinterest" /></a></li>
-                <li class="instagram"><a href="#"><img src="assets/masthead/instagram-icon.gif" width="36" height="36" alt="Instagram" /></a></li>
-                <li class="facebook"><a href="#"><img src="assets/masthead/facebook-icon.gif" width="36" height="36" alt="Facebook" /></a></li>
-            </ul>
-        </div>
-    </div>
-</header>
-<section>
-  <div class="row">
       <div class="orange-bar">
         <div class="large-6 small-12 columns text-left">
-            <h1>London Hotels</h1>
-            </div>
-            <div class="large-6 small-12 columns text-right">
-            <p>Sun 03 Nov - Mon 04 Nov (1 Night)</p>
-            </div>
+          <h1><%= location.city %> hotels </h1>
         </div>
+        <div class="large-6 small-12 columns text-right">
+          <p>Sun 03 Nov - Mon 04 Nov (1 Night)</p>
+        </div>
+      </div>
     </div>
-</section>
-<section>
-  <div class="row">
-      <div class="large-3 small-12 columns">
-          <h6>73 hotels available</h6>
-            <div class="map">
-              <iframe src="http://mapsengine.google.com/map/embed?mid=zNb056NZgT9E.kcdAgwzehKwM" width="640" height="480"></iframe>
-                <div class="viewonmap">
-                  <p><a href="#">View hotels on map</a></p>
-                </div>
-            </div>
-            <h6>Refine results</h6>
-            <div class="refine">
-              <div class="refine-inner">
-                    <form id="refine" action="">
-                        <p>PRICE PER NIGHT</p>
-                        <input type="text" id="amount" />
-                        <div id="slider-range"></div>
-                        <p>STAR RATING</p>
-                        <div class="stars">
-                            <p><input type="checkbox" name="5stars" id="5stars"> <label for="5stars" class="fivestar">5-star</label><br />
-                            <input type="checkbox" name="4stars" id="4stars"> <label for="4stars" class="fourstar">4-star</label><br />
-                            <input type="checkbox" name="3stars" id="3stars"> <label for="3stars" class="threestar">3-star</label><br />
-                            <input type="checkbox" name="2stars" id="2stars"> <label for="2stars" class="twostar">2-star</label><br />
-                            <input type="checkbox" name="1stars" id="1stars"> <label for="1stars" class="onestar">1-star</label></p>
-                        </div>
-                        <p>FEATURES</p>
-                        <p><input type="checkbox" name="wifi" id="wifi"> <label for="wifi">Wifi</label><br />
-                        <input type="checkbox" name="central" id="central"> <label for="central">Central Location</label><br />
-                        <input type="checkbox" name="family" id="family"> <label for="family">Family Friendly</label><br />
-                        <input type="checkbox" name="parking" id="parking"> <label for="parking">Parking</label><br />
-                        <input type="checkbox" name="gym" id="gym"> <label for="gym">Gym</label><br />
-                        <input type="checkbox" name="boutique" id="boutique"> <label for="boutique">Boutique</label><br />
-                        <input type="checkbox" name="smoking" id="smoking"> <label for="smoking">Non-smoking rooms</label><br />
-                        <input type="checkbox" name="pet" id="pet"> <label for="pet">Pet Friendly</label><br />
-                        <input type="checkbox" name="pool" id="pool"> <label for="pool">Pool</label><br />
-                        <input type="checkbox" name="restaurant" id="restaurant"> <label for="restaurant">Restaurant</label><br />
-                        <input type="checkbox" name="spa" id="spa"> <label for="spa">Spa</label></p>
-                    </form>
-                </div>
-          </div>
-            <a href="#" id="pull">Refine</a>
+  </section>
+
+  <section>
+    <div class="row">
+      <%= render 'filters' %>   
+      <div class="large-9 small-12 columns">
+        <ul class="sortby">
+          <li>Sort by:</li>
+          <li ng-class="{selected: isSort('')}"><a ng-href="?">Recommended</a></li>
+          <li ng-class="{selected: isSort('price')}"><a ng-href="?sort=price">Price (Low to High)</a></li>
+          <li ng-class="{selected: isSort('price_reverse')}"><a ng-href="?sort=price_reverse">Price (High to Low)</a></li>
+          <li ng-class="{selected: isSort('rating')}"><a ng-href="?sort=rating">Star Rating</a></li>
+          <li><a href="#">User Rating</a></li>
+          <li ng-class="{selected: isSort('distance')}"><a ng-href="?sort=distance">Distance</a></li>
+        </ul>
+        <div class="sort-select">
+          <select>
+            <option value="null" selected>Sort by</option>
+            <option value="recommended">Recommended</option>
+            <option value="low">Price (Low to High)</option>
+            <option value="high">Price (High to Low)</option>
+            <option value="star">Star Rating</option>
+            <option value="user">User Rating</option>
+            <option value="distance">Distance</option>
+          </select>
         </div>
-        <div class="large-9 small-12 columns">
-          <ul class="sortby">
-              <li>Sort by:</li>
-                <li class="selected"><a href="#">Recommended</a></li>
-                <li><a href="#">Price (Low to High)</a></li>
-                <li><a href="#">Price (High to Low)</a></li>
-                <li><a href="#">Star Rating</a></li>
-                <li><a href="#">User Rating</a></li>
-                <li><a href="#">Distance</a></li>
-            </ul>
-            <div class="sort-select">
-              <select>
-                  <option value="null" selected>Sort by</option>
-                    <option value="recommended">Recommended</option>
-                    <option value="low">Price (Low to High)</option>
-                    <option value="high">Price (High to Low)</option>
-                    <option value="star">Star Rating</option>
-                    <option value="user">User Rating</option>
-                    <option value="distance">Distance</option>
-                </select>
-            </div>
-          <div class="result">
-              <div class="row">
-                    <div class="image">
-                        <a href="#"><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></a>
-                        <div class="roundel">
-                            Save 38%
-                        </div>
-                    </div>
-                    <div class="main-details">
-                        <h4>The Soho Hotel</h4>
-                        <div class="rating">
-                            <span class="fill">☆</span><span class="fill">☆</span><span class="fill">☆</span><span class="fill">☆</span><span>☆</span>
-                        </div>
-                        <p class="location">10 Carlysle Street, London</p>
-                        <ul class="prices">
-                            <li><a href="#">Late Rooms <span>£130</span></a></li>
-                            <li><a href="#">Hotels.com <span>£140</span></a></li>
-                            <li><a href="#">Expedica.co.uk <span>£336</span></a></li>
-                            <li><a href="#">Splendia <span>£140</span></a></li>
-                            <li><a href="#">Booking.com <span>£335</span></a></li>
-                            <li><a href="#">Lastminute <span>£335</span></a></li>
-                            <li><a href="#">Agoda <span>£335</span></a></li>
-                            <li><a href="#">Easytobook.com <span>£335</span></a></li>
-                            <li class="alternate"><a href="#">See all deals ></a></li>
-                        </ul>
-                        <ul class="tabs">
-                            <li><a href="#">Details</a></li>
-                            <li><a href="#">Map</a></li>
-                            <li><a href="#">Rates</a></li>
-                            <li><a href="#">Best rooms</a></li>
-                        </ul>
-                    </div>
-                    <div class="hot5 price">
-                        <a href="#">
-                            <p class="old-price">£398</p>
-                            <p class="our-price">£249<br />
-                            <span>Get Deal</span></p>
-                            <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hidden">
-              <div class="row">
-                  <div class="large-6 small-12 large-offset-3 columns text-center">
-                      <img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="large-12 small-12 columns">
-                        <ul class="small-block-grid-4 large-block-grid-8">
-                            <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
-                            <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
-                            <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
-                            <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hidden">
-              <div class="row">
-                    <div class="large-12 small-12 columns">
-                        <p><strong>Details etc</strong></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ornare volutpat nisi, sed porta turpis cursus vitae. Maecenas sapien nisl, gravida non vehicula vitae, lacinia eget augue. Donec sagittis odio libero. Donec tincidunt dolor magna, nec consectetur arcu eleifend non. Donec at consequat ante. Nullam commodo vestibulum elit nec hendrerit.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hidden">
-              <div class="row">
-                    <div class="large-12 small-12 columns">
-                        <p><strong>Price comparison</strong></p>
-                      <div class="row price-comparison">
-                          <div class="large-2 small-2 columns">
-                              <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
-                            </div>
-                            <div class="large-4 small-4 columns text-center">
-                              <p>Queen bed</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-right">
-                              <p class="our-price">£249</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-left">
-                              <p><a class="button">Get Deal</a></p>
-                            </div>
-                        </div>
-                        <div class="row price-comparison">
-                          <div class="large-2 small-2 columns">
-                              <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
-                            </div>
-                            <div class="large-4 small-4 columns text-center">
-                              <p>Queen bed</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-right">
-                              <p class="our-price">£249</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-left">
-                              <p><a class="button">Get Deal</a></p>
-                            </div>
-                        </div>
-                        <div class="row price-comparison">
-                          <div class="large-2 small-2 columns">
-                              <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
-                            </div>
-                            <div class="large-4 small-4 columns text-center">
-                              <p>Queen bed</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-right">
-                              <p class="our-price">£249</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-left">
-                              <p><a class="button">Get Deal</a></p>
-                            </div>
-                        </div>
-                        <div class="row price-comparison">
-                          <div class="large-2 small-2 columns">
-                              <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
-                            </div>
-                            <div class="large-4 small-4 columns text-center">
-                              <p>Queen bed</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-right">
-                              <p class="our-price">£249</p>
-                            </div>
-                            <div class="large-3 small-3 columns text-left">
-                              <p><a class="button">Get Deal</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div ng-view id="hotel-results" > 
         </div>
+      </div>
     </div>
-</section>
+  </section>
+</div>

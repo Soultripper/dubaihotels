@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   protected  
   def search_criteria
-    @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars}
+    @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars, currency_code: currency, sort: sort}
   end
 
   def min_stars
@@ -16,11 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def start_date
-    (!params["start_date"].blank? ? Date.parse(params["start_date"]) : 1.week.from_now).to_date
+    (!params["start_date"].blank? ? Date.parse(params["start_date"]) : 20.days.from_now).to_date
   end
 
   def end_date
-    (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : 2.weeks.from_now).to_date
+    (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : 3.weeks.from_now).to_date
   end
 
   def page_no
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sort
-    params["sort"] || :price
+    params["sort"] || :recommended
   end
 
   helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars, :destination

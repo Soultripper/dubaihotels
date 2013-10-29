@@ -1,190 +1,115 @@
-<!-- Main Feed -->
-<!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
-<div class="large-6 columns " ng-controller="HotelCtrl" >       
+<div class="result hotel" ng-repeat="hotel in hotels" >
   <div class="row">
-    <div class="large-12 columns "> 
-      <div class="span6"><h3 id="hotels-available"><strong>{{available_hotels}}</strong> of <strong>{{total_hotels}}</strong> hotels available:</h3></div>
-        <div id="js_itemlistcontrol" class="itemlistcontrol collapsed clear">
-          <div class="thirteencol">
-            <div class="sbHolder" style="z-index: 1000;">
-              <span class="sbToggleBase"><a href="#" class="sbToggle"></a></span>
-              <a href="#" class="sbSelector">Sort by <span class="sort_criterion">Price</span></a>
-              <ul id="js_itemlistcontrol_sort" class="order_by sbOptions" data-sort="relevance desc" style="display: none;">
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=popularity&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">Popularity</span></li>
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=rating&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">Rating</span></li>
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=price&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">Price</span></li>
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=price_reverse&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">Price Desc</span></li>
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=proximity&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">Distance</span></li>
-                  <li class="sbFocus" data-link="/?end_date=2013-10-25&amp;max_stars=5&amp;sort=a_z&amp;start_date=2013-10-18">Sort By <span class="sort_criterion">A-Z</span></li>
-              </ul>
-            </div>      
-          </div>
-        </div>
+    <div class="image">
+      <a href="#">
+        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
+      </a>
+      <div class="roundel">
+        Save 38%
+      </div>
+    </div>
+    <div class="main-details">
+      <h4 class="trim-info" tool-tip="{{hotel.name}}">{{hotel.name}}</h4>
+      <div class="rating">
+        <span class="fill" ng-repeat="rating in ratingsRange(hotel.star_rating)">☆</span>
+      </div>
+      <p class="location">{{hotel.address}}, {{hotel.city}}</p>
+      <ul class="prices">
+        <li><a href="#">Late Rooms <span>{{findProvider(hotel, 'laterooms').min_price | price:currency_symbol:0 }}</span></a></li>
+        <li><a href="#">Hotels.com <span>{{findProvider(hotel, 'hotels').min_price | price:currency_symbol:0 }}</span></a></li>
+        <li><a href="#">Expedia.co.uk <span>{{findProvider(hotel, 'expedia').min_price | price:currency_symbol:0 }}</span></a></li>
+        <!-- <li><a href="#">Splendia <span>£140</span></a></li> -->
+        <li><a href="#">Booking.com <span>{{findProvider(hotel, 'booking').min_price | price:currency_symbol:0 }}</span></a></li>
+        <!-- <li><a href="#">Lastminute <span>£335</span></a></li> -->
+<!--         <li><a href="#">Agoda <span>£335</span></a></li>
+        <li><a href="#">Easytobook.com <span>£335</span></a></li> -->
+        <li class="alternate"><a href="#">See all deals ></a></li>
+      </ul>
+      <ul class="tabs">
+          <li><a href="#" data-slide-toggle="#hotel-amenities-{{hotel.id}}">Details</a></li>
+          <li><a href="#" data-show-map="hotel-map-{{hotel.id}}">Map</a></li>
+          <li><a href="#" data-slide-toggle="#hotel-rooms-{{hotel.id}}">Rooms</a></li>
+          <li><a href="#">Best rooms</a></li>
+      </ul>
+    </div>
+    <div class="hot5 price">
+      <a href="#">
+        <p class="old-price">{{hotel.offer.max_price | price:currency_symbol:0 }}</p>
+        <p class="our-price">{{hotel.offer.min_price | price:currency_symbol:0 }}<br/>
+          <span>Get Deal</span>
+        </p>
+        <p class="logo">
+          <img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" />
+        </p>
+      </a>
     </div>
   </div>
-  <div class="row">
-    <div class="large-12 columns" >            
-      <div class="row" ng-controller="HotelCtrl" >
-        <div class="large-12 columns" >          
-          <div class="row hotel" id="hotel-{{hotel.id}}" ng-repeat="hotel in hotels">
-            <div class="large-12 columns">
-              <div class="row">
-                <div class="large-3 columns small-3">
-                  <span class="img_overlay" data-slide-toggle="#hotel-photos-{{hotel.id}}">
-                    <img ng-src="{{hotel.main_image}}" height='138' width='138' class='img'>
-                  </span>
-                </div>
-                <div class="large-6 columns">
-                  <h6>{{hotel.name}} - {{hotel.providers.length}}</h6> 
-                  <ul class="hotel_rating stars{{hotel.star_rating}}">
-                    <li class="one"><a href="#" title="1 Star">1</a></li>
-                    <li class="two"><a href="#" title="2 Stars">2</a></li>
-                    <li class="three"><a href="#" title="3 Stars">3</a></li>
-                    <li class="four"><a href="#" title="4 Stars">4</a></li>
-                    <li class="five"><a href="#" title="5 Stars">5</a></li>
-                  </ul>
 
-                  <ul class="hotel_prices">
-                    <li class="single_price price"><em>Expedia</em><strong>{{hotel.providers[0].min_price}}</strong></li>
-                    <li class="single_price price even"><em>Booking.com</em><strong>N/A</strong></li>
-                    <li class="single_price price"><em>Agoda.com</em><strong>N/A</strong></li>
-                    <li class="single_price price even"><em>Lastminute.com</em><strong>N/A</strong></li>
-                  </ul>
-                <ul class="item_nav">
-                  <li class="rating val_5 c_button standard">
-                    <strong>{{hotel.rating}}</strong>
-                    <span class="img_sprite_moon rating_smiley rating5"><!-- --></span>
-                  </li>
-                  <li class="distance map c_button standard" data-map="map-{{hotel.id}}"><strong>{{hotel.distance}}</strong><span>miles</span></li>
-                  <li class="info c_button standard" data-slide-toggle="#amenities-{{hotel.id}}">
-                    <span class="img_sprite_moon hotel_info"><!-- --></span>
-                    <span>Info</span>
-                  </li>
-                  <li class="available_on deals c_button standard all_prices" data-retrieve-rooms="{{hotel.id}}" data-container="#rooms-{{hotel.id}}" data-url="http://path_to_show_hotel_rooms">
-                    <span class="c_label">See all <i>{{hotel.providers[0].room_count}} deals</i></span><span class="img_sprite_moon arrow arrow_down"></span>
-                  </li>
-                </ul>
-                </div>
-                <div  class="threecol last main_price reduced">
-                  <span class="saving_35"><!----></span>
-                  <strong class="partner_name ">Expedia.com</strong>
-                  <div class="price_max">
-                    <span class="wrapper"><span class="price"><del>{{hotel.providers[0].max_price}}</del></span></span>
-                  </div>
-                  <strong class="price_min">{{hotel.providers[0].min_price}}</strong>
-                  <div class="c_button deal" type="button">
-                    <a href="{{hotel.deepLink}}"  alt="Book now at {{hotel.name}}" target='_blank'>
-                      <span class="label">View Deal</span>
-                      <span class="img_sprite_moon arrow arrow_right"></span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <!-- PHOTOS -->
-              <div class="row hotel_photos" id="hotel-photos-{{hotel.id}}">
-                <div class="large-12 columns">
-                  <div  class="js-hotel-information hotel_info hotel_info_images">
-                    <div class="hotel_info_content">
-                      <div class="hotel_info_image_cont swipe" data-width="6580">
-                        <div class="hotel_info_image swipe-wrap">
-                          <img src="assets/blank.gif" style="background-image: url({{hotel.main_image}})" height="350" id="hotel-photo-{{hotel.id}}" class="img">
-                        </div>
-                      </div>
-                      <div class="hotel_info_thumbs" >
-                        <img src="assets/blank.gif" style="background-image: url({{image.thumbnail_url}})" height="350" id="hotel-photo-{{hotel.id}}" class="img" data-main="{{image.url}}" ng-repeat="image in hotel.images">
-                      </div>
-                    </div>
-                    <div class="js-hotel-info hotel_info_close" data-show-photos="{{hotel.id}}">
-                      <span class="btn outline_dark">close</span>
-                    </div>
-                  </div>        
-                </div>
-              </div>  
-
-              <!-- MAPS -->  
-              <div class="row hotel_map" id="map-{{hotel.id}}" data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}">
-                <div class="large-10 large-centered columns">
-                  <span>{{hotel.getAddress()}}</span>
-                  <div class="map_container"> 
-                    <div id="google-map-{{hotel.id}}" class="gmaps4rails_map"></div>
-                  </div>    
-                </div>        
-              </div>
-
-              <!-- AMENITIES -->  
-              <div class="row hotel_amenities" id="amenities-{{hotel.id}}">
-                <div class="large-10 columns large-centered">
-                  <ul class="hotel_features">
-                    <li class="feature_wifi">
-                        WiFi
-                    </li><li class="feature_parking">
-                        Parking
-                    </li><li class="feature_restaurant">
-                        Restaurant
-                    </li><li class="feature_pool">
-                        Pool
-                    </li><li class="feature_spa">
-                        Spa
-                    </li><li class="feature_gym">
-                        Gym
-                    </li><li class="feature_room-service">
-                        Room service
-                    </li><li class="feature_bar">
-                        Bar
-                    </li><li class="feature_non-smoking-rooms">
-                        Non-smoking rooms
-                    </li><li class="feature_family-friendly">
-                        Family friendly
-                    </li><li class="feature_24-hour-reception">
-                        24 hour reception
-                    </li><li class="feature_pet-friendly">
-                        Pet friendly
-                    </li><li class="feature_childcare-available">
-                        Childcare available
-                    </li><li class="feature_airport-shuttle">
-                        Airport shuttle
-                    </li><li class="feature_boutique">
-                        Boutique
-                    </li><li class="feature_baby-cot">
-                        Baby cot
-                    </li><li class="feature_free-internet-access">
-                        Free Internet access
-                    </li><li class="feature_internet-access">
-                        Internet access
-                    </li><li class="feature_steam">
-                        Steam room
-                    </li><li class="feature_sauna">
-                        Sauna
-                    </li><li class="feature_business-centre">
-                        Business centre
-                    </li><li class="feature_wheelchair-friendly">
-                        Wheelchair friendly
-                    </li><li class="feature_elevator">
-                        Elevator
-                    </li><li class="feature_gay-friendly">
-                        Gay friendly
-                    </li><li class="feature_laundry-service">
-                        Laundry service
-                    </li><li class="feature_meeting-rooms">
-                        Meeting rooms
-                    </li><li class="feature_onsite-doctor">
-                        Doctor on call
-                    </li>
-                  </ul>
-                </div>        
-              </div>
-              <div class="hotel_rooms"  id="rooms-{{hotel.id}}">
-                <div class="preloader">
-                  <img src="assets/preloader.gif">
-                </div>
-              </div>
-            </div>
-          </div>
-          <hr />        
-        </div>
+  <!-- Photos -->
+  <div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}" style="display:none">
+    <div class="row">
+      <div class="large-6 small-12 large-offset-3 columns text-center">
+        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" style="background-image: url({{hotel.main_image}})" />
       </div>
-          <hr />        
+    </div>
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <ul class="small-block-grid-4 large-block-grid-8">
+          <li><img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" /></li>
+          <li><img ng-src="{{hotel.images[1].url}}" alt="Hotel name" width="500" height="500" /></li>
+          <li><img ng-src="{{hotel.images[2].url}}" alt="Hotel name" width="500" height="500" /></li>
+          <li><img ng-src="{{hotel.images[3].url}}" alt="Hotel name" width="500" height="500" /></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Amenities -->
+  <div class="row hidden hotel-amenities" id="hotel-amenities-{{hotel.id}}" style="display:none">
+    <div class="row">
+      <div class="large-12 small-12 columns">
+          <p><strong>Hotel Details</strong></p>
+          <p ng-bind-html="hotel.description"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="row hidden hotel-map" id="hotel-map-{{hotel.id}}" style="display:none"  data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}">
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <p><strong>{{hotel.getAddress()}}</strong></p>
+        <span>{{hotel.getAddress()}}</span>
+        <div class="map_container"> 
+          <div id="google-hotel-map-{{hotel.id}}" class="gmaps4rails_map" ></div>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+  <!-- Rooms -->
+  <div class="hidden hotel-rooms" id="hotel-rooms-{{hotel.id}}" style="display:none">
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <p><strong>Price comparison</strong></p>
+        <div class="row price-comparison">
+          <div class="large-2 small-2 columns">
+            <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
+          </div>
+          <div class="large-4 small-4 columns text-center">
+            <p>Queen bed</p>
+          </div>
+          <div class="large-3 small-3 columns text-right">
+            <p class="our-price">£249</p>
+          </div>
+          <div class="large-3 small-3 columns text-left">
+            <p><a class="button">Get Deal</a></p>
+          </div>
         </div>
       </div>
     </div>
+  </div>    
+</div>
+
+
+

@@ -5,6 +5,9 @@ module Booking
 
     field :_id, type: Integer, default: ->{ self.hotel_id}
 
+    def hotel
+      @hotel ||= Hotel.find_by_booking_hotel_id hotel_id
+    end
 
     def hotel_id
       self['hotel_id']
@@ -14,12 +17,32 @@ module Booking
       
     end
 
+    def price_in_currency
+      other_currency[0]
+    end
+
+    def other_currency
+      self['other_currency']
+    end
+
+    def other_currency?
+      other_currency
+    end
+
     def min_price
-      self['min_price']
+      other_currency? ? price_in_currency['min_total_price'] : self['min_total_price']
     end
 
     def max_price
-      self['max_price']
+      other_currency? ? price_in_currency['max_total_price'] : self['max_total_price']
+    end
+
+    def local_min_price
+      self['min_total_price']
+    end
+
+    def local_max_price
+      self['max_total_price']
     end
 
     def currency

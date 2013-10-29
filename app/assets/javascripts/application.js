@@ -17,6 +17,9 @@
 //= require zepto/default
 //= require angular
 //= require angular-resource
+//= require angular-sanitize
+//= require underscore
+//= require accountingjs
 //= require_self
 //= require_tree .
 

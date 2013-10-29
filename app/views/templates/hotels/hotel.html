@@ -1,0 +1,58 @@
+<div class="result hotel" ng-repeat="hotel in hotels">
+  <div class="row">
+        <div class="image">
+            <a href="#">
+              <img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" data-slide-toggle=".hotel-photos"/>
+            </a>
+            <div class="roundel">
+              Save 38%
+            </div>
+        </div>
+        <div class="main-details">
+            <h4>{{hotel.name}}</h4>
+            <div class="rating">
+              <span class="fill">☆</span>
+              <span class="fill">☆</span>
+              <span class="fill">☆</span>
+              <span class="fill">☆</span>
+              <span>☆</span>
+            </div>
+            <p class="location">{{hotel.address}}, {{hotel.city}}</p>
+            <ul class="prices">
+              <li><a href="#">Late Rooms <span>{{hotel.providers[0].min_price}}</span></a></li>
+              <li><a href="#">Hotels.com <span>{{hotel.providers[0].min_price}}</span></a></li>
+              <li><a href="#">Expedica.co.uk <span>£336</span></a></li>
+              <li><a href="#">Splendia <span>£140</span></a></li>
+              <li><a href="#">Booking.com <span>£335</span></a></li>
+              <li><a href="#">Lastminute <span>£335</span></a></li>
+              <li><a href="#">Agoda <span>£335</span></a></li>
+              <li><a href="#">Easytobook.com <span>£335</span></a></li>
+              <li class="alternate"><a href="#">See all deals ></a></li>
+            </ul>
+            <ul class="tabs">
+                <li><a href="#" data-slide-toggle=".hotel-amenities">Details</a></li>
+                <li><a href="#" data-slide-toggle=".hotel-map">Map</a></li>
+                <li><a href="#" data-slide-toggle=".hotel-rooms">Rates</a></li>
+                <li><a href="#">Best rooms</a></li>
+            </ul>
+        </div>
+        <div class="hot5 price">
+            <a href="#">
+              <p class="old-price">{{hotel.providers[0].max_price}}</p>
+              <p class="our-price">{{hotel.providers[0].min_price}}<br/>
+                <span>Get Deal</span>
+              </p>
+              <p class="logo">
+                <img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" />
+              </p>
+            </a>
+        </div>
+    </div>
+  <%= render template: 'templates/hotels/photos' %> 
+  <%= render template: 'templates/hotels/amenities' %> 
+  <%= render template: 'templates/hotels/rooms' %>   
+  <%= render template: 'templates/hotels/map' %>     
+</div>
+
+
+

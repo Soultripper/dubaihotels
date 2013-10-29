@@ -1,17 +1,17 @@
 class HotelSearch
-  attr_reader :query, :search_criteria, :results_counter, :started
+  attr_reader :location, :search_criteria, :results_counter, :started
 
   attr_accessor :total_hotels
 
-  def initialize(query, search_criteria)
-    @query, @search_criteria = query, search_criteria
+  def initialize(location, search_criteria)
+    @location, @search_criteria = location, search_criteria
   end
 
-  def self.find_or_create(query, search_criteria)
-    cache_key = search_criteria.as_json.merge({query:query})
+  def self.find_or_create(location, search_criteria)
+    cache_key = search_criteria.as_json.merge({query:location.slug})
     Rails.cache.fetch cache_key, expires_in: 5.minutes do 
       Log.info cache_key
-      new(query, search_criteria)
+      new(location, search_criteria)
     end    
   end
 
@@ -22,6 +22,14 @@ class HotelSearch
     persist
     search_by_destination
     self
+  end
+
+  def city
+    location.city
+  end
+
+  def city_id
+    location.city_id
   end
 
   def results
@@ -45,33 +53,39 @@ class HotelSearch
   end
 
   def load_all_hotels
-    @all_hotels ||= Hotel.with_images.by_city(query).by_star_ratings(search_criteria.min_stars, search_criteria.max_stars)
+    @all_hotels ||= Hotel.with_images.by_location(location).by_star_ratings(search_criteria.min_stars, search_criteria.max_stars)
   end
 
   def finished?
-    results_counter[:expedia][:finished]
+    results_counter[:booking][:finished] && results_counter[:expedia][:finished]
   end
 
   def search_by_destination
     @hotels = []
-    Thread.new do
-      request_expedia_hotels
-      ActiveRecord::Base.connection.close
-    end   
+
+    threaded {request_expedia_hotels}
+    threaded {request_booking_hotels}
     self
   end
 
+  def threaded(&block)
+    # yield
+    Thread.new do 
+      yield
+      ActiveRecord::Base.connection.close
+    end
+  end
+
   def request_expedia_hotels
-    response = Expedia::HotelRoomSearch.by_destination(query, search_criteria)
+    response = Expedia::HotelRoomSearch.by_destination(city, search_criteria)
 
     response.page_hotels do |expedia_hotels|
       results_counter[:expedia][:pages] += 1
       Log.debug "#{expedia_hotels.count} Expedia hotels found of page #{results_counter[:expedia][:pages]}"
+
       expedia_hotels.each do |ex_hotel|
         hotel = @all_hotels.find {|hotel| hotel.ean_hotel_id == ex_hotel.id}
-        next unless hotel
-        hotel.compare_and_add_hotel ex_hotel 
-        @hotels << hotel
+        add_to_list hotel, ex_hotel
       end
 
      persist
@@ -84,13 +98,12 @@ class HotelSearch
 
 
   def request_booking_hotels
-    booking_hotels = Booking::HotelRoomSearch.by_city_ids(query, search_criteria)
-    Log.debug "#{booking_hotels.count} Booking hotels found"
-    booking_hotels.each do |booking_hotel|
-      hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id}
-      next unless hotel
-      hotel.compare_and_add_hotel booking_hotel 
-      @hotels << hotel
+    response = Booking::HotelRoomSearch.by_city_ids(city_id, search_criteria)
+    Log.debug "#{response.hotels.count} Booking hotels found"
+
+    response.hotels.each do |booking_hotel|
+      hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id} if !hotel
+      add_to_list hotel, booking_hotel
     end
 
     results_counter[:booking][:finished] = true
@@ -98,12 +111,24 @@ class HotelSearch
     Log.debug "#{@hotels.count} Booking hotels loaded"
   end
 
+  def add_to_list(hotel, provider_hotel)
+    return nil unless hotel
+    hotel.compare_and_add provider_hotel 
+    return if @hotels.include?(hotel)
+    hotel.distance_from_location = hotel.distance_from location
+    @hotels << hotel
+  end
+
+  def find_or_add(hotel_collection, provider_hotel)
+    hotel_collection.find {|hotel| hotel.booking_hotel_id == provider_hotel.id}
+  end
+
   def persist
     Rails.cache.write cache_key, self
   end
 
   def cache_key
-    search_criteria.as_json.merge({query:query})
+    search_criteria.as_json.merge({query:location.slug})
   end
 
   def results_counter

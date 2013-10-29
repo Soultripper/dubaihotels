@@ -10,3 +10,13 @@
 
 
 City.seed_from_booking
+
+amenities = "Wifi,Central Location,Family Friendly,Parking,Gym,Boutique,Non-smoking rooms,Pet Friendly,Pool,Restaurant,Spa".split(',')
+
+HotelAmenity.delete_all
+value = 1
+amenities.each do |a|
+  HotelAmenity.create({ name: a, value: value})
+  value=value<<1
+end
+

@@ -48,20 +48,13 @@ $(function(){
     $('#js_toolbar_localization').hide()
   });
 
-  $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
-  $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});
-  $(document).on('click', 'li[data-link]', function(){window.location = $(this).data('link')});
+
   // $(document).on('click', 'ul li.stars', HI.stars.select);
 
-  $('.hotel').on('click', '[data-slide-toggle]', function(){ $($(this).data('slide-toggle')).slideToggle()});
-  $('.hotel').on('click', '[data-show-toggle]', function(){ $($(this).data('show-toggle')).toggleClass('open')});
-
-  $('.hotel_info_thumbs img').hover(HI.photos.displayMain);
-  $('.hotel').on('click', '.map', HI.map.show);
-  $('.hotel').on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
 
   $("#priceSlider").ionRangeSlider();
 
+  HI.init();
 });
 
 function updateQueryStringParameter(uri, key, value) {

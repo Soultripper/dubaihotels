@@ -2,10 +2,11 @@ class Hotel < ActiveRecord::Base
   include HotelScopes
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude
-  attr_accessible :address1, :address2, :airport_code, :chain_code_id, :check_in_time, :check_out_time, 
-        :city, :confidence, :country, :ean_hotel_id, :high_rate, :latitude, :location, :longitude, :low_rate, 
-        :name, :postal_code, :property_category, :property_currency, :region_id, :sequence_number, :star_rating, 
-        :state_province, :supplier_type
+
+  attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :description
+
+  attr_accessor :distance_from_location
 
   has_many :images, :class_name => "HotelImage"
 
@@ -23,23 +24,23 @@ class Hotel < ActiveRecord::Base
 
   def compare_and_add(hotel_response)
     data = hotel_response.commonize
-    compare common_hotel_data 
-    provider_deals << common_hotel_data
+    compare data 
+    provider_deals << data
   end
 
   def compare(provider_hotel)
+    return unless provider_hotel
     if (provider_hotel[:min_price].to_f < offer[:min_price].to_f) || offer[:min_price].blank?
       offer[:min_price] = provider_hotel[:min_price].to_f
-      offer[:provider] = provider_hotel[:provider]
+      offer[:provider]  = provider_hotel[:provider]
     end
-    offer[:max_price]  =  provider_hotel[:max_price].to_f if provider_hotel[:max_price].to_f > offer[:max_price].to_f
+    offer[:max_price]  =  provider_hotel[:min_price].to_f if (provider_hotel[:min_price].to_f > offer[:min_price].to_f) || offer[:max_price].blank?
   end
 
   def to_json
     Jbuilder.encode do |json|
-      json.(self, :id, :address1, :address2, :city, :country,
-              :latitude, :location, :longitude, :name, :postal_code,
-              :star_rating, :state_province, :main_image)
+      json.(self, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
+                  :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id)
       # json.images self.images.take(10), :url, :thumbnail_url, :caption, :width, :height
       # json.provider self.provider_deals
     end

@@ -8,21 +8,13 @@ module Booking
     end
 
     def hotels
-      data.map {|response| Booking::HotelResponse.new response}
-      # Hotel.where('booking_hotel_id in (?)', hotel_ids)
+      @hotels ||= data.map {|response| Booking::HotelResponse.new response}
     end
 
     def hotel_ids
       data.map {|h| h['hotel_id'] }
     end
 
-    def hotels_summary
-      data['HotelList']['HotelSummary']
-    end
-
-    def hotel_list?
-      hotels_summary.is_a?(Array) 
-    end
 
   end
 

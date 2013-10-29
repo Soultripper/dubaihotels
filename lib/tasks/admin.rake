@@ -33,9 +33,11 @@ namespace :admin do
     import_expedia_file HotelImage, 'HotelImageList'
   end
 
+
   desc 'load all expedia'
   task :load_expedia_all => :environment do
     import_expedia_file EanHotel, 'ActivePropertyList'
+    import_expedia_file EanHotelDescription, 'PropertyDescriptionList'
     import_expedia_file EanHotelImage, 'HotelImageList'
     import_expedia_file EanRoomType, 'RoomTypeList'
     #import_expedia_file EanHotelAttributeLink, 'PropertyAttributeLink'
@@ -45,6 +47,11 @@ namespace :admin do
   desc 'load expedia files'
   task :load_expedia_hotels => :environment do
     import_expedia_file EanHotel, 'ActivePropertyList'
+  end
+
+  desc 'load expedia descriptions'
+  task :load_expedia_descriptions => :environment do
+    import_expedia_file EanHotelDescription, 'PropertyDescriptionList'
   end
 
   desc 'load expedia hotel images'

@@ -10,84 +10,55 @@ class Expedia::Client
     end
 
     def get_list(response_name, params, cache_options={expires_in: 4.hours})  
-      # response = Rails.cache.fetch Digest::MD5.hexdigest(params.to_s), cache_options do
-        Log.info "Expedia get_list request: response_name=#{response_name}, params=#{params}"       
+      Log.info "Expedia get_list request: response_name=#{response_name}, params=#{params}"       
       response = api.get_list(params) 
-      # end  
-
       Log.error "Unable to make request: #{response}"   if !response or response.exception?  
       response 
     end
 
     def hotel(id, options=nil)
-      fetch do
-        response = api.get_information({hotelId: id})
-        response.body['HotelInformationResponse']
-      end
+      response = api.get_information({hotelId: id})
+      response.body['HotelInformationResponse']
     end
 
     def hotels_by_ids(ids, sort=nil)
-      fetch do
-        Log.info "Fetching hotels by ids: '#{ids}'"
-        hotel_list({ hotelIdList: ids}, sort)
-      end
+      Log.info "Fetching hotels by ids: '#{ids}'"
+      hotel_list({ hotelIdList: ids}, sort)
     end
 
     def hotels_by_destination(destination, sort=nil)
       cache_key = "#{__method__}_#{destination.parameterize}_#{Expedia.currency_code}_#{sort}"
-      fetch(cache_key, 24.hours) do
-        Log.info "Fetching hotels by destination '#{destination}', cached to #{cache_key}"
-        hotel_list({ destinationString: destination}, sort)
-      end
+      Log.info "Fetching hotels by destination '#{destination}', cached to #{cache_key}"
+      hotel_list({ destinationString: destination}, sort)
     end
 
     def destination_room_availability(destination, search_criteria, sort=nil)      
       cache_key = "#{__method__}_#{destination.parameterize}_#{search_criteria.to_s}_#{Expedia.currency_code}_#{sort}_min_stars#{search_criteria.min_stars}"
-      fetch(cache_key, 4.hours) do
-        Log.info "Checking availability for '#{destination}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"   
-        params = rooms_params_from_search search_criteria, {destinationString: destination, maxRatePlanCount: 30}        
-        hotel_list params, sort
-      end
+      Log.info "Checking availability for '#{destination}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"   
+      params = rooms_params_from_search search_criteria, {destinationString: destination, maxRatePlanCount: 30}        
+      hotel_list params, sort
     end
-
 
     def hotels_availability(hotel_ids, search_criteria, sort=nil)      
       cache_key = "#{__method__}_#{hotel_ids}_#{search_criteria.to_s}_#{Expedia.currency_code}_#{sort}"
-      fetch do
-        # Log.info "Checking availability for  hotels '#{hotel_ids}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"   
-        params = rooms_params_from_search search_criteria, {hotelIdList: hotel_ids}        
-        hotel_list params, sort
-      end
+      params = rooms_params_from_search search_criteria, {hotelIdList: hotel_ids}        
+      hotel_list params, sort
     end
 
     def hotel_room_availability(hotel_id, search_criteria)      
       cache_key = "#{__method__}_#{hotel_id}_#{search_criteria.to_s}_#{Expedia.currency_code}"
-      fetch(cache_key, 4.hours) do
-        params = rooms_params_from_search search_criteria, {hotelId: hotel_id}
-        Log.info "Checking hotel rooom availability for hotel id '#{hotel_id}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"        
-        response = api.get_availability(params)
-        rooms = response.body['HotelRoomAvailabilityResponse']['HotelRoomResponse']
-        rooms.is_a?(Array) ? rooms : [rooms]
-      end
+      params = rooms_params_from_search search_criteria, {hotelId: hotel_id}
+      Log.info "Checking hotel rooom availability for hotel id '#{hotel_id}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"        
+      response = api.get_availability(params)
+      rooms = response.body['HotelRoomAvailabilityResponse']['HotelRoomResponse']
+      rooms.is_a?(Array) ? rooms : [rooms]
     end
-
-    def fetch(cache_key=nil, cache_expiry=4.hours, &block)
-      return unless block_given?
-      return yield if !cache_key
-      Rails.cache.fetch cache_key, expires_in: cache_expiry  do
-        yield
-      end
-    end
-
 
     def search_hotels(destination, search_criteria, sort=nil, overrides={})      
       cache_key = "#{__method__}_#{destination.parameterize}_#{search_criteria.to_s}_#{Expedia.currency_code}_#{sort}_min_stars#{search_criteria.min_stars}"
-      fetch(cache_key, 4.hours) do
-        Log.info "Checking availability for '#{destination}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"   
-        params = rooms_params_from_search search_criteria, {destinationString: destination, maxRatePlanCount: 30}        
-        make_request('HotelListResponse', params.merge({sort: sort, numberOfResults: page_size}).merge(overrides)) {|q_params| api.get_list q_params }
-        # Expedia::Response.new(sort ? api.get_list() : api.get_list(params))
-      end
+      Log.info "Checking availability for '#{destination}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"   
+      params = rooms_params_from_search search_criteria, {destinationString: destination, maxRatePlanCount: 30}        
+      make_request('HotelListResponse', params.merge({sort: sort, numberOfResults: page_size}).merge(overrides)) {|q_params| api.get_list q_params }
     end
 
     protected

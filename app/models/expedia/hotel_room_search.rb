@@ -44,10 +44,15 @@ class Expedia::HotelRoomSearch
     room_group = search_criteria.no_of_adults.to_s
     room_group += "#{search_criteria.children.join(',')}" if search_criteria.children?
 
+    add_currency_code
     add_stars
     add_dates
 
     @params.merge!({ "room#{search_criteria.no_of_rooms}" => room_group})
+  end
+
+  def add_currency_code
+    @params.merge!(currency_code: search_criteria.currency_code)
   end
 
   def add_stars

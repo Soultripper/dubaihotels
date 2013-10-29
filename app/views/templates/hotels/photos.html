@@ -1,4 +1,4 @@
-<div class="row hotel_photos" id="hotel-photos-{{hotel.id}}">
+<!-- <div class="row hotel_photos" id="hotel-photos-{{hotel.id}}">
   <div class="large-12 columns">
     <div  class="js-hotel-information hotel_info hotel_info_images">
       <div class="hotel_info_content">
@@ -17,3 +17,22 @@
     </div>        
   </div>
 </div>   
+ -->
+
+<div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}" style="display:none">
+  <div class="row">
+    <div class="large-6 small-12 large-offset-3 columns text-center">
+      <img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" style="background-image: url({{hotel.main_image}})" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 small-12 columns">
+      <ul class="small-block-grid-4 large-block-grid-8">
+        <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
+        <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
+        <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
+        <li><img src="assets/delete/dubai-cover.jpg" alt="Hotel name" width="500" height="500" /></li>
+      </ul>
+    </div>
+  </div>
+</div>
