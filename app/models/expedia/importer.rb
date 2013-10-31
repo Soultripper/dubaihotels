@@ -70,9 +70,9 @@ class Expedia::Importer
 
     def unzip(filename, destination)
       Zip::ZipFile.open(filename) do |zipfile|
-        Log.info "Unzipped #{filename} to #{destination}"
         zipfile.each do |file|
           path = Tempfile.new([file.name,'.txt']).path
+          Log.info "Unzipped #{filename} to #{path}"
           zipfile.extract(file.name, path) {true}
           yield path if block_given?
         end
@@ -90,13 +90,16 @@ class Expedia::Importer
 
       conn = ActiveRecord::Base.connection_pool.checkout
       raw  = conn.raw_connection
+
+      klass.delete_all
+
       raw.exec("copy #{klass.table_name} (#{klass.cols}) from STDIN with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')")
 
       File.readlines(filename).each { |line| raw.put_copy_data line }
       raw.put_copy_end
       while res = raw.get_result do; end # very important to do this after a copy
 
-      klass.delete_all
+
       ActiveRecord::Base.connection_pool.checkin(conn)
     end
 
