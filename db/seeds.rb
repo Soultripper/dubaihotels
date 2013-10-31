@@ -7,10 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # cities = City.create([{ name: 'Dubai', booking_id: '-782831' }, {name: 'London', booking_id: '-2601889'}])
-
-
-City.seed_from_booking
-
 amenities = "Wifi,Central Location,Family Friendly,Parking,Gym,Boutique,Non-smoking rooms,Pet Friendly,Pool,Restaurant,Spa".split(',')
 
 HotelAmenity.delete_all
@@ -20,3 +16,8 @@ amenities.each do |a|
   value=value<<1
 end
 
+Country.seed_from_booking
+City.seed_from_booking
+Region.seed_from_booking
+BookingHotel.seed_from_booking
+RegionBookingHotelLookup.seed_from_booking

@@ -25,6 +25,7 @@ gem 'money'
 gem 'kaminari' #for pagination
 gem 'activerecord-import', '~> 0.3.1'
 gem 'geokit-rails'
+gem 'rubyzip'
 
 # Gems used only for assets and not required
 # in production environments by default.
