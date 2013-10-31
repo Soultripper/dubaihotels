@@ -79,11 +79,25 @@ class Expedia::Importer
       end
     end
 
+    # def import_expedia_file(klass, filename)
+    #   sql =  "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
+    #   Log.info sql
+    #   klass.delete_all
+    #   ActiveRecord::Base.connection.execute sql
+    # end
+
     def import_expedia_file(klass, filename)
+
+      conn = ActiveRecord::Base.connection_pool.checkout
+      raw  = conn.raw_connection
+      raw.exec("copy #{klass.table_name} (#{klass.cols}) from STDIN with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')")
+
+      File.readlines(filename).each { |line| raw.put_copy_data line }
+      raw.put_copy_end
+      while res = raw.get_result do; end # very important to do this after a copy
+
       klass.delete_all
-      sql =  "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
-      Log.info sql
-      ActiveRecord::Base.connection.execute sql
+      ActiveRecord::Base.connection_pool.checkin(conn)
     end
 
 
