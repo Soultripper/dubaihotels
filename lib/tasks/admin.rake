@@ -75,7 +75,8 @@ namespace :admin do
   end
 
   def import_expedia_file(klass, filename)
-    sql =  "COPY #{klass.table_name} (#{klass.cols}) FROM '#{Rails.root}/tmp/expedia/#{filename}.txt'  WITH (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
+    sql =  "copy #{klass.table_name} (#{klass.cols}) from '#{Rails.root}/tmp/expedia/#{filename}.txt' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
+    Log.info sql
     ActiveRecord::Base.connection.execute sql
   end
 

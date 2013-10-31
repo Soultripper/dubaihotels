@@ -12,17 +12,12 @@ class City < ActiveRecord::Base
       timezone_offset:   if json['timezone'] then json['timezone']['offset'] end   
   end
 
-  def self.seed_from_booking
-    offset, cities = 0, []
-
-    while booking_cities = Booking::Seed.cities(offset)
-      cities += booking_cities
-      offset += 1000
-    end
-
-    transaction do 
-      delete_all
-      import cities
+  def self.seed_from_booking(offset=0, rows=1000)
+    delete_all if offset == 0
+    while booking_cities = Booking::Seed.cities(offset, rows)
+      import booking_cities, :validate => false
+      offset += rows
     end
   end
+
 end

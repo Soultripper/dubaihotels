@@ -48,6 +48,5 @@ class BookingHotel < ActiveRecord::Base
       import booking_hotels, :validate => false
       offset += rows
     end
-
   end
 end
