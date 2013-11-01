@@ -54,6 +54,6 @@ production:
 staging:
   adapter: postgresql
   encoding: unicode
-  database: hotels_staging
+  database: hotels_development
   pool: 5
   host: localhost

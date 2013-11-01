@@ -1,19 +1,24 @@
--- ALTER TABLE hotels  ADD COLUMN geog geography(Point,4326);
--- 
--- UPDATE hotels SET geog = ST_MakePoint(longitude, latitude);
--- UPDATE ean_hotels SET geog = ST_MakePoint(longitude, latitude);
--- 
+create extension pg_trgm
+create extension postgis
+-- 	ALTER TABLE booking_hotels  ADD COLUMN geog geography(Point,4326);
+-- 	ALTER TABLE hotels  ADD COLUMN geog geography(Point,4326);
+--  	ALTER TABLE ean_hotels  ADD COLUMN geog geography(Point,4326);
+-- 	UPDATE booking_hotels SET geog = ST_MakePoint(longitude, latitude);
+-- 	UPDATE ean_hotels SET geog = ST_MakePoint(longitude, latitude);
+
+-- CREATE INDEX ON booking_hotels USING GIST (geog);
 -- CREATE INDEX ON hotels USING GIST (geog);
 -- CREATE INDEX ON ean_hotels USING GIST (geog);
 -- 
-INSERT INTO hotels (name, address, city, postal_code, country_code, longitude, latitude, star_rating, check_in_time, check_out_time, low_rate, high_rate, property_currency, booking_hotel_id)
-SELECT name, address, city, zip, country_code, longitude, latitude, classification, check_in_from, check_out_to, minrate, maxrate, currencycode, id
-from booking_hotels
+-- INSERT INTO hotels (name, address, city, postal_code, country_code, longitude, latitude, star_rating, check_in_time, check_out_time, low_rate, high_rate, property_currency, booking_hotel_id)
+-- SELECT name, address, city, zip, country_code, longitude, latitude, classification, check_in_from, check_out_to, minrate, maxrate, currencycode, id
+-- from booking_hotels
 
+-- UPDATE hotels SET geog = ST_MakePoint(longitude, latitude);
 
-SELECT e.name, h.name, ST_Distance(e.geog, h.geog) AS dist_m
-FROM ean_hotels e
-JOIN booking_hotels h ON ST_DWithin(e.geog, h.geog, 5, true)
+-- SELECT e.name, h.name, ST_Distance(e.geog, h.geog) AS dist_m
+-- FROM ean_hotels e
+-- JOIN booking_hotels h ON ST_DWithin(e.geog, h.geog, 5, true)
 
 
 

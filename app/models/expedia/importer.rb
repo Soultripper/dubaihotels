@@ -43,7 +43,7 @@ class Expedia::Importer
 
     def download_unzip_import_file(uri, klass)
       fetch_file URI(uri) do |zipped_file|
-        unzip zipped_file, '/tmp' do |unzipped_file, destination|
+        unzip zipped_file do |unzipped_file|
           import_expedia_file klass, unzipped_file
           unzipped_file
         end
@@ -68,7 +68,7 @@ class Expedia::Importer
     end
 
 
-    def unzip(filename, destination)
+    def unzip(filename)
       Zip::ZipFile.open(filename) do |zipfile|
         zipfile.each do |file|
           path = Tempfile.new([file.name,'.txt']).path

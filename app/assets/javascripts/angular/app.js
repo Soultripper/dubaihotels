@@ -1,4 +1,4 @@
-app = angular.module('SearchResults', ['ngResource', 'ngSanitize']).config(function($routeProvider, $locationProvider) {
+app = angular.module('SearchResults', ['ngResource', 'ngSanitize']).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
  $routeProvider.when('/:id', {
     templateUrl: 'templates/hotels.html',
@@ -6,7 +6,7 @@ app = angular.module('SearchResults', ['ngResource', 'ngSanitize']).config(funct
   })
 
   $locationProvider.html5Mode(true);
-});
+}]);
 
 
 var actions = { 
