@@ -2,7 +2,7 @@ class Expedia::Importer
   
 
   class << self 
-    require 'zip/zip'
+    # require 'zip/zipfilesystem'
 
     def hotels
       uri = "https://www.ian.com/affiliatecenter/include/V2/ActivePropertyList.zip"
