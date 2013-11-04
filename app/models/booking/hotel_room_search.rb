@@ -23,6 +23,15 @@ class Booking::HotelRoomSearch
     create_response Booking::Client.get_hotel_availability(params)
   end
 
+  def self.by_hotel_ids(hotel_ids,search_criteria,params={})
+    new(search_criteria).by_hotel_ids(hotel_ids, params)
+  end
+
+  def by_hotel_ids(hotel_ids, options={})
+    params = search_params.merge(options).merge({hotel_ids: hotel_ids.join(',')})  
+    create_response Booking::Client.get_block_availability(params)
+  end
+
   protected
 
   def create_response(booking_response)

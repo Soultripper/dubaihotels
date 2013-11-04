@@ -37,6 +37,10 @@ app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routePa
           return providerResult === undefined ? {min_price: 0} : providerResult
         }
 
+        $scope.rooms = function(hotel){
+          return _.flatten(_.map(hotel.providers, function(provider){return provider.rooms;}))
+        }
+
         if(!response.finished && data.calls < 10)
           $timeout(poller, 1500);
       });      

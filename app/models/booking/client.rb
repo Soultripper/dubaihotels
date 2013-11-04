@@ -40,6 +40,10 @@ class Booking::Client
       parse_response(http.get(url + '/bookings.getHotelAvailability', params))
     end
 
+    def get_block_availability(params={})
+      parse_response(http.get(url + '/bookings.getBlockAvailability', params))
+    end
+
     def parse_response(response)
       JSON.parse response.body if response
     end

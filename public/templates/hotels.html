@@ -92,15 +92,15 @@
     <div class="row">
       <div class="large-12 small-12 columns">
         <p><strong>Price comparison</strong></p>
-        <div class="row price-comparison">
+        <div class="row price-comparison"  ng-repeat="room in rooms(hotel)">
           <div class="large-2 small-2 columns">
-            <p class="logo"><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></p>
+            <p class="logo"><img src="assets/logos/expedia.gif" width="135" height="52" alt="Booking.com" /></p>
           </div>
           <div class="large-4 small-4 columns text-center">
-            <p>Queen bed</p>
+            <p>{{room.description}}</p>
           </div>
           <div class="large-3 small-3 columns text-right">
-            <p class="our-price">£249</p>
+            <p class="our-price">{{room.price | price:currency_symbol:0}}</p>
           </div>
           <div class="large-3 small-3 columns text-left">
             <p><a class="button">Get Deal</a></p>
