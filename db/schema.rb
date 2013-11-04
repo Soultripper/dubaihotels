@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131029140323) do
+ActiveRecord::Schema.define(:version => 20131104231103) do
 
   create_table "booking_hotels", :force => true do |t|
     t.string  "district"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
     t.text    "append_text"
   end
 
+  add_index "ean_hotel_attribute_links", ["attribute_id"], :name => "ean_hotel_attribute_links_attribute_id_idx"
   add_index "ean_hotel_attribute_links", ["ean_hotel_id"], :name => "index_ean_hotel_attributes_on_ean_hotel_id"
 
   create_table "ean_hotel_attributes", :force => true do |t|
@@ -92,7 +93,11 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
     t.string  "description"
     t.string  "attribute_type"
     t.string  "sub_type"
+    t.integer "hotel_amenities_id"
   end
+
+  add_index "ean_hotel_attributes", ["attribute_id"], :name => "ean_hotel_attributes_attribute_id_idx"
+  add_index "ean_hotel_attributes", ["hotel_amenities_id"], :name => "ean_hotel_attributes_hotel_amenities_id_idx"
 
   create_table "ean_hotel_descriptions", :force => true do |t|
     t.integer "ean_hotel_id"
@@ -174,6 +179,15 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
 
   add_index "hotel_images", ["hotel_id"], :name => "index_hotel_images_on_hotel_id"
 
+  create_table "hotel_rooms", :force => true do |t|
+    t.integer "hotel_id"
+    t.integer "room_type_id"
+    t.string  "language_code"
+    t.string  "image"
+    t.string  "name"
+    t.text    "description"
+  end
+
   create_table "hotels", :force => true do |t|
     t.string  "name"
     t.string  "address"
@@ -191,20 +205,17 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
     t.string  "property_currency"
     t.integer "ean_hotel_id"
     t.integer "booking_hotel_id"
-    t.integer "geog",                        :limit => 0
-    t.string  "nameaddress",                 :limit => 1024
-    t.integer "weighted_ean_hotel_id"
-    t.integer "weighted_value_ean_hotel_id"
+    t.integer "geog",              :limit => 0
     t.text    "description"
     t.integer "amenities"
   end
 
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
+  add_index "hotels", ["city", "country_code"], :name => "hotels_city_country_code_idx"
   add_index "hotels", ["ean_hotel_id"], :name => "ean_hotel_id_idx"
   add_index "hotels", ["geog"], :name => "hotels_geog_idx"
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
-  add_index "hotels", ["nameaddress"], :name => "hotels_nameaddress_trgm_idx"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
 
   create_table "hotels_ean_hotels_matches_weighted_staging", :id => false, :force => true do |t|
@@ -216,6 +227,11 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
   create_table "hotels_ean_hotels_within_five_kilometers", :id => false, :force => true do |t|
     t.integer "hotel_id",     :null => false
     t.integer "ean_hotel_id", :null => false
+  end
+
+  create_table "hotels_hotel_amenities", :id => false, :force => true do |t|
+    t.integer "hotel_id",         :null => false
+    t.integer "hotel_amenity_id", :null => false
   end
 
   create_table "locations", :force => true do |t|
@@ -230,6 +246,8 @@ ActiveRecord::Schema.define(:version => 20131029140323) do
     t.float   "latitude"
     t.string  "slug"
   end
+
+  add_index "locations", ["slug"], :name => "locations_slug_idx"
 
   create_table "region_booking_hotel_lookups", :force => true do |t|
     t.integer "region_id"

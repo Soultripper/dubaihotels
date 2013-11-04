@@ -63,7 +63,7 @@ class HotelSearch
   def search_by_destination
     @hotels = []
 
-    threaded {request_expedia_hotels}
+    # threaded {request_expedia_hotels}
     threaded {request_booking_hotels}
     self
   end

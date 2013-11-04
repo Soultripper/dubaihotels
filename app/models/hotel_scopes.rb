@@ -6,7 +6,7 @@ module HotelScopes
 
   module ClassMethods
     def by_location(location)
-      where('city ILIKE ? and country_code = ?', location.city, location.country_code)
+      where('city = ? and country_code = ?', location.city, location.country_code)
     end
 
     def by_star_ratings(min, max)
