@@ -1,4 +1,4 @@
-class Booking::HotelRoomSearch
+class Booking::Search
 
   attr_reader :search_criteria, :response 
 

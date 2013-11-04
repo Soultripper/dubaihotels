@@ -78,9 +78,9 @@ module Booking
         provider: :booking,
         provider_hotel_id: id,
         room_count: rooms_count,
-        min_price: cheapest_room.min_price,
-        max_price: expensive_room.min_price,
-        rooms: rooms.map(&:commonize)
+        min_price: min_price,
+        max_price: min_price,
+        rooms: nil#rooms.map(&:commonize)
       }
     rescue
       Log.error "Booking Hotel #{id} failed to convert"

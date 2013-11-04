@@ -4,7 +4,7 @@
       <a href="#">
         <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
       </a>
-      <div class="roundel">
+      <div class="roundel" >
         Save 38%
       </div>
     </div>
@@ -28,7 +28,9 @@
       <ul class="tabs">
           <li><a href="#" data-slide-toggle="#hotel-amenities-{{hotel.id}}">Details</a></li>
           <li><a href="#" data-show-map="hotel-map-{{hotel.id}}">Map</a></li>
-          <li><a href="#" data-slide-toggle="#hotel-rooms-{{hotel.id}}">Rooms</a></li>
+                    <!--<li><a href="#" data-slide-toggle="#hotel-rooms-{{hotel.id}}" ng-click="getRooms(hotel)">Rooms</a></li>-->
+
+          <li><a href="#" ng-click="getRooms(hotel)">Rooms</a></li>
           <li><a href="#">Best rooms</a></li>
       </ul>
     </div>
@@ -88,11 +90,11 @@
   </div>
 
   <!-- Rooms -->
-  <div class="hidden hotel-rooms" id="hotel-rooms-{{hotel.id}}" style="display:none">
+  <div class="hidden hotel-rooms" id="hotel-rooms-{{hotel.id}}" ng-show="hotel.rooms.length" >
     <div class="row">
       <div class="large-12 small-12 columns">
         <p><strong>Price comparison</strong></p>
-        <div class="row price-comparison"  ng-repeat="room in rooms(hotel)">
+        <div class="row price-comparison"  ng-repeat="room in hotel.rooms">
           <div class="large-2 small-2 columns">
             <p class="logo"><img ng-src="assets/logos/{{room.provider}}.gif" width="135" height="52" alt="Booking.com" /></p>
           </div>

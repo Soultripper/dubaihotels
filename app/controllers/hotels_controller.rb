@@ -7,7 +7,7 @@ class HotelsController < ApplicationController
   end
 
   def show
-    @rooms = Expedia::HotelRoomSearch.check_room_availability(hotel.ean_hotel_id, search_criteria)
+    @rooms = HotelRoomSearch.check_availability(hotel, search_criteria).results
     respond_with @rooms, layout: nil
   end
 

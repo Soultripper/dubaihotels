@@ -1,7 +1,9 @@
 
-app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routeParams', '$timeout', '$location', '$resource',  
-  function SearchResultsCtrl($scope, $route, $rootScope, $routeParams, $timeout, $location, $resource) {
-    var SearchResults = $resource(":id/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency", {page_no: 1});
+app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routeParams', '$timeout', '$location', '$resource', '$http',  
+  function SearchResultsCtrl($scope, $route, $rootScope, $routeParams, $timeout, $location, $resource, $http) {
+
+    var SearchResults = $resource(":id.json/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency", {page_no: 1});
+    var HotelRooms    = $resource("hotels/:id.json/?start_date=:start_date&end_date=:end_date&currency=:currency");
 
     var data = { hotels: [], calls: 1 };
 
@@ -57,6 +59,14 @@ app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routePa
     $scope.ratingsRange = function(rating){
       return _.range(0, rating)
     }
+
+    $scope.getRooms = function(hotel) {
+      if(hotel.rooms){
+        hotel.rooms = null;
+        return;
+      }
+      hotel.rooms = HotelRooms.query({id: hotel.id});
+    };
 
 
   // Hotel = $resource("/hotels/:id", {id: '@id'})

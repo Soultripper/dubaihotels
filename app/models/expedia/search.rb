@@ -1,17 +1,12 @@
-class Expedia::HotelRoomSearch
+class Expedia::Search
 
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {
-    options: 'ROOM_RATE_DETAILS',
+    options: 'HOTEL_SUMMARY',
     numberOfResults: 100,
-    maxRatePlanCount: 30,
+    # maxRatePlanCount: 30,
     supplierType: 'E'
-  }
-
-  CACHE_OPTIONS = {
-    expires_in: 4.hours,
-    force: true
   }
 
   def initialize(search_criteria)
@@ -22,22 +17,21 @@ class Expedia::HotelRoomSearch
     new(search_criteria).by_destination(destination, params)
   end
 
-  def self.check_room_availability(hotel_id, search_criteria)
-    Expedia::Client.hotel_room_availability(hotel_id, search_criteria).map {|r| Expedia::Room.new r}
+  def self.check_room_availability(hotel_id, search_criteria, params={})
+    new(search_criteria).check_availability(hotel_id, params)
   end
 
   def by_destination(destination, options={})        
     params = search_params.merge(options).merge({destinationString: destination})   
-    create_response Expedia::Client.get_list('HotelListResponse', params, CACHE_OPTIONS)
+    Expedia::Client.get_list(params) { |response| Expedia::HotelListResponse.new(response) if response}
+  end
+
+  def check_availability(hotel_id, options={})        
+    params = search_params.merge(options).merge({hotelId: hotel_id, supplierType: ''})   
+    Expedia::Client.get_availability(params) { |response| Expedia::HotelRoomAvailabilityResponse.new(response) if response}
   end
 
   protected
-
-  def create_response(expedia_response)
-    response = Expedia::HotelListResponse.new(expedia_response)
-    # Notify Observers
-  end
-
   def search_params
     @params = DEFAULT_PARAMS
 

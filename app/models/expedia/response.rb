@@ -13,7 +13,7 @@ module Expedia
 
     def next_page
       return unless more_pages?
-      Expedia::Client.get_list(name, next_params)
+      Expedia::Client.get_list(next_params)
     end
 
     def cache_details

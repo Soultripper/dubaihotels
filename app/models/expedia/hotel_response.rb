@@ -7,56 +7,6 @@ module Expedia
 
     field :_id, type: Integer, default: ->{ self.hotelId}
 
-   #  def self.create_from_csv(row)
-   #    fields = row.to_hash
-   #    fields['hotelId'] = fields.first[1]
-   #    with(safe:false).create(fields)
-   #  end
-
-   # def self.check_room_availability(id, search_criteria)
-   #    Client.hotel_room_availability(id, search_criteria).map {|r| Room.new r}
-   #  end
-
-    # def self.find_or_fetch(id)  
-    #   find(id) || fetch(id)
-    # end
-
-    # def self.fetch(id)  
-    #   with(safe:false).create(Client.hotel(id))
-    # end
-
-    # def self.find_by_ids(ids, sort=:popularity)
-    #   Client.hotels_by_ids(ids.join(','), sort_lookup(sort)).map {|hotel| new hotel}
-    # end
-
-    # def self.find_in(destination, sort=:popularity)
-    #   Client.hotels_by_destination(destination, sort_lookup(sort)).map {|hotel| new hotel}
-    # end
-
-    # def self.available(destination, search_criteria, sort=:popularity)
-    #   Client.destination_room_availability(destination, search_criteria, sort_lookup(sort)).map {|hotel| new hotel}
-    # end
-
-    # def self.available_for_ids(hotel_ids, search_criteria, sort=:popularity)
-    #   Client.hotels_availability(hotel_ids.join(','), search_criteria, sort_lookup(sort)).map {|hotel| new hotel}
-    # end
-
-    # def self.with_ratings(stars)
-    #   self.in({'HotelSummary.hotelRating'=> stars}).map &:_id
-    # end
-
-    # def id
-    #   self.HotelSummary['hotelId'] if self.HotelSummary
-    # end
-
-    # def check_room_availability(search_criteria)
-    #   Hotel.check_room_availability(id, search_criteria).map {|r| Room.new r}
-    # end
-
-    # def name
-    #   self.HotelSummary['name']
-    # end
-
     def total
       charge_info['@total'] if charge_info
     end

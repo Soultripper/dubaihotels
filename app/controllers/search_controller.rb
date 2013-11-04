@@ -4,8 +4,7 @@ class SearchController < ApplicationController
 
   respond_to :json, :html
 
-  def index    
-    
+  def index        
     results = HotelSearch.find_or_create(location, search_criteria).start.results
     @hotel_search = results.sort(sort).paginate(page_no, page_size)
     respond_with @hotel_search

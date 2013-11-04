@@ -45,10 +45,10 @@ module Booking
       }
     end
     
-    private 
-    def method_missing(method, *args, &block)
-      @data[method.to_s]
-    end
+    # private 
+    # def method_missing(method, *args, &block)
+    #   @data[method.to_s]
+    # end
 
   end
 

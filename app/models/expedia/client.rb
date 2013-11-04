@@ -9,11 +9,23 @@ class Expedia::Client
       20
     end
 
-    def get_list(response_name, params, cache_options={expires_in: 4.hours})  
-      Log.info "Expedia get_list request: response_name=#{response_name}, params=#{params}"       
-      response = api.get_list(params) 
-      Log.error "Unable to make request: #{response}"   if !response or response.exception?  
-      response 
+    def get_list(params, &block)  
+      Log.info "Expedia get_list request: params=#{params}"       
+      create_response api.get_list(params), &block 
+    end
+
+    def get_availability( params, &block)      
+      Log.info "Expedia get_availability request: params=#{params}"       
+      create_response api.get_availability(params), &block 
+    end
+
+    def create_response(response, &block)
+      if !response or response.exception?  
+        Log.error "Unable to make request: #{response}"   
+        nil
+      else
+        block_given? ? yield(response) : response
+      end     
     end
 
     def hotel(id, options=nil)
@@ -45,14 +57,6 @@ class Expedia::Client
       hotel_list params, sort
     end
 
-    def hotel_room_availability(hotel_id, search_criteria)      
-      cache_key = "#{__method__}_#{hotel_id}_#{search_criteria.to_s}_#{Expedia.currency_code}"
-      params = rooms_params_from_search search_criteria, {hotelId: hotel_id}
-      Log.info "Checking hotel rooom availability for hotel id '#{hotel_id}' for search_criteria: #{search_criteria.to_hash}, cached to #{cache_key}"        
-      response = api.get_availability(params)
-      rooms = response.body['HotelRoomAvailabilityResponse']['HotelRoomResponse']
-      rooms.is_a?(Array) ? rooms : [rooms]
-    end
 
     def search_hotels(destination, search_criteria, sort=nil, overrides={})      
       cache_key = "#{__method__}_#{destination.parameterize}_#{search_criteria.to_s}_#{Expedia.currency_code}_#{sort}_min_stars#{search_criteria.min_stars}"

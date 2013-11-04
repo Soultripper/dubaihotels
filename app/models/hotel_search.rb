@@ -77,7 +77,7 @@ class HotelSearch
   end
 
   def request_expedia_hotels
-    response = Expedia::HotelRoomSearch.by_destination(city, search_criteria)
+    response = Expedia::Search.by_destination(city, search_criteria)
 
     response.page_hotels do |expedia_hotels|
       results_counter[:expedia][:pages] += 1
@@ -98,8 +98,9 @@ class HotelSearch
 
 
   def request_booking_hotels
-    hotel_ids = BookingHotel.where(city_id: city_id).limit(200).pluck :id
-    response = Booking::HotelRoomSearch.by_hotel_ids(hotel_ids, search_criteria)
+    # hotel_ids = BookingHotel.where(city_id: city_id).limit(200).pluck :id
+    # response = Booking::HotelRoomSearch.by_hotel_ids(hotel_ids, search_criteria)
+    response = Booking::Search.by_city_ids(city_id, search_criteria)
     response.hotels.each do |booking_hotel|
       hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id} if !hotel
       add_to_list hotel, booking_hotel
