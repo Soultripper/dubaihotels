@@ -98,7 +98,7 @@ class HotelSearch
 
 
   def request_booking_hotels
-    hotel_ids = BookingHotel.where(city_id: city_id).pluck :id
+    hotel_ids = BookingHotel.where(city_id: city_id).limit(200).pluck :id
     response = Booking::HotelRoomSearch.by_hotel_ids(hotel_ids, search_criteria)
     response.hotels.each do |booking_hotel|
       hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id} if !hotel
