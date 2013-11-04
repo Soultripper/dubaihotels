@@ -36,6 +36,8 @@ class Booking::HotelRoomSearch
 
   def create_response(booking_response)
     @response = Booking::HotelListResponse.new(booking_response)
+    Log.debug "#{response.hotels.count} Booking hotels found"
+    @response
   end
 
   def search_params

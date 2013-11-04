@@ -25,6 +25,7 @@ module Expedia
 
     def commonize
       {
+        provider: 'expedia',
         description: description,
         price: total
       }

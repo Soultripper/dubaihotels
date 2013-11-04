@@ -1,7 +1,6 @@
 module Booking
   class HotelResponse
     include Mongoid::Document
-    include Mongoid::Timestamps
 
     field :_id, type: Integer, default: ->{ self.hotel_id}
 
@@ -49,11 +48,28 @@ module Booking
       self['currency_code']
     end
 
+    def block_response?
+      blocks
+    end
+
+    def blocks
+      self[:block]
+    end
+
     def rooms
+      blocks.map {|block| Booking::Room.new block} if block_response?
     end
 
     def rooms_count
       self['available_rooms']
+    end
+
+    def cheapest_room
+      rooms[0]
+    end
+
+    def expensive_room
+      rooms[-1]
     end
 
 
@@ -62,9 +78,9 @@ module Booking
         provider: :booking,
         provider_hotel_id: id,
         room_count: rooms_count,
-        min_price: min_price,
-        max_price: max_price,
-        rooms: nil
+        min_price: cheapest_room.min_price,
+        max_price: expensive_room.min_price,
+        rooms: rooms.map(&:commonize)
       }
     rescue
       Log.error "Booking Hotel #{id} failed to convert"

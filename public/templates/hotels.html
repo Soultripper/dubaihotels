@@ -94,7 +94,7 @@
         <p><strong>Price comparison</strong></p>
         <div class="row price-comparison"  ng-repeat="room in rooms(hotel)">
           <div class="large-2 small-2 columns">
-            <p class="logo"><img src="assets/logos/expedia.gif" width="135" height="52" alt="Booking.com" /></p>
+            <p class="logo"><img ng-src="assets/logos/{{room.provider}}.gif" width="135" height="52" alt="Booking.com" /></p>
           </div>
           <div class="large-4 small-4 columns text-center">
             <p>{{room.description}}</p>

@@ -38,10 +38,17 @@ app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routePa
         }
 
         $scope.rooms = function(hotel){
-          return _.flatten(_.map(hotel.providers, function(provider){return provider.rooms;}))
+          var rooms = _.compact(_.flatten(_.map(hotel.providers, function(provider){ return provider.rooms; })));
+          return _.sortBy(rooms, function(room){
+            return new Number(room.price);
+          })
         }
 
-        if(!response.finished && data.calls < 10)
+        $scope.providerImage = function(room){
+
+        }
+
+        if(!response.finished && data.calls < 5)
           $timeout(poller, 1500);
       });      
     };
