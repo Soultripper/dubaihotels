@@ -65,7 +65,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$route', '$rootScope', '$routePa
         hotel.rooms = null;
         return;
       }
-      hotel.rooms = HotelRooms.query({id: hotel.id});
+      hotel.rooms = HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')});
     };
 
 
