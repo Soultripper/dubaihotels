@@ -6,7 +6,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     $scope.Page = Page;
 
     var param = function(name, default_val){
-      return  $location.search()[name] || default_val;
+      return  $location.search()[name] || $routeParams[name] || default_val;
     }
 
     var end_date = function(){
@@ -20,7 +20,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     var pollSearch = function() {
       if(!$routeParams.id) return;     
 
-      SearchHotels.get({id: $routeParams.id, currency: param('currency', 'GBP'), page_no: param('page_no', 1) , sort: param('sort'), end_date: end_date(), start_date: start_date()}, function(response){
+      SearchHotels.get({id: $routeParams.id, currency: param('currency', 'GBP'), page_no: param('page_no', 1) , sort: param('sort'), start_date: start_date(), end_date: end_date()}, function(response){
         data.calls++;
         Page.setCriteria(response.criteria);
         Page.setInfo(response.info);
@@ -58,9 +58,28 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     };
 
     $rootScope.search = function(){
+      $location.search(
+        {id: $routeParams.id, 
+          currency: param('currency', 'GBP'), 
+          page_no: param('page_no', 1) , 
+          sort: param('sort',''),          
+          start_date: start_date(),
+          end_date: end_date(), 
+        });
       data.calls = 1;
-      console.log($scope.search_results)
-      pollSearch()
+      // console.log($scope.search_results)
+      // pollSearch()
+    }
+
+    $scope.sort = function(sort){
+      $location.search(
+        {id: $routeParams.id, 
+          currency: param('currency', 'GBP'), 
+          page_no: param('page_no', 1) , 
+          sort: sort,           
+          start_date: start_date(),
+          end_date: end_date(), 
+        });
     }
 
 }]);
