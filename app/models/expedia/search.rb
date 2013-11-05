@@ -3,7 +3,7 @@ class Expedia::Search
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {
-    options: 'HOTEL_SUMMARY',
+    options: 'ROOM_RATE_DETAILS',
     numberOfResults: 100,
     # maxRatePlanCount: 30,
     supplierType: 'E'
