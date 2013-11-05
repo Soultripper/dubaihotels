@@ -31,28 +31,27 @@ $(function(){
   //     }
   // });      
 
-  $("[date-picker]").datepicker({
+  $("[datepicker]").datepicker({
     inline: false,
     showAnim: 'fadeIn',
     showOtherMonths: false,
     numberOfMonths: 1,    
     minDate: new Date(),
-    dateFormat: 'dd MM yy',
     dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   })
 
-  $(document).on('click', '#js_locale_currency_selector', function(){$('#js_toolbar_localization').toggle()});
-  $(document).on('click', 'li.js_cAjax', function(){
-    var currency = $(this).data('currency')
-    $('#currency').val(currency)
-    $('#js_toolbar_localization').hide()
-  });
+  // $(document).on('click', '#js_locale_currency_selector', function(){$('#js_toolbar_localization').toggle()});
+  // $(document).on('click', 'li.js_cAjax', function(){
+  //   var currency = $(this).data('currency')
+  //   $('#currency').val(currency)
+  //   $('#js_toolbar_localization').hide()
+  // });
 
 
-  // $(document).on('click', 'ul li.stars', HI.stars.select);
+  // // $(document).on('click', 'ul li.stars', HI.stars.select);
 
 
-  $("#priceSlider").ionRangeSlider();
+  // $("#priceSlider").ionRangeSlider();
 
   HI.init();
 });

@@ -1,4 +1,4 @@
-app = angular.module('SearchResults', ['ngResource', 'ngSanitize', 'ngRoute']).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+app = angular.module('SearchResults', ['ngResource', 'ngSanitize', 'ngRoute', 'searchHotelsServices']).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 
  $routeProvider.when('/:id', {
     templateUrl: 'templates/hotels.html',

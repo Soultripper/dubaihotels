@@ -1,8 +1,8 @@
-<div class="result hotel" ng-repeat="hotel in hotels" >
+<div class="result hotel" ng-repeat="hotel in search_results.hotels" >
   <div class="row">
     <div class="image">
       <a href="#">
-        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
+        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
       </a>
       <div class="roundel" >
         Save 38%
@@ -48,10 +48,10 @@
   </div>
 
   <!-- Photos -->
-  <div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}" style="display:none">
+  <div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}"  style="display:none">
     <div class="row">
       <div class="large-6 small-12 large-offset-3 columns text-center">
-        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" style="background-image: url({{hotel.main_image}})" />
+        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" />
       </div>
     </div>
     <div class="row">

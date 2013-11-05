@@ -1,17 +1,16 @@
 var HI = function(){
   
   var init = function(){
-
-    $('#hotel-results').on('click', '[data-slide-toggle]', function(e){ 
+    $(document).on('click', '[data-slide-toggle]', function(e){ 
       e.preventDefault();
       $($(this).data('slide-toggle')).slideToggle();
     });
 
-    $('#hotel-results').on('click', '[data-show-toggle]', function(){ $($(this).data('show-toggle')).toggleClass('open')});
+    $(document).on('click', '[data-show-toggle]', function(){ $($(this).data('show-toggle')).toggleClass('open')});
 
     $('.hotel_info_thumbs img').hover(HI.photos.displayMain);
-    $('#hotel-results').on('click', '[data-show-map]', HI.map.show);
-    $('#hotel-results').on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
+    $(document).on('click', '[data-show-map]', HI.map.show);
+    $(document).on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
 
     $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
     $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});

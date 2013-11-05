@@ -12,11 +12,13 @@ class HotelSearchPageResult
     load_images(matched_hotels)
 
     Jbuilder.encode do |json|
-      json.query            hotel_search.location.city
+      json.info do
+        json.query            hotel_search.location.city
+        json.sort             sort_key
+        json.total_hotels     hotel_search.total_hotels
+        json.available_hotels hotel_search.available_hotels        
+      end      
       json.criteria         hotel_search.search_criteria
-      json.sort             sort_key
-      json.total_hotels     hotel_search.total_hotels
-      json.available_hotels hotel_search.available_hotels
       json.finished         hotel_search.finished?
       json.hotels matched_hotels do |hotel|
         json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
