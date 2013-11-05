@@ -53,7 +53,8 @@ class HotelSearch
   end
 
   def load_all_hotels
-    @all_hotels ||= Hotel.with_images.by_location(location).by_star_ratings(search_criteria.min_stars, search_criteria.max_stars)  end
+    @all_hotels ||= Hotel.by_location(location).by_star_ratings(search_criteria.min_stars, search_criteria.max_stars)  
+  end
 
   def finished?
     results_counter[:booking][:finished] && results_counter[:expedia][:finished]

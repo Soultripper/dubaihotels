@@ -7,7 +7,9 @@ class HotelSearchPageResult
 
   def as_json(options={})
     Log.info "#{hotel_search.available_hotels}"
-    loaded_hotels = options[:hotels] || hotels
+
+    matched_hotels = options[:hotels] || hotels
+    load_images(matched_hotels)
 
     Jbuilder.encode do |json|
       json.query            hotel_search.location.city
@@ -16,14 +18,23 @@ class HotelSearchPageResult
       json.total_hotels     hotel_search.total_hotels
       json.available_hotels hotel_search.available_hotels
       json.finished         hotel_search.finished?
-      json.hotels loaded_hotels do |hotel|
+      json.hotels matched_hotels do |hotel|
         json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
                   :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :distance_from_location)
         json.offer          hotel.offer
-        json.images         hotel.images.take(10), :url, :thumbnail_url, :caption, :width, :height
+        json.images         find_images_by(hotel.id), :url, :thumbnail_url, :caption, :width, :height
         json.providers      hotel.provider_deals           
       end
     end
+  end
+
+  def find_images_by(hotel_id, count=10)
+    hotel_images = @images.find {|k,v| k==hotel_id}
+    hotel_images ? hotel_images[1].take(count) : []
+  end
+
+  def load_images(filtered_hotels)
+    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).group_by &:hotel_id
   end
 
   def hotels
