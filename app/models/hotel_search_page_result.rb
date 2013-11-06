@@ -20,8 +20,8 @@ class HotelSearchPageResult
         json.available_hotels hotels.count 
         json.min_price        hotel_search.min_price 
         json.max_price        hotel_search.max_price  
-        json.min_price_filter user_filters[:min_price]
-        json.max_price_filter user_filters[:max_price]          
+        json.min_price_filter user_filters[:min_price] if user_filters
+        json.max_price_filter user_filters[:max_price] if user_filters          
       end      
       json.criteria         hotel_search.search_criteria
       json.finished         hotel_search.finished?
@@ -66,12 +66,12 @@ class HotelSearchPageResult
     self
   end
 
-  def filter(filters={})    
-    @user_filters = filters
+  def filter(filters={})   
     return self unless hotel_search.polled?    
-     Log.debug "#{hotels.count} remaing before #{filters} applied"
+    @user_filters = filters
+    Log.debug "#{hotels.count} remaing before #{filters} applied"
     hotels.reject! {|h| h.offer[:min_price] < filters[:min_price].to_i - 1} if !filters[:min_price].blank?
-    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i + 1} if !filters[:max_price].blank?
+    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i + 1} if !filters[:max_price].blank?   
     Log.debug "#{hotels.count} remaing aftter #{filters} applied"
     self
   end

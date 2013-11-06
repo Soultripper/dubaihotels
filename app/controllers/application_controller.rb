@@ -16,11 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def min_price
-    params['min_price']
+    params['min_price'] if !params['min_price'].blank?
   end
 
   def max_price
-    params['max_price']
+    params['max_price'] if !params['max_price'].blank?
   end
 
   def start_date
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
       max_stars: max_stars
     }
   end
-  
+
   def paging
     {
       page_size: page_size,

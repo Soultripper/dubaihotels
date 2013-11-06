@@ -30,8 +30,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
         $("#priceSlider").ionRangeSlider("update", {
             min: Math.round(10),
             max: Math.round(Page.info().max_price),
-            from: Math.round(Page.info().min_price_filter),                       // change default FROM setting
-            to: Math.round(Page.info().max_price_filter),                         // change default TO setting
+            from: Math.round(Page.info().min_price_filter || 10),                       // change default FROM setting
+            to: Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
 
         if(!response.finished && data.calls < 6)
