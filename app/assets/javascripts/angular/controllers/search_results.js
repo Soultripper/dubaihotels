@@ -73,6 +73,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
           sort: param('sort',''),          
           start_date: start_date(),
           end_date: end_date(), 
+          min_price: param('min_price', ''),
+          max_price: param('max_price', '')              
         });
       data.calls = 1;
       // console.log($scope.search_results)
@@ -92,8 +94,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
           sort: sort,           
           start_date: start_date(),
           end_date: end_date(), 
-          min_price: param('min_price', null),
-          max_price: param('max_price', null)          
+          min_price: param('min_price', ''),
+          max_price: param('max_price', '')          
         }
       );
     }
