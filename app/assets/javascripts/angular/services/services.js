@@ -16,16 +16,24 @@ searchHotelsServices.factory('HotelRooms', ['$resource',
 
 searchHotelsServices.factory('Page', function() {
    var criteria = {
-
    }
+
    var info={
     available_hotels:0,
-    total_hotels:0
+    total_hotels:0,
+    min_price: 0,
+    max_price: 100
    };
+
+   var price_range = function(){
+    info.min_price + ";" + info.max_price
+   }
+
    return {
       criteria: function() { return criteria; },
       setCriteria: function(newCriteria) { criteria = newCriteria },
       info: function() { return info; },
-      setInfo: function(newInfo) { info = newInfo }
+      setInfo: function(newInfo) { info = newInfo },
+      price_range: price_range
    };
 });

@@ -16,7 +16,9 @@ class HotelSearchPageResult
         json.query            hotel_search.location.city
         json.sort             sort_key
         json.total_hotels     hotel_search.total_hotels
-        json.available_hotels hotel_search.available_hotels        
+        json.available_hotels hotel_search.available_hotels 
+        json.min_price        min_price
+        json.max_price        max_price    
       end      
       json.criteria         hotel_search.search_criteria
       json.finished         hotel_search.finished?
@@ -41,6 +43,16 @@ class HotelSearchPageResult
 
   def hotels
     hotel_search.hotels
+  end
+
+  def min_price
+    hotel = hotels.min_by {|h| h.offer[:min_price]} if hotels
+    hotel ? hotel.offer[:min_price] : 0
+  end
+
+  def max_price
+    hotel = hotels.max_by {|h| h.offer[:max_price]} if hotels
+    hotel ? hotel.offer[:max_price] : 100
   end
 
   def sort(key)

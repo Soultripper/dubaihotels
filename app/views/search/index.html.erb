@@ -8,7 +8,7 @@
           <h1><%= location.city %> hotels </h1>
         </div>
         <div class="large-6 small-12 columns text-right">
-          <p>Sun 03 Nov - Mon 04 Nov (1 Night)</p>
+          <p >{{Page.criteria().start_date | date:'MMM d'}} - {{Page.criteria().end_date | date:'MMM d'}} ({{Page.criteria().total_nights}} Night)</p>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
       <div class="large-9 small-12 columns">
         <ul class="sortby">
           <li>Sort by:</li>
-          <li ng-class="{selected: isSort('')}"><a ng-click="sort('recommended')">Recommended</a></li>
+          <li ng-class="{selected: isSort('recommended')}"><a ng-click="sort('recommended')">Recommended</a></li>
           <li ng-class="{selected: isSort('price')}"><a ng-click="sort('price')">Price (Low to High)</a></li>
           <li ng-class="{selected: isSort('price_reverse')}"><a ng-click="sort('price_reverse')">Price (High to Low)</a></li>
           <li ng-class="{selected: isSort('rating')}"><a ng-click="sort('rating')">Star Rating</a></li>

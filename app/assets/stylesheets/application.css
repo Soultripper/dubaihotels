@@ -13,6 +13,7 @@
  *= require foundation.min.css
  *= require custom
  *= require app
+ *= require_tree .
  */
 
 /*.center{

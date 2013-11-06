@@ -26,6 +26,14 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
         Page.setInfo(response.info);
         $scope.search_results = response
         $scope.currency_symbol = Page.criteria().currency_symbol;
+
+        $("#priceSlider").ionRangeSlider("update", {
+            min: Math.round(Page.info().min_price),
+            max: Math.round(Page.info().max_price),
+            from: Math.round(Page.info().min_price),                       // change default FROM setting
+            to: Math.round(Page.info().max_price),                         // change default TO setting
+        });
+
         if(!response.finished && data.calls < 6)
           $timeout(pollSearch, 3000);
       })

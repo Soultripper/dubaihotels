@@ -1098,7 +1098,7 @@ button:hover, .button:hover, input[type="button"]:hover, input[type="submit"]:ho
     color: #fff;
 }
 
-#slider-range.ui-widget-content {
+/*#slider-range.ui-widget-content {
     border: 1px solid transparent;
     color: #222222;
 }
@@ -1125,4 +1125,4 @@ button:hover, .button:hover, input[type="button"]:hover, input[type="submit"]:ho
     border: none;
     color: #8A98A2;
     font-weight: normal;
-}
+}*/

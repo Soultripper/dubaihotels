@@ -69,7 +69,7 @@ class HotelSearch
   end
 
   def threaded(&block)
-    # yield
+    return yield
     Thread.new do 
       yield
       ActiveRecord::Base.connection.close
@@ -77,7 +77,7 @@ class HotelSearch
   end
 
   def request_expedia_hotels
-    response = Expedia::Search.by_destination(city, search_criteria)
+    response = Expedia::Search.by_destination("#{city}, #{location.country}", search_criteria)
 
     response.page_hotels do |expedia_hotels|
       results_counter[:expedia][:pages] += 1

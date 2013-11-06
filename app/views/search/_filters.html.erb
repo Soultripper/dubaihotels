@@ -10,9 +10,11 @@
   <div class="refine">
     <div class="refine-inner">
       <form id="refine" action="">
+
         <p>PRICE PER NIGHT</p>
-        <input type="text" id="amount" />
-        <div id="slider-range"></div>
+        <input type="text" id="priceSlider" name="priceRange" value="{{Page.info().price_range()}}"/>
+       
+
         <p>STAR RATING</p>
         <div class="stars">
             <p><input type="checkbox" name="5stars" id="5stars"> <label for="5stars" class="fivestar">5-star</label><br />
