@@ -42,7 +42,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
 
 
     $scope.isSort = function(option){
-      return option === Page.info().sort
+      return option === (Page.info().sort || 'recommended')
     }
 
     $scope.findProvider = function(hotel, providerName){
@@ -67,7 +67,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
 
     $rootScope.search = function(){
       $location.search(
-        {id: $routeParams.id, 
+        {
           currency: param('currency', 'GBP'), 
           page_no: param('page_no', 1) , 
           sort: param('sort',''),          
@@ -86,7 +86,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
 
     $scope.sort = function(sort){
       $location.search(
-        {id: $routeParams.id, 
+        {
           currency: param('currency', 'GBP'), 
           page_no: param('page_no', 1) , 
           sort: sort,           
@@ -101,7 +101,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     $scope.changePrice = function(min_price, max_price){
 
       $location.search(
-        {id: $routeParams.id, 
+        {
           currency: param('currency', 'GBP'), 
           page_no: param('page_no', 1) , 
           sort: param('sort',''),          
