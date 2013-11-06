@@ -70,8 +70,8 @@ class HotelSearchPageResult
     @user_filters = filters
     return self unless hotel_search.polled?    
      Log.debug "#{hotels.count} remaing before #{filters} applied"
-    hotels.reject! {|h| h.offer[:min_price] < filters[:min_price].to_i} if !filters[:min_price].blank?
-    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i} if !filters[:max_price].blank?
+    hotels.reject! {|h| h.offer[:min_price] < filters[:min_price].to_i - 1} if !filters[:min_price].blank?
+    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i + 1} if !filters[:max_price].blank?
     Log.debug "#{hotels.count} remaing aftter #{filters} applied"
     self
   end
