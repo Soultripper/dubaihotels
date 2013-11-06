@@ -17,7 +17,7 @@ class HotelSearchPageResult
         json.query            hotel_search.location.city
         json.sort             sort_key
         json.total_hotels     hotel_search.total_hotels
-        json.available_hotels matched_hotels.count 
+        json.available_hotels hotels.count 
         json.min_price        hotel_search.min_price 
         json.max_price        hotel_search.max_price  
         json.min_price_filter user_filters[:min_price]
