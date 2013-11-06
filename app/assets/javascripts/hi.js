@@ -10,7 +10,7 @@ var HI = function(){
 
     $('.hotel_info_thumbs img').hover(HI.photos.displayMain);
     $(document).on('click', '[data-show-map]', HI.map.show);
-    $(document).on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
+    // $(document).on('click', '[data-retrieve-rooms]', HI.rooms.retrieve);
 
     $(document).on('click', '.calendar_date_button', function(){$('#datepicker').slideToggle()});
     $(document).on('click', '.sbHolder', function(){$('#js_itemlistcontrol_sort').slideToggle()});
@@ -21,6 +21,17 @@ var HI = function(){
     zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
+
+
+  var priceRange = {
+    change: function(priceSlider){
+      var scope = angular.element($("#hotel-results")).scope();
+      scope.safeApply(function(){
+        scope.changePrice(priceSlider.fromNumber,priceSlider.toNumber)
+      });
+    }
+  }
+
 
   var stars = {
     select: function(){
@@ -34,15 +45,14 @@ var HI = function(){
   var photos = {
     displayMain: function(){
       var main = $(this).closest('.hotel_info_content').find('.hotel_info_image img');
-      console.log($(main).attr('id'))
       $(main).css('background-image', "url(" + $(this).data('main') + ")")
     }
   };
 
-  var sorter = {
-    sort: function(){
-    }
-  };
+  // var sorter = {
+  //   sort: function(){
+  //   }
+  // };
 
   var map ={
     options: function(){
@@ -71,21 +81,21 @@ var HI = function(){
     }
   };
 
-  var rooms = {
-    retrieve: function(){
-      var $self = $(this); 
-      var $roomsContainer = $($self.data('container'));
-      var loaded        = $self.data('map-loaded');  
-      $roomsContainer.slideToggle();   
-      if(!loaded) 
-      {
-        $.get($(this).data('url'), function(data){
-          $roomsContainer.html(data)
-          $self.data('loaded', true)
-        })
-      }
-    }
-  };
+  // var rooms = {
+  //   retrieve: function(){
+  //     var $self = $(this); 
+  //     var $roomsContainer = $($self.data('container'));
+  //     var loaded        = $self.data('map-loaded');  
+  //     $roomsContainer.slideToggle();   
+  //     if(!loaded) 
+  //     {
+  //       $.get($(this).data('url'), function(data){
+  //         $roomsContainer.html(data)
+  //         $self.data('loaded', true)
+  //       })
+  //     }
+  //   }
+  // };
 
   var amenities = function(){
   };
@@ -94,9 +104,10 @@ var HI = function(){
     init: init,
     stars: stars,
     photos: photos,
-    sorter: sorter,
+    // sorter: sorter,
     map: map,
-    rooms: rooms,
-    mapOptions: mapOptions
+    // rooms: rooms,
+    mapOptions: mapOptions,
+    priceRange: priceRange
   }
 }();

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   protected  
   def search_criteria
-    @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars, currency_code: currency, sort: sort}
+    @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars, currency_code: currency, sort: sort, min_price: min_price, max_price: max_price}
   end
 
   def min_stars
@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
 
   def max_stars
     params['max_stars'] || 5
+  end
+
+  def min_price
+    params['min_price']
+  end
+
+  def max_price
+    params['max_price']
   end
 
   def start_date
@@ -31,6 +39,15 @@ class ApplicationController < ActionController::Base
     (params[:page_size] || HotelsConfig.page_size).to_i
   end
 
+  def filters
+    {
+      min_price: min_price,
+      max_price: max_price,
+      min_stars: min_stars,
+      max_stars: max_stars
+    }
+  end
+  
   def paging
     {
       page_size: page_size,

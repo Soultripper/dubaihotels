@@ -1,12 +1,13 @@
 class HotelSearchPageResult
   attr_reader :hotel_search, :sort_key
 
+  attr_accessor :user_filters
+
   def initialize(hotel_search, options={})
     @hotel_search = hotel_search
   end
 
   def as_json(options={})
-    Log.info "#{hotel_search.available_hotels}"
 
     matched_hotels = options[:hotels] || hotels
     load_images(matched_hotels)
@@ -16,9 +17,11 @@ class HotelSearchPageResult
         json.query            hotel_search.location.city
         json.sort             sort_key
         json.total_hotels     hotel_search.total_hotels
-        json.available_hotels hotel_search.available_hotels 
-        json.min_price        min_price
-        json.max_price        max_price    
+        json.available_hotels matched_hotels.count 
+        json.min_price        hotel_search.min_price 
+        json.max_price        hotel_search.max_price  
+        json.min_price_filter user_filters[:min_price]
+        json.max_price_filter user_filters[:max_price]          
       end      
       json.criteria         hotel_search.search_criteria
       json.finished         hotel_search.finished?
@@ -42,17 +45,7 @@ class HotelSearchPageResult
   end
 
   def hotels
-    hotel_search.hotels
-  end
-
-  def min_price
-    hotel = hotels.min_by {|h| h.offer[:min_price]} if hotels
-    hotel ? hotel.offer[:min_price] : 0
-  end
-
-  def max_price
-    hotel = hotels.max_by {|h| h.offer[:max_price]} if hotels
-    hotel ? hotel.offer[:max_price] : 100
+    @hotels ||= hotel_search.hotels.clone
   end
 
   def sort(key)
@@ -70,6 +63,16 @@ class HotelSearchPageResult
       # when :postal_code
       else self 
     end
+    self
+  end
+
+  def filter(filters={})    
+    @user_filters = filters
+    return self unless hotel_search.polled?    
+     Log.debug "#{hotels.count} remaing before #{filters} applied"
+    hotels.reject! {|h| h.offer[:min_price] < filters[:min_price].to_i} if !filters[:min_price].blank?
+    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i} if !filters[:max_price].blank?
+    Log.debug "#{hotels.count} remaing aftter #{filters} applied"
     self
   end
 

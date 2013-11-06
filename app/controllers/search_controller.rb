@@ -6,7 +6,7 @@ class SearchController < ApplicationController
 
   def index        
     results = HotelSearch.find_or_create(location, search_criteria).start.results
-    @hotel_search = results.sort(sort).paginate(page_no, page_size)
+    @hotel_search = results.sort(sort).filter(filters).paginate(page_no, page_size)
     respond_with @hotel_search
   end
 

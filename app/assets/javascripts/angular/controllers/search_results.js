@@ -20,7 +20,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     var pollSearch = function() {
       if(!$routeParams.id) return;     
 
-      SearchHotels.get({id: $routeParams.id, currency: param('currency', 'GBP'), page_no: param('page_no', 1) , sort: param('sort'), start_date: start_date(), end_date: end_date()}, function(response){
+      SearchHotels.get({id: $routeParams.id, currency: param('currency', 'GBP'), page_no: param('page_no', 1) , sort: param('sort'), start_date: start_date(), end_date: end_date(), min_price: param('min_price', ''), max_price: param('max_price', '')}, function(response){
         data.calls++;
         Page.setCriteria(response.criteria);
         Page.setInfo(response.info);
@@ -28,17 +28,17 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
         $scope.currency_symbol = Page.criteria().currency_symbol;
 
         $("#priceSlider").ionRangeSlider("update", {
-            min: Math.round(Page.info().min_price),
+            min: Math.round(10),
             max: Math.round(Page.info().max_price),
-            from: Math.round(Page.info().min_price),                       // change default FROM setting
-            to: Math.round(Page.info().max_price),                         // change default TO setting
+            from: Math.round(Page.info().min_price_filter),                       // change default FROM setting
+            to: Math.round(Page.info().max_price_filter),                         // change default TO setting
         });
 
         if(!response.finished && data.calls < 6)
           $timeout(pollSearch, 3000);
       })
     };
-    pollSearch();
+
 
 
     $scope.isSort = function(option){
@@ -79,6 +79,11 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
       // pollSearch()
     }
 
+    $rootScope.safeApply = function( fn ) {
+      var phase = this.$root.$$phase;
+      (phase == '$apply' || phase == '$digest') ? fn() : this.$apply(fn);
+    }
+
     $scope.sort = function(sort){
       $location.search(
         {id: $routeParams.id, 
@@ -87,7 +92,29 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
           sort: sort,           
           start_date: start_date(),
           end_date: end_date(), 
-        });
+          min_price: param('min_price', null),
+          max_price: param('max_price', null)          
+        }
+      );
     }
+
+    $scope.changePrice = function(min_price, max_price){
+
+      $location.search(
+        {id: $routeParams.id, 
+          currency: param('currency', 'GBP'), 
+          page_no: param('page_no', 1) , 
+          sort: param('sort',''),          
+          start_date: start_date(),
+          end_date: end_date(), 
+          min_price: min_price,
+          max_price: max_price
+        });
+      // data.calls = 1;
+      // console.log($scope.search_results)
+      // pollSearch()
+    }
+
+    pollSearch();
 
 }]);

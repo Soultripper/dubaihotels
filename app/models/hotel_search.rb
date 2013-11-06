@@ -8,11 +8,14 @@ class HotelSearch
   end
 
   def self.find_or_create(location, search_criteria)
-    cache_key = search_criteria.as_json.merge({query:location.slug})
+    HotelSearch.new(location, search_criteria).find_or_create   
+  end
+
+  def find_or_create
     Rails.cache.fetch cache_key, expires_in: 5.minutes do 
-      Log.info cache_key
-      new(location, search_criteria)
-    end    
+      Log.info "Starting new search: #{cache_key}"
+      self
+    end       
   end
 
   def start
@@ -48,6 +51,14 @@ class HotelSearch
     @hotels ? @hotels.count : 0
   end
 
+  def min_price
+    polled? ? @hotels.min_by {|h| h.offer[:min_price]}.offer[:min_price] : 0
+  end
+
+  def max_price    
+    polled? ? @hotels.max_by {|h| h.offer[:max_price]}.offer[:max_price] : 0
+  end
+
   def polled?
     @hotels and @hotels.length > 0
   end
@@ -69,7 +80,7 @@ class HotelSearch
   end
 
   def threaded(&block)
-    return yield
+    # return yield
     Thread.new do 
       yield
       ActiveRecord::Base.connection.close

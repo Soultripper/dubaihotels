@@ -2,7 +2,7 @@ var searchHotelsServices = angular.module('searchHotelsServices', ['ngResource']
 
 searchHotelsServices.factory('SearchHotels', ['$resource',
   function($resource){
-    return $resource(":id.json/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency", {}, {
+    return $resource(":id.json/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency&min_price=:min_price&max_price=:max_price", {}, {
       get: {method:'GET', params:{page_no: 1}, isArray:false}
     });
   }]);
@@ -15,25 +15,17 @@ searchHotelsServices.factory('HotelRooms', ['$resource',
   }]);
 
 searchHotelsServices.factory('Page', function() {
-   var criteria = {
-   }
+   var criteria = {};
 
    var info={
     available_hotels:0,
-    total_hotels:0,
-    min_price: 0,
-    max_price: 100
+    total_hotels:0
    };
-
-   var price_range = function(){
-    info.min_price + ";" + info.max_price
-   }
 
    return {
       criteria: function() { return criteria; },
       setCriteria: function(newCriteria) { criteria = newCriteria },
       info: function() { return info; },
-      setInfo: function(newInfo) { info = newInfo },
-      price_range: price_range
+      setInfo: function(newInfo) { info = newInfo }
    };
 });

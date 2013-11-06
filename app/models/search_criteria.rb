@@ -53,8 +53,8 @@ class SearchCriteria
       start_date:       start_date.strftime('%F'),
       end_date:         end_date.strftime('%F'),
       total_nights:     total_nights, 
-      min_stars:        min_stars,
-      max_stars:        max_stars,
+      min_stars:        min_stars.to_i,
+      max_stars:        max_stars.to_i,  
       currency_code:    currency_code,
       currency_symbol:  currency_symbol
     }
