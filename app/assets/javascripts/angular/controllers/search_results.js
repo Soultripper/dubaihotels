@@ -3,7 +3,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
   function ($scope, $rootScope, $routeParams, $timeout, $location, SearchHotels, HotelRooms, Page) { 
 
     // if(!$routeParams['currency'])$routeParams['currency']='GBP'
-      
+
     var data = { hotels: [], calls: 1, amenities: [] };
     $scope.Page = Page;
 
@@ -66,6 +66,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     };
 
     $rootScope.search = function(){
+      $routeParams.start_date = start_date();
+      $routeParams.end_date = end_date();
       $location.search($routeParams)
       data.calls = 1;
     }
@@ -97,6 +99,9 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
       $scope.search();
     }
 
+    $rootScope.testMe = function(){
+      console.log('test')
+    }
     // $scope.filterAmenities = function(amenity){
     //   console.log(this)
     //   $routeParams.amenities = amenity;
