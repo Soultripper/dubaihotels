@@ -2,7 +2,10 @@
   <div class="row">
     <div class="image">
       <a href="#">
-        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
+        <!-- <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/> -->
+
+        <img  ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="138" id="hotel-photo-{{hotel.id}}" class="hotel-photo-main"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
+
       </a>
       <div class="roundel" >
         Save 38%
@@ -51,16 +54,15 @@
   <div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}"  style="display:none">
     <div class="row">
       <div class="large-6 small-12 large-offset-3 columns text-center">
-        <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" />
+        <img src="assets/blank.gif" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" class="hotel-photo" style="background-image: url({{hotel.images[0].url}})" />
       </div>
     </div>
     <div class="row">
       <div class="large-12 small-12 columns">
         <ul class="small-block-grid-4 large-block-grid-8">
-          <li><img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" /></li>
-          <li><img ng-src="{{hotel.images[1].url}}" alt="Hotel name" width="500" height="500" /></li>
-          <li><img ng-src="{{hotel.images[2].url}}" alt="Hotel name" width="500" height="500" /></li>
-          <li><img ng-src="{{hotel.images[3].url}}" alt="Hotel name" width="500" height="500" /></li>
+         <!--  <li><img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" /></li> -->
+          <li><img src="assets/blank.gif" alt="Hotel name" width="210" height="360" style="background-image: url({{hotel.images[0].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="210" height="360" style="background-image: url({{hotel.images[1].thumbnail_url}})" class="hotel-photo-thumb"/></li>
         </ul>
       </div>
     </div>

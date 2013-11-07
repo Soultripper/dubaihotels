@@ -27,3 +27,32 @@
   line-height: 15px;
   position: relative;
 }
+
+img.hotel-photo-main {
+background-size: contain;
+display: block;
+height: 138px;
+margin: 0 auto;
+cursor: default;
+width: 360px;
+}
+
+
+img.hotel-photo {
+background-size: cover;
+display: block;
+height: 210px;
+margin: 0 auto;
+cursor: default;
+width: 360px;
+}
+
+img.hotel-photo-thumb {
+  background-size: contain;
+display: inline;
+cursor: pointer;
+height: 50px;
+margin: 0 10px 0 0;
+vertical-align: bottom;
+width: 50px;
+}
