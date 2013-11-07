@@ -2,7 +2,7 @@ var searchHotelsServices = angular.module('searchHotelsServices', ['ngResource']
 
 searchHotelsServices.factory('SearchHotels', ['$resource',
   function($resource){
-    return $resource(":id.json/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency&min_price=:min_price&max_price=:max_price", {}, {
+    return $resource(":id.json/?page_no=:page_no&start_date=:start_date&end_date=:end_date&sort=:sort&currency=:currency&min_price=:min_price&max_price=:max_price&amenities=:amenities", {}, {
       get: {method:'GET', params:{page_no: 1}, isArray:false}
     });
   }]);

@@ -24,17 +24,30 @@
           <input type="checkbox" name="1stars" id="1stars"> <label for="1stars" class="onestar">1-star</label></p>
         </div>
         <p>FEATURES</p>
-        <p><input type="checkbox" name="wifi" id="wifi"> <label for="wifi">Wifi</label><br />
-        <input type="checkbox" name="central" id="central"> <label for="central">Central Location</label><br />
-        <input type="checkbox" name="family" id="family"> <label for="family">Family Friendly</label><br />
-        <input type="checkbox" name="parking" id="parking"> <label for="parking">Parking</label><br />
-        <input type="checkbox" name="gym" id="gym"> <label for="gym">Gym</label><br />
-        <input type="checkbox" name="boutique" id="boutique"> <label for="boutique">Boutique</label><br />
-        <input type="checkbox" name="smoking" id="smoking"> <label for="smoking">Non-smoking rooms</label><br />
-        <input type="checkbox" name="pet" id="pet"> <label for="pet">Pet Friendly</label><br />
-        <input type="checkbox" name="pool" id="pool"> <label for="pool">Pool</label><br />
-        <input type="checkbox" name="restaurant" id="restaurant"> <label for="restaurant">Restaurant</label><br />
-        <input type="checkbox" name="spa" id="spa"> <label for="spa">Spa</label></p>
+        <p>
+          <input type="checkbox" name="wifi" id="wifi" ng-click="filterAmenities('wifi')"> 
+            <label for="wifi">Wifi</label><br />
+          <input type="checkbox" name="central" id="central-location" ng-click="filterAmenities('central-location')"> 
+            <label for="central">Central Location</label><br />
+          <input type="checkbox" name="family" id="family" ng-click="filterAmenities('family')"> 
+            <label for="family">Family Friendly</label><br />
+          <input type="checkbox" name="parking" id="parking" ng-click="filterAmenities('parking')"> 
+            <label for="parking">Parking</label><br />
+          <input type="checkbox" name="gym" id="gym" ng-click="filterAmenities('gym')"> 
+            <label for="gym">Gym</label><br />
+          <input type="checkbox" name="boutique" id="boutique" ng-click="filterAmenities('boutique')"> 
+            <label for="boutique">Boutique</label><br />
+          <input type="checkbox" name="smoking" id="smoking" ng-click="filterAmenities('smoking')"> 
+            <label for="smoking">Non-smoking rooms</label><br />
+          <input type="checkbox" name="pet" id="pet-friendly" ng-click="filterAmenities('pet-friendly')"> 
+            <label for="pet">Pet Friendly</label><br />
+          <input type="checkbox" name="pool" id="pool" ng-click="filterAmenities('pool')"> 
+            <label for="pool">Pool</label><br />
+          <input type="checkbox" name="restaurant" id="restaurant"  ng-click="filterAmenities('restaurant')"> 
+            <label for="restaurant">Restaurant</label><br />
+          <input type="checkbox" name="spa" id="spa" ng-click="filterAmenities('spa')"> 
+            <label for="spa">Spa</label>
+      </p>
       </form>
     </div>
   </div>

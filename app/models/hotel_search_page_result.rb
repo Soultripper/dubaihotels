@@ -70,10 +70,23 @@ class HotelSearchPageResult
     return self unless hotel_search.polled? and hotels
     @user_filters = filters
     Log.debug "#{hotels.count} remaing before #{filters} applied"
-    hotels.reject! {|h| h.offer[:min_price] < filters[:min_price].to_i - 1} if !filters[:min_price].blank?
-    hotels.reject! {|h| h.offer[:max_price] > filters[:max_price].to_i + 1} if !filters[:max_price].blank?   
+
+    filter_price filters[:min_price].to_i, filters[:max_price].to_i
+    filter_amenities filters[:amenities]
+
     Log.debug "#{hotels.count} remaing aftter #{filters} applied"
     self
+  end
+
+  def filter_amenities(selection)
+    return unless selection
+    amenities_mask = HotelAmenity.mask(selection)
+    hotels.reject! {|h| h.amenities & amenities_mask != amenities_mask}
+  end
+
+  def filter_price(min_price, max_price)
+    hotels.reject! {|h| h.offer[:min_price] < min_price - 1} if min_price > 0
+    hotels.reject! {|h| h.offer[:max_price] > max_price + 1} if max_price > 0
   end
 
   def paginate(page_no, page_size)

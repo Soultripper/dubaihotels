@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131104231103) do
+ActiveRecord::Schema.define(:version => 20131107155306) do
 
   create_table "booking_hotels", :force => true do |t|
     t.string  "district"
@@ -162,8 +162,9 @@ ActiveRecord::Schema.define(:version => 20131104231103) do
   end
 
   create_table "hotel_amenities", :force => true do |t|
-    t.string  "name"
-    t.integer "value"
+    t.string  "name",  :null => false
+    t.string  "value"
+    t.integer "flag"
   end
 
   create_table "hotel_images", :force => true do |t|
@@ -234,6 +235,16 @@ ActiveRecord::Schema.define(:version => 20131104231103) do
     t.integer "hotel_amenity_id", :null => false
   end
 
+  add_index "hotels_hotel_amenities", ["hotel_amenity_id"], :name => "index_hotels_hotel_amenities_on_hotel_amenity_id"
+  add_index "hotels_hotel_amenities", ["hotel_id"], :name => "index_hotels_hotel_amenities_on_hotel_id"
+
+  create_table "leaderboards", :force => true do |t|
+    t.string   "name"
+    t.float    "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "locations", :force => true do |t|
     t.string  "city"
     t.integer "city_id"
@@ -262,6 +273,13 @@ ActiveRecord::Schema.define(:version => 20131104231103) do
     t.string  "language_code"
     t.string  "name"
     t.string  "region_type"
+  end
+
+  create_table "scores", :force => true do |t|
+    t.string   "name"
+    t.float    "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "spatial_ref_sys", :id => false, :force => true do |t|

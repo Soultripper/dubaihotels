@@ -10,10 +10,10 @@
 amenities = "Wifi,Central Location,Family Friendly,Parking,Gym,Boutique,Non-smoking rooms,Pet Friendly,Pool,Restaurant,Spa".split(',')
 
 HotelAmenity.delete_all
-value = 1
-amenities.each do |a|
-  HotelAmenity.create({ name: a, value: value})
-  value=value<<1
+flag = 1
+amenities.each_with_index do |a, idx|
+  HotelAmenity.create({ id: idx+1, name: a, value: a.parameterize, flag: flag})
+  flag=flag<<1
 end
 
 Country.seed_from_booking

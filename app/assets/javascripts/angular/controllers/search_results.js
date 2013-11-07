@@ -2,11 +2,13 @@
 app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$timeout', '$location', 'SearchHotels', 'HotelRooms', 'Page',  
   function ($scope, $rootScope, $routeParams, $timeout, $location, SearchHotels, HotelRooms, Page) { 
 
-    var data = { hotels: [], calls: 1 };
+    // if(!$routeParams['currency'])$routeParams['currency']='GBP'
+      
+    var data = { hotels: [], calls: 1, amenities: [] };
     $scope.Page = Page;
 
     var param = function(name, default_val){
-      return  $location.search()[name] || $routeParams[name] || default_val;
+      return  $routeParams[name] || $location.search()[name] || default_val;
     }
 
     var end_date = function(){
@@ -20,7 +22,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     var pollSearch = function() {
       if(!$routeParams.id) return;     
 
-      SearchHotels.get({id: $routeParams.id, currency: param('currency', 'GBP'), page_no: param('page_no', 1) , sort: param('sort'), start_date: start_date(), end_date: end_date(), min_price: param('min_price', ''), max_price: param('max_price', '')}, function(response){
+      SearchHotels.get($routeParams, function(response){
         data.calls++;
         Page.setCriteria(response.criteria);
         Page.setInfo(response.info);
@@ -28,18 +30,16 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
         $scope.currency_symbol = Page.criteria().currency_symbol;
 
         $("#priceSlider").ionRangeSlider("update", {
-            min: Math.round(10),
-            max: Math.round(Page.info().max_price),
+            min:  Math.round(10),
+            max:  Math.round(Page.info().max_price),
             from: Math.round(Page.info().min_price_filter || 10),                       // change default FROM setting
-            to: Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
+            to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
 
         if(!response.finished && data.calls < 6)
           $timeout(pollSearch, 3000);
       })
     };
-
-
 
     $scope.isSort = function(option){
       return option === (Page.info().sort || 'recommended')
@@ -66,19 +66,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     };
 
     $rootScope.search = function(){
-      $location.search(
-        {
-          currency: param('currency', 'GBP'), 
-          page_no: param('page_no', 1) , 
-          sort: param('sort',''),          
-          start_date: start_date(),
-          end_date: end_date(), 
-          min_price: param('min_price', ''),
-          max_price: param('max_price', '')              
-        });
+      $location.search($routeParams)
       data.calls = 1;
-      // console.log($scope.search_results)
-      // pollSearch()
     }
 
     $rootScope.safeApply = function( fn ) {
@@ -87,35 +76,32 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     }
 
     $scope.sort = function(sort){
-      $location.search(
-        {
-          currency: param('currency', 'GBP'), 
-          page_no: param('page_no', 1) , 
-          sort: sort,           
-          start_date: start_date(),
-          end_date: end_date(), 
-          min_price: param('min_price', ''),
-          max_price: param('max_price', '')          
-        }
-      );
+      $routeParams.sort = sort;   
+      $scope.search();
     }
 
     $scope.changePrice = function(min_price, max_price){
-
-      $location.search(
-        {
-          currency: param('currency', 'GBP'), 
-          page_no: param('page_no', 1) , 
-          sort: param('sort',''),          
-          start_date: start_date(),
-          end_date: end_date(), 
-          min_price: min_price,
-          max_price: max_price
-        });
-      // data.calls = 1;
-      // console.log($scope.search_results)
-      // pollSearch()
+      $routeParams.min_price = min_price;
+      $routeParams.max_price = max_price;
+      $scope.search();
     }
+
+
+    $scope.filterAmenities = function (amenity) {
+      var idx = data.amenities.indexOf(amenity);
+      if (idx > -1) 
+        data.amenities.splice(idx, 1);
+      else
+        data.amenities.push(amenity);
+      $routeParams.amenities = data.amenities.join(',');
+      $scope.search();
+    }
+
+    // $scope.filterAmenities = function(amenity){
+    //   console.log(this)
+    //   $routeParams.amenities = amenity;
+    //   //$scope.search();
+    // }
 
     pollSearch();
 

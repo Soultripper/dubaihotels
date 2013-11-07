@@ -39,12 +39,17 @@ class ApplicationController < ActionController::Base
     (params[:page_size] || HotelsConfig.page_size).to_i
   end
 
+  def amenities
+    params[:amenities].split(',') if !params[:amenities].blank? 
+  end
+
   def filters
     {
       min_price: min_price,
       max_price: max_price,
       min_stars: min_stars,
-      max_stars: max_stars
+      max_stars: max_stars,
+      amenities: amenities
     }
   end
 
@@ -61,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def currency
-    params["currency"] || "GBP"
+     (!params["currency"].blank?) ? params["currency"] : "GBP"
   end
 
   def sort
