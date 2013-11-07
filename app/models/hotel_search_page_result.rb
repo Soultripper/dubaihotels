@@ -41,7 +41,7 @@ class HotelSearchPageResult
   end
 
   def load_images(filtered_hotels)
-    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).group_by &:hotel_id
+    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
   end
 
   def hotels
