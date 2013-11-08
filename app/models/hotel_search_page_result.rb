@@ -71,22 +71,29 @@ class HotelSearchPageResult
     @user_filters = filters
     Log.debug "#{hotels.count} remaing before #{filters} applied"
 
-    filter_price filters[:min_price].to_i, filters[:max_price].to_i
-    filter_amenities filters[:amenities]
-
+    hotels.select! do |hotel|
+      filter_price(hotel, filters[:min_price].to_i, filters[:max_price].to_i) and 
+      filter_amenities(hotel, filters[:amenities]) and
+      filter_stars(hotel, filters[:star_ratings])
+    end
     Log.debug "#{hotels.count} remaing aftter #{filters} applied"
     self
   end
 
-  def filter_amenities(selection)
-    return unless selection
+  def filter_amenities(hotel, selection)
+    return true unless selection
     amenities_mask = HotelAmenity.mask(selection)
-    hotels.reject! {|h| h.amenities & amenities_mask != amenities_mask}
+    hotel.amenities & amenities_mask == amenities_mask
   end
 
-  def filter_price(min_price, max_price)
-    hotels.reject! {|h| h.offer[:min_price] < min_price - 1} if min_price > 0
-    hotels.reject! {|h| h.offer[:max_price] > max_price + 1} if max_price > 0
+  def filter_price(hotel, min_price, max_price)
+    return true if min_price == 0 and max_price == 0
+    hotel.offer[:min_price].between? min_price-1, max_price+1
+  end
+
+  def filter_stars(hotel, star_ratings)
+    return true unless star_ratings
+    star_ratings.map(&:to_i).include? hotel.star_rating.round
   end
 
   def paginate(page_no, page_size)

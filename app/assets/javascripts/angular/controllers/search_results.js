@@ -4,7 +4,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
 
     // if(!$routeParams['currency'])$routeParams['currency']='GBP'
 
-    var data = { hotels: [], calls: 1, amenities: [] };
+    var data = { hotels: [], calls: 1, amenities: [], starRatings: [] };
     $scope.Page = Page;
 
     var param = function(name, default_val){
@@ -96,6 +96,16 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
       else
         data.amenities.push(amenity);
       $routeParams.amenities = data.amenities.join(',');
+      $scope.search();
+    }
+
+    $scope.filterStarRatings = function (star_rating) {
+      var idx = data.starRatings.indexOf(star_rating);
+      if (idx > -1) 
+        data.starRatings.splice(idx, 1);
+      else
+        data.starRatings.push(star_rating);
+      $routeParams.star_ratings = data.starRatings.join(',');
       $scope.search();
     }
 

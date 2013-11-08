@@ -16,11 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def min_price
-    params['min_price'] if !params['min_price'].blank?
+    params['min_price'] unless params['min_price'].blank?
   end
 
   def max_price
-    params['max_price'] if !params['max_price'].blank?
+    params['max_price'] unless params['max_price'].blank?
   end
 
   def start_date
@@ -40,16 +40,21 @@ class ApplicationController < ActionController::Base
   end
 
   def amenities
-    params[:amenities].split(',') if !params[:amenities].blank? 
+    params[:amenities].split(',') unless params[:amenities].blank? 
+  end
+
+  def star_ratings
+    params[:star_ratings].split(',') unless params[:star_ratings].blank? 
   end
 
   def filters
     {
-      min_price: min_price,
-      max_price: max_price,
-      min_stars: min_stars,
-      max_stars: max_stars,
-      amenities: amenities
+      min_price:    min_price,
+      max_price:    max_price,
+      min_stars:    min_stars,
+      max_stars:    max_stars,
+      star_ratings: star_ratings,
+      amenities:    amenities
     }
   end
 
