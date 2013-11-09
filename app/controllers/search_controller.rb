@@ -10,6 +10,10 @@ class SearchController < ApplicationController
     respond_with @hotel_search
   end
 
+  def locations
+    respond_with Location.autocomplete(query).sort_by {|l| l[:s].length}.take(10)
+  end
+
   protected
 
   def location
@@ -18,6 +22,10 @@ class SearchController < ApplicationController
 
   def slug
     @slug ||= params[:id]
+  end
+
+  def query
+    @query ||= params[:query]
   end
 
   helper_method :location

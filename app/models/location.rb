@@ -4,14 +4,52 @@ class Location < ActiveRecord::Base
                    
   attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug
 
+  def self.all
+    @@locations ||= super
+  end
+
   def self.update_slugs
     find_each do |location|
       location.update_attribute :slug, location.create_slug
     end
   end
 
-  def self.regions
+  def self.regions  
     where('city is null')
+  end
+
+  def self.cities
+    all.select {|loc| !loc[:city].blank?}
+  end
+
+  def self.all_slugs
+    @@autocomplete ||= cities.map do |l|
+      {
+        n: l.to_s,
+        s: l.slug
+      }
+    end
+  end
+
+  def self.autocomplete(query)
+    return unless query
+    query.downcase!
+    all_slugs.select {|loc| loc[:n].downcase.start_with? query}
+  end
+
+
+  def to_s
+    s = ''
+    if city and region 
+      s =  "#{city}, #{region}, #{country}" 
+    elsif region
+      s = "#{region}, #{country}"
+    elsif city
+      s = "#{city}, #{country}"
+    else
+      s = country
+    end
+    s
   end
 
   def create_slug

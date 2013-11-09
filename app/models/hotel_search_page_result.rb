@@ -15,6 +15,7 @@ class HotelSearchPageResult
     Jbuilder.encode do |json|
       json.info do
         json.query            hotel_search.location.city
+        json.slug             hotel_search.location.slug
         json.sort             sort_key
         json.total_hotels     hotel_search.total_hotels
         json.available_hotels hotels.count 

@@ -1,6 +1,6 @@
 
-app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$timeout', '$location', 'SearchHotels', 'HotelRooms', 'Page',  
-  function ($scope, $rootScope, $routeParams, $timeout, $location, SearchHotels, HotelRooms, Page) { 
+app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', 'SearchHotels', 'HotelRooms', 'Page',  
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, SearchHotels, HotelRooms, Page) { 
 
     // if(!$routeParams['currency'])$routeParams['currency']='GBP'
 
@@ -28,7 +28,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
         Page.setInfo(response.info);
         $scope.search_results = response
         $scope.currency_symbol = Page.criteria().currency_symbol;
-
+        $scope.slug = Page.info().slug
         $("#priceSlider").ionRangeSlider("update", {
             min:  Math.round(10),
             max:  Math.round(Page.info().max_price),
@@ -66,9 +66,10 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
     };
 
     $rootScope.search = function(){
+      delete $routeParams['id']
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
-      $location.search($routeParams)
+      $location.search($routeParams).path(Page.info().slug);
       data.calls = 1;
     }
 
@@ -109,14 +110,16 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$routeParams', '$t
       $scope.search();
     }
 
-    $rootScope.testMe = function(){
-      console.log('test')
-    }
-    // $scope.filterAmenities = function(amenity){
-    //   console.log(this)
-    //   $routeParams.amenities = amenity;
-    //   //$scope.search();
-    // }
+    $scope.cities = function(cityName) {
+      return $http.get("/locations.json?query="+cityName).then(function(response){
+        return response.data;
+      });
+    };
+
+   $scope.citySelect = function ($item, $model, $label) {
+      Page.info().query = $item.n
+      Page.info().slug = $item.s
+    };
 
     pollSearch();
 

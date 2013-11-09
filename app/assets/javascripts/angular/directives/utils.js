@@ -1,4 +1,4 @@
-app.directive('datepicker', function() {
+app.directive('calendar', function() {
   return {
     require: 'ngModel',
     link: function(scope, el, attr, ngModel) {

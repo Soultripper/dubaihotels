@@ -21,6 +21,7 @@
 //= require angular-route
 //= require underscore
 //= require accountingjs
+//= require angular-ui-bootstrap
 //= require_self
 //= require_tree .
 

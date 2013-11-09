@@ -42,6 +42,8 @@ gem 'masonry-rails'
 gem 'angularjs-rails', :github => 'hiravgandhi/angularjs-rails'
 gem 'underscore-rails'
 gem 'accountingjs-rails'
+gem 'angular-ui-bootstrap-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -2,7 +2,7 @@ module AppHelper
 
   def city_link(city)
     content_tag :li do
-      link_to city[1], city[0]
+      link_to city[1], city[0], target: '_self'
     end
   end
 
