@@ -1,27 +1,26 @@
 module Expedia
   class HotelResponse
     include Mongoid::Document
-    include Mongoid::Timestamps
 
     embeds_many :images, class_name: 'Expedia::Image'
 
     field :_id, type: Integer, default: ->{ self.hotelId}
 
-    def total
-      charge_info['@total'] if charge_info
-    end
+    # def total
+    #   charge_info['@total'] if charge_info
+    # end
 
-    def currency
-      charge_info['@currencyCode'] if charge_info
-    end
+    # def currency
+    #   charge_info['@currencyCode'] if charge_info
+    # end
 
-    def charge_info
-      rate_info['ChargeableRateInfo'] if rate_info
-    end
+    # def charge_info
+    #   rate_info['ChargeableRateInfo'] if rate_info
+    # end
 
-    def rate_info
-      top_room_rate['RateInfos']['RateInfo'] if top_room_rate
-    end
+    # def rate_info
+    #   top_room_rate['RateInfos']['RateInfo'] if top_room_rate
+    # end
 
     def top_room_rate
       room_rates[0] if room_rates
@@ -50,26 +49,34 @@ module Expedia
 
     def room_rates
       rooms.map{|r| r.total.to_f}.sort
+      # rooms.map{|r| r.average.to_f}.sort
     end
 
+    def fetch_hotel
+      @hotel ||= Hotel.find_by_ean_hotel_id id
+    end
 
     # def images
     #   return unless self.HotelImages
     #   self.HotelImages['HotelImage']
     # end
 
-    def commonize
+    def commonize(search_criteria)
       {
         provider: :expedia,
         provider_hotel_id: id,
         room_count: rooms_count,
-        min_price: room_rates[0],
-        max_price: room_rates[-1],
-        rooms: rooms.map(&:commonize)
+        min_price: avg_price(room_rates[0], search_criteria.total_nights),
+        max_price: avg_price(room_rates[-1], search_criteria.total_nights),
+        rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue
       Log.error "Hotel #{id} failed to convert"
       nil
+    end
+
+    def avg_price(price, nights)
+      price / nights
     end
 
     private 

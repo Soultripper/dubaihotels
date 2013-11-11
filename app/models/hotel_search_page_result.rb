@@ -55,8 +55,8 @@ class HotelSearchPageResult
       # when :popularity; end;
       when :price; do_sort {|h1| h1.offer[:min_price].to_f}
       when :price_reverse; do_sort {|h1| h1.offer[:min_price].to_f}.reverse!
-      when :rating; do_sort {|h1| h1.star_rating}.reverse!
-      when :rating_reverse; do_sort {|h1| h1.star_rating}
+      when :rating; do_sort {|h1| h1.star_rating || 0}.reverse!
+      when :rating_reverse; do_sort {|h1| h1.star_rating || 0}
       # when :rating_reverse
       when :a_z; do_sort {|h1| h1.name}
       when :distance; do_sort {|h1| h1.distance_from_location}
@@ -70,14 +70,14 @@ class HotelSearchPageResult
   def filter(filters={})   
     return self unless hotel_search.polled? and hotels
     @user_filters = filters
-    Log.debug "#{hotels.count} remaing before #{filters} applied"
+    Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
       filter_price(hotel, filters[:min_price].to_i, filters[:max_price].to_i) and 
       filter_amenities(hotel, filters[:amenities]) and
       filter_stars(hotel, filters[:star_ratings])
     end
-    Log.debug "#{hotels.count} remaing aftter #{filters} applied"
+    Log.debug "#{hotels.count} remaining aftter #{filters} applied"
     self
   end
 

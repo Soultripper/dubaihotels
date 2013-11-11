@@ -53,7 +53,7 @@ module Expedia
 
       def add_common_parameters
         { :cid => Expedia.cid, :sig => signature, :apiKey => Expedia.api_key, :minorRev => Expedia.minor_rev,
-          :_type => 'json', :locale => Expedia.locale, :currencyCode => Expedia.currency_code }
+          :_type => 'json', :locale => Expedia.locale }
       end
 
     end

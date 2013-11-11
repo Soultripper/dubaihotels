@@ -29,11 +29,13 @@ module Booking
     end
 
     def min_price
-      other_currency? ? price_in_currency['min_total_price'] : self['min_total_price']
+      #use min_total_price to total
+      other_currency? ? price_in_currency['min_price'] : self['min_price']
     end
 
     def max_price
-      other_currency? ? price_in_currency['max_total_price'] : self['max_total_price']
+      #use max_total_price for total
+      other_currency? ? price_in_currency['max_price'] : self['max_price']
     end
 
     def local_min_price
@@ -72,19 +74,35 @@ module Booking
       rooms[-1]
     end
 
+    def fetch_hotel
+      @hotel||=Hotel.find_by_booking_hotel_id id
+    end
 
-    def commonize
+    def find_within(hotels)
+      hotel = hotels.find {|hotel| hotel.booking_hotel_id == id} 
+      return hotel if hotel
+      if hotel = fetch_hotel
+        hotels << hotel 
+      end
+      hotel
+    end
+
+    def commonize(search_criteria)
       {
         provider: :booking,
         provider_hotel_id: id,
         room_count: rooms_count,
         min_price: min_price,
-        max_price: min_price,
+        max_price: max_price,
         rooms: nil#rooms.map(&:commonize)
       }
     rescue
       Log.error "Booking Hotel #{id} failed to convert"
       nil
+    end
+
+    def avg_price(price, nights)
+      price / nights
     end
 
 

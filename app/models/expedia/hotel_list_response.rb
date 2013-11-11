@@ -8,20 +8,30 @@ module Expedia
     end
 
     def page_hotels(&block)
-      yield self.hotels
+
+      Log.debug "Processing #{hotels.count} Expedia hotels"
+      yield self.hotels   
+
       response = self
+
       while response.more_pages?
         response = Expedia::HotelListResponse.new(response.next_page)
+        Log.debug "Processing #{hotels.count} Expedia hotels"
         yield response.hotels
       end   
+
     end
 
     def hotels
-      if hotel_list?
+      @hotels ||= if hotel_list?
         hotels_summary.map {|hotel| Expedia::HotelResponse.new(hotel)}
       else
         Expedia::HotelResponse.new(hotels_summary)
       end
+    end
+ 
+    def hotel_ids_set
+      Set.new(hotels.map(&:id))
     end
 
     def hotels_summary

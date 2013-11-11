@@ -14,6 +14,11 @@ class Booking::Search
     @search_criteria = search_criteria
   end
 
+
+  def self.by_location(location,search_criteria,params={})
+    new(search_criteria).by_location(location, params)
+  end
+
   def self.by_city_ids(city_ids,search_criteria,params={})
     new(search_criteria).by_city_ids(city_ids, params)
   end
@@ -31,6 +36,11 @@ class Booking::Search
     params = search_params.merge(options).merge({hotel_ids: hotel_ids.join(',')})  
     create_response Booking::Client.get_block_availability(params)
   end
+
+   def by_location(location, options={})        
+    params = search_params.merge(options).merge({latitude: location.latitude, longitude: location.longitude, radius: 20})   
+    create_response Booking::Client.get_hotel_availability(params)
+  end 
 
   protected
 

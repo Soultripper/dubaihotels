@@ -20,17 +20,26 @@ module Expedia
     end
 
     def total
-      chargeable_rates['@total']
+      chargeable_rates['@total'].to_f
     end
 
-    def commonize
+    def average
+      chargeable_rates['@averageRate']
+    end
+
+    def commonize(search_criteria)
       {
         provider: 'expedia',
         description: description,
-        price: total
+        price: avg_price(total, search_criteria.total_nights)
       }
     end
     
+    def avg_price(price, nights)
+      price / nights
+    end
+
+
     private 
     def method_missing(method, *args, &block)
       @data[method.to_s]

@@ -5,8 +5,9 @@ module HotelScopes
   end
 
   module ClassMethods
-    def by_location(location)
-      where('city = ? and country_code = ?', location.city, location.country_code)
+    def by_location(location, proximity_in_metres = 20000)
+      where("ST_DWithin(hotels.geog, ?, ?)", location.point, proximity_in_metres)
+      # where('city = ? and country_code = ?', location.city, location.country_code)
     end
 
     def by_star_ratings(min, max)

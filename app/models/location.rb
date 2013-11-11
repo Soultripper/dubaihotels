@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude  
                    
-  attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug
+  attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug, :geog
 
   def self.all
     @@locations ||= super
@@ -29,6 +29,10 @@ class Location < ActiveRecord::Base
         s: l.slug
       }
     end
+  end
+
+  def point
+    geog_before_type_cast
   end
 
   def self.autocomplete(query)

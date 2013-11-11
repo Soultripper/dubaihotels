@@ -23,4 +23,8 @@ class EanHotel < ActiveRecord::Base
     @amenities ||= properties.amenities
   end
 
+  def fetch_hotel
+    @hotel||=Hotel.find_by_ean_hotel_id id
+  end
+
 end

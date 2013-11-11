@@ -38,14 +38,18 @@ class HotelRoomSearch
     expedia_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
     return unless expedia_response
     Log.debug expedia_response
-    @rooms.concat expedia_response.rooms.map(&:commonize)
+    @rooms.concat(expedia_response.rooms.map do |room|
+      room.commonize(search_criteria)
+    end)
   end
 
   def request_booking_hotels
     return unless booking_hotel_id
     booking_hotel = Booking::Search.by_hotel_ids([booking_hotel_id], search_criteria).hotels
     return unless booking_hotel.length > 0
-    @rooms.concat booking_hotel.first.rooms.map(&:commonize)
+    @rooms.concat(booking_hotel.first.rooms.map do |room|
+      room.commonize(search_criteria)
+    end)
   end
 
   def add_to_list(hotel, provider_hotel)

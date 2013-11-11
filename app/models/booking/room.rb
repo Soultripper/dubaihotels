@@ -9,7 +9,7 @@ module Booking
     end
 
     def total
-      min_price
+      min_price.to_f
     end
 
     def price
@@ -37,14 +37,18 @@ module Booking
     # end
 
 
-    def commonize
+    def commonize(search_criteria)
       {
         provider: 'booking',
         description: description,
-        price: total
+        price: avg_price(total, search_criteria.total_nights)
       }
     end
     
+
+    def avg_price(price, nights)
+      price / nights
+    end
     # private 
     # def method_missing(method, *args, &block)
     #   @data[method.to_s]

@@ -4,6 +4,7 @@ class HotelSearch
   attr_accessor :total_hotels
 
   def initialize(location, search_criteria)
+    @results_counter = ResultsCounter.new [:booking, :expedia]
     @location, @search_criteria = location, search_criteria
   end
 
@@ -12,7 +13,7 @@ class HotelSearch
   end
 
   def find_or_create
-    Rails.cache.fetch cache_key, expires_in: 5.minutes do 
+    Rails.cache.fetch cache_key, expires_in: 1.minute do 
       Log.info "Starting new search: #{cache_key}"
       self
     end       
@@ -21,18 +22,10 @@ class HotelSearch
   def start
     return self if @started
     @started = true
-    load_all_hotels
+    all_hotels
     persist
     search_by_destination
     self
-  end
-
-  def city
-    location.city
-  end
-
-  def city_id
-    location.city_id
   end
 
   def results
@@ -63,17 +56,11 @@ class HotelSearch
     @hotels and @hotels.length > 0
   end
 
-  def load_all_hotels
-    @all_hotels ||= Hotel.by_location(location).by_star_ratings(search_criteria.min_stars, search_criteria.max_stars)  
+  def all_hotels
+    @all_hotels ||= Hotel.by_location(location).to_a  
   end
 
-  def finished?
-    results_counter[:booking][:finished] && results_counter[:expedia][:finished]
-  end
-
-  def search_by_destination
-    @hotels = []
-
+  def search_by_destination    
     threaded {request_expedia_hotels}
     threaded {request_booking_hotels}
     self
@@ -87,51 +74,78 @@ class HotelSearch
     end
   end
 
-  def request_expedia_hotels
-    response = Expedia::Search.by_destination("#{city}, #{location.country}", search_criteria)
+  def reset(provider)
+    @hotels ||= []
+    results_counter.reset_provider provider
+  end
+
+  def finished?
+    results_counter.finished?
+  end
+
+  def finish(provider)
+    results_counter.finish provider
+    persist
+    Log.debug "#{provider} finished: #{@hotels.count} hotels loaded"
+  end
+
+  def page_inc(provider)
+    results_counter.inc :expedia
+    Log.debug "#{provider} page #{results_counter.page provider}"
+  end
+
+  def request_expedia_hotels    
+    reset :expedia
+    response = Expedia::Search.by_location(location, search_criteria)
 
     response.page_hotels do |expedia_hotels|
-      results_counter[:expedia][:pages] += 1
-      Log.debug "#{expedia_hotels.count} Expedia hotels found of page #{results_counter[:expedia][:pages]}"
-
-      expedia_hotels.each do |ex_hotel|
-        hotel = @all_hotels.find {|hotel| hotel.ean_hotel_id == ex_hotel.id}
-        add_to_list hotel, ex_hotel
+      page_inc :expedia
+      add_new_expedia_hotels expedia_hotels
+      process_provider_hotels(expedia_hotels) do |provider_hotel|
+        all_hotels.find {|hotel| hotel.ean_hotel_id == provider_hotel.id} 
       end
-
      persist
     end
 
-    results_counter[:expedia][:finished] = true
-    persist
-    Log.debug "#{@hotels.count} Expedia hotels loaded"
+    finish :expedia
   end
 
 
+  def add_new_expedia_hotels(expedia_hotels)
+    hotel_ids_set = Set.new(expedia_hotels.map(&:id))
+    matched_hotels = Set.new(all_hotels.map(&:ean_hotel_id))
+    unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
+    all_hotels.concat  Hotel.where(ean_hotel_id: unmatached_hotel_ids.to_a).to_a  
+  end
+
   def request_booking_hotels
-    # hotel_ids = BookingHotel.where(city_id: city_id).limit(200).pluck :id
-    # response = Booking::HotelRoomSearch.by_hotel_ids(hotel_ids, search_criteria)
-    response = Booking::Search.by_city_ids(city_id, search_criteria)
-    response.hotels.each do |booking_hotel|
-      hotel = @all_hotels.find {|hotel| hotel.booking_hotel_id == booking_hotel.id} if !hotel
-      add_to_list hotel, booking_hotel
+    reset :booking
+    response = Booking::Search.by_location(location, search_criteria)
+
+    process_provider_hotels(response.hotels) do |provider_hotel|
+      all_hotels.find {|hotel| hotel.booking_hotel_id == provider_hotel.id} 
     end
 
-    results_counter[:booking][:finished] = true
-    persist
-    Log.debug "#{@hotels.count} Booking hotels loaded"
+    finish :booking    
+  end
+
+  def process_provider_hotels(provider_hotels, &block)
+    provider_hotels.each do |provider_hotel|
+      if hotel = yield(provider_hotel)
+         add_to_list hotel, provider_hotel
+      else
+        Log.info "No match for provider: #{provider_hotel.class} hotel_id: #{provider_hotel.id}"
+      end
+    end
   end
 
   def add_to_list(hotel, provider_hotel)
-    return nil unless hotel
-    hotel.compare_and_add provider_hotel 
+
+    hotel.compare_and_add(provider_hotel, search_criteria)
     return if @hotels.include?(hotel)
+
     hotel.distance_from_location = hotel.distance_from location
     @hotels << hotel
-  end
-
-  def find_or_add(hotel_collection, provider_hotel)
-    hotel_collection.find {|hotel| hotel.booking_hotel_id == provider_hotel.id}
   end
 
   def persist
@@ -142,18 +156,5 @@ class HotelSearch
     search_criteria.as_json.merge({query:location.slug})
   end
 
-  def results_counter
-    @results_counter ||={
-      expedia:{pages: 0, finished: false},
-      booking:{pages: 0, finished: false}
-    }
-  end
 
-  # def as_json(options={})
-  #   Jbuilder.encode do |json|
-  #     json.(self, :query, :search_criteria)
-  #     json.finished finished?
-  #     json.hotels hotels
-  #   end
-  # end
 end

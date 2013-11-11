@@ -37,7 +37,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
         });
 
         if(!response.finished && data.calls < 6)
-          $timeout(pollSearch, 3000);
+          $timeout(pollSearch, 1500);
       })
     };
 

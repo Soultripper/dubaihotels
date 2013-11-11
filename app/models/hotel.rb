@@ -23,8 +23,8 @@ class Hotel < ActiveRecord::Base
     @offer ||= {}
   end
 
-  def compare_and_add(hotel_response)
-    data = hotel_response.commonize
+  def compare_and_add(hotel_response, search_criteria)
+    data = hotel_response.commonize(search_criteria)
     compare data 
     provider_deals << data
   end

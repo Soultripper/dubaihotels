@@ -4,7 +4,7 @@ class Expedia::Search
 
   DEFAULT_PARAMS =  {
     options: 'ROOM_RATE_DETAILS',
-    numberOfResults: 100,
+    numberOfResults: 200,
     # maxRatePlanCount: 30,
     supplierType: 'E'
   }
@@ -13,25 +13,43 @@ class Expedia::Search
     @search_criteria = search_criteria
   end
 
-  def self.by_destination(destination,search_criteria,params={})
-    new(search_criteria).by_destination(destination, params)
+  def self.by_location(location, search_criteria, params={})
+    new(search_criteria).by_location(location, params)
+  end
+
+  def self.by_hotels(hotels, search_criteria,params={})
+    new(search_criteria).by_hotels(hotels, params)
   end
 
   def self.check_room_availability(hotel_id, search_criteria, params={})
     new(search_criteria).check_availability(hotel_id, params)
   end
 
-  def by_destination(destination, options={})        
-    params = search_params.merge(options).merge({destinationString: destination})   
-    Expedia::Client.get_list(params) { |response| Expedia::HotelListResponse.new(response) if response}
+  def by_location(location, options={})        
+    params = search_params.merge(options).merge({latitude: location.latitude, longitude: location.longitude, searchRadiusUnit: 'KM', searchRadius: 20})   
+    create_list_response params
+  end
+
+  def by_hotels(hotels, options={})        
+    params = search_params.merge(options).merge({hotelIdList: hotels.join(',')})   
+    create_list_response params
   end
 
   def check_availability(hotel_id, options={})        
     params = search_params.merge(options).merge({hotelId: hotel_id, supplierType: ''})   
-    Expedia::Client.get_availability(params) { |response| Expedia::HotelRoomAvailabilityResponse.new(response) if response}
+    create_availability_response params
   end
 
   protected
+
+  def create_list_response(params)
+    Expedia::Client.get_list(params) { |response| Expedia::HotelListResponse.new(response) if response}
+  end
+
+  def create_availability_response(params)
+    Expedia::Client.get_availability(params) { |response| Expedia::HotelRoomAvailabilityResponse.new(response) if response}
+  end
+
   def search_params
     @params = DEFAULT_PARAMS
 
@@ -46,7 +64,7 @@ class Expedia::Search
   end
 
   def add_currency_code
-    @params.merge!(currency_code: search_criteria.currency_code)
+    @params.merge!(currencyCode: search_criteria.currency_code)
   end
 
   def add_stars
