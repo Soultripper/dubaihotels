@@ -10,12 +10,10 @@ class Expedia::Client
     end
 
     def get_list(params, &block)  
-      Log.info "Expedia get_list request: params=#{params}"       
       create_response api.get_list(params), &block 
     end
 
     def get_availability( params, &block)      
-      Log.info "Expedia get_availability request: params=#{params}"       
       create_response api.get_availability(params), &block 
     end
 

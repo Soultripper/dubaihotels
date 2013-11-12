@@ -17,8 +17,8 @@ class Expedia::Search
     new(search_criteria).by_location(location, params)
   end
 
-  def self.by_hotels(hotels, search_criteria,params={})
-    new(search_criteria).by_hotels(hotels, params)
+  def self.by_hotel_ids(hotels, search_criteria,params={})
+    new(search_criteria).by_hotel_ids(hotels, params)
   end
 
   def self.check_room_availability(hotel_id, search_criteria, params={})
@@ -30,7 +30,7 @@ class Expedia::Search
     create_list_response params
   end
 
-  def by_hotels(hotels, options={})        
+  def by_hotel_ids(hotels, options={})        
     params = search_params.merge(options).merge({hotelIdList: hotels.join(',')})   
     create_list_response params
   end

@@ -12,6 +12,7 @@ gem 'nokogiri'
 gem 'dalli'
 gem 'memcachier'
 # gem 'expedia'
+gem "typhoeus"
 gem 'faraday'
 
 gem 'simple_form'
@@ -39,7 +40,7 @@ gem 'uglifier', '>= 1.0.3'
 gem 'compass-rails' # you need this or you get an err
 gem 'zurb-foundation', '~> 4.0.0'
 gem 'masonry-rails'
-gem 'angularjs-rails', :github => 'hiravgandhi/angularjs-rails'
+gem 'angularjs-rails'
 gem 'underscore-rails'
 gem 'accountingjs-rails'
 gem 'angular-ui-bootstrap-rails'

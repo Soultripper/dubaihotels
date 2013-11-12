@@ -8,7 +8,7 @@ class Hotel < ActiveRecord::Base
 
   attr_accessor :distance_from_location
 
-  has_many :images,    :class_name => "HotelImage"
+  has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC'
   has_many :hotel_amenities, :class_name => "HotelsHotelAmenity"
 
   def self.cols

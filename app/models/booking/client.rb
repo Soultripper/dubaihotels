@@ -12,7 +12,8 @@ class Booking::Client
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        # faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.adapter  :typhoeus
       end
     end
 
@@ -37,7 +38,7 @@ class Booking::Client
     end
 
     def get_hotel_availability(params={})
-      parse_response(http.get(url + '/bookings.getHotelAvailability', params))
+      parse_response(http.post(url + '/bookings.getHotelAvailability', params))
     end
 
     def get_block_availability(params={})

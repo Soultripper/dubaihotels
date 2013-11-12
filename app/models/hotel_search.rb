@@ -13,18 +13,18 @@ class HotelSearch
   end
 
   def find_or_create
-    Rails.cache.fetch cache_key, expires_in: 1.minute do 
+    # Rails.cache.fetch cache_key, expires_in: 1.minute do 
       Log.info "Starting new search: #{cache_key}"
       self
-    end       
+    # end       
   end
 
   def start
     return self if @started
     @started = true
     all_hotels
-    persist
-    search_by_destination
+    # persist
+    # search_by_destination
     self
   end
 
@@ -57,7 +57,7 @@ class HotelSearch
   end
 
   def all_hotels
-    @all_hotels ||= Hotel.by_location(location).to_a  
+    @all_hotels ||= Hotel.by_location(location).select([:id, :star_rating, :booking_hotel_id, :ean_hotel_id]).to_a  
   end
 
   def search_by_destination    
