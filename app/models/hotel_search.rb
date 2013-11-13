@@ -1,10 +1,9 @@
 class HotelSearch
+
   attr_reader :location, :search_criteria, :results_counter, :started
 
-  attr_accessor :total_hotels
-
   def initialize(location, search_criteria)
-    @results_counter = ResultsCounter.new [:booking, :expedia]
+    @results_counter = ResultsCounter.new [:booking]
     @location, @search_criteria = location, search_criteria
   end
 
@@ -13,57 +12,58 @@ class HotelSearch
   end
 
   def find_or_create
-    # Rails.cache.fetch cache_key, expires_in: 1.minute do 
+    Rails.cache.fetch cache_key, expires_in: 1.minute do 
       Log.info "Starting new search: #{cache_key}"
       self
-    # end       
+    end       
   end
 
   def start
     return self if @started
     @started = true
     all_hotels
-    # persist
-    # search_by_destination
+    Log.debug "Search found a total of #{total_hotels} hotels"
+    persist
+    search_by_destination
     self
   end
 
   def results
-    HotelSearchPageResult.new self
+    results = {
+      total: total_hotels,
+      location: location,
+      search_criteria: search_criteria,
+      started: @started,
+      finished: finished?
+    }
+    cur_hotels = compared_hotels
+    cur_hotels = cur_hotels.length > 0 ? cur_hotels : all_hotels
+    HotelSearchPageResult.new cur_hotels.clone, results
   end
 
   def hotels
-    polled? ? @hotels : @all_hotels
+    @hotels ||= compared_hotels
+  end
+
+  def compared_hotels
+    all_hotels.select {|h| !h.provider_deals.empty?}
   end
 
   def total_hotels
-    @all_hotels.count
+    all_hotels.count
   end
 
   def available_hotels
-    @hotels ? @hotels.count : 0
-  end
-
-  def min_price
-    polled? ? @hotels.min_by {|h| h.offer[:min_price]}.offer[:min_price] : 0
-  end
-
-  def max_price    
-    polled? ? @hotels.max_by {|h| h.offer[:max_price]}.offer[:max_price] : 0
-  end
-
-  def polled?
-    @hotels and @hotels.length > 0
+    hotels.count
   end
 
   def all_hotels
-    @all_hotels ||= Hotel.by_location(location).select([:id, :star_rating, :booking_hotel_id, :ean_hotel_id]).to_a  
+    @all_hotels ||= Hotel.by_location(location).to_a 
   end
 
   def search_by_destination    
-    threaded {request_expedia_hotels}
+    # threaded {request_expedia_hotels}
     threaded {request_booking_hotels}
-    self
   end
 
   def threaded(&block)
@@ -75,7 +75,6 @@ class HotelSearch
   end
 
   def reset(provider)
-    @hotels ||= []
     results_counter.reset_provider provider
   end
 
@@ -84,68 +83,71 @@ class HotelSearch
   end
 
   def finish(provider)
+    @hotels = nil
     results_counter.finish provider
     persist
-    Log.debug "#{provider} finished: #{@hotels.count} hotels loaded"
+    Log.debug "#{provider} finished: #{hotels.count} hotels loaded"
   end
 
   def page_inc(provider)
-    results_counter.inc :expedia
+    results_counter.inc provider
     Log.debug "#{provider} page #{results_counter.page provider}"
   end
 
-  def request_expedia_hotels    
-    reset :expedia
-    response = Expedia::Search.by_location(location, search_criteria)
+  # def request_expedia_hotels    
+  #   reset :expedia
+  #   response = Expedia::Search.by_location(location, search_criteria)
 
-    response.page_hotels do |expedia_hotels|
-      page_inc :expedia
-      add_new_expedia_hotels expedia_hotels
-      process_provider_hotels(expedia_hotels) do |provider_hotel|
-        all_hotels.find {|hotel| hotel.ean_hotel_id == provider_hotel.id} 
-      end
-     persist
-    end
+  #   response.page_hotels do |expedia_hotels|
+  #     page_inc :expedia
+  #     add_new_expedia_hotels expedia_hotels
+  #     process_provider_hotels(expedia_hotels) do |provider_hotel|
+  #       all_hotels.find {|hotel| hotel.ean_hotel_id == provider_hotel.id} 
+  #     end
+  #    persist
+  #   end
 
-    finish :expedia
-  end
+  #   finish :expedia
+  # end
 
 
-  def add_new_expedia_hotels(expedia_hotels)
-    hotel_ids_set = Set.new(expedia_hotels.map(&:id))
-    matched_hotels = Set.new(all_hotels.map(&:ean_hotel_id))
-    unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
-    all_hotels.concat  Hotel.where(ean_hotel_id: unmatached_hotel_ids.to_a).to_a  
-  end
+  # def add_new_expedia_hotels(expedia_hotels)
+  #   hotel_ids_set = Set.new(expedia_hotels.map(&:id))
+  #   matched_hotels = Set.new(all_hotels.map(&:ean_hotel_id))
+  #   unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
+  #   all_hotels.concat  Hotel.where(ean_hotel_id: unmatached_hotel_ids.to_a).to_a  
+  # end
 
   def request_booking_hotels
     reset :booking
-    response = Booking::Search.by_location(location, search_criteria)
+    booking_hotel_ids = all_hotels.map(&:booking_hotel_id).compact
 
-    process_provider_hotels(response.hotels) do |provider_hotel|
-      all_hotels.find {|hotel| hotel.booking_hotel_id == provider_hotel.id} 
+    time = Benchmark.realtime do 
+      Log.debug "Searching #{booking_hotel_ids.count} booking hotels"
+      response = Booking::Search.by_hotel_ids_in_parallel(booking_hotel_ids, search_criteria, slice: 250)
+      Log.debug "Found #{response.hotels.count} booking hotels"
+      compare response.hotels, :booking_hotel_id
     end
+    Log.info "Realtime comparison of booking.com took #{time}s"
 
+    
     finish :booking    
   end
 
-  def process_provider_hotels(provider_hotels, &block)
-    provider_hotels.each do |provider_hotel|
-      if hotel = yield(provider_hotel)
-         add_to_list hotel, provider_hotel
-      else
-        Log.info "No match for provider: #{provider_hotel.class} hotel_id: #{provider_hotel.id}"
-      end
+  def compare(hotels, key)
+    matches = 0
+    time = Benchmark.realtime do 
+      HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
+        matches += 1
+        add_to_list(hotel, provider_hotel)
+      end    
     end
+    puts "Matched and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
   end
 
   def add_to_list(hotel, provider_hotel)
-
     hotel.compare_and_add(provider_hotel, search_criteria)
-    return if @hotels.include?(hotel)
-
-    hotel.distance_from_location = hotel.distance_from location
-    @hotels << hotel
+    hotel.distance_from_location = hotel.distance_from(@location) unless hotel.distance_from_location
   end
 
   def persist

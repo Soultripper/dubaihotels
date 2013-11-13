@@ -1,10 +1,19 @@
 class HotelSearchPageResult
-  attr_reader :hotel_search, :sort_key
+
+  attr_reader :hotels, :sort_key, :search_options
 
   attr_accessor :user_filters
 
-  def initialize(hotel_search, options={})
-    @hotel_search = hotel_search
+  def initialize(hotels, search_options={})
+    @hotels, @search_options = hotels || [], search_options
+  end
+
+  def min_price
+    hotels.min_by {|h| h.offer[:min_price]}.offer[:min_price]
+  end
+
+  def max_price 
+    hotels.max_by {|h| h.offer[:max_price]}.offer[:max_price]
   end
 
   def sort(key)
@@ -31,12 +40,12 @@ class HotelSearchPageResult
   end
 
   def do_sort(&block)
-    hotels.sort_by!(&block) if hotels
+    hotels.sort_by!(&block)
   end
 
   def filter(filters={})   
-    return self unless hotel_search.polled? and hotels
     @user_filters = filters
+
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
@@ -44,6 +53,7 @@ class HotelSearchPageResult
       filter_amenities(hotel, filters[:amenities]) and
       filter_stars(hotel, filters[:star_ratings])
     end
+
     Log.debug "#{hotels.count} remaining after #{filters} applied"
     self
   end
@@ -72,53 +82,53 @@ class HotelSearchPageResult
     as_json hotels: hotels[lower...upper]
   end
 
+  def location
+    search_options[:location]
+  end
+
   def as_json(options={})
 
-    matched_hotel_ids = (options[:hotels] || hotels).map &:id
+    matched_hotels = options[:hotels] || hotels
+    #matched_hotels = Hotel.with_images.where(id: matched_hotel_ids)
 
-    matched_hotels = Hotel.with_images.where(id: matched_hotel_ids)
-
-    # load_images(matched_hotels)
+    load_images(matched_hotels)
 
     Jbuilder.encode do |json|
       json.info do
-        json.query            hotel_search.location.city
-        json.slug             hotel_search.location.slug
+        json.query            location.city
+        json.slug             location.slug
         json.sort             sort_key
-        json.total_hotels     hotel_search.total_hotels
+        json.total_hotels     search_options[:total]
         json.available_hotels hotels.count 
-        json.min_price        hotel_search.min_price 
-        json.max_price        hotel_search.max_price  
+        json.min_price        min_price 
+        json.max_price        max_price  
         json.min_price_filter user_filters[:min_price] if user_filters
         json.max_price_filter user_filters[:max_price] if user_filters          
       end      
-      json.criteria         hotel_search.search_criteria
-      json.finished         hotel_search.finished?
+      json.criteria           search_options[:search_criteria]
+      json.finished           search_options[:finished]
       json.hotels matched_hotels do |hotel|
         json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
                   :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :distance_from_location)
         json.offer          hotel.offer
-        json.images         hotel_images(hotel), :url, :thumbnail_url, :caption, :width, :height
+        json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
         json.providers      hotel.provider_deals           
       end
     end
+  end
+
+  def find_images_by(hotel, count=10)
+    hotel_images = @images.find {|k,v| k==hotel.id}
+    hotel_images ? hotel_images[1].take(count) : []
   end
 
   def hotel_images(hotel)
     hotel.images.take(10)
   end
 
-  def find_images_by(hotel_id, count=10)
-    hotel_images = @images.find {|k,v| k==hotel_id}
-    hotel_images ? hotel_images[1].take(count) : []
-  end
-
   def load_images(filtered_hotels)
     @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
   end
 
-  def hotels
-    @hotels ||= hotel_search.hotels.clone
-  end
 
 end

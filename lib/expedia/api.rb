@@ -69,7 +69,8 @@ module Expedia
     private
 
     def services(path, args, method=:get)
-      HTTPService.make_request(path, args, method)
+      response = HTTPService.make_request(path, args, method)
+      HTTPService.create_response response
     end
 
   end

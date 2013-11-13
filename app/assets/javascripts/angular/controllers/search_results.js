@@ -36,8 +36,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
             to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
 
-        // if(!response.finished && data.calls < 6)
-        //   $timeout(pollSearch, 1500);
+        if(!response.finished && data.calls < 6)
+          $timeout(pollSearch, 2500);
       })
     };
 

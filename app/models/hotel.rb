@@ -16,7 +16,7 @@ class Hotel < ActiveRecord::Base
   end
 
   def provider_deals
-    @provider_deals ||= []
+    @provider_deals ||= {}
   end
 
   def offer
@@ -26,7 +26,7 @@ class Hotel < ActiveRecord::Base
   def compare_and_add(hotel_response, search_criteria)
     data = hotel_response.commonize(search_criteria)
     compare data 
-    provider_deals << data
+    provider_deals[data[:provider]] = data
   end
 
   def compare(provider_hotel)

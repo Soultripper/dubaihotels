@@ -32,10 +32,25 @@ class Booking::Search
     new(search_criteria).by_hotel_ids(hotel_ids, params)
   end
 
+  def self.by_hotel_ids_in_parallel(hotel_ids,search_criteria,params={})
+    new(search_criteria).by_hotel_ids_in_parallel(hotel_ids, params)
+  end  
+
   def by_hotel_ids(hotel_ids, options={})
     params = search_params.merge(options).merge({hotel_ids: hotel_ids.join(',')})  
     create_response Booking::Client.get_hotel_availability(params)
   end
+
+  def by_hotel_ids_in_parallel(hotel_ids, options={})
+    responses, conn, slice_by = [], Booking::Client.http, (options[:slice] || 300)
+    conn.in_parallel do 
+      hotel_ids.each_slice(slice_by) do |sliced_ids|
+        request_params = search_params.merge(options).merge({hotel_ids: sliced_ids.join(',')})  
+        responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', request_params)
+      end
+    end
+    create_response concat_responses(responses)
+  end 
 
    def by_location(location, options={})        
     params = search_params.merge(options).merge({latitude: location.latitude, longitude: location.longitude, radius: 20})   
@@ -43,6 +58,10 @@ class Booking::Search
   end 
 
   protected
+
+  def concat_responses(responses)
+    responses.flat_map {|r| JSON.parse(r.body)}
+  end
 
   def create_response(booking_response)
     @response = Booking::HotelListResponse.new(booking_response)

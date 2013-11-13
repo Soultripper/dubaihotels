@@ -1,3 +1,5 @@
+require 'typhoeus/adapters/faraday'
+
 class Booking::Client 
 
   class << self 
@@ -16,6 +18,7 @@ class Booking::Client
         faraday.adapter  :typhoeus
       end
     end
+
 
     def hotels(params={})
       parse_response(http.get(url + '/bookings.getHotels', params))

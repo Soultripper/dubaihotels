@@ -1,5 +1,6 @@
 require 'faraday'
 require 'expedia/http_service/response'
+require 'typhoeus/adapters/faraday'
 
 module Expedia
   module HTTPService
@@ -14,26 +15,28 @@ module Expedia
         "#{options[:use_ssl] ? "https" : "http"}://#{server}"
       end
 
+      def http(server, options={})
+        Faraday.new(server, options) do |faraday|
+          faraday.headers['Accept-Encoding'] = 'gzip,deflate'
+          faraday.request  :url_encoded             # form-encode POST params
+          faraday.response :logger                  # log requests to STDOUT
+          faraday.response :gzip 
+          # faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+          faraday.adapter  :typhoeus
+        end
+      end
 
       def make_request(path, args, verb, options = {})
-        args.merge!(add_common_parameters)
-        # figure out our options for this request
+        args.merge!(common_parameters)
         request_options = {:params => (verb == :get ? args : {})}
-        # set up our Faraday connection
-        conn = Faraday.new(server(options), request_options)
-        conn.headers['Accept-Encoding'] = 'gzip,deflate'
-        conn.response :gzip 
-        response = conn.send(verb, path, (verb == :post ? args : {}))
+        conn = http(server(options), request_options)
+        conn.send(verb, path, (verb == :post ? args : {}))
+      end
 
-        Expedia::Utils.debug "\nExpedia [#{verb.upcase}] - #{server(options) + path} params: #{args.inspect} : #{response.status}\n"
+      def create_response(response)
+        # Expedia::Utils.debug "\nExpedia [#{verb.upcase}] - #{server(options) + path} params: #{args.inspect} : #{response.status}\n"
         response = Expedia::HTTPService::Response.new(response.status.to_i, response.body, response.headers)
-
-        # If there is an exception make a [Expedia::APIError] object to return
-        if response.exception?
-          Expedia::APIError.new(response.status, response.body)
-        else
-          response
-        end
+        response.exception? ? Expedia::APIError.new(response.status, response.body) : response        
       end
 
       def encode_params(param_hash)
@@ -51,7 +54,7 @@ module Expedia
         end
       end
 
-      def add_common_parameters
+      def common_parameters
         { :cid => Expedia.cid, :sig => signature, :apiKey => Expedia.api_key, :minorRev => Expedia.minor_rev,
           :_type => 'json', :locale => Expedia.locale }
       end
