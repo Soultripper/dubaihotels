@@ -11,6 +11,7 @@ module Expedia
       hotels = expedia_responses.flat_map do |response| 
         if response.exception?
           Log.error "Expedia exception: #{response}"
+          nil
         else
           Expedia::HotelListResponse.new(response).hotels
         end

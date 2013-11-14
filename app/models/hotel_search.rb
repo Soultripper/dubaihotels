@@ -1,9 +1,13 @@
 class HotelSearch
-
+  extend Forwardable
   attr_reader :location, :search_criteria, :results_counter, :started
 
-  def initialize(location, search_criteria)
-    @results_counter = ResultsCounter.new [:booking]
+  def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
+
+  PROVIDERS = [:expedia]
+  def initialize(location, search_criteria, use_cache=true)
+    @use_cache = use_cache
+    @results_counter = ResultsCounter.new PROVIDERS
     @location, @search_criteria = location, search_criteria
   end
 
@@ -12,6 +16,7 @@ class HotelSearch
   end
 
   def find_or_create
+    return self unless @use_cache
     Rails.cache.fetch cache_key, expires_in: 1.minute do 
       Log.info "Starting new search: #{cache_key}"
       self
@@ -22,7 +27,7 @@ class HotelSearch
     return self if @started
     @started = true
     all_hotels
-    Log.debug "Search found a total of #{total_hotels} hotels"
+    Log.debug "Hotel Search: #{total_hotels} hotels to search"
     persist
     search_by_destination
     self
@@ -53,57 +58,57 @@ class HotelSearch
     all_hotels.count
   end
 
-  def available_hotels
-    hotels.count
-  end
-
   def all_hotels
     @all_hotels ||= Hotel.by_location(location).to_a 
   end
 
   def search_by_destination    
-    # threaded {request_expedia_hotels}
-    threaded {request_booking_hotels}
+    threaded {request_booking_hotels} if include? :booking
+    threaded {request_expedia_hotels} if include? :expedia
   end
 
   def threaded(&block)
-    # return yield
+    return yield
     Thread.new do 
       yield
       ActiveRecord::Base.connection.close
     end
   end
 
-  def reset(provider)
-    results_counter.reset_provider provider
+  def request_expedia_hotels
+    provider, key = :expedia, :ean_hotel_id
+    reset provider
+    hotel_ids = ids_for key    
+    time = Benchmark.realtime do 
+      response = Expedia::Search.by_hotel_ids_in_parallel(hotel_ids, search_criteria)
+      Log.debug "Found #{response.hotels.count} #{provider} hotels"
+      compare response.hotels, key
+    end
+    Log.info "Realtime comparison of #{provider} took #{time}s"
+    finish_and_persist provider
   end
 
-  def finished?
-    results_counter.finished?
-  end
-
-  def finish(provider)
-    @hotels = nil
-    results_counter.finish provider
-    persist
-    Log.debug "#{provider} finished: #{hotels.count} hotels loaded"
-  end
-
-  def page_inc(provider)
-    results_counter.inc provider
-    Log.debug "#{provider} page #{results_counter.page provider}"
+  def request_booking_hotels
+    provider, key = :booking, :booking_hotel_id
+    reset provider
+    hotel_ids = ids_for key    
+    time = Benchmark.realtime do       
+      response = Booking::Search.by_hotel_ids_in_parallel(hotel_ids, search_criteria)
+      Log.debug "Found #{response.hotels.count} #{provider} hotels"
+      compare response.hotels, key
+    end
+    Log.info "Realtime comparison of #{provider} took #{time}s"    
+    finish_and_persist provider 
   end
 
   # def request_expedia_hotels    
-  #   reset :expedia
+  #   provider, key = :expedia, :ean_hotel_id
+  #   reset provider
   #   response = Expedia::Search.by_location(location, search_criteria)
-
   #   response.page_hotels do |expedia_hotels|
-  #     page_inc :expedia
+  #     page_inc provider
   #     add_new_expedia_hotels expedia_hotels
-  #     process_provider_hotels(expedia_hotels) do |provider_hotel|
-  #       all_hotels.find {|hotel| hotel.ean_hotel_id == provider_hotel.id} 
-  #     end
+  #     compare expedia_hotels, key
   #    persist
   #   end
 
@@ -113,29 +118,28 @@ class HotelSearch
 
   # def add_new_expedia_hotels(expedia_hotels)
   #   hotel_ids_set = Set.new(expedia_hotels.map(&:id))
-  #   matched_hotels = Set.new(all_hotels.map(&:ean_hotel_id))
+  #   matched_hotels = Set.new(ids_for(:ean_hotel_id))
   #   unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
   #   all_hotels.concat  Hotel.where(ean_hotel_id: unmatached_hotel_ids.to_a).to_a  
   # end
 
-  def request_booking_hotels
-    reset :booking
-    booking_hotel_ids = all_hotels.map(&:booking_hotel_id).compact
 
-    time = Benchmark.realtime do 
-      Log.debug "Searching #{booking_hotel_ids.count} booking hotels"
-      response = Booking::Search.by_hotel_ids_in_parallel(booking_hotel_ids, search_criteria, slice: 250)
-      Log.debug "Found #{response.hotels.count} booking hotels"
-      compare response.hotels, :booking_hotel_id
-    end
-    Log.info "Realtime comparison of booking.com took #{time}s"
+  def finish_and_persist(provider)
+    finish provider
+    persist
+    Log.debug "COMPLETE - #{provider.upcase}: #{hotels.count} hotels compared"
+  end
 
-    
-    finish :booking    
+
+  def ids_for(provider_key)
+    ids_for = all_hotels.map(&provider_key).compact
+    Log.debug "Retrieved #{ids_for.count} #{provider_key} hotels for processing"
+    ids_for
   end
 
   def compare(hotels, key)
     matches = 0
+    # Log.debug "#{hotels.count} hotels found, #{all_hotels.count} all hotels found"
     time = Benchmark.realtime do 
       HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
         matches += 1
@@ -151,7 +155,7 @@ class HotelSearch
   end
 
   def persist
-    Rails.cache.write cache_key, self
+    Rails.cache.write(cache_key, self) if @use_cache
   end
 
   def cache_key

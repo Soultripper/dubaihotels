@@ -3,6 +3,7 @@ class Booking::Search
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {
+    slice: 600
   }
 
   CACHE_OPTIONS = {
@@ -42,9 +43,10 @@ class Booking::Search
   end
 
   def by_hotel_ids_in_parallel(hotel_ids, options={})
-    responses, conn, slice_by = [], Booking::Client.http, (options[:slice] || 300)
-    conn.in_parallel do 
+    responses, conn, slice_by = [], Booking::Client.http, (options[:slice] || DEFAULT_PARAMS[:slice])
+    conn do 
       hotel_ids.each_slice(slice_by) do |sliced_ids|
+        Log.info "Requesting #{sliced_ids.count} hotels from booking.com"
         request_params = search_params.merge(options).merge({hotel_ids: sliced_ids.join(',')})  
         responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', request_params)
       end
@@ -64,9 +66,7 @@ class Booking::Search
   end
 
   def create_response(booking_response)
-    @response = Booking::HotelListResponse.new(booking_response)
-    Log.debug "#{response.hotels.count} Booking hotels found"
-    @response
+    Booking::HotelListResponse.new(booking_response)
   end
 
   def search_params

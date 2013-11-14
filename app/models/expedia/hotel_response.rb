@@ -39,6 +39,10 @@ module Expedia
       end
     end
 
+    def ranking
+      self['@order']
+    end
+
     def rooms_count
       rooms.count
     end
@@ -68,6 +72,7 @@ module Expedia
         room_count: rooms_count,
         min_price: avg_price(room_rates[0], search_criteria.total_nights),
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
+        ranking: ranking,
         rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue

@@ -45,15 +45,21 @@ class Expedia::Search
   end
 
   def by_hotel_ids_in_parallel(hotel_ids, options={})
-    responses, conn, slice_by = [], Expedia::Client.http, (options[:slice] || 300)
+    Log.info "Expedia - Hotel (Parallel): #{hotel_ids.count} hotels to be requested"
+    responses, conn, slice_by = [], Expedia::Client.http, (options[:slice] || DEFAULT_PARAMS[:numberOfResults])
 
     options.merge!(Expedia::Client.credentials)
 
     conn.in_parallel do 
+    begin
       hotel_ids.each_slice(slice_by) do |sliced_ids|
+        Log.info "Requesting #{sliced_ids.count} hotels from expedia"
         request_params = search_params.merge(options).merge({hotelIdList: sliced_ids.join(',')})
         responses << conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', request_params)
       end
+    rescue
+      Log.error "Error in Expedia parallel request"
+    end
     end
     Expedia::HotelList.from_responses concat(responses)
     # Expedia::HotelListResponse.new(concat(responses))
@@ -62,6 +68,7 @@ class Expedia::Search
   protected
 
   def concat(responses)
+    Log.debug "Combining #{responses.count} expedia responses"
     responses.flat_map {|response| Expedia::HTTPService.create_response(response)}
   end
 

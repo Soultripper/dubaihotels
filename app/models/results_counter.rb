@@ -4,17 +4,22 @@ class ResultsCounter
 
   def initialize(providers)
     @counter, @providers = {}, providers
-    providers.each {|p| reset_provider p}
+    providers.each {|p| reset p}
   end
 
-  def reset_provider(provider)
+  def reset(provider)
     counter[provider] = {pages: 0, finished: false}
   end
 
-  def inc(provider)
+  def page_inc(provider)
     counter[provider][:pages] += 1
+    Log.debug "#{provider} page #{page provider}"
   end
 
+  def include?(provider)
+    providers.include? provider
+  end
+  
   def page(provider)
     counter[provider][:pages]
   end

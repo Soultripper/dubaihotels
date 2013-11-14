@@ -23,6 +23,28 @@ class Hotel < ActiveRecord::Base
     @offer ||= {}
   end
 
+  def ranking
+    return provider_deals[:booking][:ranking]*-1 if booking?
+    return provider_deals[:expedia][:ranking] if booking?
+    999
+  end
+
+  def booking?
+    booking
+  end
+
+  def booking
+    provider_deals[:booking]
+  end
+
+  def expedia?
+    expedia
+  end
+
+  def expedia
+    provider_deals[:booking]
+  end
+
   def compare_and_add(hotel_response, search_criteria)
     data = hotel_response.commonize(search_criteria)
     compare data 

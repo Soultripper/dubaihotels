@@ -16,6 +16,10 @@ module Booking
       
     end
 
+    def ranking
+      self['ranking']
+    end
+
     def price_in_currency
       other_currency[0]
     end
@@ -94,6 +98,7 @@ module Booking
         room_count: rooms_count,
         min_price: min_price,
         max_price: max_price,
+        ranking: ranking,
         rooms: nil#rooms.map(&:commonize)
       }
     rescue

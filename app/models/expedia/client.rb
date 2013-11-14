@@ -12,6 +12,7 @@ class Expedia::Client
     def http
       Faraday.new(url: url) do |faraday|
         faraday.headers['Accept-Encoding'] = 'gzip,deflate'
+        faraday.request  :retry,   0   # times
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
@@ -21,7 +22,7 @@ class Expedia::Client
 
     def get_list(params, &block)  
       params.merge!(credentials)
-      create_response http.get('/ean-services/rs/hotel/v3/list', params), &block
+      create_response http.post('/ean-services/rs/hotel/v3/list', params), &block
     end
 
     def get_availability( params, &block)    
