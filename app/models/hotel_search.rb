@@ -35,7 +35,7 @@ class HotelSearch
 
 
   def all_hotels
-    @all_hotels ||= Hotel.by_location(location).to_a 
+    @all_hotels ||= Hotel.by_location(location).limit(500).to_a 
   end
 
 
