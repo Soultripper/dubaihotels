@@ -4,7 +4,7 @@ module Expedia
     attr_reader :name, :data
 
     def initialize(name, data)
-      @name, @data = name, data.body[name]
+      @name, @data = name, data[name]
     end
 
     def more_pages?

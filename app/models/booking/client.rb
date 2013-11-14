@@ -40,8 +40,12 @@ class Booking::Client
       parse_response(http.get(url + '/bookings.getCountries', params))
     end
 
-    def get_hotel_availability(params={})
+    def post_hotel_availability(params={})
       parse_response(http.post(url + '/bookings.getHotelAvailability', params))
+    end
+
+    def get_hotel_availability(params={})
+      parse_response(http.get(url + '/bookings.getHotelAvailability', params))
     end
 
     def get_block_availability(params={})

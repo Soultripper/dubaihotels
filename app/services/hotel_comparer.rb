@@ -10,16 +10,33 @@ class HotelComparer
     new(source_hotels, provider_hotels, key).compare &block
   end
 
-  def compare(&block)           
+  def compare(&block)      
+    add_unmatched_hotels     
     search_dictionary &block
     # compared_hotels
+  end
+
+  def add_unmatched_hotels
+    new_hotels, unmatached_hotel_ids = [], []
+    time = Benchmark.realtime do 
+      hotel_ids_set = Set.new(provider_hotels.map(&:id))
+      matched_hotels = Set.new(source_hotels.map(&key))
+      unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
+      new_hotels = Hotel.where(key => unmatached_hotel_ids.to_a).to_a  
+    end
+    source_hotels.concat(new_hotels) if new_hotels.length > 0
+    Log.info "Discovered and added #{new_hotels.length} unmatched hotels to compare in #{time}s"
   end
 
   def search_dictionary(&block)    
     create_dictionary     
     provider_hotels.each do |provider_hotel|        
       match = lookup(provider_hotel)
-      yield(match, provider_hotel) if match
+      if match
+        yield(match, provider_hotel)
+      else
+        Log.warn "Unable to locate #{key}:  #{provider_hotel.id}"
+      end
     end
   end
 
@@ -36,7 +53,7 @@ class HotelComparer
 
   def lookup(provider_hotel)
     hash_key = provider_hotel.id.to_s[0..3]
-    @dictionary[hash_key].find {|s_hotel| s_hotel[key] == provider_hotel.id}    
+    @dictionary[hash_key].find {|s_hotel| s_hotel[key] == provider_hotel.id} if @dictionary[hash_key]
   end
 
   # def add_to_list(hotel, provider_hotel)

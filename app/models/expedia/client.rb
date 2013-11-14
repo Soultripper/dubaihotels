@@ -20,24 +20,18 @@ class Expedia::Client
       end
     end
 
-    def get_list(params, &block)  
-      params.merge!(credentials)
-      create_response http.post('/ean-services/rs/hotel/v3/list', params), &block
+    def get_list(params)  
+      params.merge! credentials
+      parse_response http.post('/ean-services/rs/hotel/v3/list', params)
     end
 
-    def get_availability( params, &block)    
-      params.merge!(credentials)  
-      create_response http.get('/ean-services/rs/hotel/v3/avail', params), &block
+    def get_availability(params)  
+      params.merge! credentials  
+      parse_response http.get('/ean-services/rs/hotel/v3/avail', params)
     end
 
-    def create_response(response, &block)
-      response = Expedia::HTTPService.create_response(response)
-      if !response or response.exception?  
-        Log.error "Unable to make request: #{response}"   
-        nil
-      else
-        block_given? ? yield(response) : response
-      end     
+    def parse_response(response)
+      JSON.parse response.body if response
     end
 
     def credentials

@@ -13,6 +13,10 @@ class Expedia::Search
     @search_criteria = search_criteria
   end
 
+  def self.by_destination(location, search_criteria, params={})
+    new(search_criteria).by_destination(location, params)
+  end
+
   def self.by_location(location, search_criteria, params={})
     new(search_criteria).by_location(location, params)
   end
@@ -21,22 +25,23 @@ class Expedia::Search
     new(search_criteria).by_hotel_ids(hotel_ids, params)
   end
 
-  def self.by_hotel_ids_in_parallel(hotel_ids, search_criteria,params={})
-    new(search_criteria).by_hotel_ids_in_parallel(hotel_ids, params)
-  end
-
   def self.check_room_availability(hotel_id, search_criteria, params={})
     new(search_criteria).check_availability(hotel_id, params)
   end
 
   def by_location(location, options={})        
     params = search_params.merge(options).merge({latitude: location.latitude, longitude: location.longitude, searchRadiusUnit: 'KM', searchRadius: 20})   
-    create_list_response params
+    create_list_response Expedia::Client.get_list(params)
+  end
+
+  def by_destination(location, options={})        
+    params = search_params.merge(options).merge({ destinationString: "#{location.city}, #{location.country}"})   
+    create_list_response Expedia::Client.get_list(params)
   end
 
   def by_hotel_ids(hotel_ids, options={})        
     params = search_params.merge(options).merge({hotelIdList: hotel_ids.join(',')})   
-    create_list_response params
+    create_list_response  Expedia::Client.get_list(params)
   end
 
   def check_availability(hotel_id, options={})        
@@ -44,40 +49,19 @@ class Expedia::Search
     create_availability_response params
   end
 
-  def by_hotel_ids_in_parallel(hotel_ids, options={})
-    Log.info "Expedia - Hotel (Parallel): #{hotel_ids.count} hotels to be requested"
-    responses, conn, slice_by = [], Expedia::Client.http, (options[:slice] || DEFAULT_PARAMS[:numberOfResults])
-
-    options.merge!(Expedia::Client.credentials)
-
-    conn.in_parallel do 
-    begin
-      hotel_ids.each_slice(slice_by) do |sliced_ids|
-        Log.info "Requesting #{sliced_ids.count} hotels from expedia"
-        request_params = search_params.merge(options).merge({hotelIdList: sliced_ids.join(',')})
-        responses << conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', request_params)
-      end
-    rescue
-      Log.error "Error in Expedia parallel request"
-    end
-    end
-    Expedia::HotelList.from_responses concat(responses)
-    # Expedia::HotelListResponse.new(concat(responses))
-  end 
-
   protected
 
   def concat(responses)
     Log.debug "Combining #{responses.count} expedia responses"
-    responses.flat_map {|response| Expedia::HTTPService.create_response(response)}
+    responses.flat_map {|response| create_list_response(response)}
   end
 
-  def create_list_response(params)
-    Expedia::Client.get_list(params) { |response| Expedia::HotelListResponse.new(response) if response}
+  def create_list_response(response)
+    Expedia::HotelListResponse.new(response) if response
   end
 
-  def create_availability_response(params)
-    Expedia::Client.get_availability(params) { |response| Expedia::HotelRoomAvailabilityResponse.new(response) if response}
+  def create_availability_response(response)
+    Expedia::HotelRoomAvailabilityResponse.new(response) if response
   end
 
   def search_params
@@ -128,4 +112,5 @@ class Expedia::Search
       'postal_code' => 'POSTAL_CODE'
     }
   end 
+
 end

@@ -2,9 +2,9 @@ class Booking::Search
 
   attr_reader :search_criteria, :response 
 
-  DEFAULT_PARAMS =  {
-    slice: 600
-  }
+  DEFAULT_PARAMS =  {}
+
+  DEFAULT_SLICE = 600
 
   CACHE_OPTIONS = {
     expires_in: 4.hours,
@@ -24,11 +24,6 @@ class Booking::Search
     new(search_criteria).by_city_ids(city_ids, params)
   end
 
-  def by_city_ids(city_ids, options={})        
-    params = search_params.merge(options).merge({city_ids: city_ids})  
-    create_response Booking::Client.get_hotel_availability(params)
-  end
-
   def self.by_hotel_ids(hotel_ids,search_criteria,params={})
     new(search_criteria).by_hotel_ids(hotel_ids, params)
   end
@@ -37,36 +32,54 @@ class Booking::Search
     new(search_criteria).by_hotel_ids_in_parallel(hotel_ids, params)
   end  
 
-  def by_hotel_ids(hotel_ids, options={})
-    params = search_params.merge(options).merge({hotel_ids: hotel_ids.join(',')})  
-    create_response Booking::Client.get_hotel_availability(params)
-  end
-
-  def by_hotel_ids_in_parallel(hotel_ids, options={})
-    responses, conn, slice_by = [], Booking::Client.http, (options[:slice] || DEFAULT_PARAMS[:slice])
-    conn do 
-      hotel_ids.each_slice(slice_by) do |sliced_ids|
-        Log.info "Requesting #{sliced_ids.count} hotels from booking.com"
-        request_params = search_params.merge(options).merge({hotel_ids: sliced_ids.join(',')})  
-        responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', request_params)
-      end
-    end
-    create_response concat_responses(responses)
-  end 
-
-   def by_location(location, options={})        
+  def by_location(location, options={})        
     params = search_params.merge(options).merge({latitude: location.latitude, longitude: location.longitude, radius: 20})   
-    create_response Booking::Client.get_hotel_availability(params)
+    create_response Booking::Client.get_hotel_availability(params), options[:chunk]
   end 
+
+
+  # def by_city_ids(city_ids, options={})        
+  #   params = search_params.merge(options).merge({city_ids: city_ids})  
+  #   create_response Booking::Client.get_hotel_availability(params), options[:chunk]
+  # end
+
+
+  # def by_city_ids_in_parallel(city_ids, chunks, options={})        
+  #   responses, conn  = [], Booking::Client.http
+
+  #   params = search_params.merge(options).merge({city_ids: city_ids})  
+  #   conn.in_parallel do 
+  #     chunks.times do |chunk|
+  #       Log.info "Requesting chunk #{chunk} for city ids #{city_ids} from booking.com"
+  #       request_params = params.merge({chunk: chunk + 1})
+  #       responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', request_params)
+  #     end
+  #   end
+  #   create_response concat_responses(responses), chunks
+  # end
+
+  # def by_hotel_ids(hotel_ids, options={})
+  #   params = search_params.merge(options).merge({hotel_ids: hotel_ids.join(',')})  
+  #   create_response Booking::Client.get_hotel_availability(params), options[:chunk]
+  # end
+
+  # def by_hotel_ids_in_parallel(hotel_ids, options={})
+  #   responses, conn, slice_by = [], Booking::Client.http, (options[:slice] || DEFAULT_SLICE)
+  #   conn.in_parallel do 
+  #     hotel_ids.each_slice(slice_by) do |sliced_ids|
+  #       Log.info "Requesting #{sliced_ids.count} hotels from booking.com"
+  #       request_params = search_params.merge(options).merge({hotel_ids: sliced_ids.join(',')})  
+  #       responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', request_params)
+  #     end
+  #   end
+  #   create_response concat_responses(responses), options[:chunk]
+  # end 
 
   protected
 
-  def concat_responses(responses)
-    responses.flat_map {|r| JSON.parse(r.body)}
-  end
 
-  def create_response(booking_response)
-    Booking::HotelListResponse.new(booking_response)
+  def create_response(booking_response, page_no=0)
+    Booking::HotelListResponse.new(booking_response, page_no)
   end
 
   def search_params
