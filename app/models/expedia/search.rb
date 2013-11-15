@@ -46,7 +46,7 @@ class Expedia::Search
 
   def check_availability(hotel_id, options={})        
     params = search_params.merge(options).merge({hotelId: hotel_id, supplierType: ''})   
-    create_availability_response params
+    create_availability_response Expedia::Client.get_availability(params)
   end
 
   protected

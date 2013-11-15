@@ -18,8 +18,16 @@ module Booking
       new(ids, search_criteria).search(options)
     end
 
+    def self.for_availability(id, search_criteria, options={})
+      new([id], search_criteria).availability(options)
+    end
+
     def search(options={})
       create_response Booking::Client.post_hotel_availability(params(options))
+    end
+
+    def availability(options={})
+      create_response Booking::Client.get_block_availability(params(options))
     end
 
     # Assume client has already made first page call to retreive page size, so add 1 to page_no
