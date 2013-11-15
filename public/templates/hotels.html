@@ -7,8 +7,8 @@
         <img  ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="138" id="hotel-photo-{{hotel.id}}" class="hotel-photo-main"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
 
       </a>
-      <div class="roundel" >
-        Save 38%
+      <div class="roundel" ng-show="saving(hotel)" >
+        Save <br/> {{saving(hotel)}} %
       </div>
     </div>
     <div class="main-details">

@@ -47,10 +47,13 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
 
     $scope.findProvider = function(hotel, providerName){
       var providerResult =  _.find(hotel.providers, function(provider){ 
-
         return provider ? provider.provider === providerName : false;
       });
       return providerResult === undefined ? {min_price: 0} : providerResult
+    }
+
+    $scope.saving = function(hotel){
+      return Math.floor( (1-(hotel.offer.min_price / hotel.offer.max_price))*100)
     }
 
     $scope.ratingsRange = function(rating){
