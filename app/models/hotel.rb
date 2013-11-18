@@ -45,8 +45,8 @@ class Hotel < ActiveRecord::Base
     provider_deals[:booking]
   end
 
-  def compare_and_add(hotel_response, search_criteria)
-    data = hotel_response.commonize(search_criteria)
+  def compare_and_add(hotel_response, search_criteria, location)
+    data = hotel_response.commonize(search_criteria, location)
     compare data 
     provider_deals[data[:provider]] = data
   end

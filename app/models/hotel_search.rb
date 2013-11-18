@@ -69,7 +69,7 @@ class HotelSearch
     threads << threaded {request_booking_hotels} if include? :booking
     threads << threaded {request_expedia_hotels} if include? :expedia
     Log.debug "Waiting for threads to finish"
-    # @threads.each &:join
+    # threads.each &:join
   end
 
   def threaded(&block)
@@ -158,7 +158,7 @@ class HotelSearch
   end
 
   def add_to_list(hotel, provider_hotel)
-    hotel.compare_and_add(provider_hotel, search_criteria)
+    hotel.compare_and_add(provider_hotel, search_criteria, location)
     hotel.distance_from_location = hotel.distance_from(@location) unless hotel.distance_from_location
   end
 

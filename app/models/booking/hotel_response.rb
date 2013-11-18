@@ -91,7 +91,7 @@ module Booking
       hotel
     end
 
-    def commonize(search_criteria)
+    def commonize(search_criteria, location)
       {
         provider: :booking,
         provider_hotel_id: id,
@@ -99,11 +99,16 @@ module Booking
         min_price: min_price,
         max_price: max_price,
         ranking: ranking,
-        rooms: nil#rooms.map(&:commonize)
+        rooms: nil,
+        link: create_aff_link(location, search_criteria)
       }
     rescue
       Log.error "Booking Hotel #{id} failed to convert"
       nil
+    end
+
+    def create_aff_link(location, search_criteria)
+      "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{id}&checkin=#{search_criteria.start_date}&checkout=#{search_criteria.end_date}&aid=371919&lang=en-gb&selected_currency=#{search_criteria.currency_code}&label=5e0213fdxf017x9f4bx153cxf42d81aeac1a" 
     end
 
     def avg_price(price, nights)

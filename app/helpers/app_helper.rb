@@ -104,7 +104,7 @@ module AppHelper
       "bali" => 'Bali',
       "beijing" => 'Beijing',
       "shanghai" => 'Shanghai',
-      "phuket" => 'Phuket',
+      "phuket-town" => 'Phuket',
       "kuala-lumpur"=> 'Kuala Lumpur',
       "new-delhi" => 'New Delhi',
       "tokyo" => 'Tokyo',

@@ -12,7 +12,7 @@ module Expedia
     end
 
     def description
-      data['roomTypeDescription']
+      data['roomTypeDescription'] if data
     end
 
     def chargeable_rates

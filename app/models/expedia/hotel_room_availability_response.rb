@@ -8,6 +8,7 @@ module Expedia
     end
 
     def rooms
+      return [] if error?
       if rooms_summary?
         rooms_summary.map {|room| Expedia::Room.new(room)}
       else
@@ -15,6 +16,9 @@ module Expedia
       end
     end
 
+    def error?
+      data['EanWsError']
+    end
 
     def rooms_summary
       data['HotelRoomResponse']

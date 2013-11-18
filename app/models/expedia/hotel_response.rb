@@ -65,7 +65,7 @@ module Expedia
     #   self.HotelImages['HotelImage']
     # end
 
-    def commonize(search_criteria)
+    def commonize(search_criteria, location)
       {
         provider: :expedia,
         provider_hotel_id: id,
