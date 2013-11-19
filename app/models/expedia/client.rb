@@ -12,6 +12,7 @@ class Expedia::Client
     def http
       Faraday.new(url: url) do |faraday|
         faraday.headers['Accept-Encoding'] = 'gzip,deflate'
+        faraday.options[:nosignal] = true
         faraday.request  :retry,   3   # times
         faraday.options[:timeout] = 10
         faraday.options[:open_timeout] = 2          
