@@ -109,7 +109,7 @@ class HotelSearchPageResult
       json.finished           search_options[:finished]
       json.hotels matched_hotels do |hotel|
         json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :distance_from_location)
+                     :ean_hotel_id, :booking_hotel_id, :distance_from_location)
         json.offer          hotel.offer
         json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
         json.providers      hotel.provider_deals           

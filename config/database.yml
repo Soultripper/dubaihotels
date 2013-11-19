@@ -16,7 +16,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: hotels_development
-  pool: 5
+  pool: 25
   host: localhost
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -48,12 +48,12 @@ production:
   adapter: postgresql
   encoding: unicode
   database: hotels_production
-  pool: 5
+  pool: 25
   host: localhost
 
 staging:
   adapter: postgresql
   encoding: unicode
   database: hotels_development
-  pool: 5
+  pool: 25
   host: localhost

@@ -19,7 +19,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       return Page.criteria().start_date ? Page.criteria().start_date : param('start_date')
     }    
 
-    var pollSearch = function() {
+    $rootScope.pollSearch = function() {
       if(!$routeParams.id) return;     
 
       SearchHotels.get($routeParams, function(response){
@@ -36,8 +36,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
             to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
 
-        if(!response.finished && data.calls < 6)
-          $timeout(pollSearch, 1500);
+        // if(!response.finished && data.calls < 6)
+        //   $timeout(pollSearch, 1500);
       })
     };
 
@@ -124,6 +124,6 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       Page.info().slug = $item.s
     };
 
-    pollSearch();
+    $rootScope.pollSearch();
 
 }]);

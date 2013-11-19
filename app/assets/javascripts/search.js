@@ -39,6 +39,7 @@ $(function(){
       step: 5,
       onFinish: HI.priceRange.change
     });
+
   // $( "#slider-range" ).rangeSlider({
   //   bounds:{
   //     min: 35,

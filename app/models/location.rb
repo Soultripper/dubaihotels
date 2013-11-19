@@ -4,9 +4,10 @@ class Location < ActiveRecord::Base
                    
   attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug, :geog
 
-  def self.all
-    @@locations ||= super
-  end
+
+  # def self.all
+  #   @@locations ||= super
+  # end
 
   def self.update_slugs
     find_each do |location|
@@ -31,6 +32,10 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def self.to_soulmate
+    all.map &:to_soulmate
+  end
+
   def point
     geog_before_type_cast
   end
@@ -41,6 +46,17 @@ class Location < ActiveRecord::Base
     all_slugs.select {|loc| loc[:n].downcase.start_with? query}
   end
 
+  def to_soulmate
+    {
+      id: id,
+      term: city,
+      score: 250 - slug.length,
+      data:{
+        slug: slug,
+        title: to_s
+      }
+    }    
+  end
 
   def to_s
     s = ''

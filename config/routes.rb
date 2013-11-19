@@ -1,13 +1,20 @@
+require 'sidekiq/web'
+
 Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   root :to => 'app#index'
 
+  mount Sidekiq::Web, at: "/sidekiq"
+  mount Soulmate::Server, :at => '/sm'
+
   resources :hotels, only: [:index, :show] 
 
   get '/locations', to: 'search#locations'
   get '/:id', to: 'search#index'
+
+
 
 
   # Sample of regular route:

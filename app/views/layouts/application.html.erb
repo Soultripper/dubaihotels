@@ -18,7 +18,13 @@
   <%= csrf_meta_tags %>
   
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+  <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
+
   <%= javascript_include_tag "application" %>
+  <script>
+    Hot5.Connections.Pusher.init('<%= Pusher.key %>', '<%= @pusher_channel || "open"%>')
+    Hot5.Connections.Pusher.subscribe();
+  </script>
 </head>
 <body >
    <%= yield %>

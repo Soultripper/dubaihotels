@@ -11,13 +11,19 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.json do 
-        results = HotelSearch.find_or_create(location, search_criteria).start.results
-        @hotel_search = results.sort(sort).filter(filters).paginate(page_no, page_size)        
-        render json: @hotel_search
+        @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+        render json: @results
       end
-      format.html
+      format.html do
+        hotel_search.start
+        @pusher_channel = hotel_search.channel
+      end
     end
 
+  end
+
+  def hotel_search
+    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria)
   end
 
   def locations

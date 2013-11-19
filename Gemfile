@@ -2,15 +2,25 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 
+gem "puma"
+gem 'sidekiq'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
 gem 'rest-client'
-gem 'thin'
+# gem 'thin'
+
 gem 'nokogiri'
 gem 'dalli'
 gem 'memcachier'
+gem 'rack-contrib'
+gem 'soulmate', :require => 'soulmate/server'
+gem 'sinatra', require: false
+gem 'slim'
+gem 'pusher'
+
 # gem 'expedia'
 gem "typhoeus"
 gem 'faraday'
@@ -44,6 +54,7 @@ gem 'angularjs-rails'
 gem 'underscore-rails'
 gem 'accountingjs-rails'
 gem 'angular-ui-bootstrap-rails'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
