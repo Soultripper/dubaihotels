@@ -10,7 +10,7 @@ gem 'sidekiq'
 
 gem 'pg'
 gem 'rest-client'
-# gem 'thin'
+gem 'thin'
 
 gem 'nokogiri'
 gem 'dalli'
