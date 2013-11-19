@@ -17,8 +17,7 @@ class HotelSearch
   end
 
   def find_or_create
-    return self unless @use_cache
-    Rails.cache.fetch cache_key, expires_in: 1.minute do 
+    Rails.cache.fetch cache_key, force: !@use_cache do 
       Log.info "Starting new search: #{cache_key}"
       self
     end       
@@ -95,7 +94,7 @@ class HotelSearch
 
   def persist
     return unless @use_cache
-    Rails.cache.write(cache_key, self)
+    Rails.cache.write(cache_key, self, expires_in: 5.minutes, race_condition_ttl: 15)
   end
 
   def notify
