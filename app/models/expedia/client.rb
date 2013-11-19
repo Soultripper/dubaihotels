@@ -19,7 +19,7 @@ class Expedia::Client
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
-        faraday.adapter  :typhoeus
+        faraday.adapter  :my_typhoeus
       end
     end
 
