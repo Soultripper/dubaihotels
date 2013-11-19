@@ -38,7 +38,7 @@ class HotelSearch
   end
 
   def search      
-    HotelWorker.new.perform cache_key 
+    HotelWorker.perform_async cache_key 
     self
   end
 

@@ -22,3 +22,4 @@ module FaradayMiddleware
 end
  
 Faraday::Response.register_middleware :gzip => FaradayMiddleware::Gzip
+Faraday::Adapter.register_middleware :my_typhoeus => MyTyphoeusAdapter

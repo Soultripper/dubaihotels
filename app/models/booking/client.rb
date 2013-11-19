@@ -19,7 +19,7 @@ class Booking::Client
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
         # faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-        faraday.adapter  :typhoeus
+        faraday.adapter  :my_typhoeus
       end
     end
 
