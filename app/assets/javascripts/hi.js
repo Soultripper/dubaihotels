@@ -1,5 +1,6 @@
 var HI = function(){
   
+
   var init = function(){
     $(document).on('click', '[data-slide-toggle]', function(e){ 
       e.preventDefault();
@@ -22,6 +23,11 @@ var HI = function(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
+  var searchOptions ={
+    domain: 'www.hot5.com',
+    minQueryLength: 2,
+    maxResults:     10    
+  }
 
   var priceRange = {
     change: function(priceSlider){
@@ -100,6 +106,8 @@ var HI = function(){
   var amenities = function(){
   };
 
+
+
   return {
     init: init,
     stars: stars,
@@ -108,6 +116,7 @@ var HI = function(){
     map: map,
     // rooms: rooms,
     mapOptions: mapOptions,
-    priceRange: priceRange
+    priceRange: priceRange,
+    searchOptions: searchOptions
   }
 }();

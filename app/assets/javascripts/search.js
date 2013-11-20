@@ -49,8 +49,9 @@ $(function(){
   // $( "#amount" ).val( "£" + $( "#slider-range" ).slider( "values", 0 ) + " - £" + $( "#slider-range" ).slider( "values", 1 ) );
 
   // Make the input field autosuggest-y.
+
   $('#search-input').soulmate({
-    url:            'http://localhost:9292/sm/search',
+    url:            'http://' + HI.searchOptions.domain + '/sm/search',
     types:          ['location', 'hotel'],
     renderCallback: function(term, data, type){ return data.title; },
     selectCallback: function(term, data, type){ 
@@ -61,9 +62,26 @@ $(function(){
       })
       $('#soulmate').hide();
     },
-    minQueryLength: 2,
-    maxResults:     10
+    minQueryLength: HI.searchOptions.minQueryLength,
+    maxResults:     HI.searchOptions.maxResults
   });
+
+  // $('#search-input').soulmate({
+  //   url:            'http://localhost:9292/sm/search',
+  //   types:          ['location', 'hotel'],
+  //   renderCallback: function(term, data, type){ return data.title; },
+  //   selectCallback: function(term, data, type){ 
+  //     var scope = angular.element($("#search")).scope();
+  //     scope.$apply(function(){
+  //       $('#search-input').val(data.title)
+  //       scope.citySelect(term, data.slug || data.url)
+  //     })
+  //     $('#soulmate').hide();
+  //   },
+  //   minQueryLength: 2,
+  //   maxResults:     10
+  // });
+
 });
 
 function updateQueryStringParameter(uri, key, value) {
