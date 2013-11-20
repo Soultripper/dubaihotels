@@ -29,6 +29,8 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
         $scope.search_results = response
         $scope.currency_symbol = Page.criteria().currency_symbol;
         $scope.slug = Page.info().slug
+        $scope.channel = Page.info().channel
+         Hot5.Connections.Pusher.changeChannel($scope.channel);
         $("#priceSlider").ionRangeSlider("update", {
             min:  Math.round(10),
             max:  Math.round(Page.info().max_price),
@@ -40,6 +42,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
         //   $timeout(pollSearch, 1500);
       })
     };
+
 
     $scope.isSort = function(option){
       return option === (Page.info().sort || 'recommended')
@@ -73,6 +76,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $location.search($routeParams).path(Page.info().slug);
+      $rootScope.pollSearch
       data.calls = 1;
     }
 
@@ -89,7 +93,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
     $scope.changePrice = function(min_price, max_price){
       $routeParams.min_price = min_price;
       $routeParams.max_price = max_price;
-      $scope.search();
+      $rootScope.search();
     }
 
 
@@ -100,7 +104,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       else
         data.amenities.push(amenity);
       $routeParams.amenities = data.amenities.join(',');
-      $scope.search();
+      $rootScope.search();
     }
 
     $scope.filterStarRatings = function (star_rating) {
@@ -110,7 +114,7 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       else
         data.starRatings.push(star_rating);
       $routeParams.star_ratings = data.starRatings.join(',');
-      $scope.search();
+      $rootScope.search();
     }
 
     $scope.cities = function(cityName) {
@@ -119,10 +123,15 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       });
     };
 
-   $scope.citySelect = function ($item, $model, $label) {
-      Page.info().query = $item.n
-      Page.info().slug = $item.s
+   $scope.citySelect = function (query, slug) {
+      // Page.info().query = query
+      Page.info().slug = slug
     };
+
+   // $scope.citySelect = function ($item, $model, $label) {
+   //    Page.info().query = $item.n
+   //    Page.info().slug = $item.s
+   //  };
 
     $rootScope.pollSearch();
 

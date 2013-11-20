@@ -1,6 +1,10 @@
 class Country < ActiveRecord::Base
   attr_accessible :area, :country_code, :language_code, :name
 
+  def self.all
+    @@countries ||= super.to_a
+  end
+
   def self.from_booking(json)
     Country.new area: json['area'], 
     country_code: json['countrycode'], 
@@ -21,4 +25,9 @@ class Country < ActiveRecord::Base
       import countries
     end
   end  
+
+  def self.lookup(code)
+    country = all.find {|c| c.country_code == code}
+    country ? country.name : ""
+  end
 end

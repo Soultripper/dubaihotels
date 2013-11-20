@@ -45,6 +45,7 @@ class HotelSearch
     results = {
       total: total_hotels,
       location: location,
+      channel: channel,
       search_criteria: search_criteria,
       started: @started,
       finished: finished?
@@ -107,6 +108,6 @@ class HotelSearch
   end
 
   def channel
-    "hot5.com-#{search_criteria.start_date}-#{search_criteria.end_date}-#{search_criteria.currency_code}-#{location.slug}" 
+    "hot5.com-#{search_criteria.start_date}-#{search_criteria.end_date}-#{search_criteria.currency_code}-#{location.slug}".parameterize
   end
 end

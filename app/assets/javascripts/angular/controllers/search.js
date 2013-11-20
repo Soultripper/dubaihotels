@@ -8,11 +8,14 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window',
       });
     };
 
-   $scope.citySelect = function ($item, $model, $label) {
-      $scope.location = $item.n
-      $scope.slug = $item.s
+   $scope.citySelect = function (query, slug) {
+      $scope.slug = slug
     };
 
+   // $scope.citySelect = function ($item, $model, $label) {
+   //    Page.info().query = $item.n
+   //    Page.info().slug = $item.s
+   //  };
     $scope.search = function(){
       var routes = {
         start_date: $scope.start_date,

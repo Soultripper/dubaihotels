@@ -3,7 +3,8 @@ class Location < ActiveRecord::Base
                    :lng_column_name => :longitude  
                    
   attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug, :geog
-
+  after_save :add_to_soulmate
+  before_destroy :remove_from_soulmate
 
   # def self.all
   #   @@locations ||= super
@@ -32,9 +33,34 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def self.save_as_json(filename)
+    File.open(filename, 'w') do |f|
+      cities.each do |location|
+        f.puts location.to_soulmate.as_json
+      end
+    end
+  end
+
+  def self.load_into_soulmate
+    items = cities.map &:to_soulmate   
+    soulmate_loader.load(items)
+  end
+
+  def self.soulmate_loader
+    @soulmate_loader ||= Soulmate::Loader.new("location")
+  end
+
   def self.to_soulmate
     all.map &:to_soulmate
   end
+
+  def add_to_soulmate
+    Location.soulmate_loader.add(to_soulmate)
+  end
+
+  def remove_from_soulmate
+    Location.soulmate_loader.remove("id" => self.id)
+  end  
 
   def point
     geog_before_type_cast
@@ -55,7 +81,7 @@ class Location < ActiveRecord::Base
         slug: slug,
         title: to_s
       }
-    }    
+    }.as_json
   end
 
   def to_s

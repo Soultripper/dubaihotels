@@ -5,7 +5,7 @@
     <div class="row">
       <div class="orange-bar">
         <div class="large-6 small-12 columns text-left">
-          <h1><%= location.city %> hotels </h1>
+          <h1>{{Page.info().query}} hotels </h1>
         </div>
         <div class="large-6 small-12 columns text-right">
           <p >{{Page.criteria().start_date | date:'MMM d'}} - {{Page.criteria().end_date | date:'MMM d'}} ({{Page.criteria().total_nights}} Night)</p>

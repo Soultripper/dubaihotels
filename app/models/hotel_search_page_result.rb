@@ -97,6 +97,7 @@ class HotelSearchPageResult
       json.info do
         json.query            location.city
         json.slug             location.slug
+        json.channel          search_options[:channel]
         json.sort             sort_key
         json.total_hotels     search_options[:total]
         json.available_hotels hotels.count 

@@ -35,8 +35,11 @@
           <div class="row">
             <div class="large-12 small-12 columns">
               <!-- <input type="text" id="search" placeholder="Destination or hotel name..." class="search-icon" tabindex="1" /> -->
-               <input type="text" id="search" placeholder="Destination" class="search-icon" tabindex="1" ng-model="location" typeahead="city for city in cities($viewValue)" autocomplete="off" typeahead-on-select='citySelect($item, $model, $label)' typeahead-editable="false"/>
-               <input type="hidden" ng-model="slug">{{slug}}</input>
+<!--                <input type="text" id="search" placeholder="Destination" class="search-icon" tabindex="1" ng-model="location" typeahead="city for city in cities($viewValue)" autocomplete="off" typeahead-on-select='citySelect($item, $model, $label)' typeahead-editable="false"/> -->
+
+               <input id="search-input" type="text" name="q" value="" autocomplete="off"/>
+
+               <input type="hidden" ng-model="slug" value="{{slug}}"/>
             </div>
           </div>
           <div class="row">

@@ -15,7 +15,7 @@ class SearchController < ApplicationController
         render json: @results
       end
       format.html do
-        hotel_search.start
+        hotel_search
         @pusher_channel = hotel_search.channel
       end
     end
@@ -23,7 +23,7 @@ class SearchController < ApplicationController
   end
 
   def hotel_search
-    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria)
+    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria).start
   end
 
   def locations

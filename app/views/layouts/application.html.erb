@@ -22,8 +22,7 @@
 
   <%= javascript_include_tag "application" %>
   <script>
-    Hot5.Connections.Pusher.init('<%= Pusher.key %>', '<%= @pusher_channel || "open"%>')
-    Hot5.Connections.Pusher.subscribe();
+    Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @pusher_channel || "open"%>')
   </script>
 </head>
 <body >
