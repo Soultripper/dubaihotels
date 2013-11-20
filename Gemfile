@@ -56,7 +56,7 @@ gem 'angularjs-rails'
 gem 'underscore-rails'
 gem 'accountingjs-rails'
 gem 'angular-ui-bootstrap-rails'
-
+gem 'figaro'
 
 # Gems used only for assets and not required
 # in production environments by default.
