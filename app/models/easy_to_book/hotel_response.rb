@@ -3,12 +3,16 @@ module EasyToBook
 
     attr_reader :xml, :index
 
-    def initialize(xml, index)
+    def initialize(xml, index=0)
       @xml, @index = xml, index
     end
 
-    def self.from_response(xml_response)
+    def self.from_list_response(xml_response)
       xml_response.xpath('//Hotel').map.with_index {|hotel, index| new hotel, index}
+    end
+
+    def self.from_response(xml_response)
+      new xml_response.at_xpath('//Hotelinfo')
     end
 
     def fetch_hotel
@@ -31,12 +35,12 @@ module EasyToBook
       index
     end
 
-    def min_price
-      cheapest_room.price
+    def min_price(currency_code)
+      cheapest_room.price(currency_code)
     end
 
-    def max_price
-      expensive_room.price
+    def max_price(currency_code)
+      expensive_room.price(currency_code)
     end
 
     def rooms
@@ -60,15 +64,19 @@ module EasyToBook
         provider: :easy_to_book,
         provider_hotel_id: hotel_id,
         room_count: rooms_count,
-        min_price: avg_price(min_price, search_criteria.total_nights),
-        max_price: avg_price(max_price, search_criteria.total_nights),        
+        min_price: avg_price(min_price(search_criteria.currency_code), search_criteria.total_nights),
+        max_price: avg_price(max_price(search_criteria.currency_code), search_criteria.total_nights),        
         ranking: ranking,
         rooms: nil,
-        # link: create_aff_link(location, search_criteria)
+        link: link
       }
-    rescue
-      Log.error "EasyToBook Hotel #{id} failed to convert"
+    rescue Exception => msg  
+      Log.error "Hotel #{id} failed to convert: #{msg}"
       nil
+    end
+
+    def link
+      cheapest_room.link
     end
 
     def avg_price(price, nights)

@@ -45,7 +45,7 @@ class Hotel < ActiveRecord::Base
 
   def ranking
     return provider_deals[:booking][:ranking]*-1 if booking?
-    return provider_deals[:expedia][:ranking] if booking?
+    return provider_deals[:expedia][:ranking] if expedia?
     999
   end
 
@@ -62,7 +62,7 @@ class Hotel < ActiveRecord::Base
   end
 
   def expedia
-    provider_deals[:booking]
+    provider_deals[:expedia]
   end
 
   def compare_and_add(hotel_response, search_criteria, location)

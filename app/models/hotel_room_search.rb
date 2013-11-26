@@ -1,9 +1,9 @@
 class HotelRoomSearch
   extend Forwardable
 
-  attr_reader :hotel, :search_criteria, :results_counter, :started
+  attr_reader :hotel, :search_criteria, :started
 
-  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id
+  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id
 
   attr_accessor :total_hotels
 
@@ -17,8 +17,9 @@ class HotelRoomSearch
 
   def check_availability
     @rooms, @threads = [], []
-    threaded {request_expedia_hotels}
-    threaded {request_booking_hotels}
+    threaded {request_expedia_rooms}
+    threaded {request_booking_rooms}
+    threaded {request_easy_to_book_rooms}
     @threads.each &:join
     self
   end
@@ -33,21 +34,29 @@ class HotelRoomSearch
     end
   end
 
-  def request_expedia_hotels
+  def request_expedia_rooms
     return unless ean_hotel_id
-    expedia_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
-    return unless expedia_response
-    Log.debug expedia_response
-    @rooms.concat(expedia_response.rooms.map do |room|
+    room_availability_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
+    return unless room_availability_response
+    @rooms.concat(room_availability_response.rooms.map do |room|
       room.commonize(search_criteria)
     end)
   end
 
-  def request_booking_hotels
+  def request_booking_rooms
     return unless booking_hotel_id
-    booking_hotel = Booking::SearchHotel.for_availability(booking_hotel_id, search_criteria).hotels
-    return unless booking_hotel.length > 0
-    @rooms.concat(booking_hotel.first.rooms.map do |room|
+    booking_hotel = Booking::SearchHotel.for_availability(booking_hotel_id, search_criteria)
+    return unless booking_hotel.hotels.length > 0
+    @rooms.concat(booking_hotel.hotels.first.rooms.map do |room|
+      room.commonize(search_criteria)
+    end)
+  end
+
+  def request_easy_to_book_rooms
+    return unless etb_hotel_id
+    hotels_list_response = EasyToBook::SearchHotel.for_availability(etb_hotel_id, search_criteria)
+    return unless hotels_list_response.hotels.length > 0
+    @rooms.concat(hotels_list_response.hotels.first.rooms.map do |room|
       room.commonize(search_criteria)
     end)
   end
@@ -64,11 +73,5 @@ class HotelRoomSearch
     hotel_collection.find {|hotel| hotel.booking_hotel_id == provider_hotel.id}
   end
 
-  def results_counter
-    @results_counter ||={
-      expedia:{pages: 0, finished: false},
-      booking:{pages: 0, finished: false}
-    }
-  end
 
 end

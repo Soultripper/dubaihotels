@@ -18,7 +18,7 @@
       </div>
       <p class="location">{{hotel.address}}, {{hotel.city}}</p>
       <ul class="prices">
-        <li><a href="#">EasyToBook.com <span>{{findProvider(hotel, 'easy_to_book').min_price | price:currency_symbol:0 }}</span></a></li>
+        <li><a ng-href="{{findProvider(hotel, 'easy_to_book').link}}" target="_blank">EasyToBook.com <span>{{findProvider(hotel, 'easy_to_book').min_price | price:currency_symbol:0 }}</span></a></li>
         <li><a href="#">Hotels.com <span>{{findProvider(hotel, 'hotels').min_price | price:currency_symbol:0 }}</span></a></li>
         <li><a href="#">Expedia.co.uk <span>{{findProvider(hotel, 'expedia').min_price | price:currency_symbol:0 }}</span></a></li>
         <!-- <li><a href="#">Splendia <span>£140</span></a></li> -->

@@ -75,8 +75,8 @@ module Expedia
         ranking: ranking,
         rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
       }
-    rescue
-      Log.error "Hotel #{id} failed to convert"
+    rescue Exception => msg  
+      Log.error "Hotel #{id} failed to convert: #{msg}"
       nil
     end
 

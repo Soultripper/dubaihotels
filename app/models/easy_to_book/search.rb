@@ -30,9 +30,9 @@ class EasyToBook::Search
     EasyToBook::HotelListResponse.new(response) if response
   end
 
-  # def create_availability_response(response)
-  #   Expedia::HotelRoomAvailabilityResponse.new(response) if response
-  # end
+  def create_hotel_response(response)
+    EasyToBook::HotelResponse.from_response(response) if response
+  end
 
   def search_params
     common_params.merge :SlimResponse=>1, :CommissionEnabled=>1, :MetaPrice=>1

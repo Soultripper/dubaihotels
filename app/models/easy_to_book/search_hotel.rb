@@ -14,11 +14,22 @@ module EasyToBook
       new(ids, search_criteria).search(options)
     end
 
+
+    def self.for_availability(id, search_criteria, params={})
+      new([id], search_criteria).for_availability(params)
+    end
+
+
     def self.page_hotels(ids, search_criteria, options={}, &block)
       new(ids, search_criteria).page_hotels(options, &block)
     end
 
     def search(options={}) 
+      params = {:Hotellist => {:Hotelid => ids}}.merge(search_params.merge(options)) 
+      create_list_response EasyToBook::Client.search_availability(params)
+    end
+
+    def for_availability(options={})   
       params = {:Hotellist => {:Hotelid => ids}}.merge(search_params.merge(options)) 
       create_list_response EasyToBook::Client.search_availability(params)
     end

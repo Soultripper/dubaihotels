@@ -8,7 +8,7 @@ module EasyToBook
     end
 
     def hotels
-      @hotels ||= EasyToBook::HotelResponse.from_response(data).sort_by(&:ranking).reverse
+      @hotels ||= EasyToBook::HotelResponse.from_list_response(data).sort_by(&:ranking).reverse
     end
 
     def hotel_ids
