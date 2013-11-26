@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  address: MyString
+  zipcode: MyString
+  city_id: 1
+  stars: 1.5
+  check_in: MyString
+  check_out: MyString
+  picture: MyString
+  total_rooms: MyString
+  longitude: 1.5
+  latitude: 1.5
+  hotel_review_score: MyString
+  hotel_number_reviews: MyString
+  credit_cards: MyString
+  phone: MyString
+  url: MyString
+  email: MyString
+  hotel_type: MyString
+  address_city: MyString
+  min_price: MyString
+
+two:
+  name: MyString
+  address: MyString
+  zipcode: MyString
+  city_id: 1
+  stars: 1.5
+  check_in: MyString
+  check_out: MyString
+  picture: MyString
+  total_rooms: MyString
+  longitude: 1.5
+  latitude: 1.5
+  hotel_review_score: MyString
+  hotel_number_reviews: MyString
+  credit_cards: MyString
+  phone: MyString
+  url: MyString
+  email: MyString
+  hotel_type: MyString
+  address_city: MyString
+  min_price: MyString

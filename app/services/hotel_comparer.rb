@@ -25,7 +25,7 @@ class HotelComparer
       new_hotels = Hotel.where(key => unmatached_hotel_ids.to_a).to_a  
     end
     source_hotels.concat(new_hotels) if new_hotels.length > 0
-    Log.info "Discovered and added #{new_hotels.length} unmatched hotels to compare in #{time}s"
+    Log.info "Discovered and added #{new_hotels.length} unmatched hotels to compare in #{time}s (total: #{source_hotels.count})"
   end
 
   def search_dictionary(&block)    

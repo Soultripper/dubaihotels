@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  etb_hotel_id: 1
+  room_id: 1
+  size: MyString
+  image: MyString
+
+two:
+  etb_hotel_id: 1
+  room_id: 1
+  size: MyString
+  image: MyString

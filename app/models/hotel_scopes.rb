@@ -8,8 +8,12 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 20000)
       where("ST_DWithin(hotels.geog, ?, ?) or city = ? ", location.point, proximity_in_metres, location.city).
-      select(["id", "name", "address", "city", "state_province", "postal_code", "country_code", "latitude", "longitude", "star_rating", "ean_hotel_id", "booking_hotel_id", "description", "amenities"])
+      select(["id", "name", "address", "city", "state_province", "postal_code", "country_code", "latitude", "longitude", "star_rating", "ean_hotel_id", "booking_hotel_id", "etb_hotel_id", "description", "amenities"])
       # where('city = ? and country_code = ?', location.city, location.country_code)
+    end
+
+    def ids_for(location, provider_key, limit=5000)
+      by_location(location).where("#{provider_key} is not null").limit(limit).map &provider_key
     end
 
     def by_star_ratings(min, max)

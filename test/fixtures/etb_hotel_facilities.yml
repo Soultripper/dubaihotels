@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  services: MyText
+  general_facilities: MyText
+  extra_common_areas: MyText
+  entertainment_facilities: MyText
+  business_facilities: MyText
+  activities: MyText
+  wellness_facilities: MyText
+  shops: MyText
+  internet: MyText
+  internet_connection: MyString
+  parking: MyString
+  shuttle_service: MyString
+  internet_free: MyString
+  internet_connection_free: MyString
+
+two:
+  services: MyText
+  general_facilities: MyText
+  extra_common_areas: MyText
+  entertainment_facilities: MyText
+  business_facilities: MyText
+  activities: MyText
+  wellness_facilities: MyText
+  shops: MyText
+  internet: MyText
+  internet_connection: MyString
+  parking: MyString
+  shuttle_service: MyString
+  internet_free: MyString
+  internet_connection_free: MyString

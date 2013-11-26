@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  city_name: MyString
+  longitude: 1.5
+  latitude: 1.5
+  province_id: 1
+  province_name: MyString
+  country_id: 1
+  country_name: MyString
+  url: MyString
+  city_rank: 1.5
+
+two:
+  city_name: MyString
+  longitude: 1.5
+  latitude: 1.5
+  province_id: 1
+  province_name: MyString
+  country_id: 1
+  country_name: MyString
+  url: MyString
+  city_rank: 1.5

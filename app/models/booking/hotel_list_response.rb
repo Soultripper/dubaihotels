@@ -33,7 +33,7 @@ module Booking
 
     def page_hotels(&block)
       total = hotels.count
-      Log.debug "Processing #{total} Bookinh hotels"
+      Log.debug "Processing #{total} Booking hotels"
       yield self.hotels if block_given?      
       return unless more_pages?
       # response = self

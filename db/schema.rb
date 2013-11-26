@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118171837) do
+ActiveRecord::Schema.define(:version => 20131122170958) do
 
   create_table "agoda_hotels", :force => true do |t|
     t.integer "chain_id"
@@ -202,6 +202,91 @@ ActiveRecord::Schema.define(:version => 20131118171837) do
     t.text    "description"
   end
 
+  create_table "etb_cities", :force => true do |t|
+    t.string  "city_name"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.integer "province_id"
+    t.string  "province_name"
+    t.integer "country_id"
+    t.string  "country_name"
+    t.string  "url"
+    t.float   "city_rank"
+    t.string  "country_code"
+    t.integer "geog",          :limit => 0
+  end
+
+  add_index "etb_cities", ["geog"], :name => "etb_cities_geog_idx"
+  add_index "etb_cities", ["geog"], :name => "etb_cities_geog_idx1"
+
+  create_table "etb_countries", :force => true do |t|
+    t.string "country_name"
+    t.string "country_iso"
+    t.string "url"
+  end
+
+  create_table "etb_facilities", :force => true do |t|
+    t.text "description"
+  end
+
+  create_table "etb_hotel_descriptions", :force => true do |t|
+    t.integer "etb_hotel_id"
+    t.text    "description"
+    t.text    "important_description"
+    t.text    "food_and_beverage_description"
+    t.text    "location_description"
+    t.text    "public_transportation"
+    t.text    "pets_policy"
+    t.text    "teaser"
+  end
+
+  create_table "etb_hotel_facilities", :force => true do |t|
+    t.text "services"
+    t.text "general_facilities"
+    t.text "extra_common_areas"
+    t.text "entertainment_facilities"
+    t.text "business_facilities"
+    t.text "activities"
+    t.text "wellness_facilities"
+    t.text "shops"
+    t.text "internet"
+    t.text "internet_connection"
+    t.text "parking"
+    t.text "shuttle_service"
+    t.text "internet_free"
+    t.text "internet_connection_free"
+  end
+
+  create_table "etb_hotel_images", :force => true do |t|
+    t.integer "etb_hotel_id"
+    t.integer "room_id"
+    t.string  "size"
+    t.string  "image"
+  end
+
+  create_table "etb_hotels", :force => true do |t|
+    t.string  "name"
+    t.string  "address"
+    t.string  "zipcode"
+    t.integer "city_id"
+    t.float   "stars"
+    t.string  "check_in"
+    t.string  "check_out"
+    t.string  "picture"
+    t.string  "total_rooms"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.string  "hotel_review_score"
+    t.string  "hotel_number_reviews"
+    t.string  "credit_cards"
+    t.string  "phone"
+    t.string  "url"
+    t.string  "email"
+    t.string  "hotel_type"
+    t.string  "address_city"
+    t.string  "min_price"
+  end
+
   create_table "hotel_amenities", :force => true do |t|
     t.string  "name",  :null => false
     t.string  "value"
@@ -251,6 +336,7 @@ ActiveRecord::Schema.define(:version => 20131118171837) do
     t.text    "description"
     t.integer "amenities"
     t.integer "agoda_hotel_id"
+    t.integer "etb_hotel_id"
   end
 
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
@@ -299,6 +385,7 @@ ActiveRecord::Schema.define(:version => 20131118171837) do
     t.float   "latitude"
     t.string  "slug"
     t.integer "geog",          :limit => 0
+    t.integer "etb_city_id"
   end
 
   add_index "locations", ["slug"], :name => "locations_slug_idx"

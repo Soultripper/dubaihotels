@@ -1,10 +1,13 @@
+require 'location'
+
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :started
+  attr_reader :location, :search_criteria, :results_counter, :started, :use_cache
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :expedia]
+  PROVIDERS = [:booking, :expedia, :easy_to_book]
+  # PROVIDERS = [:easy_to_book]
 
   def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
@@ -38,6 +41,7 @@ class HotelSearch
 
   def search      
     HotelWorker.perform_async cache_key 
+    # HotelWorker.new.perform cache_key
     self
   end
 

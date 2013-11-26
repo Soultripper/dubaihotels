@@ -26,6 +26,7 @@ gem 'pusher'
 # gem 'expedia'
 gem "typhoeus"
 gem 'faraday'
+gem 'faraday_middleware'
 
 gem 'simple_form'
 gem 'log4r'
@@ -37,6 +38,7 @@ gem "jbuilder"
 gem 'money'
 gem 'kaminari' #for pagination
 gem 'activerecord-import', '~> 0.3.1'
+gem 'geoip'
 gem 'geokit-rails'
 gem 'rubyzip'
 gem 'jquery-ui-rails'

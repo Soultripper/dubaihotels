@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  etb_hotel_id: 1
+  description: MyText
+  important_description: MyText
+  food_and_beverage_description: MyText
+  location_description: MyText
+  public_transportation: MyText
+  pets_policy: MyText
+  teaser: MyText
+
+two:
+  etb_hotel_id: 1
+  description: MyText
+  important_description: MyText
+  food_and_beverage_description: MyText
+  location_description: MyText
+  public_transportation: MyText
+  pets_policy: MyText
+  teaser: MyText

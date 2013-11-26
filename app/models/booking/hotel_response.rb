@@ -82,15 +82,6 @@ module Booking
       @hotel||=Hotel.find_by_booking_hotel_id id
     end
 
-    def find_within(hotels)
-      hotel = hotels.find {|hotel| hotel.booking_hotel_id == id} 
-      return hotel if hotel
-      if hotel = fetch_hotel
-        hotels << hotel 
-      end
-      hotel
-    end
-
     def commonize(search_criteria, location)
       {
         provider: :booking,

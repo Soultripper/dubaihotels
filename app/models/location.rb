@@ -3,8 +3,8 @@ class Location < ActiveRecord::Base
                    :lng_column_name => :longitude  
                    
   attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug, :geog
-  after_save :add_to_soulmate
-  before_destroy :remove_from_soulmate
+  # after_save :add_to_soulmate
+  # before_destroy :remove_from_soulmate
 
   # def self.all
   #   @@locations ||= super
@@ -22,6 +22,10 @@ class Location < ActiveRecord::Base
 
   def self.cities
     all.select {|loc| !loc[:city].blank?}
+  end
+
+  def hotel_ids_for(provider_key)
+    Hotel.ids_for self, provider_key
   end
 
   def self.all_slugs

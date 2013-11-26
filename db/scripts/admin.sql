@@ -1,5 +1,7 @@
 create extension pg_trgm
 create extension postgis
+
+--   ALTER TABLE etb_cities  ADD COLUMN geog geography(Point,4326);
 -- 	ALTER TABLE booking_hotels  ADD COLUMN geog geography(Point,4326);
 -- 	ALTER TABLE hotels  ADD COLUMN geog geography(Point,4326);
 --  	ALTER TABLE ean_hotels  ADD COLUMN geog geography(Point,4326);
