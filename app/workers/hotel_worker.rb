@@ -8,12 +8,15 @@ class HotelWorker
     @search =  Rails.cache.read cache_key
     return unless search
 
-    threads = []
-    threads << threaded {request_booking_hotels}      if @search.include? :booking
-    threads << threaded {request_expedia_hotels}      if @search.include? :expedia
-    threads << threaded {request_easy_to_book_hotels} if @search.include? :easy_to_book
-    Log.debug "Waiting for threads to finish"
-    threads.each &:join
+    time = Benchmark.realtime{
+      threads = []
+      threads << threaded {request_booking_hotels}      if @search.include? :booking
+      threads << threaded {request_expedia_hotels}      if @search.include? :expedia
+      threads << threaded {request_easy_to_book_hotels} if @search.include? :easy_to_book
+      Log.debug "Waiting for threads to finish"
+      threads.each &:join
+    }
+    Log.info "------ SEARCH COMPLETED IN #{time} seconds -------- "
   end
 
   def threaded(&block)
@@ -38,6 +41,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
+  rescue Exception => msg  
+    Log.error "Expedia Worker Errored: #{msg}"
   end
 
   def request_easy_to_book_hotels

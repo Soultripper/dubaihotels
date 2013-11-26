@@ -15,7 +15,7 @@ module Expedia
       response = self
       while response.more_pages?
         response = Expedia::HotelListResponse.new(response.next_page)
-        Log.debug "Processing aditional #{response.hotels.count} Expedia hotels"
+        Log.debug "Processing additional #{response.hotels.count} Expedia hotels"
         total += response.hotels.count
         yield response.hotels if block_given?
       end 
@@ -40,7 +40,7 @@ module Expedia
       @hotels ||= if hotel_list?
         hotels_summary.map {|hotel| Expedia::HotelResponse.new(hotel)}
       else
-        Expedia::HotelResponse.new(hotels_summary)
+        [Expedia::HotelResponse.new(hotels_summary)]
       end
     end
  
@@ -56,6 +56,8 @@ module Expedia
       hotels_summary.is_a?(Array) 
     end
 
+    def is_error?
+    end
   end
 
 end

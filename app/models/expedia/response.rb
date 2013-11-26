@@ -5,6 +5,18 @@ module Expedia
 
     def initialize(name, data)
       @name, @data = name, data[name]
+      if error?
+        Log.error "Expedia Response Invalid: #{data}"
+        raise "Expedia Response Invalid: #{error_message}"
+      end
+    end
+
+    def error?
+      data['EanWsError']
+    end
+
+    def error_message
+      data['EanWsError']['verboseMessage']
     end
 
     def more_pages?

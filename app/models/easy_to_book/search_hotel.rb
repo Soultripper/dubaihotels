@@ -41,7 +41,7 @@ module EasyToBook
         (conn = EasyToBook::Client.http).in_parallel do 
           ids.each_slice(slice_by) do |sliced_ids|                       
             builder = make_request sliced_ids, options
-            Log.info "Sending request of #{sliced_ids.count} hotels to EasyToBook:\n #{builder.to_xml}"
+            Log.info "Sending request of #{sliced_ids.count} hotels to EasyToBook:\n"
             responses << conn.post(EasyToBook::Client.uri, builder.to_xml)      
           end
         end

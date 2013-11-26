@@ -7,7 +7,7 @@ class HotelSearch
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
   PROVIDERS = [:booking, :expedia, :easy_to_book]
-  # PROVIDERS = [:easy_to_book]
+  # PROVIDERS = [:expedia]
 
   def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
@@ -40,6 +40,7 @@ class HotelSearch
   end
 
   def search      
+    return unless search_criteria.valid?
     HotelWorker.perform_async cache_key 
     # HotelWorker.new.perform cache_key
     self
@@ -81,7 +82,7 @@ class HotelSearch
     end
     persist
     notify
-    puts "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
+    Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
   end
 
   def add_to_list(hotel, provider_hotel)

@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
 
-  before_filter {Expedia.currency_code = currency}
+  before_filter :validate_search
 
   respond_to :json
 
@@ -11,8 +11,12 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.json do 
-        @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
-        render json: @results
+        if search_criteria.valid?
+          @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+          render json: @results
+        else
+          head 400
+        end
       end
       format.html do
         hotel_search
@@ -31,6 +35,10 @@ class SearchController < ApplicationController
   end
 
   protected
+
+  def validate_search
+    search_criteria.valid?
+  end
 
   def location
     @location ||= Location.find_by_slug slug

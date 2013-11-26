@@ -46,6 +46,14 @@ class SearchCriteria
   def total_nights
     (end_date - start_date).to_i
   end
+
+  def valid?
+    start_date < end_date &&
+    end_date > DateTime.now.to_date &&
+    no_of_rooms > 0 &&
+    no_of_adults > 0 &&
+    min_stars > 0
+  end
    
 
   def as_json(options={})
