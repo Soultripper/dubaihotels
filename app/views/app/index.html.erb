@@ -1,82 +1,233 @@
-<script id="template/typeahead/typeahead-popup.html" type="text/ng-template">
-<div class="autocomplete" ng-style="{display: isOpen()&&'block' || 'none', top: position.top+'px', left: position.left+'px'}">
-  <ul>
-    <li ng-repeat="match in matches" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)">
-      <typeahead-match index="$index" match="match.label.n" ></typeahead-match>
-    </li>
-  </ul>
-</div>
-</script>
 
-<script type="text/ng-template" id="template/typeahead/typeahead-match.html ">
-  <a tabindex="-1" >{{match}}</a>
-</script>
-
-<header>
-  <div class="row">
-    <div class="large-4 small-6 columns text-center">
-      <img src="assets/masthead/hot5-logo.gif" width="296" height="64" alt="Hot5" />
-    </div>
-    <div class="large-3 small-4 columns text-center">
-      <ul class="social">
-        <li class="pinterest"><a href="#"><img src="assets/masthead/pinterest-icon.gif" width="36" height="36" alt="Pinterest" /></a></li>
-        <li class="instagram"><a href="#"><img src="assets/masthead/instagram-icon.gif" width="36" height="36" alt="Instagram" /></a></li>
-        <li class="facebook"><a href="#"><img src="assets/masthead/facebook-icon.gif" width="36" height="36" alt="Facebook" /></a></li>
-      </ul>
-    </div>
-  </div>
-</header>
-<section>
-  <div class="full-row main-search">
-    <div class="row">
-      <div class="large-8 small-12 large-offset-2 columns text-center">
-        <h1>10 seconds will save you 50% or more on your hotel reservation.</h1>
-        <form id="search" ng-controller="SearchCtrl" ng-submit="search()">
+  <div id="wrapper">
+      <header class="container">
           <div class="row">
-            <div class="large-12 small-12 columns">
-              <!-- <input type="text" id="search" placeholder="Destination or hotel name..." class="search-icon" tabindex="1" /> -->
-<!--                <input type="text" id="search" placeholder="Destination" class="search-icon" tabindex="1" ng-model="location" typeahead="city for city in cities($viewValue)" autocomplete="off" typeahead-on-select='citySelect($item, $model, $label)' typeahead-editable="false"/> -->
-
-               <input id="search-input" type="text" name="q" value="" autocomplete="off"/>
-
-               <input type="hidden" ng-model="slug" value="{{slug}}"/>
-            </div>
-          </div>
-          <div class="row">
-            <div class="large-6 small-12 columns">
-              <input type="text" id="start_date" placeholder="Check in..." class="date-icon" calendar tabindex="2" ng-model="start_date"/>
-            </div>
-            <div class="large-6 small-12 columns">
-              <input type="text" id="end_date" placeholder="Check out..." class="date-icon" calendar tabindex="3" ng-model="end_date"/>
-            </div>
-          </div>
-          <div class="row">
-            <div class="large-6 small-12 large-offset-3 columns">
-                <input type="submit" name="searchbutton" id="searchbutton" value="Search" tabindex="4">
+              <div class="col-md-2 col-sm-12 masthead">
+                  <a id="logo" href="/" target="_self">
+                      Hot5 Hotel Search
+                  </a>
               </div>
           </div>
-        </form>
-      </div>
-    </div>
+      </header>
+      <section>
+          <div id="home-search">
+              <div class="container">
+                  <div class="row">
+                      <h1>
+                          10 seconds will save you 50% or more on your hotel reservation.
+                      </h1>
+                      <div class="col-lg-8 col-lg-offset-2">
+                           <form id="search"  ng-controller="SearchCtrl" ng-submit="search()" target="_self">
+                              <div class="row">
+                                  <div class="col-xs-12 place">
+                                      <div class="input-group">
+                                          <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input" />
+                                          <input type="hidden" ng-model="slug" value="{{slug}}"/>
+                                          <div class="input-group-addon">
+                                              <i class="fa fa-search"></i>
+                                          </div>
+                                      </div>
+<!--                                       <div class="autocomplete" style="display: none">
+                                          <div class="results">
+                                              <div class="panel panel-default">
+                                              <div class="panel-heading"><i class="fa fa-map-marker"></i> Locations</div>
+                                                  <ul class="list-group">
+                                                      <li class="list-group-item">Cras justo odio</li>
+                                                      <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                      <li class="list-group-item">Morbi leo risus</li>
+                                                      <li class="list-group-item">Porta ac consectetur ac</li>
+                                                      <li class="list-group-item">Vestibulum at eros</li>
+                                                  </ul>
+                                              </div>
+                                              <div class="panel panel-default">
+                                              <div class="panel-heading"><i class="fa fa-building-o"></i> Hotels</div>
+                                                  <ul class="list-group">
+                                                      <li class="list-group-item">Cras justo odio</li>
+                                                      <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                      <li class="list-group-item">Morbi leo risus</li>
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div> -->
+                                  </div>
+                              </div>
+                              <div class="row input-daterange">
+                                  <div class="col-xs-6">
+                                      <div class="input-group">
+                                          <input type="text" id="start_date" name="start_date" class="form-control" placeholder="Check In..." autocomplete="off" readonly="readonly" ng-model="start_date"/>
+                                          <div class="input-group-addon addon-hidden-sm">
+                                              <i class="fa fa-calendar"></i>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-xs-6">
+                                      <div class="input-group">
+                                          <input type="text" id="end_date" name="end_date" class="form-control" placeholder="Check Out..." autocomplete="off" readonly="readonly" ng-model="end_date"/>
+                                          <div class="input-group-addon addon-hidden-sm">
+                                              <i class="fa fa-calendar"></i>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col-xs-12">
+                                      <button type="submit" class="btn btn-primary search">
+                                          <i class="fa fa-search"></i>
+                                          Search
+                                      </button>
+                                  </div>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="container">
+              <p class="text-muted text-center">
+                  We compare live prices from all the major online travel sites to ensure you get the best deal.
+              </p>
+              <div class="logos">
+                  <ul>
+                      <li><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></li>
+                      <li><img src="assets/logos/expedia.gif" width="96" height="52" alt="Expedia.com" /></li>
+                      <li><img src="assets/logos/agoda.gif" width="80" height="52" alt="agoda" /></li>
+                      <li><img src="assets/logos/hotels.gif" width="126" height="52" alt="Hotels.com" /></li>
+                      <li><img src="assets/logos/lastminute.gif" width="98" height="52" alt="Lastminute.com" /></li>
+                      <li><img src="assets/logos/splendia.gif" width="73" height="52" alt="Splendia" /></li>
+                      <li><img src="assets/logos/easy_to_book.gif" width="134" height="52" alt="Easytobook.com" /></li>
+                  </ul>
+              </div>
+              <h3 class="text-center">Popular Destinations</h3>
+              <div class="popular-destinations row">
+                  <div class="col-sm-2 col-xs-12 col-sm-offset-1 col-xs-offset-0">
+                      <h5>North America</h5>
+                      <ul>
+                          <li><a href="new-york" target="_self">New York</a></li>
+                          <li><a href="las-vegas" target="_self">Las Vegas</a></li>
+                          <li><a href="san-francisco" target="_self">San Francisco</a></li>
+                          <li><a href="los-angeles" target="_self">Los Angeles</a></li>
+                          <li><a href="chicago" target="_self">Chicago</a></li>
+                          <li><a href="san-diego" target="_self">San Diego</a></li>
+                          <li><a href="washington" target="_self">Washington</a></li>
+                          <li><a href="orlando" target="_self">Orlando</a></li>
+                          <li><a href="toronto" target="_self">Toronto</a></li>
+                          <li><a href="montreal" target="_self">Montreal</a></li>
+                          <li><a href="houston" target="_self">Houston</a></li>
+                          <li><a href="new-orleans" target="_self">New Orleans</a></li>
+                          <li><a href="seattle" target="_self">Seattle</a></li>
+                          <li><a href="vancouver" target="_self">Vancouver</a></li>
+                          <li><a href="cancun" target="_self">Cancun</a></li>
+                          <li><a href="san-antonio" target="_self">San Antonio</a></li>
+                          <li><a href="miami-florida" target="_self">Miami</a></li>
+                          <li><a href="mexico" target="_self">Mexico City</a></li>
+                          <li><a href="playa-del-carmen" target="_self">Playa del Carmen</a></li>
+                          <li><a href="boston" target="_self">Boston</a></li>
+                      </ul>
+                  </div>
+                  <div class="col-sm-2 col-xs-12">
+                      <h5>South America</h5>
+                      <ul>
+                          <li><a href="buenos-aires" target="_self">Buenos Aires</a></li>
+                          <li><a href="rio-de-janeiro" target="_self">Rio de Janeiro</a></li>
+                          <li><a href="lima" target="_self">Lima</a></li>
+                          <li><a href="cusco" target="_self">Cusco</a></li>
+                          <li><a href="santiago" target="_self">Santiago</a></li>
+                          <li><a href="bogota" target="_self">Bogota</a></li>
+                          <li><a href="sao-paulo" target="_self">Sao Paulo</a></li>
+                          <li><a href="quito" target="_self">Quito</a></li>
+                          <li><a href="cartagena" target="_self">Cartagena</a></li>
+                          <li><a href="san-carlos-de-bariloche" target="_self">Bariloche</a></li>
+                          <li><a href="buzios" target="_self">Buzios</a></li>
+                          <li><a href="salvador" target="_self">Salvador da Bahia</a></li>
+                          <li><a href="arequipa" target="_self">Arequipa</a></li>
+                          <li><a href="florianopolis" target="_self">Florianopolis</a></li>
+                          <li><a href="puerto-iguazu" target="_self">Puerto Iguazu</a></li>
+                          <li><a href="la-paz" target="_self">La Paz</a></li>
+                          <li><a href="paraty" target="_self">Paraty</a></li>
+                          <li><a href="medellin" target="_self">Medellin</a></li>
+                          <li><a href="mendoza" target="_self">Mendoza</a></li>
+                          <li><a href="porto-seguro" target="_self">Porto Seguro</a></li>
+                      </ul>
+                  </div>
+                  <div class="col-sm-2 col-xs-12">
+                      <h5>Europe</h5>
+                      <ul>
+                          <li><a href="london" target="_self">London</a></li>
+                          <li><a href="paris" target="_self">Paris</a></li>
+                          <li><a href="rome" target="_self">Rome</a></li>
+                          <li><a href="barcelona" target="_self">Barcelona</a></li>
+                          <li><a href="dublin" target="_self">Dublin</a></li>
+                          <li><a href="madrid" target="_self">Madrid</a></li>
+                          <li><a href="amsterdam" target="_self">Amsterdam</a></li>
+                          <li><a href="prague" target="_self">Prague</a></li>
+                          <li><a href="moscow" target="_self">Moscow</a></li>
+                          <li><a href="vienna" target="_self">Vienna</a></li>
+                          <li><a href="saint-petersburg" target="_self">St. Petersburg</a></li>
+                          <li><a href="venice" target="_self">Venice</a></li>
+                          <li><a href="warsaw" target="_self">Warsaw</a></li>
+                          <li><a href="dubrovnik" target="_self">Dubrovnik</a></li>
+                          <li><a href="benidorm" target="_self">Benidorm</a></li>
+                          <li><a href="berlin" target="_self">Berlin</a></li>
+                          <li><a href="budapest" target="_self">Budapest</a></li>
+                          <li><a href="munich" target="_self">Munich</a></li>
+                          <li><a href="milan" target="_self">Milan</a></li>
+                          <li><a href="florence" target="_self">Florence</a></li>
+                          <li><a href="lisbon" target="_self">Lisbon</a></li>
+                      </ul>
+                  </div>
+                  <div class="col-sm-2 col-xs-12">
+                      <h5>Middle East/Africa</h5>
+                      <ul>
+                          <li><a href="dubai" target="_self">Dubai</a></li>
+                          <li><a href="jerusalem" target="_self">Jerusalem</a></li>
+                          <li><a href="tel-aviv" target="_self">Tel Aviv</a></li>
+                          <li><a href="abu-dhabi" target="_self">Abu Dhabi</a></li>
+                          <li><a href="beirut" target="_self">Beirut</a></li>
+                          <li><a href="amman" target="_self">Amman</a></li>
+                          <li><a href="doha" target="_self">Doha</a></li>
+                          <li><a href="manama" target="_self">Manama</a></li>
+                          <li><a href="riyadh" target="_self">Riyadh</a></li>
+                          <li><a href="s" target="_self">Damascus</a></li>
+                          <li><a href="musca" target="_self">Muscat</a></li>
+                          <li><a href="marrakech" target="_self">Marrakech</a></li>
+                          <li><a href="cape-town" target="_self">Cape Town</a></li>
+                          <li><a href="cairo" target="_self">Cairo</a></li>
+                          <li><a href="johannesburg" target="_self">Johannesburg</a></li>
+                          <li><a href="sharm-el-sheikh" target="_self">Sharm El Sheikh</a></li>
+                          <li><a href="fes" target="_self">Fez</a></li>
+                          <li><a href="luxor" target="_self">Luxor</a></li>
+                          <li><a href="hurghada" target="_self">Hurghada</a></li>
+                          <li><a href="nairobi" target="_self">Nairobi</a></li>
+                      </ul>
+                  </div>
+                  <div class="col-sm-2 col-xs-12">
+                      <h5>Asia/Pacific</h5>
+                      <ul>
+                          <li><a href="bangkok" target="_self">Bangkok</a></li>
+                          <li><a href="bali" target="_self">Bali</a></li>
+                          <li><a href="beijing" target="_self">Beijing</a></li>
+                          <li><a href="shanghai" target="_self">Shanghai</a></li>
+                          <li><a href="phuket-town" target="_self">Phuket</a></li>
+                          <li><a href="kuala-lumpur" target="_self">Kuala Lumpur</a></li>
+                          <li><a href="new-delhi" target="_self">New Delhi</a></li>
+                          <li><a href="tokyo" target="_self">Tokyo</a></li>
+                          <li><a href="singapore" target="_self">Singapore</a></li>
+                          <li><a href="hanoi" target="_self">Hanoi</a></li>
+                          <li><a href="ho-chi-minh-city" target="_self">Ho Chi Minh City</a></li>
+                          <li><a href="siem-reap" target="_self">Siem Reap</a></li>
+                          <li><a href="chiang-mai" target="_self">Chiang Mai</a></li>
+                          <li><a href="seoul" target="_self">Seoul</a></li>
+                          <li><a href="guangzhou" target="_self">Guangzhou</a></li>
+                          <li><a href="" target="_self">Koh Samui</a></li>
+                          <li><a href="hong-kong" target="_self">Hong Kong</a></li>
+                          <li><a href="pattaya" target="_self">Pattaya</a></li>
+                          <li><a href="sydney" target="_self">Sydney</a></li>
+                          <li><a href="melbourne" target="_self">Melbourne</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </section>
+  <!-- Footer --> 
+  <%= render 'layouts/footer' %>
   </div>
-</section>
-<section>
-  <div class="row">
-      <div class="large-12 small-12 columns text-center">
-        <p>We compare live prices from all the major online travel sites to ensure you get the best deal.</p>
-      </div>
-    </div>
-    <div class="row">
-      <ul class="text-center logos">
-        <li><img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" /></li>
-          <li><img src="assets/logos/expedia.gif" width="96" height="52" alt="Expedia.com" /></li>
-          <li><img src="assets/logos/agoda.gif" width="80" height="52" alt"Agoda" /></li>
-          <li><img src="assets/logos/hotels.gif" width="126" height="52" alt="Hotels.com" /></li>
-<!--           <li><img src="assets/logos/laterooms.gif" width="51" height="52" alt="Laterooms.com" /></li>
- -->          <li><img src="assets/logos/lastminute.gif" width="98" height="52" alt="Lastminute.com" /></li>
-          <li><img src="assets/logos/splendia.gif" width="73" height="52" alt="Splendia" /></li>
-          <li><img src="assets/logos/easy_to_book.gif" width="134" height="52" alt="Easytobook.com" /></li>
-      </ul>
-    </div>
-</section>
-<%= render 'cities' %>

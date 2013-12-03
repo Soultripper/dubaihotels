@@ -60,7 +60,7 @@ Hot5.Connections.Pusher = function()
 
   var bindChannel = function(){
     subscribedChannel.bind('results_update', function(push_envelope) {
-      var domElement = $('#searchController')
+      var domElement = $('#wrapper')
       angular.element(domElement).scope().pollSearch() 
     })     
   }
@@ -71,7 +71,6 @@ Hot5.Connections.Pusher = function()
     bindChannel()
     return subscribedChannel
   };
-
 
   var unsubscribe = function(){
     if(channel)

@@ -7,12 +7,16 @@ class Hotel < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :description
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :description
 
   attr_accessor :distance_from_location
 
   has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC'
   has_many :hotel_amenities, :class_name => "HotelsHotelAmenity"
+
+  has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
+  has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
+  has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
 
   def self.cols
     "ean_hotel_id, sequence_number,name, address1,address2,city,state_province,postal_code ,country,latitude,longitude,airport_code,property_category,property_currency,star_rating,confidence, supplier_type,location,chain_code_id,region_id,high_rate,low_rate,check_in_time,check_out_time"

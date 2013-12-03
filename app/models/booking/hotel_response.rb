@@ -91,16 +91,16 @@ module Booking
         max_price: max_price,
         ranking: ranking,
         rooms: nil,
-        link: create_aff_link(location, search_criteria)
+        link: search_criteria.booking_link(location, id)
       }
-    rescue
-      Log.error "Booking Hotel #{id} failed to convert"
+    rescue => msg
+      Log.error "Booking Hotel #{id} failed to convert: #{msg}"
       nil
     end
 
-    def create_aff_link(location, search_criteria)
-      "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{id}&checkin=#{search_criteria.start_date}&checkout=#{search_criteria.end_date}&aid=371919&lang=en-gb&selected_currency=#{search_criteria.currency_code}&label=5e0213fdxf017x9f4bx153cxf42d81aeac1a" 
-    end
+    # def create_aff_link(location, search_criteria)
+    #   "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{id}&checkin=#{search_criteria.start_date}&checkout=#{search_criteria.end_date}&aid=371919&lang=en-gb&selected_currency=#{search_criteria.currency_code}&label=5e0213fdxf017x9f4bx153cxf42d81aeac1a" 
+    # end
 
     def avg_price(price, nights)
       price / nights

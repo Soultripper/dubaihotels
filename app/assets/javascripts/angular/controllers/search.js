@@ -1,6 +1,16 @@
 
-app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window',  
-  function ($scope, $http, $location, $window) { 
+app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter',  
+  function ($scope, $http, $location, $window, $filter) { 
+
+    var end_date = function(){
+      var date = angular.element('#end_date').datepicker('getDate')
+      return $filter('date')(date, 'yyyy-MM-dd')
+    }
+
+    var start_date = function(){
+      var date = angular.element('#start_date').datepicker('getDate')
+      return $filter('date')(date, 'yyyy-MM-dd')
+    }    
 
     $scope.cities = function(cityName) {
       return $http.get("/locations.json?query="+cityName).then(function(response){
@@ -18,11 +28,11 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window',
    //  };
     $scope.search = function(){
       var routes = {
-        start_date: $scope.start_date,
-        end_date: $scope.end_date
+        start_date: start_date(),
+        end_date: end_date()
       } 
       var location = $location.search(routes).path($scope.slug);
-      $window.location.href =  location.url()
+      window.location.href =  location.url()
     }
 
   }

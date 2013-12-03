@@ -1,62 +1,170 @@
-<div class="large-3 small-12 columns">
-  <h6>{{Page.info().available_hotels}} out of {{Page.info().total_hotels}} hotels available</h6>
-  <div class="map">
-    <!-- <iframe src="http://mapsengine.google.com/map/embed?mid=zNb056NZgT9E.kcdAgwzehKwM" width="640" height="480"></iframe> -->
-    <div class="viewonmap">
-      <p><a href="#">View hotels on map</a></p>
-    </div>
-  </div>
-  <h6>Refine results</h6>
-  <div class="refine">
-    <div class="refine-inner">
-      <form id="refine" action="">
-
-        <p>PRICE PER NIGHT</p>
-        <input type="text" id="priceSlider" name="priceRange" value="10;300"/>
-       
-
-        <p>STAR RATING</p>
-        <div class="stars">
-          <p>
-          <input type="checkbox" name="5stars" id="5stars" ng-click="filterStarRatings(5)"> 
-            <label for="5stars" class="fivestar">5-star</label><br />
-          <input type="checkbox" name="4stars" id="4stars" ng-click="filterStarRatings(4)"> 
-            <label for="4stars" class="fourstar">4-star</label><br />
-          <input type="checkbox" name="3stars" id="3stars" ng-click="filterStarRatings(3)"> 
-            <label for="3stars" class="threestar">3-star</label><br />
-          <input type="checkbox" name="2stars" id="2stars" ng-click="filterStarRatings(2)"> 
-            <label for="2stars" class="twostar">2-star</label><br />
-          <input type="checkbox" name="1stars" id="1stars" ng-click="filterStarRatings(1)"> 
-            <label for="1stars" class="onestar">1-star</label>
-        </p>
+<div class="row">
+    <div id="sidebar" class="col-md-3 col-xs-12">
+        <div class="hidden-sm hidden-xs">
+            <h4>{{Page.info().available_hotels}} Hotels available</h4>
+            <div class="map">
+                Map
+            </div>
         </div>
-        <p>FEATURES</p>
-        <p>
-          <input type="checkbox" name="wifi" id="wifi" ng-click="filterAmenities('wifi')"> 
-            <label for="wifi">Wifi</label><br />
-          <input type="checkbox" name="central" id="central-location" ng-click="filterAmenities('central-location')"> 
-            <label for="central">Central Location</label><br />
-          <input type="checkbox" name="family" id="family" ng-click="filterAmenities('family-friendly')"> 
-            <label for="family">Family Friendly</label><br />
-          <input type="checkbox" name="parking" id="parking" ng-click="filterAmenities('parking')"> 
-            <label for="parking">Parking</label><br />
-          <input type="checkbox" name="gym" id="gym" ng-click="filterAmenities('gym')"> 
-            <label for="gym">Gym</label><br />
-          <input type="checkbox" name="boutique" id="boutique" ng-click="filterAmenities('boutique')"> 
-            <label for="boutique">Boutique</label><br />
-          <input type="checkbox" name="smoking" id="non-smoking-rooms" ng-click="filterAmenities('non-smoking-rooms')"> 
-            <label for="smoking">Non-smoking rooms</label><br />
-          <input type="checkbox" name="pet" id="pet-friendly" ng-click="filterAmenities('pet-friendly')"> 
-            <label for="pet">Pet Friendly</label><br />
-          <input type="checkbox" name="pool" id="pool" ng-click="filterAmenities('pool')"> 
-            <label for="pool">Pool</label><br />
-          <input type="checkbox" name="restaurant" id="restaurant"  ng-click="filterAmenities('restaurant')"> 
-            <label for="restaurant">Restaurant</label><br />
-          <input type="checkbox" name="spa" id="spa" ng-click="filterAmenities('spa')"> 
-            <label for="spa">Spa</label>
-      </p>
-      </form>
+        <div id="refine">
+            <div class="contents">
+                <div class="toggle">
+                    <div class="closed">
+                        <i class="fa fa-caret-left"></i> Refine
+                    </div>
+                    <div class="open">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
+                <div class="controls">
+                    <h4>Refine Results</h4>
+                    <div class="filters">
+                        <h5>Price Per Night</h5>
+                        <div class="price-range">
+                          <input type="text" id="priceSlider" name="priceRange" value="10;300"/>
+                        </div>
+                        <h5>Star Rating</h5>
+                        <div class="star-rating">
+                            <ul>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterStarRatings(5)"/>&nbsp;
+                                        <span>5 star</span>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterStarRatings(4)"/>&nbsp;
+                                        <span>4 star</span>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterStarRatings(3)"/>&nbsp;
+                                        <span>3 star</span>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterStarRatings(2)"/>&nbsp;
+                                        <span>2 star</span>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterStarRatings(1)"/>&nbsp;
+                                        <span>1 star</span>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <h5>Features</h5>
+                        <div class="features">
+                            <ul>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('wifi')"/>&nbsp;
+                                        WiFi
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('central-location')"/>&nbsp;
+                                        Central Location
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('family-friendly')"/>&nbsp;
+                                        Family Friendly
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('parking')"/>&nbsp;
+                                        Parking
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('gym')"/>&nbsp;
+                                        Gym
+                                    </label>
+                                </li>
+                                <li>
+                                    <label>
+                                        <input type="checkbox" ng-click="filterAmenities('boutique')"/>&nbsp;
+                                        Boutique
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <a href="#" id="pull">Refine</a>
+    <div id="results" class="col-md-9 col-xs-12">
+        <!-- <div class="loader">
+            <div class="message">
+               <i class="fa fa-gear fa-spin"></i> Getting hotel prices... 
+            </div>
+            <div class="progress progress-striped active">
+                <div class="progress-bar"></div>
+            </div>
+        </div> -->
+        <!-- <div class="overlay">&nbsp;</div> -->
+
+        <div class="sort">
+            <ul class="hidden-md hidden-sm hidden-xs">
+                <li class="title">Sort By <i class="fa fa-caret-right"></i></li>
+                <li ng-class="{active: isSort('recommended')}"><a ng-click="sort('recommended')" href="#">Recommended</a></li>
+                <li ng-class="{active: isSort('price')}"><a ng-click="sort('price')" href="#">Price <i class="fa fa-caret-up"></i></a></li>
+                <li ng-class="{active: isSort('price_reverse')}"><a ng-click="sort('price_reverse')" href="#">Price <i class="fa fa-caret-down"></i></a></li>
+                <li ng-class="{active: isSort('rating')}"><a ng-click="sort('rating')" href="#">Star Rating</a></li>
+                <li ng-class="{active: isSort('user')}"><a ng-click="sort('user')" href="#">User Rating</a></li>
+                <li ng-class="{active: isSort('distance')}"><a ng-click="sort('distance')" href="#">Distance</a></li>
+            </ul>
+            <div class="dropdown hidden-lg">
+                <label for="sortby" class="title">Sort By <i class="fa fa-caret-right"></i></label>
+                <div class="select">
+                    <select id="sortby">
+                        <option>Recommended</option>
+                        <option>Price (Low to High)</option>
+                        <option>Price (High to Low)</option>
+                        <option>Star Rating</option>
+                        <option>User Rating</option>
+                        <option>Distance</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div ng-view id="hotel-results" > 
+        </div>        
+    </div>
 </div>

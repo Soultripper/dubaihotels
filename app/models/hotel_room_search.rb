@@ -45,9 +45,11 @@ class HotelRoomSearch
 
   def request_booking_rooms
     return unless booking_hotel_id
-    booking_hotel = Booking::SearchHotel.for_availability(booking_hotel_id, search_criteria)
-    return unless booking_hotel.hotels.length > 0
-    @rooms.concat(booking_hotel.hotels.first.rooms.map do |room|
+    hotel_list_response = Booking::SearchHotel.for_availability(booking_hotel_id, search_criteria)
+    return unless hotel_list_response.hotels.length > 0 and booking_hotel = hotel.booking_hotel
+    hotel_response = hotel_list_response.hotels.first
+    @rooms.concat(hotel_response.rooms.map do |room|
+      room.link = search_criteria.booking_link_detailed(booking_hotel)
       room.commonize(search_criteria)
     end)
   end

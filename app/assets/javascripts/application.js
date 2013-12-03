@@ -10,11 +10,8 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
-//= require jquery.ui.all
-//= require jquery_ujs
-//= require foundation
-//= require zepto/default
 //= require angular
 //= require angular-resource
 //= require angular-sanitize
@@ -22,7 +19,7 @@
 //= require underscore
 //= require accountingjs
 //= require angular-ui-bootstrap
+//= require twitter/bootstrap
 //= require_self
 //= require_tree .
 
-$(document).foundation();

@@ -71,7 +71,7 @@ class HotelSearchPageResult
 
   def filter_stars(hotel, star_ratings)
     return true unless star_ratings
-    star_ratings.map(&:to_i).include? hotel.star_rating.round
+    star_ratings.map(&:to_i).include? hotel.star_rating.to_f.round
   end
 
   def paginate(page_no, page_size)

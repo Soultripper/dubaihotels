@@ -1,0 +1,46 @@
+<div ng-controller="SearchResultsCtrl" id="searchController">
+  <%= render 'header' %>
+
+  <section>
+    <div class="row">
+      <div class="orange-bar">
+        <div class="large-6 small-12 columns text-left">
+          <h1>{{Page.info().query}} hotels </h1>
+        </div>
+        <div class="large-6 small-12 columns text-right">
+          <p >{{Page.criteria().start_date | date:'MMM d'}} - {{Page.criteria().end_date | date:'MMM d'}} ({{Page.criteria().total_nights}} Night)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="row">
+      <%= render 'filters' %>   
+      <div class="large-9 small-12 columns">
+        <ul class="sortby">
+          <li>Sort by:</li>
+          <li ng-class="{selected: isSort('recommended')}"><a ng-click="sort('recommended')">Recommended</a></li>
+          <li ng-class="{selected: isSort('price')}"><a ng-click="sort('price')">Price (Low to High)</a></li>
+          <li ng-class="{selected: isSort('price_reverse')}"><a ng-click="sort('price_reverse')">Price (High to Low)</a></li>
+          <li ng-class="{selected: isSort('rating')}"><a ng-click="sort('rating')">Star Rating</a></li>
+          <li><a href="#">User Rating</a></li>
+          <li ng-class="{selected: isSort('distance')}"><a ng-click="sort('distance')">Distance</a></li>
+        </ul>
+        <div class="sort-select">
+          <select>
+            <option value="null" selected>Sort by</option>
+            <option value="recommended">Recommended</option>
+            <option value="low">Price (Low to High)</option>
+            <option value="high">Price (High to Low)</option>
+            <option value="star">Star Rating</option>
+            <option value="user">User Rating</option>
+            <option value="distance">Distance</option>
+          </select>
+        </div>
+        <div ng-view id="hotel-results" > 
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

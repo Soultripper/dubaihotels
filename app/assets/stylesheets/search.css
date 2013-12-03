@@ -1,0 +1,651 @@
+﻿#search {
+  padding: 22px 0;
+}
+#search .search {
+  background-color: #333333;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  font-size: 18px;
+  display: block;
+}
+#search input {
+  font-size: 18px;
+  height: 39px;
+}
+#wrapper > section > .container {
+  overflow: hidden;
+}
+#sidebar .map {
+  border: 1px solid #ccc;
+  background-color: #eee;
+  height: 130px;
+}
+#results {
+  position: relative;
+  padding-top: 10px;
+  border-left: 3px solid #eb9100;
+  min-height: 150px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#results > .loader {
+  z-index: 3;
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  right: 15px;
+  font-size: 16px;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+}
+#results > .loader .message {
+  margin-bottom: 5px;
+}
+#results > .loader .progress {
+  margin: 0;
+}
+#results .overlay {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#results section {
+  position: relative;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+#results section:before,
+#results section:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+#results section:after {
+  clear: both;
+}
+#results section .image {
+  float: left;
+  height: 138px;
+  width: 138px;
+  position: relative;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#results section .image .view {
+  cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 50px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-top: 35px;
+}
+#results section .image .savings {
+  background-color: #00d300;
+  color: #fff;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  text-align: center;
+  padding: 13px 4px;
+  width: 58px;
+  border-radius: 50%;
+  line-height: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+#results section .image:hover .view {
+  display: block;
+}
+#results section .image:hover .savings {
+  opacity: 0.5;
+}
+#results section .details {
+  position: relative;
+  margin-left: 138px;
+  margin-right: 140px;
+  height: 138px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 8px;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#eeeeee), to(#ffffff));
+  background-image: -webkit-linear-gradient(top, #eeeeee 0%, #ffffff 100%);
+  background-image: -moz-linear-gradient(top, #eeeeee 0%, #ffffff 100%);
+  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffeeeeee', endColorstr='#ffffffff', GradientType=0);
+}
+#results section .details h4 {
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+#results section .details .location {
+  color: #999999;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+}
+#results section .details .location i {
+  color: #00b200;
+}
+#results section .details .stars {
+  color: #ff9c00;
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  font-size: 20px;
+}
+#results section .details .deals {
+  list-style: none;
+  margin: 0 0 2px 0;
+  padding: 0;
+}
+#results section .details .deals li {
+  width: 44%;
+  margin-right: 20px;
+  display: inline-block;
+  color: #00a4ff;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+}
+#results section .details .deals li .name {
+  float: left;
+  margin-right: 5px;
+}
+#results section .details .deals li .price {
+  float: right;
+  margin-left: 5px;
+}
+#results section .details .deals li:after {
+  content: "";
+  display: block;
+  overflow: hidden;
+  height: 10px;
+  border-bottom: 2px dotted;
+}
+#results section .details .all-deals {
+  font-size: 13px;
+  font-weight: bold;
+}
+#results section .details .tabs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+#results section .details .tabs li {
+  display: table-cell;
+  width: 1%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-right: 1px;
+}
+#results section .details .tabs li.active {
+  position: relative;
+}
+#results section .details .tabs li.active:after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  content: " ";
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #00a4ff transparent transparent transparent;
+}
+#results section .details .tabs li.active a,
+#results section .details .tabs li.active a:hover {
+  color: #fff;
+  background-color: #00a4ff;
+}
+#results section .details .tabs li a {
+  display: block;
+  padding: 2px;
+  font-weight: bold;
+  color: #999999;
+  background-color: #eeeeee;
+  text-decoration: none;
+}
+#results section .details .tabs li a:hover {
+  color: #555555;
+}
+#results section .best-deal {
+  position: absolute;
+  border-left: 1px solid #ccc;
+  right: 0;
+  top: 0;
+  height: 138px;
+  width: 140px;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+}
+#results section .best-deal a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-decoration: none;
+}
+#results section .best-deal .logo {
+  height: 35px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+#results section .best-deal .logo img {
+  width: auto;
+  height: 35px;
+}
+#results section .best-deal .high-price {
+  text-decoration: line-through;
+  text-align: center;
+  color: #00a4ff;
+  font-size: 15px;
+}
+#results section .best-deal .price {
+  text-align: center;
+  color: #eb9100;
+  font-size: 32px;
+}
+#results section .best-deal .btn {
+  display: block;
+  line-height: 25px;
+}
+#results section .tabs-content .content {
+  border-top: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+#results section .tabs-content .content table.table {
+  margin: 0;
+}
+#results section .tabs-content .content table.table td {
+  vertical-align: middle;
+}
+#results section .tabs-content .content table.table td.price {
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  color: #eb9100;
+  font-size: 20px;
+}
+#results section .tabs-content .content table.table td.logo {
+  width: 100px;
+  text-align: center;
+}
+#results section .tabs-content .content table.table td.logo img {
+  max-height: 30px;
+  max-width: 100px;
+}
+#results section .tabs-content .content table.table td.cta {
+  width: 100px;
+}
+#results .sort {
+  margin-bottom: 15px;
+}
+#results .sort .title {
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  font-weight: 400;
+}
+#results .sort ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#results .sort ul li {
+  display: inline-block;
+  margin-right: 8px;
+}
+#results .sort ul li:after {
+  content: "\f111";
+  font-size: 6px;
+  margin-left: 10px;
+  position: relative;
+  top: -3px;
+  font-family: FontAwesome;
+  color: #00a4ff;
+}
+#results .sort ul li:last-child:after {
+  display: none;
+}
+#results .sort ul li.title:after {
+  display: none;
+}
+#results .sort ul li a {
+  color: #999999;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+#results .sort ul li a:hover {
+  color: #555555;
+}
+#results .sort ul li.active a {
+  color: #000;
+  border-bottom: 2px solid #00a4ff;
+}
+#results .sort .dropdown label {
+  float: left;
+  padding-top: 6px;
+}
+#results .sort .dropdown .select {
+  margin-left: 69px;
+}
+#results .sort .dropdown .select select {
+  width: 100%;
+}
+.top-bar {
+  background-color: #eb9100;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #fff;
+}
+.top-bar:before,
+.top-bar:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.top-bar:after {
+  clear: both;
+}
+#refine .contents {
+  -webkit-transition: left 0.2s ease;
+  transition: left 0.2s ease;
+}
+#refine .contents .toggle {
+  display: none;
+}
+#refine .contents .controls .filters {
+  padding: 10px;
+  background-color: #eee;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#refine .contents .controls .filters h5 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+#refine .contents .controls .filters .star-rating {
+  padding-left: 5px;
+}
+#refine .contents .controls .filters .star-rating ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#refine .contents .controls .filters .star-rating ul li span {
+  display: inline-block;
+  width: 60px;
+}
+#refine .contents .controls .filters .star-rating ul li i {
+  color: #ff9c00;
+  font-size: 16px;
+}
+#refine .contents .controls .filters .features {
+  padding-left: 5px;
+}
+#refine .contents .controls .filters .features ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 992px) {
+  #wrapper > header .masthead {
+    border-bottom: 3px solid #eb9100;
+  }
+  .top-bar {
+    margin-left: 100px;
+    min-height: 45px;
+    margin-right: -15px;
+  }
+  .top-bar .info {
+    display: none;
+  }
+  #search .submit {
+    position: absolute;
+    right: 0;
+  }
+  #search .submit .search i {
+    display: none;
+  }
+  #results {
+    border-left: none;
+  }
+  #results section {
+    margin-left: -15px;
+    margin-right: -15px;
+    border-left: none;
+    border-right: none;
+  }
+  #results section .image {
+    width: 80px;
+    height: 80px;
+  }
+  #results section .image .view i {
+    display: none;
+  }
+  #results section .image .savings {
+    border-radius: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    width: auto;
+    font-size: 12px;
+    line-height: 22px;
+    opacity: 1 !important;
+  }
+  #results section .details {
+    margin-left: 80px;
+    margin-right: 70px;
+    height: 80px;
+  }
+  #results section .details h4 {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  #results section .details .location {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  #results section .details .stars {
+    position: relative;
+    float: left;
+    font-size: 11px;
+    right: 0;
+    top: 0;
+  }
+  #results section .details .tabs li {
+    font-size: 12px;
+  }
+  #results section .details .tabs li i {
+    display: none;
+  }
+  #results section .details .tabs li.tab-best-rooms {
+    display: none;
+  }
+  #results section .details .deals {
+    display: none;
+  }
+  #results section .details .all-deals {
+    font-size: 10px;
+    float: right;
+  }
+  #results section .best-deal {
+    width: 70px;
+    height: 80px;
+  }
+  #results section .best-deal .logo {
+    height: 22px;
+  }
+  #results section .best-deal .logo img {
+    width: auto;
+    height: 22px;
+  }
+  #results section .best-deal .high-price {
+    display: none;
+  }
+  #results section .best-deal .price {
+    font-size: 22px;
+    line-height: 36px;
+  }
+  #results section .best-deal .btn {
+    line-height: normal;
+    padding: 4px;
+    font-size: 11px;
+  }
+  #sidebar {
+    position: static !important;
+  }
+  #refine {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    width: auto;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #refine .contents {
+    background-color: #fff;
+    border-right: 3px solid #eb9100;
+    width: 273px;
+    left: -273px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #refine .contents .toggle {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    background-color: #eb9100;
+    top: 165px;
+    right: -103px;
+    padding: 10px;
+    color: #fff;
+    font-size: 18px;
+    font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  #refine .contents .toggle .closed {
+    width: 80px;
+  }
+  #refine .contents .toggle .open {
+    display: none;
+  }
+  #refine .contents .controls {
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    right: 0;
+    overflow-y: auto;
+  }
+}
+body.sidebar-open {
+  overflow: hidden;
+}
+body.sidebar-open #refine {
+  position: fixed;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+body.sidebar-open #refine .contents {
+  left: 0;
+}
+body.sidebar-open #refine .contents .toggle {
+  right: -50px;
+  padding: 5px 15px;
+}
+body.sidebar-open #refine .contents .toggle .closed {
+  display: none;
+}
+body.sidebar-open #refine .contents .toggle .open {
+  display: block;
+  text-align: center;
+  font-size: 25px;
+}
+@media (min-width: 992px) {
+  #wrapper > header #logo {
+    width: 140px;
+  }
+}
+@media (max-width: 1200px) {
+  #search {
+    padding: 14px 0 0 0;
+  }
+  #search .place,
+  #search .dates {
+    margin-bottom: 10px;
+  }
+  #search .submit .search {
+    padding: 10px;
+  }
+}
+@media (min-width: 992px) {
+  #search {
+    padding: 14px 0;
+  }
+  #refine,
+  #results {
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
+  }
+}
+@media (min-width: 1200px) {
+  #search {
+    padding: 24px 0 0 0;
+  }
+}

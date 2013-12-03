@@ -1,0 +1,126 @@
+<div class="result hotel" ng-repeat="hotel in search_results.hotels" >
+  <div class="row">
+    <div class="image">
+      <a href="#">
+        <!-- <img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/> -->
+
+        <img  ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="138" id="hotel-photo-{{hotel.id}}" class="hotel-photo-main"  data-slide-toggle="#hotel-photos-{{hotel.id}}"/>
+
+      </a>
+      <div class="roundel" ng-show="saving(hotel)" >
+        Save <br/> {{saving(hotel)}} %
+      </div>
+    </div>
+    <div class="main-details">
+      <h4 class="trim-info" tool-tip="{{hotel.name}}">{{hotel.name}}</h4>
+      <div class="rating">
+        <span class="fill" ng-repeat="rating in ratingsRange(hotel.star_rating)">☆</span>
+      </div>
+      <p class="location">{{hotel.address}}, {{hotel.city}}</p>
+      <ul class="prices">
+        <li><a ng-href="{{findProvider(hotel, 'easy_to_book').link}}" target="_blank">EasyToBook.com <span>{{findProvider(hotel, 'easy_to_book').min_price | price:currency_symbol:0 }}</span></a></li>
+        <li><a href="#">Hotels.com <span>{{findProvider(hotel, 'hotels').min_price | price:currency_symbol:0 }}</span></a></li>
+        <li><a href="#">Expedia.co.uk <span>{{findProvider(hotel, 'expedia').min_price | price:currency_symbol:0 }}</span></a></li>
+        <!-- <li><a href="#">Splendia <span>£140</span></a></li> -->
+        <li><a ng-href="{{findProvider(hotel, 'booking').link}}" target="_blank">Booking.com <span>{{findProvider(hotel, 'booking').min_price | price:currency_symbol:0 }}</span></a></li>
+        <!-- <li><a href="#">Lastminute <span>£335</span></a></li> -->
+<!--         <li><a href="#">Agoda <span>£335</span></a></li>
+        <li><a href="#">Easytobook.com <span>£335</span></a></li> -->
+        <li class="alternate"><a href="#">See all deals ></a></li>
+      </ul>
+      <ul class="tabs">
+          <li><a href="#" data-slide-toggle="#hotel-amenities-{{hotel.id}}">Details</a></li>
+          <li><a href="#" data-show-map="hotel-map-{{hotel.id}}">Map</a></li>
+                    <!--<li><a href="#" data-slide-toggle="#hotel-rooms-{{hotel.id}}" ng-click="getRooms(hotel)">Rooms</a></li>-->
+
+          <li><a href="#" ng-click="getRooms(hotel)">Rooms</a></li>
+          <li><a href="#">Best rooms</a></li>
+      </ul>
+    </div>
+    <div class="hot5 price">
+      <a href="#">
+        <p class="old-price">{{hotel.offer.max_price | price:currency_symbol:0 }}</p>
+        <p class="our-price">{{hotel.offer.min_price | price:currency_symbol:0 }}<br/>
+          <span>Get Deal</span>
+        </p>
+        <p class="logo">
+          <img src="assets/logos/booking.gif" width="135" height="52" alt="Booking.com" />
+        </p>
+      </a>
+    </div>
+  </div>
+
+  <!-- Photos -->
+  <div class="row hidden hotel-photos" id="hotel-photos-{{hotel.id}}"  style="display:none">
+    <div class="row">
+      <div class="large-6 small-12 large-offset-3 columns text-center">
+        <img src="assets/blank.gif" alt="Hotel name" width="500" height="500" id="hotel-photo-{{hotel.id}}" class="hotel-photo" style="background-image: url({{hotel.images[0].url}})" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <ul class="small-block-grid-4 large-block-grid-8">
+         <!--  <li><img ng-src="{{hotel.images[0].url}}" alt="Hotel name" width="500" height="500" /></li> -->
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[0].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[1].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[2].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[3].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[4].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[5].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[6].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+          <li><img src="assets/blank.gif" alt="Hotel name" width="50" height="50" style="background-image: url({{hotel.images[7].thumbnail_url}})" class="hotel-photo-thumb"/></li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Amenities -->
+  <div class="row hidden hotel-amenities" id="hotel-amenities-{{hotel.id}}" style="display:none">
+    <div class="row">
+      <div class="large-12 small-12 columns">
+          <p><strong>Hotel Details</strong></p>
+          <p ng-bind-html="hotel.description"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="row hidden hotel-map" id="hotel-map-{{hotel.id}}" style="display:none"  data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}">
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <p><strong>{{hotel.getAddress()}}</strong></p>
+        <span>{{hotel.getAddress()}}</span>
+        <div class="map_container"> 
+          <div id="google-hotel-map-{{hotel.id}}" class="gmaps4rails_map" ></div>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+  <!-- Rooms -->
+  <div class="hidden hotel-rooms" id="hotel-rooms-{{hotel.id}}" ng-show="hotel.rooms.length" >
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <p><strong>Price comparison</strong></p>
+        <div class="row price-comparison"  ng-repeat="room in hotel.rooms">
+          <div class="large-2 small-2 columns">
+            <p class="logo"><img ng-src="assets/logos/{{room.provider}}.gif" width="135" height="52" alt="Booking.com" /></p>
+          </div>
+          <div class="large-4 small-4 columns text-center">
+            <p>{{room.description}}</p>
+          </div>
+          <div class="large-3 small-3 columns text-right">
+            <p class="our-price">{{room.price | price:currency_symbol:0}}</p>
+          </div>
+          <div class="large-3 small-3 columns text-left">
+            <p><a class="button">Get Deal</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+
+

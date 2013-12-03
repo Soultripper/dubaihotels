@@ -1,4 +1,6 @@
 class SearchCriteria
+  include LinkBuilder
+  
   attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :min_stars, :max_stars, :currency_code
 
   attr_accessor :children, :min_stars, :max_stars

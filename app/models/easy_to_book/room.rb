@@ -24,7 +24,8 @@ module EasyToBook
       {
         provider: :easy_to_book,
         description: description,
-        price: avg_price(price(search_criteria.currency_code), search_criteria.total_nights)
+        price: avg_price(price(search_criteria.currency_code), search_criteria.total_nights),
+        link: link
       }
     end
     

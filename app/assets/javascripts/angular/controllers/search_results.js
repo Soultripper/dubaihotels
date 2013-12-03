@@ -1,6 +1,6 @@
 
-app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', 'SearchHotels', 'HotelRooms', 'Page',  
-  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, SearchHotels, HotelRooms, Page) { 
+app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page',  
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page) { 
 
     // if(!$routeParams['currency'])$routeParams['currency']='GBP'
 
@@ -12,11 +12,15 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
     }
 
     var end_date = function(){
-      return Page.criteria().end_date ? Page.criteria().end_date : param('end_date')
+      // var date = Page.criteria().end_date ? Page.criteria().end_date : param('end_date')
+      var date = angular.element('#end_date').datepicker('getDate')
+      return $filter('date')(date, 'yyyy-MM-dd')
     }
 
     var start_date = function(){
-      return Page.criteria().start_date ? Page.criteria().start_date : param('start_date')
+      // var date = Page.criteria().start_date ? Page.criteria().start_date : param('start_date')
+      var date = angular.element('#start_date').datepicker('getDate')
+      return $filter('date')(date, 'yyyy-MM-dd')
     }    
 
     $rootScope.pollSearch = function() {
@@ -30,14 +34,15 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
         $scope.currency_symbol = Page.criteria().currency_symbol;
         $scope.slug = Page.info().slug
         $scope.channel = Page.info().channel
-         Hot5.Connections.Pusher.changeChannel($scope.channel);
+        Hot5.Connections.Pusher.changeChannel($scope.channel);
         $("#priceSlider").ionRangeSlider("update", {
             min:  Math.round(10),
             max:  Math.round(Page.info().max_price),
             from: Math.round(Page.info().min_price_filter || 10),                       // change default FROM setting
             to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
-
+        angular.element('#start_date').datepicker('update', new Date(Date.parse(Page.criteria().start_date)));
+        angular.element('#end_date').datepicker('update', new Date(Date.parse(Page.criteria().end_date)));
         // if(!response.finished && data.calls < 6)
         //   $timeout(pollSearch, 1500);
       })
@@ -69,9 +74,11 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
         return;
       }
       hotel.rooms = HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')});
+      console.log(hotel.rooms.length)
     };
 
     $rootScope.search = function(){
+      console.log(angular.element('#start_date').datepicker('getDate'))
       delete $routeParams['id']
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
