@@ -1,11 +1,16 @@
 
-app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page',  
+app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page',  
   function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page) { 
 
     // if(!$routeParams['currency'])$routeParams['currency']='GBP'
 
+        // $rootScope.$on("$routeChangeStart", function(e) {
+        //     //show indicator
+        //     $rootScope.$broadcast("loading-started");
+        // });
+
     var data = { hotels: [], calls: 1, amenities: [], starRatings: [] };
-    $scope.Page = Page;
+    $rootScope.Page = Page;
 
     var param = function(name, default_val){
       return  $routeParams[name] || $location.search()[name] || default_val;
@@ -23,29 +28,51 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       return $filter('date')(date, 'yyyy-MM-dd')
     }    
 
-    $rootScope.pollSearch = function() {
-      if(!$routeParams.id) return;     
+    $rootScope.search = function(isUpdate) {
+      
 
-      SearchHotels.get($routeParams, function(response){
+
+      $routeParams.start_date = start_date();
+      $routeParams.end_date = end_date();
+
+      if(!isUpdate)
+        $rootScope.$broadcast("loading-started");
+      // if(Page.info().slug)
+      //   $routeParams.id = Page.info().slug
+
+      console.log('Making request. Is update:  ' + isUpdate)
+      SearchHotels.get($routeParams,function(response){
+       
+        console.log('Made request. Finished is:  ' + response.finished)
+        if(response.finished===true)    
+          $rootScope.$broadcast("loading-complete");  
+
+
         data.calls++;
         Page.setCriteria(response.criteria);
         Page.setInfo(response.info);
         $scope.search_results = response
-        $scope.currency_symbol = Page.criteria().currency_symbol;
+        $rootScope.currency_symbol = Page.criteria().currency_symbol;
         $scope.slug = Page.info().slug
-        $scope.channel = Page.info().channel
-        Hot5.Connections.Pusher.changeChannel($scope.channel);
+        $rootScope.channel = Page.info().channel
+        Hot5.Connections.Pusher.changeChannel($rootScope.channel);
         $("#priceSlider").ionRangeSlider("update", {
             min:  Math.round(10),
             max:  Math.round(Page.info().max_price),
             from: Math.round(Page.info().min_price_filter || 10),                       // change default FROM setting
             to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
         });
+        angular.element('#search-input').val('')
         angular.element('#start_date').datepicker('update', new Date(Date.parse(Page.criteria().start_date)));
         angular.element('#end_date').datepicker('update', new Date(Date.parse(Page.criteria().end_date)));
+        
+
+        // delete $routeParams['id']
+        // $location.search($routeParams).path(Page.info().slug);
         // if(!response.finished && data.calls < 6)
         //   $timeout(pollSearch, 1500);
       })
+
     };
 
 
@@ -77,15 +104,23 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       console.log(hotel.rooms.length)
     };
 
-    $rootScope.search = function(){
-      console.log(angular.element('#start_date').datepicker('getDate'))
-      delete $routeParams['id']
-      $routeParams.start_date = start_date();
-      $routeParams.end_date = end_date();
-      $location.search($routeParams).path(Page.info().slug);
-      $rootScope.pollSearch
-      data.calls = 1;
-    }
+    // $rootScope.search = function(){
+      
+    //   $routeParams['id']
+    //   $routeParams.start_date = start_date();
+    //   $routeParams.end_date = end_date();
+    //   // var url = $location.absUrl()
+      
+    //   $rootScope.query();
+    //   // var newUrl = $location.search($routeParams).path(Page.info().slug);
+    //   // if(url===newUrl)
+    //   // {
+    //   //   console.log(url)
+    //   //   $window.location.href = url;
+    //   // }
+    //   // $rootScope.pollSearch
+    //   data.calls = 1;
+    // }
 
     $rootScope.safeApply = function( fn ) {
       var phase = this.$root.$$phase;
@@ -97,14 +132,30 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       $scope.search();
     }
 
-    $scope.changePrice = function(min_price, max_price){
+    $scope.headerImage = function(hotel){
+      if(hotel.images.length>0){
+        return hotel.images[0].url;
+      }
+      return 'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+    }
+
+    $rootScope.changePrice = function(min_price, max_price){
+
       $routeParams.min_price = min_price;
       $routeParams.max_price = max_price;
+
+      if(min_price<=10)
+        delete $routeParams.min_price
+
+      if(max_price===0)
+        delete $routeParams.max_price
+      else if(max_price < min_price)
+        max_price = min_price
+
       $rootScope.search();
     }
 
-
-    $scope.filterAmenities = function (amenity) {
+    $rootScope.filterAmenities = function (amenity) {
       var idx = data.amenities.indexOf(amenity);
       if (idx > -1) 
         data.amenities.splice(idx, 1);
@@ -114,32 +165,41 @@ app.controller('SearchResultsCtrl', ['$scope', '$rootScope', '$http', '$routePar
       $rootScope.search();
     }
 
-    $scope.filterStarRatings = function (star_rating) {
+    $rootScope.filterStarRatings = function (star_rating) {
       var idx = data.starRatings.indexOf(star_rating);
       if (idx > -1) 
         data.starRatings.splice(idx, 1);
       else
         data.starRatings.push(star_rating);
       $routeParams.star_ratings = data.starRatings.join(',');
+      if($routeParams.star_ratings==='')
+        delete $routeParams.star_ratings
       $rootScope.search();
     }
 
-    $scope.cities = function(cityName) {
+    $rootScope.cities = function(cityName) {
       return $http.get("/locations.json?query="+cityName).then(function(response){
         return response.data;
       });
     };
 
-   $scope.citySelect = function (query, slug) {
-      // Page.info().query = query
+    $rootScope.searchCity = function(){
+      // $rootScope.$broadcast("loading-started");
+      $routeParams.id = Page.info().slug;
+      $location.path(Page.info().slug)
+      $rootScope.search();
+      // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info().slug)
+    }
+
+   $rootScope.citySelect = function (query, slug) {
       Page.info().slug = slug
     };
 
-   // $scope.citySelect = function ($item, $model, $label) {
-   //    Page.info().query = $item.n
-   //    Page.info().slug = $item.s
-   //  };
-
-    $rootScope.pollSearch();
+    $timeout(function(){
+      // $rootScope.$broadcast("loading-started");
+      $rootScope.search(false);
+    }, 50);
+    
+    
 
 }]);

@@ -6,14 +6,18 @@ class HotelSearchPageResult
 
   def initialize(hotels, search_options={})
     @hotels, @search_options = hotels || [], search_options
+    find_min_price
+    find_max_price
   end
 
-  def min_price
-    hotels.min_by {|h| h.offer[:min_price]}.offer[:min_price]
+  def find_min_price
+    hotel = hotels.min_by {|h| h.offer[:min_price]}
+    @min_price ||= hotel ? hotel.offer[:min_price] : 0
   end
 
-  def max_price 
-    hotels.max_by {|h| h.offer[:max_price]}.offer[:max_price]
+  def find_max_price 
+    hotel = hotels.max_by {|h| h.offer[:max_price]}
+    @max_price ||= hotel ? hotel.offer[:max_price] : 300
   end
 
   def sort(key)
@@ -101,19 +105,22 @@ class HotelSearchPageResult
         json.sort             sort_key
         json.total_hotels     search_options[:total]
         json.available_hotels hotels.count 
-        json.min_price        min_price 
-        json.max_price        max_price  
+        json.min_price        @min_price 
+        json.max_price        @max_price  
         json.min_price_filter user_filters[:min_price] if user_filters
         json.max_price_filter user_filters[:max_price] if user_filters          
       end      
       json.criteria           search_options[:search_criteria]
       json.finished           search_options[:finished]
-      json.hotels matched_hotels do |hotel|
-        json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
-                     :ean_hotel_id, :booking_hotel_id, :distance_from_location)
-        json.offer          hotel.offer
-        json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
-        json.providers      hotel.provider_deals           
+
+      if !matched_hotels.empty?
+        json.hotels matched_hotels do |hotel|
+          json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :description, 
+                       :ean_hotel_id, :booking_hotel_id, :distance_from_location)
+          json.offer          hotel.offer
+          json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
+          json.providers      hotel.provider_deals           
+        end
       end
     end
   end

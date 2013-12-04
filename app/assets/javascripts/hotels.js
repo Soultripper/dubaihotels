@@ -15,9 +15,10 @@ var Hotels = function(){
       renderCallback: function(term, data, type){ return data.title; },
       selectCallback: function(term, data, type){ 
         var scope = angular.element($("#search")).scope();
+        var rootScope = scope.$root;
         scope.$apply(function(){
           $('#search-input').val(data.title)
-          scope.citySelect(term, data.slug || data.url)
+          rootScope.citySelect(term, data.slug || data.url)
         })
         $('#soulmate').hide();
       },

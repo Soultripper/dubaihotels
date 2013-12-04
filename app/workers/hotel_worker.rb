@@ -17,6 +17,7 @@ class HotelWorker
       threads.each &:join
     }
     Log.info "------ SEARCH COMPLETED IN #{time} seconds -------- "
+    @search.notify
   end
 
   def threaded(&block)

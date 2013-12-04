@@ -1,6 +1,6 @@
 
-app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter',  
-  function ($scope, $http, $location, $window, $filter) { 
+app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter', '$rootScope',  
+  function ($scope, $http, $location, $window, $filter, $rootScope) { 
 
     var end_date = function(){
       var date = angular.element('#end_date').datepicker('getDate')
@@ -18,7 +18,8 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
       });
     };
 
-   $scope.citySelect = function (query, slug) {
+   $rootScope.citySelect = function (query, slug) {
+      console.log('test')
       $scope.slug = slug
     };
 
@@ -32,7 +33,7 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
         end_date: end_date()
       } 
       var location = $location.search(routes).path($scope.slug);
-      window.location.href =  location.url()
+      $window.location.href =  location.url()
     }
 
   }

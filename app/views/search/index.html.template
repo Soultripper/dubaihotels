@@ -1,0 +1,90 @@
+
+<div id="wrapper" ng-controller="HotelsCtrl" >
+    <header class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12 masthead">
+                <a id="logo" href="/" target="_self">
+                    Hot5
+                </a>
+            </div>
+            <div class="col-md-10 col-sm-12">
+                <form id="search" ng-submit="search()">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-12 place">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input" />
+                                <div class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+<!--                             <div class="autocomplete" style="display: none">
+                                <div class="results">
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading"><i class="fa fa-map-marker"></i> Locations</div>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Cras justo odio</li>
+                                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                                            <li class="list-group-item">Morbi leo risus</li>
+                                            <li class="list-group-item">Porta ac consectetur ac</li>
+                                            <li class="list-group-item">Vestibulum at eros</li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading"><i class="fa fa-building-o"></i> Hotels</div>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">Cras justo odio</li>
+                                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                                            <li class="list-group-item">Morbi leo risus</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-5 col-md-12">
+                            <div class="row input-daterange dates">
+                                <div class="col col-xs-6">
+                                    <div class="input-group">
+                                        <input type="text" id="start_date" name="start_date" class="form-control" placeholder="Check In..." autocomplete="off" readonly="readonly" />
+                                        <div class="input-group-addon addon-hidden-sm">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-xs-6">
+                                    <div class="input-group">
+                                        <input type="text" name="end_date" id="end_date" class="form-control"  placeholder="Check Out..." autocomplete="off" readonly="readonly" />
+                                        <div class="input-group-addon addon-hidden-sm" >
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-12 submit">
+                            <button type="submit" class="btn btn-primary search">
+                                <i class="fa fa-search"></i>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container">
+            <div class="top-bar">
+                <div class="info">
+                    <div class="col-xs-6">
+                        <h4>{{Page.info().query}} hotels</h4>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <h4>{{Page.criteria().start_date | date:'MMM d'}} - {{Page.criteria().end_date | date:'MMM d'}} ({{Page.criteria().total_nights}} Night)</h4>
+                    </div>
+                </div>
+            </div>
+            <%= render partial: 'filters' %>
+        </div>
+    </section>
+    <%= render partial:'layouts/footer' %>
+</div>

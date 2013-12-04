@@ -7,7 +7,7 @@ class HotelSearch
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
   PROVIDERS = [:booking, :expedia, :easy_to_book]
-  # PROVIDERS = [:expedia]
+  # PROVIDERS = [:booking]
 
   def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
@@ -94,7 +94,7 @@ class HotelSearch
     finish provider
     persist
     Log.debug "COMPLETE - #{provider.upcase}: #{hotels.count} hotels compared"
-    notify
+    # notify
     hotels.count
   end
 
@@ -104,7 +104,7 @@ class HotelSearch
   end
 
   def notify
-    Log.debug "Notifying client of hotels update"
+    Log.debug "Notifying client of hotels update. finished=#{finished?}"
     Pusher[channel].trigger('results_update', { key: cache_key})    
   end
 

@@ -129,42 +129,7 @@
             </div>
         </div>
     </div>
-    <div id="results" class="col-md-9 col-xs-12">
-        <!-- <div class="loader">
-            <div class="message">
-               <i class="fa fa-gear fa-spin"></i> Getting hotel prices... 
-            </div>
-            <div class="progress progress-striped active">
-                <div class="progress-bar"></div>
-            </div>
-        </div> -->
-        <!-- <div class="overlay">&nbsp;</div> -->
 
-        <div class="sort">
-            <ul class="hidden-md hidden-sm hidden-xs">
-                <li class="title">Sort By <i class="fa fa-caret-right"></i></li>
-                <li ng-class="{active: isSort('recommended')}"><a ng-click="sort('recommended')" href="#">Recommended</a></li>
-                <li ng-class="{active: isSort('price')}"><a ng-click="sort('price')" href="#">Price <i class="fa fa-caret-up"></i></a></li>
-                <li ng-class="{active: isSort('price_reverse')}"><a ng-click="sort('price_reverse')" href="#">Price <i class="fa fa-caret-down"></i></a></li>
-                <li ng-class="{active: isSort('rating')}"><a ng-click="sort('rating')" href="#">Star Rating</a></li>
-                <li ng-class="{active: isSort('user')}"><a ng-click="sort('user')" href="#">User Rating</a></li>
-                <li ng-class="{active: isSort('distance')}"><a ng-click="sort('distance')" href="#">Distance</a></li>
-            </ul>
-            <div class="dropdown hidden-lg">
-                <label for="sortby" class="title">Sort By <i class="fa fa-caret-right"></i></label>
-                <div class="select">
-                    <select id="sortby">
-                        <option>Recommended</option>
-                        <option>Price (Low to High)</option>
-                        <option>Price (High to Low)</option>
-                        <option>Star Rating</option>
-                        <option>User Rating</option>
-                        <option>Distance</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <div ng-view id="hotel-results" > 
         </div>        
-    </div>
 </div>

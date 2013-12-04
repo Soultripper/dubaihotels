@@ -61,7 +61,7 @@ Hot5.Connections.Pusher = function()
   var bindChannel = function(){
     subscribedChannel.bind('results_update', function(push_envelope) {
       var domElement = $('#wrapper')
-      angular.element(domElement).scope().pollSearch() 
+      angular.element(domElement).scope().search(true) 
     })     
   }
 
