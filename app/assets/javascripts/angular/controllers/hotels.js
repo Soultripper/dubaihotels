@@ -40,10 +40,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       // if(Page.info().slug)
       //   $routeParams.id = Page.info().slug
 
-      console.log('Making request. Is update:  ' + isUpdate)
       SearchHotels.get($routeParams,function(response){
-       
-        console.log('Made request. Finished is:  ' + response.finished)
+        console.log('Finished is:  ' + response.finished)
         if(response.finished===true)    
           $rootScope.$broadcast("loading-complete");  
 
