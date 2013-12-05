@@ -73,7 +73,7 @@ module Expedia
         min_price: avg_price(room_rates[0], search_criteria.total_nights),
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
-        link: "http://www.expedia.co.uk"
+        link: "http://www.expedia.co.uk",
         rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue Exception => msg  
