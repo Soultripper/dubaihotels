@@ -68,9 +68,14 @@ Hot5.Connections.Pusher = function()
     })     
   };
 
+  var isHotelSubscribed = function(hotelChannel){
+    if(_.contains(hotelChannels, hotelChannel)) return true;    
+  };
+
   var subscribeHotel = function(hotelChannel, subscription_succeeded, event_callback){
 
-    if(_.contains(hotelChannels, hotelChannel)) return;    
+    if(isHotelSubscribed(hotelChannel)) return false;    
+
     subscribedHotelChannel = client.subscribe(hotelChannel)
     subscribedHotelChannel.bind('pusher:subscription_succeeded', subscription_succeeded)
     hotelChannels.push(hotelChannel)
@@ -105,6 +110,7 @@ Hot5.Connections.Pusher = function()
     subscribe: subscribe,
     subscribeHotel: subscribeHotel,
     unsubscribeHotel: unsubscribeHotel,
+    isHotelSubscribed: isHotelSubscribed,
     unsubscribe: unsubscribe,
     changeChannel: changeChannel
   }
