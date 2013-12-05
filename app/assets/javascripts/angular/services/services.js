@@ -9,9 +9,8 @@ searchHotelsServices.factory('SearchHotels', ['$resource',
 
 searchHotelsServices.factory('HotelRooms', ['$resource',
   function($resource){
-    return $resource("hotels/:id.json/?start_date=:start_date&end_date=:end_date&currency=:currency", {}, {
-      query: {method:'GET', params:{page_no: 1}, isArray:true}
-    });
+    var resource = $resource("hotels/:id.json/?start_date=:start_date&end_date=:end_date&currency=:currency", {}, {query: {method:'GET', params:{page_no: 1}, isArray:false}});
+    return resource;
   }]);
 
 searchHotelsServices.factory('Page', function() {

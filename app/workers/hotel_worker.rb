@@ -2,7 +2,7 @@ class HotelWorker
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  attr_accessor :search
+  attr_accessor :search, :channel
 
   def perform(cache_key)
     @search =  Rails.cache.read cache_key
@@ -17,7 +17,7 @@ class HotelWorker
       threads.each &:join
     }
     Log.info "------ SEARCH COMPLETED IN #{time} seconds -------- "
-    @search.notify
+    notify
   end
 
   def threaded(&block)
@@ -71,6 +71,7 @@ class HotelWorker
 
   def compare_and_persist(provider_hotels, key)
     @search.compare_and_persist provider_hotels, key
+    notify
   end
 
   def search_criteria
@@ -79,6 +80,15 @@ class HotelWorker
 
   def location
     @search.location
+  end
+
+  def channel
+    @search.channel
+  end
+
+  def notify
+    Log.debug "Notifying channel #{channel} of hotels update. finished=#{@search.finished?}"
+    Pusher[channel].trigger('results_update', { key: @search.cache_key})    
   end
 
 

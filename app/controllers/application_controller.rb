@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
 
 
   protected  
+
+  def user_channel
+    @user_channel = session['session_id']
+  end
+  
   def search_criteria
     @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars, currency_code: currency, sort: sort, min_price: min_price, max_price: max_price}
   end
@@ -78,6 +83,6 @@ class ApplicationController < ActionController::Base
     params["sort"] || :recommended
   end
 
-  helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars, :destination
+  helper_method :currency, :sort, :start_date, :end_date, :min_stars, :max_stars, :destination, :user_channel
 
 end

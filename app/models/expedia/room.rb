@@ -29,7 +29,7 @@ module Expedia
 
     def commonize(search_criteria)
       {
-        provider: 'expedia',
+        provider: :expedia,
         description: description,
         price: avg_price(total, search_criteria.total_nights)
       }

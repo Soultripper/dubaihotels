@@ -47,9 +47,10 @@ Hot5.Connections.Pusher = function()
   Pusher.host = 'ws-eu.pusher.com';
   Pusher.sockjs_host = 'sockjs-eu.pusher.com';
 
-  var key = 'tes',
+  var key = null,
       channel = null,
       subscribedChannel = null,
+      hotelChannels = [],
       client = null;
 
   var init = function(key){
@@ -58,23 +59,38 @@ Hot5.Connections.Pusher = function()
     return this;
   };
 
-  var bindChannel = function(){
-    subscribedChannel.bind('results_update', function(push_envelope) {
-      var domElement = $('#wrapper')
-      angular.element(domElement).scope().search(true) 
-    })     
-  }
-
   var subscribe = function(newChannel){
     channel = newChannel
     subscribedChannel = client.subscribe(channel)
-    bindChannel()
-    return subscribedChannel
+    subscribedChannel.bind('results_update', function(push_message) {
+      var domElement = $('#wrapper')
+      angular.element(domElement).scope().search(true) 
+    })     
+  };
+
+  var subscribeHotel = function(hotelChannel, subscription_succeeded, event_callback){
+
+    if(_.contains(hotelChannels, hotelChannel)) return;    
+    subscribedHotelChannel = client.subscribe(hotelChannel)
+    subscribedHotelChannel.bind('pusher:subscription_succeeded', subscription_succeeded)
+    hotelChannels.push(hotelChannel)
+    subscribedHotelChannel.bind('availability_update', function(push_message) {
+      event_callback(push_message)
+    })     
+  };
+
+  var unsubscribeHotel = function(hotelChannel){
+    var existingChannel = client.channel(hotelChannel);
+    if(existingChannel)
+      client.unsubscribe(hotelChannel);
   };
 
   var unsubscribe = function(){
-    if(channel)
+    if(channel && subscribedChannel)
+    {
       client.unsubscribe(channel)
+      subscribedChannel = null;
+    }
   };
    
   var changeChannel = function(newChannel){
@@ -87,6 +103,8 @@ Hot5.Connections.Pusher = function()
   return {
     init: init,
     subscribe: subscribe,
+    subscribeHotel: subscribeHotel,
+    unsubscribeHotel: unsubscribeHotel,
     unsubscribe: unsubscribe,
     changeChannel: changeChannel
   }

@@ -42,8 +42,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       SearchHotels.get($routeParams,function(response){
         console.log('Finished is:  ' + response.finished)
-        if(response.finished===true)    
+
+        if(response.finished===true)
+        {
           $rootScope.$broadcast("loading-complete");  
+          Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
+        }
 
 
         data.calls++;
@@ -94,12 +98,32 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     }
 
     $scope.getRooms = function(hotel) {
-      if(hotel.rooms){
-        hotel.rooms = null;
+      if(hotel.rooms)
         return;
-      }
-      hotel.rooms = HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')});
-      console.log(hotel.rooms.length)
+
+      hotel.displayRooms = false
+
+      var timeoutId = $timeout(function(){
+        console.log('forced closure')
+        hotel.displayRooms = true
+      }, 3000)
+
+     
+      Hot5.Connections.Pusher.subscribeHotel(hotel.channel, 
+        function(){ HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')}); },
+        function(push_message){
+          HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')}, function(response)
+            {
+              hotel.rooms = response.rooms    
+              if(response.finished===true)
+              {
+                $timeout.cancel(timeoutId);
+                hotel.displayRooms = true;
+                Hot5.Connections.Pusher.unsubscribeHotel(hotel.channel)
+              }
+            });
+          
+        });
     };
 
     // $rootScope.search = function(){

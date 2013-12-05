@@ -19,7 +19,6 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
     };
 
    $rootScope.citySelect = function (query, slug) {
-      console.log('test')
       $scope.slug = slug
     };
 

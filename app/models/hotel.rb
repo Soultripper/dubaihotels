@@ -78,10 +78,15 @@ class Hotel < ActiveRecord::Base
   def compare(provider_hotel)
     return unless provider_hotel
     if (provider_hotel[:min_price].to_f < offer[:min_price].to_f) || offer[:min_price].blank?
-      offer[:min_price] = provider_hotel[:min_price].to_f
-      offer[:provider]  = provider_hotel[:provider]
+      set_best_offer provider_hotel
     end
     offer[:max_price]  =  provider_hotel[:min_price].to_f if (provider_hotel[:min_price].to_f > offer[:min_price].to_f) || offer[:max_price].blank?
+  end
+
+  def set_best_offer(provider_hotel)
+    offer[:min_price] = provider_hotel[:min_price].to_f
+    offer[:provider]  = provider_hotel[:provider]
+    offer[:link]      = provider_hotel[:link]
   end
 
   def to_json

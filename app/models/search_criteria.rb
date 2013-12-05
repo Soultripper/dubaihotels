@@ -56,7 +56,14 @@ class SearchCriteria
     no_of_adults > 0 &&
     min_stars > 0
   end
-   
+  
+  def channel_search(location)
+    "hot5.com-#{start_date}-#{end_date}-#{currency_code}-#{location.slug}".parameterize
+  end
+
+  def channel_hotel(hotel_id)
+    "hot5.com-#{start_date}-#{end_date}-#{currency_code}-#{hotel_id}".parameterize
+  end
 
   def as_json(options={})
     {

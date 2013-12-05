@@ -2,7 +2,7 @@ require 'location'
 
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :started, :use_cache
+  attr_reader :location, :search_criteria, :results_counter, :started, :use_cache, :channel
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
@@ -81,7 +81,6 @@ class HotelSearch
       end    
     end
     persist
-    notify
     Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
   end
 
@@ -94,7 +93,6 @@ class HotelSearch
     finish provider
     persist
     Log.debug "COMPLETE - #{provider.upcase}: #{hotels.count} hotels compared"
-    # notify
     hotels.count
   end
 
@@ -103,16 +101,11 @@ class HotelSearch
     Rails.cache.write(cache_key, self, expires_in: 5.minutes, race_condition_ttl: 15)
   end
 
-  def notify
-    Log.debug "Notifying client of hotels update. finished=#{finished?}"
-    Pusher[channel].trigger('results_update', { key: cache_key})    
-  end
-
   def cache_key
     search_criteria.as_json.merge({query:location.slug})
   end
 
   def channel
-    "hot5.com-#{search_criteria.start_date}-#{search_criteria.end_date}-#{search_criteria.currency_code}-#{location.slug}".parameterize
+    search_criteria.channel_search location
   end
 end

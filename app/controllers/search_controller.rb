@@ -6,7 +6,6 @@ class SearchController < ApplicationController
 
   def index        
 
-
     # respond_with @hotel_search
 
     respond_to do |format|
@@ -20,7 +19,7 @@ class SearchController < ApplicationController
       end
       format.html do
         hotel_search
-        @pusher_channel = hotel_search.channel
+        @user_channel = hotel_search.channel
       end
     end
 
