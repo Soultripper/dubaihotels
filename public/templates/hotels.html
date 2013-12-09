@@ -129,7 +129,7 @@
       <div class="best-deal">
           <!-- <a href="#" onclick="alert('Go to deal');return false">&nbsp;</a> -->
           <div class="logo">
-              <img ng-src="assets/logos/{{hotel.offer.provider}}.gif" alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider"/>
+              <img ng-src="{{providerImage(hotel.offer.provider)}}" alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider"/>
           </div>
           <div class="high-price">
               {{hotel.offer.max_price | price:currency_symbol:0 }}

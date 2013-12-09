@@ -145,6 +145,12 @@
 #results section .details h4 {
   margin-top: 0;
   margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  margin-right: 140px;
 }
 #results section .details .location {
   color: #999999;
@@ -173,6 +179,9 @@
   font-weight: bold;
   font-size: 12px;
   line-height: 14px;
+}
+#results section .details .deals li a {
+  color: #00a4ff;
 }
 #results section .details .deals li .name {
   float: left;
@@ -265,7 +274,7 @@
 }
 #results section .best-deal .logo img {
   width: auto;
-  height: 35px;
+  height: 34px;
 }
 #results section .best-deal .high-price {
   text-decoration: line-through;
@@ -480,8 +489,7 @@
   }
   #results section .details h4 {
     font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
+    margin-right: 0;
   }
   #results section .details .location {
     font-size: 12px;
@@ -520,7 +528,7 @@
   }
   #results section .best-deal .logo img {
     width: auto;
-    height: 22px;
+    height: 20px;
   }
   #results section .best-deal .high-price {
     display: none;
@@ -593,29 +601,29 @@
     right: 0;
     overflow-y: auto;
   }
-}
-body.sidebar-open {
-  overflow: hidden;
-}
-body.sidebar-open #refine {
-  position: fixed;
-  right: 0;
-  background-color: rgba(255, 255, 255, 0.5);
-}
-body.sidebar-open #refine .contents {
-  left: 0;
-}
-body.sidebar-open #refine .contents .toggle {
-  right: -50px;
-  padding: 5px 15px;
-}
-body.sidebar-open #refine .contents .toggle .closed {
-  display: none;
-}
-body.sidebar-open #refine .contents .toggle .open {
-  display: block;
-  text-align: center;
-  font-size: 25px;
+  body.sidebar-open {
+    overflow: hidden;
+  }
+  body.sidebar-open #refine {
+    position: fixed;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  body.sidebar-open #refine .contents {
+    left: 0;
+  }
+  body.sidebar-open #refine .contents .toggle {
+    right: -50px;
+    padding: 5px 15px;
+  }
+  body.sidebar-open #refine .contents .toggle .closed {
+    display: none;
+  }
+  body.sidebar-open #refine .contents .toggle .open {
+    display: block;
+    text-align: center;
+    font-size: 25px;
+  }
 }
 @media (min-width: 992px) {
   #wrapper > header #logo {

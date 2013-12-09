@@ -14,42 +14,42 @@
               <div class="container">
                   <div class="row">
                       <h1>
-                          10 seconds will save you 50% or more on your hotel reservation.
+                          5 seconds will save you 50% or more on your hotel reservation.
                       </h1>
                       <div class="col-lg-8 col-lg-offset-2">
-                           <form id="search"  ng-controller="SearchCtrl" ng-submit="search()" target="_self">
+                           <form id="search"  ng-controller="SearchCtrl" target="_self">
                               <div class="row">
-                                  <div class="col-xs-12 place">
-                                      <div class="input-group">
-                                          <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input" />
-                                          <input type="hidden" ng-model="slug" value="{{slug}}"/>
-                                          <div class="input-group-addon">
-                                              <i class="fa fa-search"></i>
+                                <div class="col-xs-12 place">
+                                  <div class="input-group">
+                                    <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input" />
+                                    <input type="hidden" ng-model="slug" value="{{slug}}"/>
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-search"></i>
+                                    </div>
+                                  </div>
+<!--                                       <div class="autocomplete" style="display: none">
+                                      <div class="results">
+                                          <div class="panel panel-default">
+                                          <div class="panel-heading"><i class="fa fa-map-marker"></i> Locations</div>
+                                              <ul class="list-group">
+                                                  <li class="list-group-item">Cras justo odio</li>
+                                                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                  <li class="list-group-item">Morbi leo risus</li>
+                                                  <li class="list-group-item">Porta ac consectetur ac</li>
+                                                  <li class="list-group-item">Vestibulum at eros</li>
+                                              </ul>
+                                          </div>
+                                          <div class="panel panel-default">
+                                          <div class="panel-heading"><i class="fa fa-building-o"></i> Hotels</div>
+                                              <ul class="list-group">
+                                                  <li class="list-group-item">Cras justo odio</li>
+                                                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                                                  <li class="list-group-item">Morbi leo risus</li>
+                                              </ul>
                                           </div>
                                       </div>
-<!--                                       <div class="autocomplete" style="display: none">
-                                          <div class="results">
-                                              <div class="panel panel-default">
-                                              <div class="panel-heading"><i class="fa fa-map-marker"></i> Locations</div>
-                                                  <ul class="list-group">
-                                                      <li class="list-group-item">Cras justo odio</li>
-                                                      <li class="list-group-item">Dapibus ac facilisis in</li>
-                                                      <li class="list-group-item">Morbi leo risus</li>
-                                                      <li class="list-group-item">Porta ac consectetur ac</li>
-                                                      <li class="list-group-item">Vestibulum at eros</li>
-                                                  </ul>
-                                              </div>
-                                              <div class="panel panel-default">
-                                              <div class="panel-heading"><i class="fa fa-building-o"></i> Hotels</div>
-                                                  <ul class="list-group">
-                                                      <li class="list-group-item">Cras justo odio</li>
-                                                      <li class="list-group-item">Dapibus ac facilisis in</li>
-                                                      <li class="list-group-item">Morbi leo risus</li>
-                                                  </ul>
-                                              </div>
-                                          </div>
-                                      </div> -->
-                                  </div>
+                                  </div> -->
+                                </div>
                               </div>
                               <div class="row input-daterange">
                                   <div class="col-xs-6">
@@ -71,7 +71,7 @@
                               </div>
                               <div class="row">
                                   <div class="col-xs-12">
-                                      <button type="submit" class="btn btn-primary search">
+                                      <button class="btn btn-primary search" ng-click="search()">
                                           <i class="fa fa-search"></i>
                                           Search
                                       </button>

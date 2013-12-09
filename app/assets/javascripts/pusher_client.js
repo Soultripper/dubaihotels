@@ -63,7 +63,7 @@ Hot5.Connections.Pusher = function()
     channel = newChannel
     subscribedChannel = client.subscribe(channel)
     subscribedChannel.bind('results_update', function(push_message) {
-      var domElement = $('#wrapper')
+      var domElement = $('#hotel-results')
       angular.element(domElement).scope().search(true) 
     })     
   };

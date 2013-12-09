@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="Hot5">
+<head>
+    <title>Hot 5</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/9a61c6c9-8114-405c-9358-29dcb0b2c617.css"/>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+<!--     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/theme.css" />   
+    <link rel="stylesheet" type="text/css" href="css/site.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css" /> -->
+    <!--<script type="text/javascript" src="lib/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/vendor/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/vendor/bootstrap/datepicker.js"></script>
+    <script type="text/javascript" src="lib/app.js"></script>-->
+    <%= stylesheet_link_tag    "search_manifest" %>  
+    <%= csrf_meta_tags %>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
+
+    <%= javascript_include_tag "application" %>
+    <script>
+      Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @user_channel || "open"%>')
+    </script>
+</head>
+<body >
+   <%= yield %>
+
+  
+</body>
+</html>

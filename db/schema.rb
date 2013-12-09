@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131122170958) do
+ActiveRecord::Schema.define(:version => 20131209111304) do
 
   create_table "agoda_hotels", :force => true do |t|
     t.integer "chain_id"
@@ -285,7 +285,10 @@ ActiveRecord::Schema.define(:version => 20131122170958) do
     t.string  "hotel_type"
     t.string  "address_city"
     t.string  "min_price"
+    t.integer "geog",                 :limit => 0
   end
+
+  add_index "etb_hotels", ["geog"], :name => "etb_hotels_geog_idx"
 
   create_table "hotel_amenities", :force => true do |t|
     t.string  "name",  :null => false
@@ -337,11 +340,13 @@ ActiveRecord::Schema.define(:version => 20131122170958) do
     t.integer "amenities"
     t.integer "agoda_hotel_id"
     t.integer "etb_hotel_id"
+    t.float   "user_rating"
   end
 
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
   add_index "hotels", ["city", "country_code"], :name => "hotels_city_country_code_idx"
   add_index "hotels", ["ean_hotel_id"], :name => "ean_hotel_id_idx"
+  add_index "hotels", ["etb_hotel_id"], :name => "hotels_etb_hotel_id_idx"
   add_index "hotels", ["geog"], :name => "hotels_geog_idx"
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"

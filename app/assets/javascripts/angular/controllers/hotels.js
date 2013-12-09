@@ -29,7 +29,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     }    
 
 
-    $rootScope.search = function(isUpdate) {
+    $scope.search = function(isUpdate) {
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
 
@@ -166,6 +166,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return 'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
     }
 
+    $scope.providerImage = function(provider){
+      if(provider)
+        return 'assets/logos/' + provider + '.gif'
+      return ''    
+    }
+
     $rootScope.changePrice = function(min_price, max_price){
 
       $routeParams.min_price = min_price;
@@ -179,7 +185,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       else if(max_price < min_price)
         max_price = min_price
 
-      $rootScope.search();
+      $scope.search();
     }
 
     $rootScope.filterAmenities = function (amenity) {
@@ -189,7 +195,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       else
         data.amenities.push(amenity);
       $routeParams.amenities = data.amenities.join(',');
-      $rootScope.search();
+      $scope.search();
     }
 
     $rootScope.filterStarRatings = function (star_rating) {
@@ -201,7 +207,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.star_ratings = data.starRatings.join(',');
       if($routeParams.star_ratings==='')
         delete $routeParams.star_ratings
-      $rootScope.search();
+      $scope.search();
     }
 
     $rootScope.cities = function(cityName) {
@@ -214,17 +220,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       // $rootScope.$broadcast("loading-started");
       $routeParams.id = Page.info().slug;
       $location.path(Page.info().slug)
-      $rootScope.search();
+      $scope.search();
       // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info().slug)
     }
 
-   $rootScope.citySelect = function (query, slug) {
+   $scope.citySelect = function (query, slug) {
       Page.info().slug = slug
     };
 
     $timeout(function(){
       // $rootScope.$broadcast("loading-started");
-      $rootScope.search(false);
+      $scope.search(false);
     }, 50);
     
     

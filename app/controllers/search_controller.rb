@@ -4,6 +4,8 @@ class SearchController < ApplicationController
 
   respond_to :json
 
+  layout 'search'
+
   def index        
 
     # respond_with @hotel_search

@@ -18,7 +18,7 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
       });
     };
 
-   $rootScope.citySelect = function (query, slug) {
+   $scope.citySelect = function (query, slug) {
       $scope.slug = slug
     };
 
@@ -31,8 +31,8 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
         start_date: start_date(),
         end_date: end_date()
       } 
-      var location = $location.search(routes).path($scope.slug);
-      $window.location.href =  location.url()
+      // var location = $location.path($scope.slug).search(routes);
+      window.location.href =  '/' + $scope.slug + '?start_date=' + routes.start_date + '&end_date=' + routes.end_date
     }
 
   }

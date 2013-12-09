@@ -11,14 +11,19 @@ var Hotels = function(){
 
     $('#search-input').soulmate({
       url:            'http://' + Hotels.searchOptions.domain + '/sm/search',
-      types:          ['location', 'hotel'],
+      types:          ['location'],
       renderCallback: function(term, data, type){ return data.title; },
       selectCallback: function(term, data, type){ 
-        var scope = angular.element($("#search")).scope();
-        var rootScope = scope.$root;
+        var scope, el;
+        el = angular.element($("#hotel-results"));
+        if(el.length===0)
+          el = angular.element($("#search-input"))
+
+        var scope = el.scope();
+        // var rootScope = scope.$root;
         scope.$apply(function(){
           $('#search-input').val(data.title)
-          rootScope.citySelect(term, data.slug || data.url)
+          scope.citySelect(term, data.slug || data.url)
         })
         $('#soulmate').hide();
       },
