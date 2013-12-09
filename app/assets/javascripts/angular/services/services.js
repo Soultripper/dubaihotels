@@ -30,3 +30,39 @@ searchHotelsServices.factory('Page', function() {
       // setInfo: function(newInfo) { this.info = newInfo }
    };
 });
+
+
+searchHotelsServices.factory('Page', function() {
+   var criteria = {
+    star_ratings: []
+   };
+
+   var info = {
+    available_hotels:0,
+    total_hotels:0
+   };
+
+  var mapOptions = {
+    zoom: 10,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  var currentCoords = {};
+  var showlocationMap = function(elementId, lng, lat){
+    if(currentCoords.lng === lng && currentCoords.lat === lat) return;
+    currentCoords = {lng: lng, lat: lat };
+    var container = document.getElementById(elementId)
+    var mapCenter = {center: new google.maps.LatLng(lat, lng)};     
+    var map = new google.maps.Map(container, $.extend( mapCenter, mapOptions ));
+  }
+
+
+
+  return {
+    criteria: criteria,
+    showlocationMap: showlocationMap,
+    // setCriteria: function(newCriteria) { this.criteria = newCriteria },
+    info: info,
+    // setInfo: function(newInfo) { this.info = newInfo }
+  };
+});

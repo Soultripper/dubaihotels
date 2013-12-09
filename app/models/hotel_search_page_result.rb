@@ -71,12 +71,12 @@ class HotelSearchPageResult
 
   def filter_min_price(hotel, price)
     return true if price == 0
-    hotel.offer[:min_price] > price-1
+    hotel.offer[:min_price].to_i > price-1
   end
 
   def filter_max_price(hotel, price)
     return true if price == 0
-    hotel.offer[:min_price] < price+1
+    hotel.offer[:min_price].to_i < price+1
   end  
 
   def filter_stars(hotel, star_ratings)
@@ -116,6 +116,8 @@ class HotelSearchPageResult
         json.min_price_filter user_filters[:min_price] if user_filters
         json.max_price_filter user_filters[:max_price] if user_filters          
         json.star_ratings     user_filters[:star_ratings] if user_filters
+        json.longitude        location.longitude
+        json.latitude         location.latitude
       end      
       json.criteria           search_options[:search_criteria]
       json.finished           search_options[:finished]

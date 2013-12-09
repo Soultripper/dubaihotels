@@ -63,6 +63,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         angular.element('#search-input').val('')
         angular.element('#start_date').datepicker('update', new Date(Date.parse(Page.criteria.start_date)));
         angular.element('#end_date').datepicker('update', new Date(Date.parse(Page.criteria.end_date)));
+        Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude)
       })
 
     };
