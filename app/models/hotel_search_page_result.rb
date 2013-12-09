@@ -28,7 +28,7 @@ class HotelSearchPageResult
       when :price_reverse; do_sort {|h1| h1.offer[:min_price].to_f}.reverse!
       when :rating; do_sort {|h1| h1.star_rating || 0}.reverse!
       when :rating_reverse; do_sort {|h1| h1.star_rating || 0}
-      # when :rating_reverse
+      when :user; do_sort {|h1| h1.user_rating || 0}.reverse!
       when :a_z; do_sort {|h1| h1.name}
       when :distance; do_sort {|h1| h1.distance_from_location}
       when :distance_reverse; do_sort {|h1| h1.distance_from_location}.reverse!
@@ -53,7 +53,8 @@ class HotelSearchPageResult
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
-      filter_price(hotel, filters[:min_price].to_i, filters[:max_price].to_i) and 
+      filter_min_price(hotel, filters[:min_price].to_i) and 
+      filter_max_price(hotel, filters[:max_price].to_i) and 
       filter_amenities(hotel, filters[:amenities]) and
       filter_stars(hotel, filters[:star_ratings])
     end
@@ -68,10 +69,15 @@ class HotelSearchPageResult
     hotel.amenities & amenities_mask == amenities_mask
   end
 
-  def filter_price(hotel, min_price, max_price)
-    return true if min_price == 0 and max_price == 0
-    hotel.offer[:min_price].between? min_price-1, max_price+1
+  def filter_min_price(hotel, price)
+    return true if price == 0
+    hotel.offer[:min_price] > price-1
   end
+
+  def filter_max_price(hotel, price)
+    return true if price == 0
+    hotel.offer[:min_price] < price+1
+  end  
 
   def filter_stars(hotel, star_ratings)
     return true unless star_ratings
@@ -116,7 +122,7 @@ class HotelSearchPageResult
 
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel|
-          json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :latitude, :longitude, :star_rating, :description)
+          json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
           json.offer          hotel.offer
           json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
           json.providers      hotel.provider_deals  

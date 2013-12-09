@@ -7,7 +7,7 @@ class Hotel < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :description
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :description, :user_rating
 
   attr_accessor :distance_from_location
 
@@ -91,10 +91,8 @@ class Hotel < ActiveRecord::Base
 
   def to_json
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
+      json.(self, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :user_rating,
                   :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id)
-      # json.images self.images.take(10), :url, :thumbnail_url, :caption, :width, :height
-      # json.provider self.provider_deals
     end
   end
 

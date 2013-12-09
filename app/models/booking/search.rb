@@ -37,6 +37,11 @@ class Booking::Search
     add_children
     # add_stars
     add_dates
+    # add_price_range
+  end
+
+  def add_price_range
+    @params.merge!(min_stay_price: 30 * search_criteria.total_nights)
   end
 
   def add_currency_code

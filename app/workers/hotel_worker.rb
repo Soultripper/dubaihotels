@@ -35,6 +35,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
+  rescue Exception => msg  
+    error :booking, msg    
   end 
 
   def request_expedia_hotels
@@ -44,7 +46,7 @@ class HotelWorker
       end
     end
   rescue Exception => msg  
-    Log.error "Expedia Worker Errored: #{msg}"
+    error :expedia, msg
   end
 
   def request_easy_to_book_hotels
@@ -55,6 +57,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
+  rescue Exception => msg  
+    error :easy_to_book, msg      
   end
 
 
@@ -68,6 +72,10 @@ class HotelWorker
   def log_and_finish(provider, time)
     Log.info "Realtime comparison of #{provider} for location: #{location.city}, #{location.country} took #{time}s" 
     @search.finish_and_persist provider
+  end
+
+  def error(provider, msg)
+    @search.error provider, msg
   end
 
   def compare_and_persist(provider_hotels, key)

@@ -8,7 +8,7 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 20000)
       where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres).
-      select(["id", "name", "address", "city", "state_province", "postal_code", "country_code", "latitude", "longitude", "star_rating", "ean_hotel_id", "booking_hotel_id", "etb_hotel_id", "description", "amenities"])
+      select(["id", "name", "address", "city", "state_province", "postal_code", "country_code", "latitude", "longitude", "star_rating", "ean_hotel_id", "booking_hotel_id", "etb_hotel_id", "description", "amenities", "user_rating"])
       # where('city = ? and country_code = ?', location.city, location.country_code)
     end
 

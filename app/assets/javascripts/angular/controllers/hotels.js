@@ -55,9 +55,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $rootScope.channel = Page.info.channel
         Hot5.Connections.Pusher.changeChannel($rootScope.channel);
         $("#priceSlider").ionRangeSlider("update", {
-            min:  Math.round(10),
+            min:  Math.round(30),
             max:  Math.round(Page.info.max_price),
-            from: Math.round(Page.info.min_price_filter || 10),                       // change default FROM setting
+            from: Math.round(Page.info.min_price_filter || 30),                       // change default FROM setting
             to:   Math.round(Page.info.max_price_filter || Page.info.max_price),                         // change default TO setting
         });
         angular.element('#search-input').val('')
@@ -88,11 +88,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     }
 
     $scope.getRooms = function(hotel) {
-
-      if(hotel.rooms)
-        console.log(hotel.rooms.length)
-      else
-        console.log('no rooms')
 
       if(hotel.rooms && hotel.rooms.length > 0)
         return;
@@ -212,7 +207,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       else
         star_ratings.push(star_rating);
 
-      console.log(star_ratings)
       $routeParams.star_ratings = star_ratings.join(',');
       if($routeParams.star_ratings==='')
         delete $routeParams.star_ratings

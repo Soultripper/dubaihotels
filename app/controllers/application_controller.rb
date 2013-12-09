@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   end
 
   def min_price
-    params['min_price'] unless params['min_price'].blank?
+    @min_price = params['min_price'].to_i
+    @min_price < 30 ? 30 : @min_price
   end
 
   def max_price

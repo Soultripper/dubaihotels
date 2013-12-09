@@ -96,6 +96,12 @@ class HotelSearch
     hotels.count
   end
 
+  def error(provider, msg)
+    finish provider
+    persist    
+    Log.error "ERROR ----- Provider #{provider} errored. #{msg}" 
+  end
+
   def persist
     return unless @use_cache
     Rails.cache.write(cache_key, self, expires_in: 5.minutes, race_condition_ttl: 15)
