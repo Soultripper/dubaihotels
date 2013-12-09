@@ -5,6 +5,7 @@ class HotelWorker
   attr_accessor :search, :channel
 
   def perform(cache_key)
+    Log.info "------ SEARCH BEGINNING -------- "
     @search =  Rails.cache.read cache_key
     return unless search
 

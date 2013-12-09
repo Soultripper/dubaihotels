@@ -1,7 +1,7 @@
 <div class="row">
     <div id="sidebar" class="col-md-3 col-xs-12">
         <div class="hidden-sm hidden-xs">
-            <h4>{{Page.info().available_hotels}} Hotels available</h4>
+            <h4>{{Page.info.available_hotels}} Hotels available</h4>
             <div class="map">
                 Map
             </div>
@@ -28,7 +28,7 @@
                             <ul>
                                 <li>
                                     <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(5)"/>&nbsp;
+                                        <input type="checkbox" ng-click="filterStarRatings(5)" ng-checked="containsStarRating('5')"/>&nbsp;
                                         <span>5 star</span>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -39,7 +39,7 @@
                                 </li>
                                 <li>
                                     <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(4)"/>&nbsp;
+                                        <input type="checkbox" ng-click="filterStarRatings(4)"  ng-checked="containsStarRating('4')"/>&nbsp;
                                         <span>4 star</span>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -50,7 +50,7 @@
                                 </li>
                                 <li>
                                     <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(3)"/>&nbsp;
+                                        <input type="checkbox" ng-click="filterStarRatings(3)"  ng-checked="containsStarRating('3')"/>&nbsp;
                                         <span>3 star</span>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>

@@ -1,16 +1,15 @@
 class SearchCriteria
   include LinkBuilder
   
-  attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :min_stars, :max_stars, :currency_code
+  attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :currency_code
 
-  attr_accessor :children, :min_stars, :max_stars
+  attr_accessor :children, :star_ratings
 
   def initialize(start_date=20.days.from_now, end_date=3.weeks.from_now, args={})
     @start_date, @end_date = start_date.to_date, end_date.to_date
     @no_of_rooms    = args[:no_of_rooms]    || 1
     @no_of_adults   = args[:no_of_adults]   || 2
-    @min_stars      = args[:min_stars]      || 1
-    @max_stars      = args[:max_stars]      || 5
+    @star_ratings   = args[:star_ratings]   || []
     @currency_code  = args[:currency_code]  || 'GBP'
   end
 
@@ -42,7 +41,7 @@ class SearchCriteria
 
   def to_s
     s_children = children? ?  children.join('_') : "no_children"
-    "#{start_date.to_date.to_s}_#{end_date.to_date.to_s}_rooms#{no_of_rooms}_adults#{no_of_adults}_#{s_children}_min_stars#{min_stars}_max_stars#{max_stars}"
+    "#{start_date.to_date.to_s}_#{end_date.to_date.to_s}_rooms#{no_of_rooms}_adults#{no_of_adults}_#{s_children}_star_ratings#{star_ratings}"
   end
 
   def total_nights
@@ -53,8 +52,7 @@ class SearchCriteria
     start_date < end_date &&
     end_date > DateTime.now.to_date &&
     no_of_rooms > 0 &&
-    no_of_adults > 0 &&
-    min_stars > 0
+    no_of_adults > 0 
   end
   
   def channel_search(location)
@@ -70,8 +68,6 @@ class SearchCriteria
       start_date:       start_date.strftime('%F'),
       end_date:         end_date.strftime('%F'),
       total_nights:     total_nights, 
-      min_stars:        min_stars.to_i,
-      max_stars:        max_stars.to_i,  
       currency_code:    currency_code,
       currency_symbol:  currency_symbol
     }

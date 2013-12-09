@@ -47,29 +47,29 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         }
 
         data.calls++;
-        Page.setCriteria(response.criteria);
-        Page.setInfo(response.info);
+        Page.criteria = response.criteria;
+        Page.info = response.info;
         $scope.search_results = response
-        $rootScope.currency_symbol = Page.criteria().currency_symbol;
-        $scope.slug = Page.info().slug
-        $rootScope.channel = Page.info().channel
+        $rootScope.currency_symbol = Page.criteria.currency_symbol;
+        $scope.slug = Page.info.slug
+        $rootScope.channel = Page.info.channel
         Hot5.Connections.Pusher.changeChannel($rootScope.channel);
         $("#priceSlider").ionRangeSlider("update", {
             min:  Math.round(10),
-            max:  Math.round(Page.info().max_price),
-            from: Math.round(Page.info().min_price_filter || 10),                       // change default FROM setting
-            to:   Math.round(Page.info().max_price_filter || Page.info().max_price),                         // change default TO setting
+            max:  Math.round(Page.info.max_price),
+            from: Math.round(Page.info.min_price_filter || 10),                       // change default FROM setting
+            to:   Math.round(Page.info.max_price_filter || Page.info.max_price),                         // change default TO setting
         });
         angular.element('#search-input').val('')
-        angular.element('#start_date').datepicker('update', new Date(Date.parse(Page.criteria().start_date)));
-        angular.element('#end_date').datepicker('update', new Date(Date.parse(Page.criteria().end_date)));
+        angular.element('#start_date').datepicker('update', new Date(Date.parse(Page.criteria.start_date)));
+        angular.element('#end_date').datepicker('update', new Date(Date.parse(Page.criteria.end_date)));
       })
 
     };
 
 
     $scope.isSort = function(option){
-      return option === (Page.info().sort || 'recommended')
+      return option === (Page.info.sort || 'recommended')
     }
 
     $scope.findProvider = function(hotel, providerName){
@@ -186,7 +186,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         max_price = min_price
 
       $scope.search();
-    }
+    };
 
     $rootScope.filterAmenities = function (amenity) {
       var idx = data.amenities.indexOf(amenity);
@@ -196,18 +196,34 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         data.amenities.push(amenity);
       $routeParams.amenities = data.amenities.join(',');
       $scope.search();
-    }
+    };
 
     $rootScope.filterStarRatings = function (star_rating) {
-      var idx = data.starRatings.indexOf(star_rating);
+
+      star_rating = star_rating.toString();
+      var star_ratings = Page.info.star_ratings;
+
+      if(!star_ratings)
+        star_ratings = [];
+
+      var idx = star_ratings.indexOf(star_rating);
       if (idx > -1) 
-        data.starRatings.splice(idx, 1);
+        star_ratings.splice(idx, 1);
       else
-        data.starRatings.push(star_rating);
-      $routeParams.star_ratings = data.starRatings.join(',');
+        star_ratings.push(star_rating);
+
+      console.log(star_ratings)
+      $routeParams.star_ratings = star_ratings.join(',');
       if($routeParams.star_ratings==='')
         delete $routeParams.star_ratings
       $scope.search();
+    };
+
+    $rootScope.containsStarRating = function(star_rating){
+      var star_ratings = Page.info.star_ratings;
+      if(star_ratings)
+        return star_ratings.indexOf(star_rating) > -1
+      return false
     }
 
     $rootScope.cities = function(cityName) {
@@ -218,14 +234,14 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.searchCity = function(){
       // $rootScope.$broadcast("loading-started");
-      $routeParams.id = Page.info().slug;
-      $location.path(Page.info().slug)
+      $routeParams.id = Page.info.slug;
+      $location.path(Page.info.slug)
       $scope.search();
       // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info().slug)
     }
 
    $scope.citySelect = function (query, slug) {
-      Page.info().slug = slug
+      Page.info.slug = slug
     };
 
     $timeout(function(){

@@ -14,17 +14,19 @@ searchHotelsServices.factory('HotelRooms', ['$resource',
   }]);
 
 searchHotelsServices.factory('Page', function() {
-   var criteria = {};
+   var criteria = {
+    star_ratings: []
+   };
 
-   var info={
+   var info = {
     available_hotels:0,
     total_hotels:0
    };
 
    return {
-      criteria: function() { return criteria; },
-      setCriteria: function(newCriteria) { criteria = newCriteria },
-      info: function() { return info; },
-      setInfo: function(newInfo) { info = newInfo }
+      criteria: criteria,
+      // setCriteria: function(newCriteria) { this.criteria = newCriteria },
+      info: info,
+      // setInfo: function(newInfo) { this.info = newInfo }
    };
 });

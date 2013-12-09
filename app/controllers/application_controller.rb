@@ -9,15 +9,7 @@ class ApplicationController < ActionController::Base
   end
   
   def search_criteria
-    @search = SearchCriteria.new start_date, end_date, {min_stars: min_stars, max_stars: max_stars, currency_code: currency, sort: sort, min_price: min_price, max_price: max_price}
-  end
-
-  def min_stars
-    params['min_stars'] || 1
-  end
-
-  def max_stars
-    params['max_stars'] || 5
+    @search = SearchCriteria.new start_date, end_date, {star_ratings: star_ratings, currency_code: currency, sort: sort, min_price: min_price, max_price: max_price}
   end
 
   def min_price
@@ -56,8 +48,6 @@ class ApplicationController < ActionController::Base
     {
       min_price:    min_price,
       max_price:    max_price,
-      min_stars:    min_stars,
-      max_stars:    max_stars,
       star_ratings: star_ratings,
       amenities:    amenities
     }
