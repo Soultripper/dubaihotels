@@ -57,11 +57,14 @@ searchHotelsServices.factory('Page', function() {
 
   var currentCoords = {};
   var showlocationMap = function(elementId, lng, lat){
+
     if(currentCoords.lng === lng && currentCoords.lat === lat) return;
     currentCoords = {lng: lng, lat: lat };
+
     var container = document.getElementById(elementId)
     var mapCenter = {center: new google.maps.LatLng(lat, lng)};     
     var map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
+        console.log(mapCenter)
   }
 
 

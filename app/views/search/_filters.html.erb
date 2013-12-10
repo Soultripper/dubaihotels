@@ -3,6 +3,8 @@
         <div class="hidden-sm hidden-xs">
             <h4>{{Page.info.available_hotels}} Hotels available</h4>
             <div class="map" id="location-map">
+
+<img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom=12&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude">
             </div>
         </div>
         <div id="refine">
