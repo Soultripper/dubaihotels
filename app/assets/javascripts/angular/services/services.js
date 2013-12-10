@@ -34,17 +34,25 @@ searchHotelsServices.factory('Page', function() {
 
 searchHotelsServices.factory('Page', function() {
    var criteria = {
-    star_ratings: []
+
    };
 
    var info = {
     available_hotels:0,
-    total_hotels:0
+    total_hotels:0,    
+    star_ratings: [],
+    amenities: []
    };
+
+  var mapTypeOptions = {
+    zoom: 10,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
 
   var mapOptions = {
     zoom: 10,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    streetViewControl: false,
+    // mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   var currentCoords = {};
@@ -53,7 +61,7 @@ searchHotelsServices.factory('Page', function() {
     currentCoords = {lng: lng, lat: lat };
     var container = document.getElementById(elementId)
     var mapCenter = {center: new google.maps.LatLng(lat, lng)};     
-    var map = new google.maps.Map(container, $.extend( mapCenter, mapOptions ));
+    var map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
   }
 
 

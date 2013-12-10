@@ -185,12 +185,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $rootScope.filterAmenities = function (amenity) {
-      var idx = data.amenities.indexOf(amenity);
+      var amenities = Page.info.amenities;
+      var idx = amenities.indexOf(amenity);
       if (idx > -1) 
-        data.amenities.splice(idx, 1);
+        amenities.splice(idx, 1);
       else
-        data.amenities.push(amenity);
-      $routeParams.amenities = data.amenities.join(',');
+        amenities.push(amenity);
+      $routeParams.amenities = amenities.join(',');
+      if($routeParams.amenities==='')
+        delete $routeParams.amenities
       $scope.search();
     };
 
@@ -218,6 +221,13 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var star_ratings = Page.info.star_ratings;
       if(star_ratings)
         return star_ratings.indexOf(star_rating) > -1
+      return false
+    }
+
+    $rootScope.containsAmenity = function(amenity){
+      var amenities = Page.info.amenities;
+      if(amenities)
+        return amenities.indexOf(amenity) > -1
       return false
     }
 
