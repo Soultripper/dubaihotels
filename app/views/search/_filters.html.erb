@@ -1,10 +1,9 @@
 <div class="row">
     <div id="sidebar" class="col-md-3 col-xs-12">
         <div class="hidden-sm hidden-xs">
-            <h4>{{Page.info.available_hotels}} Hotels available</h4>
+            <h4 style="min-height:20px"><div ng-show="Page.info.available_hotels > 0" >{{Page.info.available_hotels}} Hotels available</div></h4>
             <div class="map" id="location-map">
-
-<img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom=12&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude">
+              <img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom=12&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude">
             </div>
         </div>
         <div id="refine">
