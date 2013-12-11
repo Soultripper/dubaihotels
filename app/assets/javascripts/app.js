@@ -1,13 +1,13 @@
 ﻿var app = {
     init: function () {
-        $('.input-daterange').datepicker({
-            startDate: "today",
-            endDate: "+2m",
-            format: "D dd M",
-            todayHighlight: true,
-            autoclose: true,
-            orientation: "top auto"
-        });
+        // $('.input-daterange').datepicker({
+        //     startDate: "today",
+        //     endDate: "+2m",
+        //     format: "D dd M",
+        //     todayHighlight: true,
+        //     autoclose: true,
+        //     orientation: "top auto"
+        // });
 
         $("#refine .toggle").on("click", function () {
             if ($(document.body).hasClass("sidebar-open"))

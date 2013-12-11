@@ -1,7 +1,7 @@
 app.directive('checkin', ['$filter', function($filter) {
   return {
-    require: 'ngModel',
-    link: function(scope, el, attr, ngModel) {
+    // require: 'ngModel',
+    link: function(scope, el, attr) {
 
       var checkin = $(el).datepicker({
             startDate: "today",
@@ -12,8 +12,8 @@ app.directive('checkin', ['$filter', function($filter) {
             orientation: "top auto"
         }).on('changeDate', function(ev) {  
           scope.$apply(function() {
-            var date = $filter('date')(ev.date, 'yyyy-MM-dd')
-            ngModel.$setViewValue(date);
+            scope.start_date = $filter('date')(ev.date, 'yyyy-MM-dd');
+            // ngModel.$setViewValue(date);
             angular.element('#end_date').datepicker('show')
           })
         }).data('datepicker');
@@ -23,8 +23,8 @@ app.directive('checkin', ['$filter', function($filter) {
 
 app.directive('checkout', ['$filter', function($filter) {
   return {
-    require: 'ngModel',
-    link: function(scope, el, attr, ngModel) {
+    // require: 'ngModel',
+    link: function(scope, el, attr) {
 
       var checkout = $(el).datepicker({
           startDate: "today",
@@ -37,11 +37,11 @@ app.directive('checkout', ['$filter', function($filter) {
             var checkin = angular.element('#start_date').datepicker('getDate')
             return date.valueOf() <= checkin.valueOf() ? 'disabled' : '';
           }      
-        }).on('changeDate', function(ev) {        
+        }).on('changeDate', function(ev) { 
           checkout.hide();
           scope.$apply(function() {
-            var date = $filter('date')(ev.date, 'yyyy-MM-dd')
-            ngModel.$setViewValue(date);
+            scope.end_date = $filter('date')(ev.date, 'yyyy-MM-dd');
+            // ngModel.$setViewValue(date);
           })
         }).data('datepicker');
       }

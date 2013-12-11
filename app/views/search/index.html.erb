@@ -21,7 +21,7 @@
               <div class="row input-daterange dates">
                 <div class="col col-xs-6">
                   <div class="input-group">
-                    <input type="text" id="start_date" name="start_date" class="form-control" placeholder="Check In..." value="<%=start_date.strftime('%a %d %b')%>" autocomplete="off" readonly="readonly" />
+                    <input type="text" id="start_date" name="start_date" class="form-control" checkin placeholder="Check In..." value="<%=start_date.strftime('%a %d %b')%>" autocomplete="off" readonly="readonly" />
                     <div class="input-group-addon addon-hidden-sm">
                       <i class="fa fa-calendar"></i>
                     </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col col-xs-6">
                   <div class="input-group">
-                    <input type="text" name="end_date" id="end_date" class="form-control" value="<%=end_date.strftime('%a %d %b')%>" placeholder="Check Out..." autocomplete="off" readonly="readonly" />
+                    <input type="text" name="end_date" id="end_date" class="form-control" checkout value="<%=end_date.strftime('%a %d %b')%>" placeholder="Check Out..." autocomplete="off" readonly="readonly" />
                     <div class="input-group-addon addon-hidden-sm" >
                       <i class="fa fa-calendar"></i>
                     </div>

@@ -25,7 +25,7 @@ class Location < ActiveRecord::Base
   end
 
   def hotel_ids_for(provider_key)
-    Hotel.ids_for self, provider_key
+    Hotel.ids_within_distance_of self, provider_key
   end
 
   def self.all_slugs

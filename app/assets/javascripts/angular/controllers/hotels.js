@@ -16,17 +16,21 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return  $routeParams[name] || $location.search()[name] || default_val;
     }
 
+    var start_date = function(){
+      var date = $scope.start_date ? $scope.start_date : param('start_date')
+      // var date = angular.element('#start_date').datepicker('getDate')
+      // var date = $scope.start_date
+      return $filter('date')(date, 'yyyy-MM-dd')
+    }    
+
+
     var end_date = function(){
       // var date = Page.criteria().end_date ? Page.criteria().end_date : param('end_date')
-      var date = angular.element('#end_date').datepicker('getDate')
+      var date = $scope.end_date
+      // console.log( angular.element('#end_date').val())
       return $filter('date')(date, 'yyyy-MM-dd')
     }
 
-    var start_date = function(){
-      // var date = Page.criteria().start_date ? Page.criteria().start_date : param('start_date')
-      var date = angular.element('#start_date').datepicker('getDate')
-      return $filter('date')(date, 'yyyy-MM-dd')
-    }    
 
 
     $scope.search = function(isUpdate) {
