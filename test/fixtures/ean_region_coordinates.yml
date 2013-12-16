@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ean_region_id: 1
+  region_name: MyString
+  latitude: 1.5
+  longitude: 1.5
+
+two:
+  ean_region_id: 1
+  region_name: MyString
+  latitude: 1.5
+  longitude: 1.5

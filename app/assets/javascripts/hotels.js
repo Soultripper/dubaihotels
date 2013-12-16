@@ -11,7 +11,7 @@ var Hotels = function(){
 
     $('#search-input').soulmate({
       url:            'http://' + Hotels.searchOptions.domain + '/sm/search',
-      types:          ['location'],
+      types:          ['landmark', 'city', 'region', 'country'],
       renderCallback: function(term, data, type){ return data.title; },
       selectCallback: function(term, data, type){ 
         var scope, el;
@@ -35,9 +35,9 @@ var Hotels = function(){
 
 
   var searchOptions ={
-    domain: 'www.hot5.com',
+    domain: 'localhost:9292',
     minQueryLength: 2,
-    maxResults:     10    
+    maxResults:     5    
   }
 
   var priceRange = {

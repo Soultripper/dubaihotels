@@ -33,6 +33,9 @@ GEM
       i18n (= 0.6.1)
       multi_json (~> 1.0)
     addressable (2.3.5)
+    akami (1.2.0)
+      gyoku (>= 0.4.0)
+      nokogiri (>= 1.4.0)
     angular-ui-bootstrap-rails (0.7.0.0)
     angularjs-rails (1.2.1)
     arel (3.0.3)
@@ -64,8 +67,13 @@ GEM
     geokit-rails (2.0.0)
       geokit (~> 1.5)
       rails (>= 3.0)
+    gyoku (1.1.0)
+      builder (>= 2.1.2)
     hike (1.2.3)
     httpclient (2.3.4.1)
+    httpi (2.1.0)
+      rack
+      rubyntlm (~> 0.3.2)
     i18n (0.6.1)
     jbuilder (1.5.2)
       activesupport (>= 3.0.0)
@@ -103,6 +111,7 @@ GEM
     multipart-post (1.2.0)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    nori (2.3.0)
     origin (1.1.0)
     pg (0.17.0)
     polyglot (0.3.3)
@@ -152,8 +161,17 @@ GEM
     ref (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rubyntlm (0.3.4)
     rubyzip (1.1.0)
     safe_yaml (0.9.7)
+    savon (2.3.2)
+      akami (~> 1.2.0)
+      builder (>= 2.1.2)
+      gyoku (~> 1.1.0)
+      httpi (~> 2.1.0)
+      nokogiri (>= 1.4.0)
+      nori (~> 2.3.0)
+      wasabi (~> 3.2.2)
     sidekiq (2.17.0)
       celluloid (>= 0.15.2)
       connection_pool (>= 1.0.0)
@@ -206,6 +224,10 @@ GEM
     vcr (2.8.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    wasabi (3.2.2)
+      httpi (~> 2.0)
+      mime-types (< 2.0.0)
+      nokogiri (>= 1.4.0)
     webmock (1.16.0)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -243,6 +265,7 @@ DEPENDENCIES
   rails_12factor
   rest-client
   rubyzip
+  savon (~> 2.0)
   sidekiq
   simple_form
   sinatra

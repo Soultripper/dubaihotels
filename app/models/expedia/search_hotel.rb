@@ -3,6 +3,7 @@ module Expedia
 
     attr_reader :ids, :responses
 
+    DEFAULT_SLICE = 800
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -13,13 +14,39 @@ module Expedia
       new(ids, search_criteria).search(options)
     end
 
+    def self.page_hotels(ids, search_criteria, options={}, &block)
+      new(ids, search_criteria).page_hotels(options, &block)
+    end
+
     def search(options={})
       create_list_response Expedia::Client.get_list(params(options))
     end
 
-    def params(options={})
-      search_params.merge(hotel_params).merge(options)
-    end
+    def page_hotels(options={}, &block)
+      responses, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
+
+      time = Benchmark.realtime do 
+        (conn = Expedia::Client.http).in_parallel do 
+          ids.each_slice(slice_by) do |sliced_ids|          
+            Log.info "Sending request of #{sliced_ids.count} hotels to Expedia:\n"
+            params = search_params.merge(hotel_params(sliced_ids)).merge(Expedia::Client.credentials)
+            responses << conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', params)
+          end
+        end
+      end
+
+      responses.each do |response|
+        list_response = create_list_response(Expedia::Client.parse_response(response))
+        list_response.page_hotels &block
+      end
+
+    end 
+
+
+
+    # def params(options={})
+    #   search_params.merge(hotel_params).merge(options)
+    # end
 
     def hotel_params(custom_ids=nil)
       {

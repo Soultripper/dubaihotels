@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131209111304) do
+ActiveRecord::Schema.define(:version => 20131213195220) do
 
   create_table "agoda_hotels", :force => true do |t|
     t.integer "chain_id"
@@ -90,6 +90,13 @@ ActiveRecord::Schema.define(:version => 20131209111304) do
   end
 
   add_index "booking_hotels", ["geog"], :name => "booking_hotels_geog_idx"
+
+  create_table "booking_region_hotels", :force => true do |t|
+    t.integer  "booking_hotel_id"
+    t.integer  "booking_region_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "cities", :force => true do |t|
     t.string   "country_code"
@@ -192,6 +199,34 @@ ActiveRecord::Schema.define(:version => 20131209111304) do
   add_index "ean_hotels", ["geog"], :name => "ean_hotels_geog_idx"
   add_index "ean_hotels", ["nameaddress"], :name => "ean_hotels_nameaddress_trgm_idx"
   add_index "ean_hotels", ["star_rating", "city"], :name => "index_ean_hotels_on_star_rating_and_city"
+
+  create_table "ean_points_of_interest_coordinates", :force => true do |t|
+    t.integer "ean_region_id"
+    t.string  "region_name"
+    t.string  "region_name_long"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.string  "sub_class"
+  end
+
+  create_table "ean_region_coordinates", :force => true do |t|
+    t.integer "ean_region_id"
+    t.string  "region_name"
+    t.float   "latitude"
+    t.float   "longitude"
+  end
+
+  create_table "ean_regions", :force => true do |t|
+    t.string  "region_type"
+    t.string  "relative_significance"
+    t.string  "sub_class"
+    t.string  "region_name"
+    t.string  "region_name_long"
+    t.integer "parent_region_id"
+    t.string  "parent_region_type"
+    t.string  "parent_region_name"
+    t.string  "parent_region_name_long"
+  end
 
   create_table "ean_room_types", :force => true do |t|
     t.integer "ean_hotel_id"
@@ -341,6 +376,7 @@ ActiveRecord::Schema.define(:version => 20131209111304) do
     t.integer "agoda_hotel_id"
     t.integer "etb_hotel_id"
     t.float   "user_rating"
+    t.float   "ranking"
   end
 
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
@@ -350,7 +386,9 @@ ActiveRecord::Schema.define(:version => 20131209111304) do
   add_index "hotels", ["geog"], :name => "hotels_geog_idx"
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
+  add_index "hotels", ["ranking"], :name => "idx_ranking"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
+  add_index "hotels", ["state_province"], :name => "hotels_state_province_idx"
 
   create_table "hotels_ean_hotels_matches_weighted_staging", :id => false, :force => true do |t|
     t.integer "hotel_id",     :null => false
@@ -391,6 +429,7 @@ ActiveRecord::Schema.define(:version => 20131209111304) do
     t.string  "slug"
     t.integer "geog",          :limit => 0
     t.integer "etb_city_id"
+    t.string  "landmark"
   end
 
   add_index "locations", ["slug"], :name => "locations_slug_idx"

@@ -9,10 +9,10 @@ class PushNotifier
   end
 
   def push(results)
-    Thread.new do
-      Pusher[channel].trigger('results_update', { results: results})
+    # Thread.new do
+      Pusher[channel].trigger_async('results_update', { results: results})
       ActiveRecord::Base.connection.close
-    end
+    # end
   end
 
 

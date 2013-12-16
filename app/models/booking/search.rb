@@ -4,7 +4,7 @@ class Booking::Search
 
   DEFAULT_PARAMS =  {}
 
-  DEFAULT_SLICE = 600
+  DEFAULT_SLICE = 300
 
   CACHE_OPTIONS = {
     expires_in: 4.hours,
@@ -28,6 +28,14 @@ class Booking::Search
 
   def create_response(booking_response, page_no=0)
     Booking::HotelListResponse.new(booking_response, page_no)
+  end
+
+  def concat_responses(responses, page_start = 0)
+    responses.map.with_index {|r,idx| Booking::HotelListResponse.new(JSON.parse(r.body), idx)}
+  end
+
+  def collect_hotels(list_responses)
+    list_responses.flat_map {|list_response|  list_response.hotels}
   end
 
   def search_params

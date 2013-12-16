@@ -35,6 +35,8 @@ class Expedia::Client
 
     def parse_response(response)
       JSON.parse response.body if response
+      rescue Exception => msg
+        Log.error "Unable to process Expedia response: #{msg}..Response: #{response}"
     end
 
     def credentials

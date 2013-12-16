@@ -26,7 +26,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     var end_date = function(){
       // var date = Page.criteria().end_date ? Page.criteria().end_date : param('end_date')
-      var date = $scope.end_date
+      var date = $scope.end_date ? $scope.end_date : param('end_date')
+      
       // console.log( angular.element('#end_date').val())
       return $filter('date')(date, 'yyyy-MM-dd')
     }

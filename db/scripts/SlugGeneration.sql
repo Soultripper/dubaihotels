@@ -1,4 +1,10 @@
-﻿/*
+--COUNTRIES
+
+-- Constraint: utility.locations_pkey
+-- ALTER TABLE utility.locations ADD COLUMN landmark character varying(255);
+
+
+/*
 	First, clear down all the slugs in the utility.locations table
 */
 
@@ -18,6 +24,28 @@ WHERE
 	L.country = cc.country
 AND 
 	L.city = cc.capital;
+
+-- Populate Landmarks
+UPDATE utility.locations
+SET
+	slug = LOWER(COALESCE(landmark, ''))
+WHERE 
+	slug IS NULL
+AND 
+	landmark IS NOT NULL;
+	
+-- Populate Countries
+UPDATE utility.locations
+SET
+	slug = LOWER(COALESCE(country, ''))
+WHERE 
+	slug IS NULL
+AND 
+	city IS NULL 
+AND 
+	region IS NULL 
+AND 
+	country IS NOT NULL;
 
 /*
 	Un-grant the duplicates :(
@@ -122,6 +150,8 @@ WHERE
 AND
 	city IS NOT NULL;
 
+
+	
 /*
 	Remove dupes from the city/country sweep
 	Appx 3k rows
@@ -195,3 +225,5 @@ FROM
 	utility.locations AS U
 WHERE
 	U.Id = P.Id
+
+	

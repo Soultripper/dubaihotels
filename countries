@@ -1,0 +1,190 @@
+{"id"=>60469, "term"=>"Nepal", "score"=>245, "data"=>{"slug"=>"nepal", "title"=>"Nepal"}}
+{"id"=>60613, "term"=>"Bosnia and Herzegovina", "score"=>228, "data"=>{"slug"=>"bosnia-and-herzegovina", "title"=>"Bosnia and Herzegovina"}}
+{"id"=>60611, "term"=>"Cyprus", "score"=>244, "data"=>{"slug"=>"cyprus", "title"=>"Cyprus"}}
+{"id"=>60570, "term"=>"Jordan", "score"=>244, "data"=>{"slug"=>"jordan", "title"=>"Jordan"}}
+{"id"=>60552, "term"=>"U.S. Virgin Islands", "score"=>231, "data"=>{"slug"=>"u.s.-virgin-islands", "title"=>"U.S. Virgin Islands"}}
+{"id"=>60425, "term"=>"Vanuatu", "score"=>243, "data"=>{"slug"=>"vanuatu", "title"=>"Vanuatu"}}
+{"id"=>60548, "term"=>"Kyrgyzstan", "score"=>240, "data"=>{"slug"=>"kyrgyzstan", "title"=>"Kyrgyzstan"}}
+{"id"=>60467, "term"=>"Syria", "score"=>245, "data"=>{"slug"=>"syria", "title"=>"Syria"}}
+{"id"=>60612, "term"=>"Czech Republic", "score"=>236, "data"=>{"slug"=>"czech-republic", "title"=>"Czech Republic"}}
+{"id"=>60609, "term"=>"Brazil", "score"=>242, "data"=>{"slug"=>"--brazil", "title"=>"Brazil"}}
+{"id"=>60610, "term"=>"Cameroon", "score"=>242, "data"=>{"slug"=>"cameroon", "title"=>"Cameroon"}}
+{"id"=>60607, "term"=>"Montenegro", "score"=>240, "data"=>{"slug"=>"montenegro", "title"=>"Montenegro"}}
+{"id"=>60608, "term"=>"Germany", "score"=>241, "data"=>{"slug"=>"--germany", "title"=>"Germany"}}
+{"id"=>60604, "term"=>"Iraq", "score"=>246, "data"=>{"slug"=>"iraq", "title"=>"Iraq"}}
+{"id"=>60601, "term"=>"China", "score"=>245, "data"=>{"slug"=>"china", "title"=>"China"}}
+{"id"=>60597, "term"=>"Madagascar", "score"=>240, "data"=>{"slug"=>"madagascar", "title"=>"Madagascar"}}
+{"id"=>60591, "term"=>"São Tomé and Príncipe", "score"=>229, "data"=>{"slug"=>"são-tomé-and-príncipe", "title"=>"São Tomé and Príncipe"}}
+{"id"=>60593, "term"=>"Zambia", "score"=>244, "data"=>{"slug"=>"zambia", "title"=>"Zambia"}}
+{"id"=>60590, "term"=>"American Samoa", "score"=>236, "data"=>{"slug"=>"american-samoa", "title"=>"American Samoa"}}
+{"id"=>60588, "term"=>"Hong Kong", "score"=>241, "data"=>{"slug"=>"hong-kong", "title"=>"Hong Kong"}}
+{"id"=>60582, "term"=>"Paraguay", "score"=>242, "data"=>{"slug"=>"paraguay", "title"=>"Paraguay"}}
+{"id"=>60584, "term"=>"Norfolk Island", "score"=>236, "data"=>{"slug"=>"norfolk-island", "title"=>"Norfolk Island"}}
+{"id"=>60579, "term"=>"Greece", "score"=>242, "data"=>{"slug"=>"--greece", "title"=>"Greece"}}
+{"id"=>60581, "term"=>"Guam", "score"=>246, "data"=>{"slug"=>"guam", "title"=>"Guam"}}
+{"id"=>60573, "term"=>"Reunion", "score"=>243, "data"=>{"slug"=>"reunion", "title"=>"Reunion"}}
+{"id"=>60572, "term"=>"Morocco", "score"=>243, "data"=>{"slug"=>"morocco", "title"=>"Morocco"}}
+{"id"=>60569, "term"=>"United Arab Emirates", "score"=>230, "data"=>{"slug"=>"united-arab-emirates", "title"=>"United Arab Emirates"}}
+{"id"=>60567, "term"=>"Indonesia", "score"=>239, "data"=>{"slug"=>"--indonesia", "title"=>"Indonesia"}}
+{"id"=>60585, "term"=>"Denmark", "score"=>243, "data"=>{"slug"=>"denmark", "title"=>"Denmark"}}
+{"id"=>60587, "term"=>"Fiji", "score"=>246, "data"=>{"slug"=>"fiji", "title"=>"Fiji"}}
+{"id"=>60598, "term"=>"Angola", "score"=>244, "data"=>{"slug"=>"angola", "title"=>"Angola"}}
+{"id"=>60554, "term"=>"Mauritius", "score"=>241, "data"=>{"slug"=>"mauritius", "title"=>"Mauritius"}}
+{"id"=>60562, "term"=>"Myanmar", "score"=>243, "data"=>{"slug"=>"myanmar", "title"=>"Myanmar"}}
+{"id"=>60555, "term"=>"Japan", "score"=>243, "data"=>{"slug"=>"--japan", "title"=>"Japan"}}
+{"id"=>60557, "term"=>"Russia", "score"=>244, "data"=>{"slug"=>"russia", "title"=>"Russia"}}
+{"id"=>60558, "term"=>"Thailand", "score"=>240, "data"=>{"slug"=>"--thailand", "title"=>"Thailand"}}
+{"id"=>60553, "term"=>"Peru", "score"=>246, "data"=>{"slug"=>"peru", "title"=>"Peru"}}
+{"id"=>60560, "term"=>"Jamaica", "score"=>243, "data"=>{"slug"=>"jamaica", "title"=>"Jamaica"}}
+{"id"=>60544, "term"=>"Curaçao", "score"=>243, "data"=>{"slug"=>"curaçao", "title"=>"Curaçao"}}
+{"id"=>60543, "term"=>"Serbia", "score"=>244, "data"=>{"slug"=>"serbia", "title"=>"Serbia"}}
+{"id"=>60545, "term"=>"Bolivia", "score"=>243, "data"=>{"slug"=>"bolivia", "title"=>"Bolivia"}}
+{"id"=>60540, "term"=>"Cambodia", "score"=>242, "data"=>{"slug"=>"cambodia", "title"=>"Cambodia"}}
+{"id"=>60546, "term"=>"Micronesia", "score"=>240, "data"=>{"slug"=>"micronesia", "title"=>"Micronesia"}}
+{"id"=>60539, "term"=>"U.K. Virgin Islands", "score"=>231, "data"=>{"slug"=>"u.k.-virgin-islands", "title"=>"U.K. Virgin Islands"}}
+{"id"=>60537, "term"=>"Albania", "score"=>243, "data"=>{"slug"=>"albania", "title"=>"Albania"}}
+{"id"=>60538, "term"=>"Saint Martin", "score"=>238, "data"=>{"slug"=>"saint-martin", "title"=>"Saint Martin"}}
+{"id"=>60533, "term"=>"Cape Verde", "score"=>240, "data"=>{"slug"=>"cape-verde", "title"=>"Cape Verde"}}
+{"id"=>60534, "term"=>"Liechtenstein", "score"=>237, "data"=>{"slug"=>"liechtenstein", "title"=>"Liechtenstein"}}
+{"id"=>60531, "term"=>"Sri Lanka", "score"=>241, "data"=>{"slug"=>"sri-lanka", "title"=>"Sri Lanka"}}
+{"id"=>60535, "term"=>"Panama", "score"=>244, "data"=>{"slug"=>"panama", "title"=>"Panama"}}
+{"id"=>60532, "term"=>"Palestinian Territory", "score"=>229, "data"=>{"slug"=>"palestinian-territory", "title"=>"Palestinian Territory"}}
+{"id"=>60536, "term"=>"Namibia", "score"=>243, "data"=>{"slug"=>"namibia", "title"=>"Namibia"}}
+{"id"=>60530, "term"=>"Switzerland", "score"=>239, "data"=>{"slug"=>"switzerland", "title"=>"Switzerland"}}
+{"id"=>60525, "term"=>"Israel", "score"=>244, "data"=>{"slug"=>"israel", "title"=>"Israel"}}
+{"id"=>60521, "term"=>"Ukraine", "score"=>241, "data"=>{"slug"=>"--ukraine", "title"=>"Ukraine"}}
+{"id"=>60519, "term"=>"Trinidad and Tobago", "score"=>231, "data"=>{"slug"=>"trinidad-and-tobago", "title"=>"Trinidad and Tobago"}}
+{"id"=>60517, "term"=>"Malaysia", "score"=>242, "data"=>{"slug"=>"malaysia", "title"=>"Malaysia"}}
+{"id"=>60513, "term"=>"Georgia", "score"=>243, "data"=>{"slug"=>"georgia", "title"=>"Georgia"}}
+{"id"=>60512, "term"=>"Antigua & Barbuda", "score"=>233, "data"=>{"slug"=>"antigua-&-barbuda", "title"=>"Antigua & Barbuda"}}
+{"id"=>60510, "term"=>"Abkhazia, Georgia", "score"=>233, "data"=>{"slug"=>"abkhazia,-georgia", "title"=>"Abkhazia, Georgia"}}
+{"id"=>60509, "term"=>"Costa Rica", "score"=>240, "data"=>{"slug"=>"costa-rica", "title"=>"Costa Rica"}}
+{"id"=>60505, "term"=>"Lesotho", "score"=>243, "data"=>{"slug"=>"lesotho", "title"=>"Lesotho"}}
+{"id"=>60506, "term"=>"France", "score"=>244, "data"=>{"slug"=>"france", "title"=>"France"}}
+{"id"=>60508, "term"=>"Armenia", "score"=>243, "data"=>{"slug"=>"armenia", "title"=>"Armenia"}}
+{"id"=>60504, "term"=>"Taiwan", "score"=>244, "data"=>{"slug"=>"taiwan", "title"=>"Taiwan"}}
+{"id"=>60502, "term"=>"Saint Kitts and Nevis", "score"=>229, "data"=>{"slug"=>"saint-kitts-and-nevis", "title"=>"Saint Kitts and Nevis"}}
+{"id"=>60503, "term"=>"Laos", "score"=>246, "data"=>{"slug"=>"laos", "title"=>"Laos"}}
+{"id"=>60501, "term"=>"Croatia", "score"=>241, "data"=>{"slug"=>"--croatia", "title"=>"Croatia"}}
+{"id"=>60500, "term"=>"Belize", "score"=>244, "data"=>{"slug"=>"belize", "title"=>"Belize"}}
+{"id"=>60494, "term"=>"New Zealand", "score"=>239, "data"=>{"slug"=>"new-zealand", "title"=>"New Zealand"}}
+{"id"=>60492, "term"=>"Pakistan", "score"=>242, "data"=>{"slug"=>"pakistan", "title"=>"Pakistan"}}
+{"id"=>60491, "term"=>"Dominican Republic", "score"=>232, "data"=>{"slug"=>"dominican-republic", "title"=>"Dominican Republic"}}
+{"id"=>60486, "term"=>"South Korea", "score"=>239, "data"=>{"slug"=>"south-korea", "title"=>"South Korea"}}
+{"id"=>60487, "term"=>"Mongolia", "score"=>242, "data"=>{"slug"=>"mongolia", "title"=>"Mongolia"}}
+{"id"=>60484, "term"=>"India", "score"=>245, "data"=>{"slug"=>"india", "title"=>"India"}}
+{"id"=>60483, "term"=>"Andorra", "score"=>243, "data"=>{"slug"=>"andorra", "title"=>"Andorra"}}
+{"id"=>60479, "term"=>"Maldives", "score"=>242, "data"=>{"slug"=>"maldives", "title"=>"Maldives"}}
+{"id"=>60476, "term"=>"French Polynesia", "score"=>234, "data"=>{"slug"=>"french-polynesia", "title"=>"French Polynesia"}}
+{"id"=>60480, "term"=>"East Timor", "score"=>240, "data"=>{"slug"=>"east-timor", "title"=>"East Timor"}}
+{"id"=>60473, "term"=>"Azerbaijan", "score"=>240, "data"=>{"slug"=>"azerbaijan", "title"=>"Azerbaijan"}}
+{"id"=>60474, "term"=>"Turkey", "score"=>244, "data"=>{"slug"=>"turkey", "title"=>"Turkey"}}
+{"id"=>60464, "term"=>"Estonia", "score"=>243, "data"=>{"slug"=>"estonia", "title"=>"Estonia"}}
+{"id"=>60465, "term"=>"Brunei Darussalam", "score"=>233, "data"=>{"slug"=>"brunei-darussalam", "title"=>"Brunei Darussalam"}}
+{"id"=>60468, "term"=>"Falkland Islands (Malvinas)", "score"=>223, "data"=>{"slug"=>"falkland-islands-(malvinas)", "title"=>"Falkland Islands (Malvinas)"}}
+{"id"=>60462, "term"=>"Slovenia", "score"=>242, "data"=>{"slug"=>"slovenia", "title"=>"Slovenia"}}
+{"id"=>60461, "term"=>"Northern Mariana Islands", "score"=>226, "data"=>{"slug"=>"northern-mariana-islands", "title"=>"Northern Mariana Islands"}}
+{"id"=>60460, "term"=>"Latvia", "score"=>244, "data"=>{"slug"=>"latvia", "title"=>"Latvia"}}
+{"id"=>60453, "term"=>"Greenland", "score"=>241, "data"=>{"slug"=>"greenland", "title"=>"Greenland"}}
+{"id"=>60451, "term"=>"Suriname", "score"=>242, "data"=>{"slug"=>"suriname", "title"=>"Suriname"}}
+{"id"=>60454, "term"=>"Singapore", "score"=>241, "data"=>{"slug"=>"singapore", "title"=>"Singapore"}}
+{"id"=>60444, "term"=>"Libya", "score"=>245, "data"=>{"slug"=>"libya", "title"=>"Libya"}}
+{"id"=>60445, "term"=>"Nigeria", "score"=>243, "data"=>{"slug"=>"nigeria", "title"=>"Nigeria"}}
+{"id"=>60447, "term"=>"Sint Maarten", "score"=>238, "data"=>{"slug"=>"sint-maarten", "title"=>"Sint Maarten"}}
+{"id"=>60446, "term"=>"Austria", "score"=>243, "data"=>{"slug"=>"austria", "title"=>"Austria"}}
+{"id"=>60442, "term"=>"Bahamas", "score"=>243, "data"=>{"slug"=>"bahamas", "title"=>"Bahamas"}}
+{"id"=>60441, "term"=>"Algeria", "score"=>243, "data"=>{"slug"=>"algeria", "title"=>"Algeria"}}
+{"id"=>60430, "term"=>"Egypt", "score"=>245, "data"=>{"slug"=>"egypt", "title"=>"Egypt"}}
+{"id"=>60432, "term"=>"Macao", "score"=>245, "data"=>{"slug"=>"macao", "title"=>"Macao"}}
+{"id"=>60435, "term"=>"Mexico", "score"=>242, "data"=>{"slug"=>"--mexico", "title"=>"Mexico"}}
+{"id"=>60431, "term"=>"Ireland", "score"=>243, "data"=>{"slug"=>"ireland", "title"=>"Ireland"}}
+{"id"=>60434, "term"=>"Venezuela", "score"=>241, "data"=>{"slug"=>"venezuela", "title"=>"Venezuela"}}
+{"id"=>60429, "term"=>"Mali", "score"=>246, "data"=>{"slug"=>"mali", "title"=>"Mali"}}
+{"id"=>60428, "term"=>"Moldova", "score"=>243, "data"=>{"slug"=>"moldova", "title"=>"Moldova"}}
+{"id"=>60426, "term"=>"Kosovo", "score"=>244, "data"=>{"slug"=>"kosovo", "title"=>"Kosovo"}}
+{"id"=>60424, "term"=>"Bahrain", "score"=>243, "data"=>{"slug"=>"bahrain", "title"=>"Bahrain"}}
+{"id"=>60482, "term"=>"Puerto Rico", "score"=>239, "data"=>{"slug"=>"puerto-rico", "title"=>"Puerto Rico"}}
+{"id"=>60496, "term"=>"Monaco", "score"=>244, "data"=>{"slug"=>"monaco", "title"=>"Monaco"}}
+{"id"=>60526, "term"=>"Belarus", "score"=>243, "data"=>{"slug"=>"belarus", "title"=>"Belarus"}}
+{"id"=>60527, "term"=>"Kazakhstan", "score"=>240, "data"=>{"slug"=>"kazakhstan", "title"=>"Kazakhstan"}}
+{"id"=>60529, "term"=>"Guyana", "score"=>244, "data"=>{"slug"=>"guyana", "title"=>"Guyana"}}
+{"id"=>60547, "term"=>"Sweden", "score"=>244, "data"=>{"slug"=>"sweden", "title"=>"Sweden"}}
+{"id"=>60596, "term"=>"Bonaire St Eustatius and Saba", "score"=>221, "data"=>{"slug"=>"bonaire-st-eustatius-and-saba", "title"=>"Bonaire St Eustatius and Saba"}}
+{"id"=>60599, "term"=>"Belgium", "score"=>243, "data"=>{"slug"=>"belgium", "title"=>"Belgium"}}
+{"id"=>60495, "term"=>"El Salvador", "score"=>239, "data"=>{"slug"=>"el-salvador", "title"=>"El Salvador"}}
+{"id"=>60528, "term"=>"Uzbekistan", "score"=>240, "data"=>{"slug"=>"uzbekistan", "title"=>"Uzbekistan"}}
+{"id"=>60564, "term"=>"Uruguay", "score"=>243, "data"=>{"slug"=>"uruguay", "title"=>"Uruguay"}}
+{"id"=>60568, "term"=>"Saudi Arabia", "score"=>238, "data"=>{"slug"=>"saudi-arabia", "title"=>"Saudi Arabia"}}
+{"id"=>60566, "term"=>"Aruba", "score"=>245, "data"=>{"slug"=>"aruba", "title"=>"Aruba"}}
+{"id"=>60594, "term"=>"Seychelles", "score"=>240, "data"=>{"slug"=>"seychelles", "title"=>"Seychelles"}}
+{"id"=>60603, "term"=>"Lithuania", "score"=>241, "data"=>{"slug"=>"lithuania", "title"=>"Lithuania"}}
+{"id"=>60452, "term"=>"Argentina", "score"=>239, "data"=>{"slug"=>"--argentina", "title"=>"Argentina"}}
+{"id"=>60427, "term"=>"Botswana", "score"=>242, "data"=>{"slug"=>"botswana", "title"=>"Botswana"}}
+{"id"=>60438, "term"=>"Guatemala", "score"=>241, "data"=>{"slug"=>"guatemala", "title"=>"Guatemala"}}
+{"id"=>60449, "term"=>"Solomon Islands", "score"=>235, "data"=>{"slug"=>"solomon-islands", "title"=>"Solomon Islands"}}
+{"id"=>60457, "term"=>"Anguilla", "score"=>242, "data"=>{"slug"=>"anguilla", "title"=>"Anguilla"}}
+{"id"=>60472, "term"=>"St. Pierre and Miquelon", "score"=>227, "data"=>{"slug"=>"st.-pierre-and-miquelon", "title"=>"St. Pierre and Miquelon"}}
+{"id"=>60507, "term"=>"Ghana", "score"=>245, "data"=>{"slug"=>"ghana", "title"=>"Ghana"}}
+{"id"=>60518, "term"=>"Samoa", "score"=>245, "data"=>{"slug"=>"samoa", "title"=>"Samoa"}}
+{"id"=>60574, "term"=>"Saint Vincent & Grenadines", "score"=>224, "data"=>{"slug"=>"saint-vincent-&-grenadines", "title"=>"Saint Vincent & Grenadines"}}
+{"id"=>60606, "term"=>"Bermuda", "score"=>243, "data"=>{"slug"=>"bermuda", "title"=>"Bermuda"}}
+{"id"=>60440, "term"=>"Tonga", "score"=>245, "data"=>{"slug"=>"tonga", "title"=>"Tonga"}}
+{"id"=>60448, "term"=>"Chile", "score"=>245, "data"=>{"slug"=>"chile", "title"=>"Chile"}}
+{"id"=>60458, "term"=>"Faroe Islands", "score"=>237, "data"=>{"slug"=>"faroe-islands", "title"=>"Faroe Islands"}}
+{"id"=>60471, "term"=>"Senegal", "score"=>243, "data"=>{"slug"=>"senegal", "title"=>"Senegal"}}
+{"id"=>60515, "term"=>"Oman", "score"=>246, "data"=>{"slug"=>"oman", "title"=>"Oman"}}
+{"id"=>60516, "term"=>"Norway", "score"=>244, "data"=>{"slug"=>"norway", "title"=>"Norway"}}
+{"id"=>60520, "term"=>"Guadeloupe", "score"=>240, "data"=>{"slug"=>"guadeloupe", "title"=>"Guadeloupe"}}
+{"id"=>60565, "term"=>"Haiti", "score"=>245, "data"=>{"slug"=>"haiti", "title"=>"Haiti"}}
+{"id"=>60595, "term"=>"Gambia", "score"=>244, "data"=>{"slug"=>"gambia", "title"=>"Gambia"}}
+{"id"=>60488, "term"=>"Canada", "score"=>242, "data"=>{"slug"=>"--canada", "title"=>"Canada"}}
+{"id"=>60571, "term"=>"United Kingdom", "score"=>234, "data"=>{"slug"=>"--united-kingdom", "title"=>"United Kingdom"}}
+{"id"=>60478, "term"=>"Finland", "score"=>243, "data"=>{"slug"=>"finland", "title"=>"Finland"}}
+{"id"=>60561, "term"=>"Saint Barthelemy", "score"=>234, "data"=>{"slug"=>"saint-barthelemy", "title"=>"Saint Barthelemy"}}
+{"id"=>60577, "term"=>"Poland", "score"=>244, "data"=>{"slug"=>"poland", "title"=>"Poland"}}
+{"id"=>60436, "term"=>"Papua New Guinea", "score"=>234, "data"=>{"slug"=>"papua-new-guinea", "title"=>"Papua New Guinea"}}
+{"id"=>60439, "term"=>"Macedonia", "score"=>241, "data"=>{"slug"=>"macedonia", "title"=>"Macedonia"}}
+{"id"=>60456, "term"=>"San Marino", "score"=>240, "data"=>{"slug"=>"san-marino", "title"=>"San Marino"}}
+{"id"=>60493, "term"=>"Nicaragua", "score"=>241, "data"=>{"slug"=>"nicaragua", "title"=>"Nicaragua"}}
+{"id"=>60498, "term"=>"Malta", "score"=>245, "data"=>{"slug"=>"malta", "title"=>"Malta"}}
+{"id"=>60578, "term"=>"Montserrat", "score"=>240, "data"=>{"slug"=>"montserrat", "title"=>"Montserrat"}}
+{"id"=>60485, "term"=>"Luxembourg", "score"=>238, "data"=>{"slug"=>"--luxembourg", "title"=>"Luxembourg"}}
+{"id"=>60522, "term"=>"Netherlands", "score"=>237, "data"=>{"slug"=>"--netherlands", "title"=>"Netherlands"}}
+{"id"=>60443, "term"=>"Colombia", "score"=>242, "data"=>{"slug"=>"colombia", "title"=>"Colombia"}}
+{"id"=>60463, "term"=>"Iceland", "score"=>243, "data"=>{"slug"=>"iceland", "title"=>"Iceland"}}
+{"id"=>60466, "term"=>"New Caledonia", "score"=>237, "data"=>{"slug"=>"new-caledonia", "title"=>"New Caledonia"}}
+{"id"=>60470, "term"=>"Grenada", "score"=>243, "data"=>{"slug"=>"grenada", "title"=>"Grenada"}}
+{"id"=>60542, "term"=>"Turks & Caicos Islands", "score"=>228, "data"=>{"slug"=>"turks-&-caicos-islands", "title"=>"Turks & Caicos Islands"}}
+{"id"=>60550, "term"=>"Bhutan", "score"=>244, "data"=>{"slug"=>"bhutan", "title"=>"Bhutan"}}
+{"id"=>60589, "term"=>"Philippines", "score"=>239, "data"=>{"slug"=>"philippines", "title"=>"Philippines"}}
+{"id"=>60600, "term"=>"Martinique", "score"=>240, "data"=>{"slug"=>"martinique", "title"=>"Martinique"}}
+{"id"=>60523, "term"=>"Tunisia", "score"=>241, "data"=>{"slug"=>"--tunisia", "title"=>"Tunisia"}}
+{"id"=>60459, "term"=>"Italy", "score"=>243, "data"=>{"slug"=>"--italy", "title"=>"Italy"}}
+{"id"=>60475, "term"=>"Palau", "score"=>245, "data"=>{"slug"=>"palau", "title"=>"Palau"}}
+{"id"=>60489, "term"=>"Honduras", "score"=>242, "data"=>{"slug"=>"honduras", "title"=>"Honduras"}}
+{"id"=>60499, "term"=>"Tanzania", "score"=>242, "data"=>{"slug"=>"tanzania", "title"=>"Tanzania"}}
+{"id"=>60511, "term"=>"Niue", "score"=>246, "data"=>{"slug"=>"niue", "title"=>"Niue"}}
+{"id"=>60524, "term"=>"Dominica", "score"=>242, "data"=>{"slug"=>"dominica", "title"=>"Dominica"}}
+{"id"=>60541, "term"=>"Kuwait", "score"=>244, "data"=>{"slug"=>"kuwait", "title"=>"Kuwait"}}
+{"id"=>60576, "term"=>"Bangladesh", "score"=>240, "data"=>{"slug"=>"bangladesh", "title"=>"Bangladesh"}}
+{"id"=>60583, "term"=>"Australia", "score"=>241, "data"=>{"slug"=>"australia", "title"=>"Australia"}}
+{"id"=>60586, "term"=>"Qatar", "score"=>245, "data"=>{"slug"=>"qatar", "title"=>"Qatar"}}
+{"id"=>60605, "term"=>"Saint Lucia", "score"=>239, "data"=>{"slug"=>"saint-lucia", "title"=>"Saint Lucia"}}
+{"id"=>60549, "term"=>"U.S.A.", "score"=>242, "data"=>{"slug"=>"--u.s.a.", "title"=>"U.S.A."}}
+{"id"=>60433, "term"=>"Hungary", "score"=>243, "data"=>{"slug"=>"hungary", "title"=>"Hungary"}}
+{"id"=>60450, "term"=>"Cocos (K) I.", "score"=>238, "data"=>{"slug"=>"cocos-(k)-i.", "title"=>"Cocos (K) I."}}
+{"id"=>60477, "term"=>"Vietnam", "score"=>243, "data"=>{"slug"=>"vietnam", "title"=>"Vietnam"}}
+{"id"=>60481, "term"=>"Barbados", "score"=>242, "data"=>{"slug"=>"barbados", "title"=>"Barbados"}}
+{"id"=>60575, "term"=>"Cook Islands", "score"=>238, "data"=>{"slug"=>"cook-islands", "title"=>"Cook Islands"}}
+{"id"=>60580, "term"=>"Spain", "score"=>245, "data"=>{"slug"=>"spain", "title"=>"Spain"}}
+{"id"=>60437, "term"=>"Portugal", "score"=>242, "data"=>{"slug"=>"portugal", "title"=>"Portugal"}}
+{"id"=>60455, "term"=>"Ecuador", "score"=>243, "data"=>{"slug"=>"ecuador", "title"=>"Ecuador"}}
+{"id"=>60490, "term"=>"Lebanon", "score"=>243, "data"=>{"slug"=>"lebanon", "title"=>"Lebanon"}}
+{"id"=>60497, "term"=>"French Guiana", "score"=>237, "data"=>{"slug"=>"french-guiana", "title"=>"French Guiana"}}
+{"id"=>60514, "term"=>"Kenya", "score"=>245, "data"=>{"slug"=>"kenya", "title"=>"Kenya"}}
+{"id"=>60551, "term"=>"Gibraltar", "score"=>241, "data"=>{"slug"=>"gibraltar", "title"=>"Gibraltar"}}
+{"id"=>60556, "term"=>"Romania", "score"=>243, "data"=>{"slug"=>"romania", "title"=>"Romania"}}
+{"id"=>60559, "term"=>"Bulgaria", "score"=>242, "data"=>{"slug"=>"bulgaria", "title"=>"Bulgaria"}}
+{"id"=>60563, "term"=>"Slovakia", "score"=>242, "data"=>{"slug"=>"slovakia", "title"=>"Slovakia"}}
+{"id"=>60592, "term"=>"South Africa", "score"=>238, "data"=>{"slug"=>"south-africa", "title"=>"South Africa"}}
+{"id"=>60602, "term"=>"Cayman Islands", "score"=>236, "data"=>{"slug"=>"cayman-islands", "title"=>"Cayman Islands"}}

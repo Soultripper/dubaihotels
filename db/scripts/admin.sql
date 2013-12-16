@@ -157,8 +157,23 @@ from ean_hotels e
 join hotels h on ST_DWithin(e.geog, h.geog, 1000, false) and similarity(h.name, e.name) >0.94
 where h.ean_hotel_id is null and e.id in (399495,270446)
 
+update hotels set ranking = expedia.sequence_number * -1
+from
+(select id, sequence_number from ean_hotels) expedia
+where expedia.id = hotels.ean_hotel_id and hotels.ean_hotel_id is not null and booking_hotel_id is null
+
 
 select * from hotels where id = 309515
 
 select set_limit(0.9)
 select show_limit()
+
+
+UPDATE hotels h SET state_province = br.name
+FROM
+(SELECT booking_hotel_id, r.name FROM region_booking_hotel_lookups l
+  JOIN regions r on r.region_id = l.region_id
+  WHERE r.language_code = 'en') as br
+  WHERE  h.booking_hotel_id = br.booking_hotel_id AND state_province IS NULL
+ limit (100)
+

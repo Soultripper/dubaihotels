@@ -42,6 +42,7 @@ gem 'geokit-rails'
 gem 'rubyzip'
 
 gem 'figaro'
+gem 'savon', '~> 2.0'
 
 # Gems used only for assets and not required
 # in production environments by default.

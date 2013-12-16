@@ -16,16 +16,28 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def self.with_slug
+    where('slug is not null')
+  end
+
+  def self.landmarks
+    with_slug.where('landmark is not null')
+  end
+
   def self.regions  
-    where('city is null')
+    with_slug.where('city is null and region is not null')
   end
 
   def self.cities
-    all.select {|loc| !loc[:city].blank?}
+    with_slug.where('city is not null')
   end
 
-  def hotel_ids_for(provider_key)
-    Hotel.ids_within_distance_of self, provider_key
+  def self.countries
+    with_slug.where('city is null and region is null and country is not null')
+  end
+
+  def hotel_ids_for(provider_key, limit=4000)
+    Hotel.ids_within_distance_of self, provider_key, limit
   end
 
   def self.all_slugs
@@ -37,33 +49,29 @@ class Location < ActiveRecord::Base
     end
   end
 
-  def self.save_as_json(filename)
-    File.open(filename, 'w') do |f|
-      cities.each do |location|
-        f.puts location.to_soulmate.as_json
-      end
-    end
-  end
+  # def self.save_cities_as_json(filename)
+  #   File.open(filename, 'w') do |f|
+  #     cities.each do |location|
+  #       f.puts SoulmateHandler.city_to_soulmate(location)
+  #     end
+  #   end
+  # end
 
-  def self.load_into_soulmate
-    items = cities.map &:to_soulmate   
-    soulmate_loader.load(items)
-  end
 
-  def self.soulmate_loader
-    @soulmate_loader ||= Soulmate::Loader.new("location")
-  end
-
-  def self.to_soulmate
-    all.map &:to_soulmate
-  end
+  # def self.save_countries_as_json(filename)
+  #   File.open(filename, 'w') do |f|
+  #     countries.each do |location|
+  #       f.puts SoulmateHandler.country_to_soulmate(location)
+  #     end
+  #   end
+  # end
 
   def add_to_soulmate
-    Location.soulmate_loader.add(to_soulmate)
+    SoulmateHandler.add_location self
   end
 
   def remove_from_soulmate
-    Location.soulmate_loader.remove("id" => self.id)
+    SoulmateHandler.remove_location self
   end  
 
   def point
@@ -76,21 +84,27 @@ class Location < ActiveRecord::Base
     all_slugs.select {|loc| loc[:n].downcase.start_with? query}
   end
 
-  def to_soulmate
-    {
-      id: id,
-      term: city,
-      score: 250 - slug.length,
-      data:{
-        slug: slug,
-        title: to_s
-      }
-    }.as_json
+  def landmark?
+    landmark
+  end
+
+  def city?
+    landmark.blank? and city
+  end
+
+  def region?
+    city.blank? and region 
+  end
+
+  def country?
+    city.blank? and region.blank? and country
   end
 
   def to_s
     s = ''
-    if city and region 
+    if landmark
+      s = "#{landmark}, #{city}"
+    elsif city and region 
       s =  "#{city}, #{region}, #{country}" 
     elsif region
       s = "#{region}, #{country}"
@@ -104,7 +118,9 @@ class Location < ActiveRecord::Base
 
   def create_slug
     s = ''
-    if city and region 
+    if landmark
+      s = "#{landmark}"    
+    elsif city and region 
       s =  "#{city}-#{region}-#{country}" 
     elsif region
       s = "#{region}-#{country}"

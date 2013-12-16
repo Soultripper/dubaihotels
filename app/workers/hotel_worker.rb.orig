@@ -30,22 +30,18 @@ class HotelWorker
   end
 
   def request_booking_hotels
-    hotels_ids = find_hotels_for_provider :booking_hotel_id
     start :booking, :booking_hotel_id do |key|     
-      Booking::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
-      # Booking::SearchLocation.page_hotels(location, search_criteria) do |provider_hotels|
+      Booking::SearchCity.page_hotels(location.city_id, search_criteria) do |provider_hotels|
         compare_and_persist provider_hotels, key
       end
     end
-  # rescue Exception => msg  
-  #   error :booking, msg    
+  rescue Exception => msg  
+    error :booking, msg    
   end 
 
   def request_expedia_hotels
-    hotels_ids = find_hotels_for_provider :ean_hotel_id
     start :expedia, :ean_hotel_id do |key|   
-      Expedia::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
-      # Expedia::Search.by_hotel_ids(hotels_ids, search_criteria).page_hotels do |provider_hotels|
+      Expedia::Search.by_location(location, search_criteria).page_hotels do |provider_hotels|
         compare_and_persist provider_hotels, key
       end
     end
@@ -54,7 +50,7 @@ class HotelWorker
   end
 
   def request_easy_to_book_hotels
-    hotels_ids = find_hotels_for_provider :etb_hotel_id
+    hotels_ids = location.hotel_ids_for :etb_hotel_id
     start :easy_to_book, :etb_hotel_id do |key|   
       EasyToBook::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
       # EasyToBook::Search.by_city(@search.location.etb_city_id, @search.search_criteria).page_hotels do |provider_hotels|
@@ -102,13 +98,6 @@ class HotelWorker
   def notify
     Log.debug "Notifying channel #{channel} of hotels update. finished=#{@search.finished?}"
     Pusher[channel].trigger('results_update', { key: @search.cache_key})    
-  end
-
-  def find_hotels_for_provider(provider_key)
-    @hotels_for_location ||= Hotel.by_location(location).to_a
-    matches = @hotels_for_location.select {|hotel| hotel[provider_key]}.map &provider_key
-    Log.debug "Found #{matches.count} hotels to search for against provider #{provider_key}"
-    matches
   end
 
 

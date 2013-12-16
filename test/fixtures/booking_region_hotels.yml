@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  booking_hotel_id: 1
+  booking_region_id: 1
+
+two:
+  booking_hotel_id: 1
+  booking_region_id: 1

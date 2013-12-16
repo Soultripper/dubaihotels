@@ -1,19 +1,19 @@
 module Booking
-  class SearchCity < Booking::Search
+  class SearchLocation < Booking::Search
 
-    attr_reader :ids
+    attr_reader :location
 
-    def initialize(ids, search_criteria)
+    def initialize(location, search_criteria)
        super search_criteria
-        @ids = ids
+        @location = location
     end
 
-    def self.search(ids, search_criteria, options={})
-      new(ids, search_criteria).search(options)
+    def self.search(location, search_criteria, options={})
+      new(location, search_criteria).search(options)
     end
 
-    def self.page_hotels(ids, search_criteria, options={}, &block)
-      new(ids, search_criteria).page_hotels(options, &block)
+    def self.page_hotels(location, search_criteria, options={}, &block)
+      new(location, search_criteria).page_hotels(options, &block)
     end
 
     def search(options={}) 
@@ -32,12 +32,12 @@ module Booking
 
         # we already have the first page 
         total_pages = first_search_response.total_pages
-        Log.info "Found #{total_pages} pages for city ids #{ids} from booking.com"
+        Log.info "Found #{total_pages} pages for location #{location} from booking.com"
 
         (conn = Booking::Client.http).in_parallel do 
           (total_pages - 1).times do |page_no|
             page_no = page_no+2
-            Log.info "Requesting chunk #{page_no} for city ids #{ids} from booking.com"          
+            Log.info "Requesting chunk #{page_no} for location #{location} from booking.com"          
             responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge({chunk: page_no}))
           end
         end
@@ -51,13 +51,14 @@ module Booking
     end
 
     def params(options={})
-      search_params.merge(city_params).merge(options)
+      search_params.merge(location_params).merge(options)
     end
 
-    def city_params
+    def location_params
       {
-        city_ids: ids
-      }
+        latitude: location.latitude, 
+        longitude: location.longitude, 
+        radius: 20}
     end
 
 

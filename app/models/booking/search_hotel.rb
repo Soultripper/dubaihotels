@@ -14,8 +14,8 @@ module Booking
       new(ids, search_criteria).search(options)
     end
 
-    def self.search_in_parallel(ids, search_criteria, options={})
-      new(ids, search_criteria).search(options)
+    def self.page_hotels(ids, search_criteria, options={}, &block)
+      new(ids, search_criteria).page_hotels(options, &block)
     end
 
     def self.for_availability(id, search_criteria, options={})
@@ -31,7 +31,7 @@ module Booking
     end
 
     # Assume client has already made first page call to retreive page size, so add 1 to page_no
-    def search_in_parallel(options={})
+    def page_hotels(options={}, &block)
       responses, search_params = [], params(options)
 
       (conn = Booking::Client.http).in_parallel do 
@@ -40,8 +40,16 @@ module Booking
           responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge(hotel_params(sliced_ids)))
         end
       end
-      create_response concat_responses(responses)
+
+      concat_responses(responses, 1, &block)
+      # Log.info "Collected #{hotels.count} hotels out of #{ids.count} booking.com responses for comparison"
+      # yield hotels if block_given?
     end 
+
+    def concat_responses(responses, page_start = 0, &block)
+      list_responses = responses.map.with_index {|r,idx| Booking::HotelListResponse.new(JSON.parse(r.body), idx)}
+      list_responses.each {|lr| yield lr.hotels}
+    end
 
     def params(options={})
       search_params.merge(hotel_params).merge(options)

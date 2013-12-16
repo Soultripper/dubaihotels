@@ -7,10 +7,20 @@ module HotelScopes
   module ClassMethods
 
     def by_location(location, proximity_in_metres = 20000)
-      where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres).
-      select(["id", "name", "address", "city", "state_province", "postal_code", "country_code", "latitude", "longitude", "star_rating", "ean_hotel_id", "booking_hotel_id", "etb_hotel_id", "description", "amenities", "user_rating"])
-      # where('city = ? and country_code = ?', location.city, location.country_code)
+
+      query = select(hotel_select_cols).limit(3000).order('ranking desc')
+
+      if location.city? or location.landmark?
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
+      elsif location.region?
+        query = query.where("state_province = ?", location.region)
+      elsif location.country?
+        query = query.where("country_code = ?", location.country_code)
+      end
+
+      query
     end
+
 
     def ids_within_distance_of(location, provider_key, limit=4000)
       by_location(location).where("#{provider_key} is not null").limit(limit).map &provider_key
@@ -24,12 +34,35 @@ module HotelScopes
       includes(:images)
     end
 
+
+    def hotel_select_cols
+      [
+        "id", 
+        "name", 
+        "address", 
+        "city", 
+        "state_province", 
+        "postal_code", 
+        "country_code", 
+        "latitude", 
+        "longitude", 
+        "star_rating", 
+        "ean_hotel_id", 
+        "booking_hotel_id", 
+        "etb_hotel_id", 
+        "description", 
+        "amenities", 
+        "user_rating"
+      ]
+    end
+
   end
 
   def main_image
     image ||= images.find(&:default_image)
     image ? image.url : ''
   end
+
 
 
 
