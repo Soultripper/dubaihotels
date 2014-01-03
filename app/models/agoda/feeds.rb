@@ -14,7 +14,7 @@ class Agoda::Feeds
         faraday.options[:nosignal] = true
         faraday.request  :retry,   3   # times
         faraday.request  :url_encoded             # form-encode POST params
-        faraday.options[:timeout] = 5 
+        faraday.options[:timeout] = 60
         faraday.options[:open_timeout] = 2  
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
@@ -27,7 +27,6 @@ class Agoda::Feeds
     def hotels(params={})
       parse_response(http.get(url + '/bookings.getHotels', params))
     end
-    
 
     def continents(params={})
       parse_response(http.get(feed_url(1), params))
@@ -41,24 +40,12 @@ class Agoda::Feeds
       parse_response(http.get(feed_url(3), params))
     end
 
-    def city_areas(params={})
+    def neighbourhoods(params={})
       parse_response(http.get(feed_url(4), params))
     end
 
-    def region_hotels(params={})
-      parse_response(http.get(url + '/bookings.getRegionHotels', params))
-    end
-
-    def post_hotel_availability(params={})
-      parse_response(http.post(url + '/bookings.getHotelAvailability', params))
-    end
-
-    def get_hotel_availability(params={})
-      parse_response(http.get(url + '/bookings.getHotelAvailability', params))
-    end
-
-    def get_block_availability(params={})
-      parse_response(http.get(url + '/bookings.getBlockAvailability', params))
+    def regions(params={})
+      parse_response(http.get(feed_url(21), params))
     end
 
     def parse_response(response)

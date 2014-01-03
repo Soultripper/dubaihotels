@@ -60,24 +60,44 @@ module Expedia
       @hotel ||= Hotel.find_by_ean_hotel_id id
     end
 
+    def expedia_id
+      rooms.first.expedia_id if !rooms.empty?
+    end
     # def images
     #   return unless self.HotelImages
     #   self.HotelImages['HotelImage']
     # end
 
     def commonize(search_criteria, location)
+      return nil unless expedia_id
       {
         provider: :expedia,
+        provider_hotel_id: expedia_id,
+        room_count: rooms_count,
+        min_price: avg_price(room_rates[0], search_criteria.total_nights),
+        max_price: avg_price(room_rates[-1], search_criteria.total_nights),
+        ranking: ranking,
+        link: search_criteria.expedia_link(expedia_id),
+        rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
+      }
+    rescue Exception => msg  
+      Log.error "Hotel #{id} failed to convert for Expedia.co.uk: #{msg}"
+      nil
+    end
+
+    def commonize_to_hotels_dot_com(search_criteria, location)
+      {
+        provider: :hotels,
         provider_hotel_id: id,
         room_count: rooms_count,
         min_price: avg_price(room_rates[0], search_criteria.total_nights),
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
-        link: "http://www.expedia.co.uk",
+        link: search_criteria.hotels_link(id),
         rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue Exception => msg  
-      Log.error "Hotel #{id} failed to convert: #{msg}"
+      Log.error "Hotel #{id} failed to convert for hotels.com: #{msg}"
       nil
     end
 

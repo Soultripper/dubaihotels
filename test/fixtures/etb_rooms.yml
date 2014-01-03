@@ -1,0 +1,41 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  etb_hotel_id: 1
+  room_id: 1
+  name: MyString
+  rate_id: 1
+  capacity: 1
+  under_occupancy: false
+  early_booking: false
+  last_minute_booking: false
+  non_refundable: false
+  breakfast_included: false
+  check_in: MyString
+  check_out: MyString
+  room_description: MyText
+  room_image: MyString
+  facilities: MyString
+  breakfast_text: MyText
+  cancellation_policy: MyText
+  child_policy: MyText
+
+two:
+  etb_hotel_id: 1
+  room_id: 1
+  name: MyString
+  rate_id: 1
+  capacity: 1
+  under_occupancy: false
+  early_booking: false
+  last_minute_booking: false
+  non_refundable: false
+  breakfast_included: false
+  check_in: MyString
+  check_out: MyString
+  room_description: MyText
+  room_image: MyString
+  facilities: MyString
+  breakfast_text: MyText
+  cancellation_policy: MyText
+  child_policy: MyText

@@ -22,7 +22,7 @@ class SearchController < ApplicationController
         end
       end
       format.html do
-        hotel_search
+        @results = hotel_search.results.sort(sort).paginate(1, page_size)        
         @user_channel = hotel_search.channel
       end
     end

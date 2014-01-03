@@ -13,22 +13,31 @@ searchHotelsServices.factory('HotelRooms', ['$resource',
     return resource;
   }]);
 
-searchHotelsServices.factory('Page', function() {
-   var criteria = {
-    star_ratings: []
-   };
+searchHotelsServices.factory('HotelProvider', function() {
 
-   var info = {
-    available_hotels:0,
-    total_hotels:0
-   };
+  // var provider = hotelProvider;
+  var getDescription =  function(hotelProvider){
+   switch(hotelProvider.provider){
+     case 'booking':
+       return "Booking.com";
+     case 'expedia':
+       return "Expedia.co.uk";
+     case 'agoda':
+       return 'Agoda.com';
+     case 'easy_to_book':
+       return 'EasyToBook.com';
+     case 'splendia':
+       return 'Splendia.com';
+     case 'hotels':
+       return 'Hotels.com';       
+     default:
+       return name; 
+     }
+   }
 
-   return {
-      criteria: criteria,
-      // setCriteria: function(newCriteria) { this.criteria = newCriteria },
-      info: info,
-      // setInfo: function(newInfo) { this.info = newInfo }
-   };
+  return {
+     getDescription: getDescription
+  };
 });
 
 

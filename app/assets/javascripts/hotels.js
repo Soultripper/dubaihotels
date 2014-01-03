@@ -1,17 +1,17 @@
 var Hotels = function(){
   
   var init = function(){
-    $("#priceSlider").ionRangeSlider(
-      {
-        type: 'double', 
-        prefix: '£',
-        step: 5,
-        onFinish: Hotels.priceRange.change
-      });
+    // $("#priceSlider").ionRangeSlider(
+    //   {
+    //     type: 'double', 
+    //     prefix: '£',
+    //     step: 5,
+    //     onFinish: Hotels.priceRange.change
+    //   });
 
     $('#search-input').soulmate({
       url:            'http://' + Hotels.searchOptions.domain + '/sm/search',
-      types:          ['landmark', 'city', 'region', 'country'],
+      types:          ['city', 'landmark', 'region', 'country'],
       renderCallback: function(term, data, type){ return data.title; },
       selectCallback: function(term, data, type){ 
         var scope, el;
@@ -75,6 +75,8 @@ var Hotels = function(){
   //     }
   //   }
   // };
+
+
 
   var amenities = function(){
   };

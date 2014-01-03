@@ -3,7 +3,7 @@ module Expedia
 
     attr_reader :ids, :responses
 
-    DEFAULT_SLICE = 800
+    DEFAULT_SLICE = 200
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -19,7 +19,8 @@ module Expedia
     end
 
     def search(options={})
-      create_list_response Expedia::Client.get_list(params(options))
+      params = search_params.merge(hotel_params)
+      create_list_response Expedia::Client.get_list(params)
     end
 
     def page_hotels(options={}, &block)
@@ -34,6 +35,8 @@ module Expedia
           end
         end
       end
+
+      Log.info "Expedia query for #{ids.count} hotels took #{time}s to complete"
 
       responses.each do |response|
         list_response = create_list_response(Expedia::Client.parse_response(response))

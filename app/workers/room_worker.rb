@@ -6,7 +6,7 @@ class RoomWorker
 
   attr_accessor :search, :hotel, :finished
 
-  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id
+  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :splendia_hotel_id
 
 
   def perform(hotel_id, cache_key)
@@ -21,9 +21,11 @@ class RoomWorker
 
     time = Benchmark.realtime{
       threads = []
-      threads << threaded {request_booking_rooms}      if booking_hotel_id
-      threads << threaded {request_expedia_rooms}      if ean_hotel_id
-      threads << threaded {request_easy_to_book_rooms} if etb_hotel_id
+      threads << threaded {request_booking_rooms}       if booking_hotel_id
+      threads << threaded {request_expedia_rooms}       if ean_hotel_id
+      threads << threaded {request_easy_to_book_rooms}  if etb_hotel_id
+      threads << threaded {request_agoda_rooms}         if agoda_hotel_id
+      threads << threaded {request_splendia_rooms}      if splendia_hotel_id
       Log.debug "Waiting for room worker threads to finish"
       threads.each &:join
     }
@@ -45,9 +47,8 @@ class RoomWorker
     start :expedia do 
       room_availability_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
       return unless room_availability_response
-      room_availability_response.rooms.map do |room|
-        room.commonize(search_criteria)
-      end
+      expedia_rooms = room_availability_response.rooms.map { |room| room.commonize(search_criteria) }.compact
+      expedia_rooms.concat(room_availability_response.rooms.map { |room| room.commonize_to_hotels_dot_com(search_criteria, ean_hotel_id) })
     end
   end
 
@@ -69,6 +70,27 @@ class RoomWorker
       return unless hotels_list_response.hotels.length > 0
       hotels_list_response.hotels.first.rooms.map do |room|
         room.commonize(search_criteria)
+      end
+    end
+  end
+
+  def request_agoda_rooms
+    start :agoda do 
+      hotels_list_response = Agoda::SearchHotel.for_availability(agoda_hotel_id, search_criteria)
+      return unless hotels_list_response.hotels.length > 0
+      hotels_list_response.hotels.first.rooms.map do |room|
+        room.commonize(search_criteria)
+      end
+    end
+  end
+
+  def request_splendia_rooms
+    start :splendia do 
+      hotels_list_response = Splendia::SearchHotel.for_availability(splendia_hotel_id, search_criteria)
+      return unless hotels_list_response.hotels.length > 0
+      hotel_response = hotels_list_response.hotels.first
+      hotel_response.rooms.map do |room|
+        room.commonize(search_criteria,  hotel_response.link)
       end
     end
   end

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  country_id: 1
+  continent_id: 1
+  country_name: MyString
+  country_translated: MyString
+  active_hotels: 1
+  country_iso: MyString
+  country_iso2: MyString
+  longitude: 1.5
+  latitude: 1.5
+
+two:
+  country_id: 1
+  continent_id: 1
+  country_name: MyString
+  country_translated: MyString
+  active_hotels: 1
+  country_iso: MyString
+  country_iso2: MyString
+  longitude: 1.5
+  latitude: 1.5

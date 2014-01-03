@@ -3,7 +3,7 @@ module Agoda
 
     attr_reader :ids
 
-    DEFAULT_SLICE = 250
+    DEFAULT_SLICE = 150
 
     def initialize(ids, search_criteria)
        super search_criteria
@@ -15,7 +15,7 @@ module Agoda
     end
 
     def self.for_availability(id, search_criteria, params={})
-      new([id], search_criteria).for_availability(params)
+      new(id, search_criteria).for_availability(params)
     end
 
     def self.page_hotels(ids, search_criteria, options={}, &block)
@@ -24,12 +24,12 @@ module Agoda
 
     def search(options={}) 
       params = {:Id => ids}.merge(search_params.merge(options)) 
-       Agoda::Client.search_availability(params)
+      create_list_response Agoda::Client.search_availability(params)
     end
 
     def for_availability(options={})   
       params = {:Id => ids}.merge(search_params.merge(options)) 
-       Agoda::Client.get_availability(params)
+      create_list_response Agoda::Client.get_availability(params)
     end
 
     def page_hotels(options={}, &block)
@@ -39,8 +39,8 @@ module Agoda
         (conn = Agoda::Client.http).in_parallel do 
           ids.each_slice(slice_by) do |sliced_ids|                       
             builder = make_request sliced_ids, options
-            Log.info "Sending request of #{sliced_ids.count} hotels to Agoda:\n"
-            responses << conn.post(Agoda::Client.uri, builder.to_xml)      
+            Log.info "Sending request of #{sliced_ids.count} hotels to Agoda:\n #{builder.to_xml}"
+            responses << conn.post(Agoda::Client.url, builder.to_xml)      
           end
         end
       end
@@ -51,7 +51,7 @@ module Agoda
     end 
 
     def make_request(hotel_ids, options)
-      request_params = {:Id => hotel_ids}.merge(search_params.merge(options)) 
+      request_params = {:Id => hotel_ids.join(',')}.merge(search_params.merge(options)) 
       Agoda::Client.request_builder(6, request_params)
     end
 

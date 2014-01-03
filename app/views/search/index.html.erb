@@ -1,4 +1,4 @@
-<div id="wrapper" >
+<div id="wrapper"  ng-controller="HotelsCtrl">
   <header class="container">
     <div class="row">
       <div class="col-md-2 col-sm-12 masthead">
@@ -7,7 +7,7 @@
           </a>
       </div>
       <div class="col-md-10 col-sm-12">
-        <form id="search" ng-submit="searchCity()">
+        <form id="search" ng-submit="searchCity()" target="_self">
           <div class="row">
             <div class="col-lg-5 col-md-12 place">
               <div class="input-group">
@@ -48,7 +48,7 @@
       </div>
     </div>
   </header>
-    <section>
+    <section ng-init="setupPage(<%=@results.as_json%>)">
       <div class="container">
         <div class="top-bar">
           <div class="info">

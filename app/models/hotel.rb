@@ -7,7 +7,7 @@ class Hotel < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :description, :user_rating
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :description, :user_rating
 
   attr_accessor :distance_from_location
 
@@ -38,9 +38,31 @@ class Hotel < ActiveRecord::Base
   def remove_from_soulmate
     Hotel.soulmate_loader.remove("id" => self.id)
   end  
-  
+
   def provider_deals
-    @provider_deals ||= {}
+    @provider_deals ||= providers_init
+  end
+
+  def find_provider_deal(name)
+    provider_deals.find {|deal| deal[:provider] == name}
+  end
+
+
+  def providers_init
+    providers = []
+    providers << provider_init(:hotels)       if ean_hotel_id
+    providers << provider_init(:booking)      if booking_hotel_id
+    providers << provider_init(:easy_to_book) if etb_hotel_id
+    providers << provider_init(:agoda)        if agoda_hotel_id
+    providers << provider_init(:splendia)     if splendia_hotel_id
+    providers
+  end
+
+  def provider_init(name)
+    {
+      provider: name,
+      loaded: false
+    }
   end
 
   def offer
@@ -48,31 +70,25 @@ class Hotel < ActiveRecord::Base
   end
 
   def ranking
-    return provider_deals[:booking][:ranking]*-1 if booking?
-    return provider_deals[:expedia][:ranking] if expedia?
+    return find_provider_deal(:booking)[:ranking]*-1 if booking?
+    return find_provider_deal(:hotels)[:ranking] if hotels_dot_com?
     999
   end
 
   def booking?
-    booking
+    deal = find_provider_deal(:booking) 
+    deal and deal[:loaded]
   end
 
-  def booking
-    provider_deals[:booking]
+  def hotels_dot_com?
+    deal = find_provider_deal(:hotels)
+    deal and deal[:loaded]
   end
 
-  def expedia?
-    expedia
-  end
-
-  def expedia
-    provider_deals[:expedia]
-  end
-
-  def compare_and_add(hotel_response, search_criteria, location)
-    data = hotel_response.commonize(search_criteria, location)
-    compare data 
-    provider_deals[data[:provider]] = data
+  def compare_and_add(provider_hotel)
+    compare provider_hotel 
+    update_provider_deal provider_hotel
+    # provider_deals[data[:provider]] = data
   end
 
   def compare(provider_hotel)
@@ -83,10 +99,17 @@ class Hotel < ActiveRecord::Base
     offer[:max_price]  =  provider_hotel[:min_price].to_f if (provider_hotel[:min_price].to_f > offer[:min_price].to_f) || offer[:max_price].blank?
   end
 
+
   def set_best_offer(provider_hotel)
     offer[:min_price] = provider_hotel[:min_price].to_f
     offer[:provider]  = provider_hotel[:provider]
     offer[:link]      = provider_hotel[:link]
+  end
+
+  def update_provider_deal(data)
+    data[:loaded] = true
+    idx = provider_deals.index {|deal| deal[:provider] == data[:provider]}
+    idx ? provider_deals[idx] = data : provider_deals << data
   end
 
   def to_json

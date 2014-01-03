@@ -8,7 +8,7 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 20000)
 
-      query = select(hotel_select_cols).limit(3000).order('ranking desc')
+      query = limit(3000).order('ranking desc')
 
       if location.city? or location.landmark?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
@@ -50,6 +50,7 @@ module HotelScopes
         "ean_hotel_id", 
         "booking_hotel_id", 
         "etb_hotel_id", 
+        "agoda_hotel_id", 
         "description", 
         "amenities", 
         "user_rating"

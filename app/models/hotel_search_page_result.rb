@@ -11,12 +11,12 @@ class HotelSearchPageResult
   end
 
   def find_min_price
-    hotel = hotels.min_by {|h| h.offer[:min_price]}
+    hotel = hotels.min_by {|h| h.offer[:min_price].to_f}
     @min_price ||= hotel ? hotel.offer[:min_price] : 0
   end
 
   def find_max_price 
-    hotel = hotels.max_by {|h| h.offer[:max_price]}
+    hotel = hotels.max_by {|h| h.offer[:max_price].to_f}
     @max_price ||= hotel ? hotel.offer[:max_price] : 300
   end
 
@@ -26,12 +26,12 @@ class HotelSearchPageResult
       # when :popularity; end;
       when :price; do_sort {|h1| h1.offer[:min_price].to_f}
       when :price_reverse; do_sort {|h1| h1.offer[:min_price].to_f}.reverse!
-      when :rating; do_sort {|h1| h1.star_rating || 0}.reverse!
-      when :rating_reverse; do_sort {|h1| h1.star_rating || 0}
-      when :user; do_sort {|h1| h1.user_rating || 0}.reverse!
+      when :rating; do_sort {|h1| h1.star_rating.to_f}.reverse!
+      when :rating_reverse; do_sort {|h1| h1.star_rating.to_f}
+      when :user; do_sort {|h1| h1.user_rating.to_f}.reverse!
       when :a_z; do_sort {|h1| h1.name}
-      when :distance; do_sort {|h1| h1.distance_from_location}
-      when :distance_reverse; do_sort {|h1| h1.distance_from_location}.reverse!
+      when :distance; do_sort {|h1| h1.distance_from_location.to_f}
+      when :distance_reverse; do_sort {|h1| h1.distance_from_location.to_f}.reverse!
       else do_sort {|h1| h1.ranking.to_i}
     end
     self
@@ -43,7 +43,7 @@ class HotelSearchPageResult
     value
   end
 
-  def do_sort(&block)
+  def do_sort(&block)    
     hotels.sort_by!(&block)
   end
 
@@ -121,7 +121,7 @@ class HotelSearchPageResult
         json.latitude         location.latitude
       end      
       json.criteria           search_options[:search_criteria]
-      json.finished           search_options[:finished]
+      json.state              search_options[:state]
 
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel|

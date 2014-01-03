@@ -23,17 +23,36 @@ module Expedia
       chargeable_rates['@total'].to_f
     end
 
+    def expedia_id
+      data['expediaPropertyId']
+    end
+
+    def property_id
+      data['propertyId']
+    end
+
     def average
       chargeable_rates['@averageRate']
     end
 
     def commonize(search_criteria)
+      return nil unless property_id
       {
         provider: :expedia,
         description: description,
-        price: avg_price(total, search_criteria.total_nights)
+        price: avg_price(total, search_criteria.total_nights),
+        link: search_criteria.expedia_link(property_id)
       }
     end
+
+    def commonize_to_hotels_dot_com(search_criteria, hotel_id)
+      {
+        provider: :hotels,
+        description: description,
+        price: avg_price(total, search_criteria.total_nights),
+        link: search_criteria.hotels_link(hotel_id)
+      }
+    end    
     
     def avg_price(price, nights)
       price / nights

@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131213195220) do
+ActiveRecord::Schema.define(:version => 20131220122818) do
+
+  create_table "agoda_cities", :force => true do |t|
+    t.integer "agoda_country_id"
+    t.string  "city_name"
+    t.string  "city_translated"
+    t.integer "active_hotels"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.integer "no_area"
+  end
+
+  create_table "agoda_countries", :force => true do |t|
+    t.integer "agoda_continent_id"
+    t.string  "country_name"
+    t.string  "country_translated"
+    t.integer "active_hotels"
+    t.string  "country_iso"
+    t.string  "country_iso2"
+    t.float   "longitude"
+    t.float   "latitude"
+  end
 
   create_table "agoda_hotels", :force => true do |t|
     t.integer "chain_id"
@@ -52,6 +73,51 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.integer "number_of_reviews"
     t.float   "rating_average"
     t.string  "rates_currency"
+    t.integer "geog",                  :limit => 0
+  end
+
+  add_index "agoda_hotels", ["geog"], :name => "agoda_hotels_geog_idx"
+
+  create_table "agoda_neighbourhoods", :force => true do |t|
+    t.integer "agoda_city_id"
+    t.string  "area_name"
+    t.string  "area_translated"
+    t.integer "active_hotels"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.text    "polygon"
+  end
+
+  create_table "agoda_regions", :force => true do |t|
+    t.string "name"
+    t.string "name_translated"
+  end
+
+  create_table "booking_cities", :force => true do |t|
+    t.string   "country_code"
+    t.string   "language_code"
+    t.string   "name"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "timezone_name"
+    t.string   "timezone_offset"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.integer  "geog",            :limit => 0
+    t.string   "simple_name",     :limit => 1024
+  end
+
+  add_index "booking_cities", ["country_code"], :name => "cities_country_code_idx"
+  add_index "booking_cities", ["geog"], :name => "cities_geog_idx"
+  add_index "booking_cities", ["name"], :name => "cities_name_idx"
+
+  create_table "booking_countries", :force => true do |t|
+    t.string   "area"
+    t.string   "country_code"
+    t.string   "language_code"
+    t.string   "name"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "booking_hotels", :force => true do |t|
@@ -91,6 +157,13 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
 
   add_index "booking_hotels", ["geog"], :name => "booking_hotels_geog_idx"
 
+  create_table "booking_region_hotel_lookups", :force => true do |t|
+    t.integer "region_id"
+    t.integer "booking_hotel_id"
+  end
+
+  add_index "booking_region_hotel_lookups", ["region_id", "booking_hotel_id"], :name => "region_booking_hotel_lookups_region_id_booking_hotel_id_idx"
+
   create_table "booking_region_hotels", :force => true do |t|
     t.integer  "booking_hotel_id"
     t.integer  "booking_region_id"
@@ -98,31 +171,12 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.datetime "updated_at",        :null => false
   end
 
-  create_table "cities", :force => true do |t|
-    t.string   "country_code"
-    t.string   "language_code"
-    t.string   "name"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "timezone_name"
-    t.string   "timezone_offset"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.integer  "geog",            :limit => 0
-    t.string   "simple_name",     :limit => 1024
-  end
-
-  add_index "cities", ["country_code"], :name => "cities_country_code_idx"
-  add_index "cities", ["geog"], :name => "cities_geog_idx"
-  add_index "cities", ["name"], :name => "cities_name_idx"
-
-  create_table "countries", :force => true do |t|
-    t.string   "area"
-    t.string   "country_code"
-    t.string   "language_code"
-    t.string   "name"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+  create_table "booking_regions", :force => true do |t|
+    t.integer "region_id"
+    t.string  "country_code"
+    t.string  "language_code"
+    t.string  "name"
+    t.string  "region_type"
   end
 
   create_table "ean_hotel_attribute_links", :force => true do |t|
@@ -323,7 +377,40 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.integer "geog",                 :limit => 0
   end
 
-  add_index "etb_hotels", ["geog"], :name => "etb_hotels_geog_idx"
+  create_table "etb_points_of_interests", :force => true do |t|
+    t.string  "name"
+    t.float   "longitude"
+    t.float   "latitude"
+    t.integer "city_id"
+    t.string  "url"
+  end
+
+  create_table "etb_provinces", :force => true do |t|
+    t.string  "name"
+    t.integer "country_id"
+    t.string  "url"
+  end
+
+  create_table "etb_rooms", :force => true do |t|
+    t.integer "etb_hotel_id"
+    t.integer "room_id"
+    t.text    "name"
+    t.integer "rate_id"
+    t.integer "capacity"
+    t.boolean "under_occupancy"
+    t.boolean "early_booking"
+    t.boolean "last_minute_booking"
+    t.boolean "non_refundable"
+    t.boolean "breakfast_included"
+    t.string  "check_in"
+    t.string  "check_out"
+    t.text    "room_description"
+    t.string  "room_image"
+    t.text    "facilities"
+    t.text    "breakfast_text"
+    t.text    "cancellation_policy"
+    t.text    "child_policy"
+  end
 
   create_table "hotel_amenities", :force => true do |t|
     t.string  "name",  :null => false
@@ -379,6 +466,7 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.float   "ranking"
   end
 
+  add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
   add_index "hotels", ["booking_hotel_id"], :name => "index_hotels_on_booking_hotel_id", :unique => true
   add_index "hotels", ["city", "country_code"], :name => "hotels_city_country_code_idx"
   add_index "hotels", ["ean_hotel_id"], :name => "ean_hotel_id_idx"
@@ -409,13 +497,6 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
   add_index "hotels_hotel_amenities", ["hotel_amenity_id"], :name => "index_hotels_hotel_amenities_on_hotel_amenity_id"
   add_index "hotels_hotel_amenities", ["hotel_id"], :name => "index_hotels_hotel_amenities_on_hotel_id"
 
-  create_table "leaderboards", :force => true do |t|
-    t.string   "name"
-    t.float    "score"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "locations", :force => true do |t|
     t.string  "city"
     t.integer "city_id"
@@ -430,31 +511,11 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.integer "geog",          :limit => 0
     t.integer "etb_city_id"
     t.string  "landmark"
+    t.string  "is_capital",    :limit => 1
+    t.integer "ranking"
   end
 
   add_index "locations", ["slug"], :name => "locations_slug_idx"
-
-  create_table "region_booking_hotel_lookups", :force => true do |t|
-    t.integer "region_id"
-    t.integer "booking_hotel_id"
-  end
-
-  add_index "region_booking_hotel_lookups", ["region_id", "booking_hotel_id"], :name => "region_booking_hotel_lookups_region_id_booking_hotel_id_idx"
-
-  create_table "regions", :force => true do |t|
-    t.integer "region_id"
-    t.string  "country_code"
-    t.string  "language_code"
-    t.string  "name"
-    t.string  "region_type"
-  end
-
-  create_table "scores", :force => true do |t|
-    t.string   "name"
-    t.float    "score"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "spatial_ref_sys", :id => false, :force => true do |t|
     t.integer "srid",                      :null => false
@@ -462,6 +523,39 @@ ActiveRecord::Schema.define(:version => 20131213195220) do
     t.integer "auth_srid"
     t.string  "srtext",    :limit => 2048
     t.string  "proj4text", :limit => 2048
+  end
+
+  create_table "splendia_hotels", :force => true do |t|
+    t.string  "name"
+    t.string  "country"
+    t.string  "city"
+    t.integer "city_id"
+    t.string  "state_province_name"
+    t.string  "state_province_code"
+    t.string  "street"
+    t.string  "postal_code"
+    t.string  "stars"
+    t.string  "club"
+    t.text    "product_url"
+    t.text    "facilities"
+    t.text    "description"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.string  "hotel_currency"
+    t.string  "category_id"
+    t.float   "price"
+    t.float   "original_price"
+    t.string  "product_name"
+    t.integer "product_id"
+    t.string  "currency"
+    t.string  "stars_rating"
+    t.string  "small_image"
+    t.string  "big_image"
+    t.text    "other_services"
+    t.integer "reviews"
+    t.string  "rating"
+    t.string  "category"
+    t.text    "offers"
   end
 
 end

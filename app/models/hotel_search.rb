@@ -2,12 +2,12 @@ require 'location'
 
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :started, :use_cache, :channel
+  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :expedia, :easy_to_book]
-  # PROVIDERS = [:booking]
+  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia]
+  # PROVIDERS = [:expedia]
 
   def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
@@ -27,8 +27,8 @@ class HotelSearch
   end
 
   def start
-    return self if @started
-    @started = true
+    return self if @state
+    @state = :searching
     all_hotels
     Log.debug "Hotel Search: #{total_hotels} hotels to search"
     persist
@@ -36,7 +36,7 @@ class HotelSearch
   end
 
   def all_hotels
-    @all_hotels ||= Hotel.by_location(location).limit(200).to_a 
+    @all_hotels ||= Hotel.by_location(location).limit(250).to_a 
   end
 
   def search      
@@ -52,13 +52,13 @@ class HotelSearch
       location: location,
       channel: channel,
       search_criteria: search_criteria,
-      started: @started,
-      finished: finished?
+      state: @state
     }
     cur_hotels = compared_hotels
     cur_hotels = cur_hotels.length > 0 ? cur_hotels : all_hotels
     HotelSearchPageResult.new cur_hotels.clone, results
   end
+
 
   def hotels
     @hotels ||= compared_hotels
@@ -77,20 +77,27 @@ class HotelSearch
     time = Benchmark.realtime do 
       HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
         matches += 1
-        add_to_list(hotel, provider_hotel)
+        common_provider_hotel = provider_hotel.commonize(search_criteria, location)
+        add_to_list(hotel, common_provider_hotel)
+        if(key==:ean_hotel_id)
+          common_provider_hotel = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
+          add_to_list(hotel, common_provider_hotel)
+        end
       end    
     end
     persist
     Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
   end
 
-  def add_to_list(hotel, provider_hotel)
-    hotel.compare_and_add(provider_hotel, search_criteria, location)
+  def add_to_list(hotel, common_provider_hotel)
+    return unless common_provider_hotel
+    hotel.compare_and_add(common_provider_hotel)
     hotel.distance_from_location = hotel.distance_from(location) unless hotel.distance_from_location
   end
 
   def finish_and_persist(provider)
     finish provider
+    @state = finished? ? :finished : @state
     persist
     Log.debug "COMPLETE - #{provider.upcase}: #{hotels.count} hotels compared"
     hotels.count

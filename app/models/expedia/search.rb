@@ -3,10 +3,10 @@ class Expedia::Search
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {
-    options: 'ROOM_RATE_DETAILS',
+    # options: 'ROOM_RATE_DETAILS',
     numberOfResults: 200,
-    # maxRatePlanCount: 30,
-    supplierType: 'E'
+    maxRatePlanCount: 30,
+    # supplierType: 'E'
   }
 
   def initialize(search_criteria)

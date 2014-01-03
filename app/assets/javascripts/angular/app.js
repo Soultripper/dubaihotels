@@ -1,10 +1,10 @@
-app = angular.module('Hot5', ['ngResource', 'ngSanitize', 'ngRoute', 'searchHotelsServices','ui.bootstrap']).config(['$routeProvider', '$locationProvider', 
+app = angular.module('Hot5', ['ngResource', 'ngSanitize', 'ngRoute', 'searchHotelsServices','hotelsServices', 'ui.bootstrap']).config(['$routeProvider', '$locationProvider', 
   function($routeProvider, $locationProvider) {
-   $routeProvider.when('/:id', {
-      templateUrl: 'templates/hotels.html',
-      controller: 'HotelsCtrl',
-      reloadOnSearch: false
-    })
+   // $routeProvider.when('/:id', {
+   //    templateUrl: 'templates/hotels.html',
+   //    controller: 'HotelsCtrl',
+   //    reloadOnSearch: false
+   //  })
 
     $locationProvider.html5Mode(true);
   }

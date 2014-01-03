@@ -1,0 +1,214 @@
+<div id="results" class="col-md-9 col-xs-12" >
+  <!-- <loading-indicator></loading-indicator> -->
+  <div class="loader" style="display:none">
+      <div class="message">
+         <i class="fa fa-gear fa-spin"></i> Getting hotel prices... 
+      </div>
+      <div class="progress progress-striped active">
+          <div class="progress-bar"></div>
+      </div>
+  </div>
+  <div class="overlay" style="display:none" >&nbsp;</div>
+
+  <div class="sort">
+      <ul class="hidden-md hidden-sm hidden-xs">
+          <li class="title">Sort By <i class="fa fa-caret-right"></i></li>
+          <li ng-class="{active: isSort('recommended')}"><a ng-click="sort('recommended')" href="#">Recommended</a></li>
+          <li ng-class="{active: isSort('price')}"><a ng-click="sort('price')" href="#">Price <i class="fa fa-caret-up"></i></a></li>
+          <li ng-class="{active: isSort('price_reverse')}"><a ng-click="sort('price_reverse')" href="#">Price <i class="fa fa-caret-down"></i></a></li>
+          <li ng-class="{active: isSort('rating')}"><a ng-click="sort('rating')" href="#">Star Rating</a></li>
+          <li ng-class="{active: isSort('user')}"><a ng-click="sort('user')" href="#">User Rating</a></li>
+          <li ng-class="{active: isSort('distance')}"><a ng-click="sort('distance')" href="#">Distance</a></li>
+      </ul>
+      <div class="dropdown hidden-lg">
+          <label for="sortby" class="title">Sort By <i class="fa fa-caret-right"></i></label>
+          <div class="select">
+              <select id="sortby">
+                  <option>Recommended</option>
+                  <option>Price (Low to High)</option>
+                  <option>Price (High to Low)</option>
+                  <option>Star Rating</option>
+                  <option>User Rating</option>
+                  <option>Distance</option>
+              </select>
+          </div>
+      </div>
+  </div>
+
+  <section ng-repeat="hotel in search_results.hotels" >
+    <div class="image" ng-style="{'background-image':'url({{headerImage(hotel)}})'}">
+          <div class="savings" ng-show="saving(hotel)">
+              Save {{saving(hotel)}}%
+          </div>
+          <div class="view" onclick="return app.tabSelect(this, 'gallery')">
+              <i class="fa fa-picture-o"></i>
+          </div>
+      </div>
+      <div class="details">
+          <h4>{{hotel.name}}</h4>
+          <div class="location">
+              <i class="fa fa-map-marker"></i> {{hotel.address}}, {{hotel.city}}
+          </div>
+          <div class="stars">
+              <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===0.5, 'fa-star':hotel.star_rating>0.5, 'fa-star-o': hotel.star_rating<0.5}"></i>
+              <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===1.5, 'fa-star':hotel.star_rating>1.5, 'fa-star-o': hotel.star_rating<1.5}"></i>
+              <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===2.5, 'fa-star':hotel.star_rating>2.5, 'fa-star-o': hotel.star_rating<2.5}"></i>
+              <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===3.5, 'fa-star':hotel.star_rating>3.5, 'fa-star-o': hotel.star_rating<3.5}"></i>
+              <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===4.5, 'fa-star':hotel.star_rating>4.5, 'fa-star-o': hotel.star_rating<4.5}"></i>
+          </div>  
+          <ul class="deals">
+              <li ng-repeat="provider in providers(hotel) ">
+                <a ng-href="{{provider.link}}" target="_blank">
+                  <span class="name">
+                    {{hotelProvider.getDescription(provider)}}
+                  </span>
+                  <div class="price">
+                    {{provider.min_price | price:currency_symbol:0 }}
+                  </div>
+                </a>
+              </li>    
+          </ul>
+          <a href="#" class="all-deals" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
+              See all deals <i class="fa fa-caret-right"></i>
+          </a>
+          <ul class="tabs">
+              <li class="tab-details"> 
+                  <a href="#" onclick="return app.tabSelect(this, 'details')">
+                      <i class="fa fa-info-circle"></i>
+                      Details
+                  </a>
+              </li>
+              <li class="tab-map" >
+                  <a href="#" onclick="return app.tabSelect(this, 'map')">
+                      <i class="fa fa-map-marker"></i>
+                      Map
+                  </a>
+              </li>
+              <li class="tab-rooms">
+                  <a href="#" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
+                      <i class="fa fa-building-o"></i>
+                      Rooms
+                  </a>
+              </li>
+              <li class="tab-best-rooms">
+                  <a href="#" onclick="return app.tabSelect(this, 'best-rooms')">
+                      <i class="fa fa-star"></i>
+                      Best Rooms
+                  </a>
+              </li>
+          </ul>
+      </div>
+      <div class="best-deal">
+        <!-- <a href="#" onclick="alert('Go to deal');return false">&nbsp;</a> -->
+        <div class="logo" >
+            <img ng-src="{{providerImage(hotel.offer.provider)}}" alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider" />
+        </div>
+        <div class="high-price">
+            {{hotel.offer.max_price | price:currency_symbol:0 }}
+        </div>
+        <div class="price">
+            {{hotel.offer.min_price | price:currency_symbol:0 }}
+        </div>
+        <div class="btn btn-success" get-deal="{{hotel.offer.link}}">Get Deal</div>
+      </div>
+      <div class="tabs-content">
+          <div class="content tab-details" style="display: none">
+            <h4>Property Location</h4>
+            <p ng-bind-html="hotel.description"></p>
+          </div>
+          <div class="content tab-map" style="display: none" data-lat="{{hotel.latitude}}" data-lng="{{hotel.longitude}}" data-show-map="{{hotel.id}}">
+            <div>
+              <p>
+                <strong>{{hotel.getAddress()}}</strong>
+              </p>
+              <span>{{hotel.getAddress()}}</span>
+              <div class="map_container"> 
+                <div id="google-hotel-map-{{hotel.id}}" class="gmaps4rails_map" ></div>
+              </div>               
+            </div>
+          </div>
+          <div class="content tab-rooms" style="display:none" >
+            <div class="rooms-loader" ng-show="!hotel.displayRooms">
+                <i class="fa fa-gear fa-spin"></i>
+                Finding rooms...
+            </div>
+            <div class="list" ng-show="hotel.displayRooms" >
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr ng-repeat="room in hotel.rooms">
+                    <td class="logo">
+                      <img ng-src="assets/logos/{{room.provider}}.gif" />
+                    </td>
+                    <td>{{room.description}}</td>
+                    <td class="price">{{room.price | price:currency_symbol:0}}</td>
+                    <td class="cta">
+                      <a href="#" class="btn btn-success" get-deal="{{room.link}}" target="_blank">
+                        Get Deal
+                        <i class="fa fa-caret-right"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="content tab-best-rooms" style="display: none">
+              <div class="loader">
+                  <i class="fa fa-gear fa-spin"></i>
+                  Finding the best rooms...
+              </div>
+              <div class="list" style="display: none">
+                  <table class="table table-bordered table-striped">
+                      <tbody>
+                          <tr>
+                              <td class="logo">
+                                  <img src="assets/logos/agoda.gif" />
+                              </td>
+                              <td>1 KING BED/NO SMOKING/FREE HI-SPD WIRELESS/ - SAFE/AM/FM RADIO/CABLE/SATELLITE TV</td>
+                              <td class="price">£196</td>
+                              <td class="cta">
+                                  <a href="#" class="btn btn-success">
+                                      Get Deal
+                                      <i class="fa fa-caret-right"></i>
+                                  </a>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="logo">
+                                  <img src="assets/logos/booking.gif" />
+                              </td>
+                              <td>1 QUEEN BED/SMOKING ROOM/FREE HI-SPD WIRELESS - /SAFE/CABLE/SATELLITE TV</td>
+                              <td class="price">£201</td>
+                              <td class="cta">
+                                  <a href="#" class="btn btn-success">
+                                      Get Deal
+                                      <i class="fa fa-caret-right"></i>
+                                  </a>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="logo">
+                                  <img src="assets/logos/expedia.gif" />
+                              </td>
+                              <td>Queen Room - Non-Smoking</td>
+                              <td class="price">£227</td>
+                              <td class="cta">
+                                  <a href="#" class="btn btn-success">
+                                      Get Deal
+                                      <i class="fa fa-caret-right"></i>
+                                  </a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="content tab-all-deals" style="display: none">
+              All deals?
+          </div>
+          <div class="content tab-gallery" style="display: none">
+              Gallery
+          </div>
+      </div>
+  </section>
+</div>       

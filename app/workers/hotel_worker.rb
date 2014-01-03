@@ -12,8 +12,10 @@ class HotelWorker
     time = Benchmark.realtime{
       threads = []
       threads << threaded {request_booking_hotels}      if @search.include? :booking
+      threads << threaded {request_agoda_hotels}        if @search.include? :agoda
       threads << threaded {request_expedia_hotels}      if @search.include? :expedia
       threads << threaded {request_easy_to_book_hotels} if @search.include? :easy_to_book
+      threads << threaded {request_splendia_hotels}     if @search.include? :splendia
       Log.debug "Waiting for threads to finish"
       threads.each &:join
     }
@@ -65,6 +67,27 @@ class HotelWorker
     error :easy_to_book, msg      
   end
 
+  def request_agoda_hotels
+    hotels_ids = find_hotels_for_provider :agoda_hotel_id
+    start :agoda, :agoda_hotel_id do |key|   
+      Agoda::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
+        compare_and_persist provider_hotels, key
+      end
+    end
+  rescue Exception => msg  
+    error :agoda, msg      
+  end
+
+  def request_splendia_hotels
+    hotels_ids = find_hotels_for_provider :splendia_hotel_id
+    start :splendia, :splendia_hotel_id do |key|   
+      Splendia::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
+        compare_and_persist provider_hotels, key
+      end
+    end
+  rescue Exception => msg  
+    error :splendia, msg      
+  end
 
   def start(provider, key, &block)
     provider, key = provider, key
@@ -100,7 +123,7 @@ class HotelWorker
   end
 
   def notify
-    Log.debug "Notifying channel #{channel} of hotels update. finished=#{@search.finished?}"
+    Log.debug "Notifying channel #{channel} of hotels update. state=#{@search.state}"
     Pusher[channel].trigger('results_update', { key: @search.cache_key})    
   end
 

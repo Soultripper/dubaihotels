@@ -14,7 +14,7 @@ class Booking::Client
         faraday.options[:nosignal] = true
         faraday.request  :retry,   3   # times
         faraday.request  :url_encoded             # form-encode POST params
-        faraday.options[:timeout] = 5 
+        faraday.options[:timeout] = 20 
         faraday.options[:open_timeout] = 2  
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 

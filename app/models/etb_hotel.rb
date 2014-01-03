@@ -5,7 +5,7 @@ class EtbHotel < ActiveRecord::Base
   # has_many :properties, :class_name => "EanHotelAttributeLink"
 
   def self.cols    
-    "id, name, address, zipcode, city_id, check_in, check_out, picture, total_rooms, longitude, latitude, hotel_review_score, hotel_number_reviews, credit_cards, phone, url, email, hotel_type, address_city, min_price"
+    "id, name, address, zipcode, city_id, stars, check_in, check_out, picture, total_rooms, longitude, latitude, hotel_review_score, hotel_number_reviews, credit_cards, phone, url, email, hotel_type, address_city, min_price"
   end
 
   def fetch_hotel

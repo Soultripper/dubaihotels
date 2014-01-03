@@ -8,7 +8,7 @@ namespace :expedia do
     import_file EanHotelDescription, 'PropertyDescriptionList'
     import_file EanHotelImage, 'HotelImageList'
     import_file EanRoomType, 'RoomTypeList'
-    #import_file EanHotelAttributeLink, 'PropertyAttributeLink'
+    import_file EanHotelAttributeLink, 'PropertyAttributeLink'
     import_file EanHotelAttribute, 'AttributeList'
   end
 
@@ -57,15 +57,23 @@ namespace :expedia do
     import_file EanPointsOfInterestCoordinate, 'PointsOfInterestCoordinatesList'
   end
 
-  def import_file(klass, filename)
-    if klass.cols
-      sql = "copy #{klass.table_name} (#{klass.cols}) from '#{Rails.root}/tmp/expedia/#{filename}.txt' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
-    else
-      sql = "copy #{klass.table_name} from '#{Rails.root}/tmp/expedia/#{filename}.csv' delimiter '|' CSV HEADER;"
+  def import_file(klass, file)
+
+    url = "https://www.ian.com/affiliatecenter/include/V2/#{file}.zip"
+
+    RemoteUnzipper.download_unzip_import_file(url) do |filename|
+      if klass.cols
+        sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    
+      else
+        sql = "copy #{klass.table_name} from '#{filename}' delimiter '|' CSV HEADER;"
+      end
+
+      klass.send :delete_all
+      Log.info sql
+      ActiveRecord::Base.connection.execute sql
     end
 
-    Log.info sql
-    ActiveRecord::Base.connection.execute sql
+
   end
 
 

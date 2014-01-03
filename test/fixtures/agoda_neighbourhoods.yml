@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  agoda_city: 1
+  area_name: MyString
+  area_translated: MyString
+  active_hotels: 1
+  longitude: 1.5
+  latitude: 1.5
+  polygon: MyText
+
+two:
+  agoda_city: 1
+  area_name: MyString
+  area_translated: MyString
+  active_hotels: 1
+  longitude: 1.5
+  latitude: 1.5
+  polygon: MyText

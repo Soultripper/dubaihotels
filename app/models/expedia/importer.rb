@@ -1,3 +1,5 @@
+require 'zipruby'
+require 'fileutils'
 class Expedia::Importer
   
 
