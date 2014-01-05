@@ -39,8 +39,13 @@ module Expedia
       Log.info "Expedia query for #{ids.count} hotels took #{time}s to complete"
 
       responses.each do |response|
-        list_response = create_list_response(Expedia::Client.parse_response(response))
-        list_response.page_hotels &block
+        begin
+          list_response = create_list_response(Expedia::Client.parse_response(response))
+          list_response.page_hotels &block
+        rescue Exception => msg
+          Log.error "Expedia error response: #{response}, #{msg}"
+          nil  
+        end        
       end
 
     end 

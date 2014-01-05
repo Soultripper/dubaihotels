@@ -47,8 +47,17 @@ module Booking
     end 
 
     def concat_responses(responses, page_start = 0, &block)
-      list_responses = responses.map.with_index {|r,idx| Booking::HotelListResponse.new(JSON.parse(r.body), idx)}
-      list_responses.each {|lr| yield lr.hotels}
+      list_responses = responses.map.with_index do |r,idx| 
+        begin
+          Booking::HotelListResponse.new(JSON.parse(r.body), idx)
+        rescue Exception => msg
+          Log.error "Booking error response: #{r}, #{msg}"
+          nil  
+        end
+      end
+
+      list_responses.compact.each {|lr| yield lr.hotels}
+
     end
 
     def params(options={})

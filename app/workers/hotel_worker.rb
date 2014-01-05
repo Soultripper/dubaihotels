@@ -39,8 +39,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
-  # rescue Exception => msg  
-  #   error :booking, msg    
+  rescue Exception => msg  
+    error :booking, msg    
   end 
 
   def request_expedia_hotels

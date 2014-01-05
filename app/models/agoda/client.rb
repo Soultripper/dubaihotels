@@ -17,8 +17,8 @@ class Agoda::Client
     end
 
     def url
-      #"http://xml.agoda.com/xmlpartner/XmlService.svc/search_srv2"
-      "http://sandbox.xml.agoda.com/xmlpartner/XmlService.svc/search_srv2"
+      "http://xml.agoda.com/xmlpartner/XmlService.svc/search_srv2"
+      # "http://sandbox.xml.agoda.com/xmlpartner/XmlService.svc/search_srv2"
     end
 
     def http
