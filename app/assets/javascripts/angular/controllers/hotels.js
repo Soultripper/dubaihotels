@@ -64,7 +64,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.page_no = param('page_no', 1)
       $routeParams.sort = param('sort', 'recommended')
 
-      if(!isUpdate) startLoader();
+      // if(!isUpdate) startLoader();
 
       var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
 
@@ -163,7 +163,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       hotel.displayRooms = false
 
       var timeoutId = $timeout(function(){
-        console.log('forced closure')
         hotel.displayRooms = true
       }, 3000)
 
@@ -287,7 +286,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.searchCity = function(){
       // $rootScope.$broadcast("loading-started");
-      console.log('city search')
       $routeParams.id = Page.info.slug;
       $location.path(Page.info.slug)
       $routeParams.start_date = start_date();
@@ -313,7 +311,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
   
   var init = function(){
     startLoader();
-    console.log('initiated')
     var slider = angular.element('#priceSlider')
     slider.ionRangeSlider({
       type: 'double', 
@@ -329,6 +326,10 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $timeout(function() {
       $scope.search(true)                 
     }, 3500);
+    $timeout(function() {
+      Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
+      $scope.unsubscribed = true                
+    }, 45000);
   }();
   
 

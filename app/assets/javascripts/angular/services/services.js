@@ -73,7 +73,6 @@ searchHotelsServices.factory('Page', function() {
     var container = document.getElementById(elementId)
     var mapCenter = {center: new google.maps.LatLng(lat, lng)};     
     var map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
-        console.log(mapCenter)
   }
 
 
