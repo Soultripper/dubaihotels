@@ -35,7 +35,7 @@
       </div>
   </div>
 
-  <section ng-repeat="hotel in search_results.hotels" ng-show="search_results">
+  <section ng-repeat="hotel in search_results.hotels" ng-cloak>
     <div class="image" ng-style="{'background-image':'url({{headerImage(hotel)}})'}">
           <div class="savings" ng-show="saving(hotel)">
               Save {{saving(hotel)}}%
