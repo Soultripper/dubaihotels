@@ -23,13 +23,13 @@
       <div class="dropdown hidden-lg">
           <label for="sortby" class="title">Sort By <i class="fa fa-caret-right"></i></label>
           <div class="select">
-              <select id="sortby">
-                  <option>Recommended</option>
-                  <option>Price (Low to High)</option>
-                  <option>Price (High to Low)</option>
-                  <option>Star Rating</option>
-                  <option>User Rating</option>
-                  <option>Distance</option>
+              <select ng-model="sortBy" id="sortby" ng-change="sort(sortBy)">
+                  <option ng-selected="isSort('recommended')" value="recommended">Recommended</option>
+                  <option ng-selected="isSort('price')" value="price">Price (Low to High)</option>
+                  <option ng-selected="isSort('price_reverse')" value="price_reverse">Price (High to Low)</option>
+                  <option ng-selected="isSort('rating')" value="rating">Star Rating</option>
+                  <option ng-selected="isSort('user')" value="user">User Rating</option>
+                  <option ng-selected="isSort('distance')" value="distance">Distance</option>
               </select>
           </div>
       </div>
