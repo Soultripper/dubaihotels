@@ -28,10 +28,14 @@ module LinkBuilder
     "#{booking_hotel.url}?aid=#{booking_aid}&label=hotel-#{booking_hotel.id}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{booking_hotel.id}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
 
-
-  def booking_link(location, hotel_id)
-    "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{hotel_id}&checkin=#{start_date}&checkout=#{end_date}&aid=371919&lang=en-gb&selected_currency=#{currency_code}" 
+  def booking_link(hotel)
+    "#{hotel.booking_url}?aid=#{booking_aid}&label=hotel-#{hotel.booking_hotel_id}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{hotel.booking_hotel_id}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
+
+
+  # def booking_link(location, hotel_id)
+  #   "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{hotel_id}&checkin=#{start_date}&checkout=#{end_date}&aid=371919&lang=en-gb&selected_currency=#{currency_code}" 
+  # end
 
   def expedia_link(hotel_id)
     str_start_date = start_date.strftime('%d/%m/%Y')

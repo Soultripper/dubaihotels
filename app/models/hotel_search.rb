@@ -78,7 +78,11 @@ class HotelSearch
       HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
         matches += 1
         common_provider_hotel = provider_hotel.commonize(search_criteria, location)
+        if(key==:booking_hotel_id)
+          common_provider_hotel[:link] = search_criteria.booking_link(hotel)
+        end
         add_to_list(hotel, common_provider_hotel)
+
         if(key==:ean_hotel_id)
           common_provider_hotel = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
           add_to_list(hotel, common_provider_hotel)

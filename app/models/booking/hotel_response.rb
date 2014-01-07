@@ -90,8 +90,7 @@ module Booking
         min_price: min_price,
         max_price: max_price,
         ranking: ranking,
-        rooms: nil,
-        link: search_criteria.booking_link(location, id)
+        rooms: nil
       }
     rescue => msg
       Log.error "Booking Hotel #{id} failed to convert: #{msg}"
