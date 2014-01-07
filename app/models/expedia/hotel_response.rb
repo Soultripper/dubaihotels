@@ -86,6 +86,7 @@ module Expedia
     end
 
     def commonize_to_hotels_dot_com(search_criteria, location)
+      # return nil if rooms.empty?
       {
         provider: :hotels,
         provider_hotel_id: id,

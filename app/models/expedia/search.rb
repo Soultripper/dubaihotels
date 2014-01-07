@@ -6,7 +6,7 @@ class Expedia::Search
     # options: 'ROOM_RATE_DETAILS',
     numberOfResults: 200,
     maxRatePlanCount: 10,
-    # supplierType: 'E'
+    supplierType: 'E|V'
   }
 
   def initialize(search_criteria)

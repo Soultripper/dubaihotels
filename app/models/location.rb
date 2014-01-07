@@ -116,6 +116,20 @@ class Location < ActiveRecord::Base
     s
   end
 
+  def title
+    if landmark?
+      landmark
+    elsif city?
+      city
+    elsif region?
+      region
+    elsif country?
+      country
+    else
+      to_s
+    end
+  end
+
   def create_slug
     s = ''
     if landmark

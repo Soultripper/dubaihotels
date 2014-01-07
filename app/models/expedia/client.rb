@@ -14,8 +14,8 @@ class Expedia::Client
         faraday.headers['Accept-Encoding'] = 'gzip,deflate'
         faraday.options[:nosignal] = true
         faraday.request  :retry,   3   # times
-        faraday.options[:timeout] = 10
-        faraday.options[:open_timeout] = 2          
+        faraday.options[:timeout] = 20
+        faraday.options[:open_timeout] = 20         
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 

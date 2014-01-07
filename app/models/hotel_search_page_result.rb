@@ -105,7 +105,7 @@ class HotelSearchPageResult
 
     Jbuilder.encode do |json|
       json.info do
-        json.query            location.city
+        json.query            location.title
         json.slug             location.slug
         json.channel          search_options[:channel]
         json.sort             sort_key
