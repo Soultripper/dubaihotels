@@ -35,7 +35,7 @@ var Hotels = function(){
 
 
   var searchOptions ={
-    domain: 'localhost:9292',
+    domain: 'www.hot5.com',
     minQueryLength: 2,
     maxResults:     5    
   }
