@@ -1,5 +1,4 @@
 <div id="results" class="col-md-9 col-xs-12" >
-  <!-- <loading-indicator></loading-indicator> -->
   <div class="loader" style="display:none">
       <div class="message">
          <i class="fa fa-gear fa-spin"></i> Getting hotel prices... 
@@ -9,7 +8,6 @@
       </div>
   </div>
   <div class="overlay" style="display:none" >&nbsp;</div>
-
   <div class="sort">
       <ul class="hidden-md hidden-sm hidden-xs">
           <li class="title">Sort By <i class="fa fa-caret-right"></i></li>
@@ -34,7 +32,6 @@
           </div>
       </div>
   </div>
-
   <section ng-repeat="hotel in search_results.hotels" ng-cloak>
     <div class="image" ng-style="{'background-image':'url({{headerImage(hotel)}})'}">
           <div class="savings" ng-show="saving(hotel)">
@@ -99,7 +96,6 @@
           </ul>
       </div>
       <div class="best-deal">
-        <!-- <a href="#" onclick="alert('Go to deal');return false">&nbsp;</a> -->
         <div class="logo" >
             <img ng-src="{{providerImage(hotel.offer.provider)}}" alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider" />
         </div>
@@ -207,8 +203,19 @@
               All deals?
           </div>
           <div class="content tab-gallery" style="display: none">
-              Gallery
+              <div class="photo">                  
+              </div>
+              <ul class="thumbs">
+                <li ng-repeat="image in hotel.images">
+                    <a href="#" show-image="{{image.url}}" style="background-image: url({{image.thumbnail_url}})">
+                        &nbsp;
+                    </a>
+                </li>               
+              </ul>
           </div>
       </div>
   </section>
+<!--   <a href="#" id="loadmore" onclick="loadMoreClick();return false" class="btn btn-primary btn-lg">
+      <span>Show More...</span> <i class="fa fa-gear fa-spin" style="display:none"></i>
+  </a>   -->
 </div>       

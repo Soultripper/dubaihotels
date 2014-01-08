@@ -11,9 +11,9 @@
 
         $("#refine .toggle").on("click", function () {
             if ($(document.body).hasClass("sidebar-open"))
-                app.refine.close();
+              app.refine.close();
             else
-                app.refine.open();
+              app.refine.open();
         });
 
         Hotels.init()
@@ -78,6 +78,26 @@
         }, 1500);
     },
 
+    _loadGallery: function (container) {
+        if ($("li.active", container).length == 0)
+            $("li:first a", container).trigger("click");
+    },
+
+    loadImage: function (sender, url) {
+        var container = $(sender).parents(".tab-gallery");
+        var photoContainer = $(container).find(".photo");
+        $("img", photoContainer).css("visibility", "hidden");
+        $("ul.thumbs li", container).removeClass("active");
+        $(sender).parent().addClass("active");
+        var image = new Image();
+        console.log(sender)
+        image.src = url;
+        $(image).load(function () {
+            $("img", container).remove();
+            $(photoContainer).append(image);
+        });
+        return false;
+    },
 
     _loadMap: function (container) { 
       var loaded = container.data('map-loaded');
@@ -109,4 +129,14 @@
 };
 
 $(app.init);
+
+function loadMoreClick() {
+    $("#loadmore").addClass("disabled");
+    $("#loadmore i").show();
+    $("#loadmore span").text("Loading...");
+
+    setTimeout(function () {
+        loadMore();
+    }, 1000);
+}
 

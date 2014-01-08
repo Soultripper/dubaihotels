@@ -2,6 +2,10 @@
 app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
   function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page, HotelProvider, HotelFactory) { 
 
+
+    var tuttimer = [];
+    var timeoutId, initTimeoutId;
+
     $scope.hotelProvider = HotelProvider;    
     $rootScope.Page = Page;
 
@@ -19,8 +23,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return $filter('date')(date, 'yyyy-MM-dd')
     }
 
-    var tuttimer = [];
-    var timeoutId;
     var startLoader = function() {
       $("#results .loader .progress-bar").width("0%");
       timeoutId = $timeout(function() {                  
@@ -48,6 +50,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     var stopLoader = function(){
       $timeout.cancel(timeoutId);
+      $timeout.cancel(initTimeoutId);
       for (var i = 0; i < tuttimer.length; i++) {
         $timeout.cancel(tuttimer[i])
       }
@@ -80,17 +83,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         url += '&amenities=' + $routeParams.amenities;
       if($routeParams.page_no)
         url += '&page_no=' + $routeParams.page_no;
-      console.log(url)
       $http.get(url).success($scope.setupPage)
     };
 
     $scope.setupPage = function(response){
-      console.log('State is:  ' + response.state)
+      $scope.pageState = response.state;
+      console.log('State is:  ' + $scope.pageState)
       // console.log(response)
       $scope.start_date = response.criteria.start_date;
       $scope.end_date = response.criteria.end_date;
       
-      if(response.state==='finished')
+      if($scope.pageState==='finished')
       {
         stopLoader();
         // $rootScope.$broadcast("loading-complete");  
@@ -176,6 +179,11 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
           function(){ roomsQuery(hotel, timeoutId) },
           function(push_message){ roomsQuery(hotel, timeoutId)});
       }
+    };
+
+    $scope.showImage = function(e, image){
+      console.log('showImage clicked: ' + e.srcElement)
+      return app.loadImage(e.srcElement, image.url);
     };
 
     var roomsQuery = function(hotel, timeoutId){
@@ -323,7 +331,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       step: 5,
       onFinish: Hotels.priceRange.change
     })
-    $timeout(function() {
+    initTimeoutId = $timeout(function() {
       $scope.search(true)                 
     }, 4500);
     $timeout(function() {
