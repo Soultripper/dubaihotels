@@ -130,13 +130,3 @@
 
 $(app.init);
 
-function loadMoreClick() {
-    $("#loadmore").addClass("disabled");
-    $("#loadmore i").show();
-    $("#loadmore span").text("Loading...");
-
-    setTimeout(function () {
-        loadMore();
-    }, 1000);
-}
-

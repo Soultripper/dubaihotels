@@ -18,7 +18,7 @@
   <%= csrf_meta_tags %>
   
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-  <script src="http://js.pusher.com/2.0/pusher.min.js"></script>
+  <script src="http://js.pusher.com/2.1.5/pusher.min.js"></script>
 
   <%= javascript_include_tag "application" %>
   <script>

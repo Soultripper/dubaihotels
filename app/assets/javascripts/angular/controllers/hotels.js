@@ -61,13 +61,14 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       }, 500);
     };
 
-    $scope.search = function(isUpdate) {
+    $scope.search = function(callback) {
+      if(!callback)
+        callback = $scope.setupPage;
+
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $routeParams.page_no = param('page_no', 1)
       $routeParams.sort = param('sort', 'recommended')
-
-      // if(!isUpdate) startLoader();
 
       var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
 
@@ -83,7 +84,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         url += '&amenities=' + $routeParams.amenities;
       if($routeParams.page_no)
         url += '&page_no=' + $routeParams.page_no;
-      $http.get(url).success($scope.setupPage)
+      $http.get(url).success(callback)
     };
 
     $scope.setupPage = function(response){
@@ -105,6 +106,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $scope.unsubscribed = false
       }
       
+
       Page.criteria = response.criteria;
       Page.info = response.info;
       $scope.search_results = response
@@ -113,11 +115,46 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $rootScope.channel = Page.info.channel
       Hot5.Connections.Pusher.changeChannel($rootScope.channel);
       updateSlider(response.info);
+
+      toggleShowMore(false);
+      $scope.search_results.hotels.length < Page.info.available_hotels ?  angular.element("#loadmore").show() : angular.element("#loadmore").hide();
+
       angular.element('#search-input').val('')
       angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
       angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
       Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude)      
     };
+
+    $scope.loadMore = function(response){
+      console.log('Loading more:  ' + response.state)
+
+      if(response.hotels && response.hotels.length > 0)
+      {
+        $scope.search_results.hotels = $scope.search_results.hotels.concat(response.hotels);
+        toggleShowMore(false);
+        if($scope.search_results.hotels.length >= response.info.available_hotels)
+          $("#loadmore").hide();    
+      }
+      else
+      {
+        init();       
+      }
+    };
+
+    var toggleShowMore = function(isLoading){
+      if(isLoading)
+      {    
+        $("#loadmore").addClass("disabled");
+        $("#loadmore i").show();
+        $("#loadmore span").text("Loading...");
+      }
+      else
+      {        
+        $("#loadmore").removeClass("disabled");
+        $("#loadmore i").hide();
+        $("#loadmore span").text("Show More...");
+      }
+    }
 
     var updateSlider = function(info)
     {
@@ -132,6 +169,11 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         });
       } 
     };
+
+    var applyFilter = function(){
+      $routeParams.page_no = 1;
+      $scope.search();
+    }
 
     $scope.isSort = function(option){
       return option === (Page.info.sort || 'recommended')
@@ -207,7 +249,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $scope.sort = function(sort){
       $routeParams.sort = sort;   
-      $scope.search();
+      applyFilter();
     };
 
     $scope.headerImage = function(hotel){
@@ -236,7 +278,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       else if(max_price < min_price)
         max_price = min_price
 
-      $scope.search();
+      applyFilter();
     };
 
     $rootScope.filterAmenities = function (amenity) {
@@ -249,7 +291,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.amenities = amenities.join(',');
       if($routeParams.amenities==='')
         delete $routeParams.amenities
-      $scope.search();
+      applyFilter();
     };
 
     $rootScope.filterStarRatings = function (star_rating) {
@@ -269,7 +311,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.star_ratings = star_ratings.join(',');
       if($routeParams.star_ratings==='')
         delete $routeParams.star_ratings
-      $scope.search();
+      applyFilter();
     };
 
     $rootScope.containsStarRating = function(star_rating){
@@ -311,6 +353,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
 
+  $rootScope.loadMoreClick = function() {
+    toggleShowMore(true);
+    $routeParams.page_no = $routeParams.page_no+1 
+    $scope.search($scope.loadMore);
+  }
+
     // $scope.search(false);
     // function(){
     //   // $rootScope.$broadcast("loading-started");
@@ -319,7 +367,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
   
   var init = function(){
     startLoader();
+    $routeParams.page_no = 1;
     var slider = angular.element('#priceSlider')
+
     slider.ionRangeSlider({
       type: 'double', 
       prefix: '£',
@@ -331,14 +381,18 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       step: 5,
       onFinish: Hotels.priceRange.change
     })
+
     initTimeoutId = $timeout(function() {
-      $scope.search(true)                 
+      $scope.search()                 
     }, 4500);
+
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
       $scope.unsubscribed = true                
     }, 45000);
-  }();
+  };
+
+  init();
   
 
 

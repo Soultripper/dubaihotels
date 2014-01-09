@@ -89,7 +89,12 @@ class HotelSearchPageResult
     page_index = (page_no-1) * page_size
     lower = page_index < 0 ? 0 : page_index
     upper = (page_index + page_size) > hotels.length ? hotels.length : page_index + page_size
-    as_json hotels: hotels[lower...upper]
+
+    if lower > upper
+      as_json hotels: []
+    else
+      as_json hotels: hotels[lower...upper]
+    end
   end
 
   def location
