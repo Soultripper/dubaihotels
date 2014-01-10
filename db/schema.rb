@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131220122818) do
+ActiveRecord::Schema.define(:version => 20140110173014) do
 
   create_table "agoda_cities", :force => true do |t|
     t.integer "agoda_country_id"
@@ -464,6 +464,8 @@ ActiveRecord::Schema.define(:version => 20131220122818) do
     t.integer "etb_hotel_id"
     t.float   "user_rating"
     t.float   "ranking"
+    t.integer "splendia_hotel_id"
+    t.string  "booking_url"
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -475,6 +477,7 @@ ActiveRecord::Schema.define(:version => 20131220122818) do
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
   add_index "hotels", ["ranking"], :name => "idx_ranking"
+  add_index "hotels", ["splendia_hotel_id"], :name => "hotels_splendia_hotel_id_idx"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
   add_index "hotels", ["state_province"], :name => "hotels_state_province_idx"
 
@@ -496,6 +499,46 @@ ActiveRecord::Schema.define(:version => 20131220122818) do
 
   add_index "hotels_hotel_amenities", ["hotel_amenity_id"], :name => "index_hotels_hotel_amenities_on_hotel_amenity_id"
   add_index "hotels_hotel_amenities", ["hotel_id"], :name => "index_hotels_hotel_amenities_on_hotel_id"
+
+  create_table "late_rooms_hotels", :force => true do |t|
+    t.string "name"
+    t.string "star_rating"
+    t.text   "address1"
+    t.string "city"
+    t.string "county"
+    t.string "postcode"
+    t.string "country"
+    t.string "country_iso"
+    t.text   "description"
+    t.text   "directions"
+    t.string "image"
+    t.text   "images"
+    t.float  "longitude"
+    t.float  "latitude"
+    t.string "url"
+    t.string "price_from"
+    t.string "max_price"
+    t.string "currency_code"
+    t.string "score_out_of_6"
+    t.string "no_of_reviews"
+    t.string "review_url"
+    t.text   "facilities"
+    t.string "accommodation_type"
+    t.text   "appeals"
+    t.string "star_accreditor"
+    t.string "created_date"
+    t.string "total_rooms"
+    t.text   "cancellation_policy"
+    t.string "cancellation_days"
+    t.text   "cancellation_terms"
+    t.string "city_tax_type"
+    t.string "city_tax_value"
+    t.string "city_tax_opted_in"
+    t.string "is_city_tax_area"
+    t.string "check_in_time"
+    t.string "check_out_time"
+    t.string "latest_check_in_time"
+  end
 
   create_table "locations", :force => true do |t|
     t.string  "city"
@@ -556,6 +599,9 @@ ActiveRecord::Schema.define(:version => 20131220122818) do
     t.string  "rating"
     t.string  "category"
     t.text    "offers"
+    t.integer "geog",                :limit => 0
   end
+
+  add_index "splendia_hotels", ["geog"], :name => "splendia_hotels_geog_idx"
 
 end
