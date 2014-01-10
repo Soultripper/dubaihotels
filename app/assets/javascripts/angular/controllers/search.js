@@ -29,6 +29,8 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
    //    Page.info().slug = $item.s
    //  };
     $scope.search = function(){
+      if($scope.slug===undefined)
+        return;
       var routes = {
         start_date: start_date(),
         end_date: end_date()

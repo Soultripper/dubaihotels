@@ -1,0 +1,79 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  star_rating: MyString
+  address1: MyText
+  city: MyString
+  county: MyString
+  postcode: MyString
+  country: MyString
+  country_iso: MyString
+  description: MyText
+  directions: MyText
+  image: MyString
+  images: MyText
+  longitude: 1.5
+  latitude: 1.5
+  url: 
+  price_from: MyString
+  max_price: MyString
+  currency_code: MyString
+  score_out_of_6: MyString
+  no_of_reviews: MyString
+  review_url: MyString
+  facilities: MyText
+  accommodation_type: MyString
+  appeals: MyText
+  star_accreditor: MyString
+  created_date: MyString
+  total_rooms: MyString
+  cancellation_policy: MyText
+  cancellation_days: MyString
+  cancellation_terms: MyText
+  city_tax_type: MyString
+  city_tax_value: MyString
+  city_tax_opted_in: MyString
+  is_city_tax_area: MyString
+  check_in_time: MyString
+  check_out_time: MyString
+  latest_check_in_time: MyString
+
+two:
+  name: MyString
+  star_rating: MyString
+  address1: MyText
+  city: MyString
+  county: MyString
+  postcode: MyString
+  country: MyString
+  country_iso: MyString
+  description: MyText
+  directions: MyText
+  image: MyString
+  images: MyText
+  longitude: 1.5
+  latitude: 1.5
+  url: 
+  price_from: MyString
+  max_price: MyString
+  currency_code: MyString
+  score_out_of_6: MyString
+  no_of_reviews: MyString
+  review_url: MyString
+  facilities: MyText
+  accommodation_type: MyString
+  appeals: MyText
+  star_accreditor: MyString
+  created_date: MyString
+  total_rooms: MyString
+  cancellation_policy: MyText
+  cancellation_days: MyString
+  cancellation_terms: MyText
+  city_tax_type: MyString
+  city_tax_value: MyString
+  city_tax_opted_in: MyString
+  is_city_tax_area: MyString
+  check_in_time: MyString
+  check_out_time: MyString
+  latest_check_in_time: MyString

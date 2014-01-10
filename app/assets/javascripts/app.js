@@ -16,6 +16,12 @@
               app.refine.open();
         });
 
+        // $('#search-input').on('keypress', function(e) {
+        //   if(e.which == 13 || e.keyCode == 13) {
+        //     e.preventDefault();
+        //   }
+        // });
+
         Hotels.init()
     },
 

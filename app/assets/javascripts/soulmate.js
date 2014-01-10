@@ -260,6 +260,8 @@
           this.suggestions.selectFocused();
           break;
         case 'enter':
+          if(this.suggestions.focusedIndex===-1)
+            this.suggestions.focusNext();
           this.suggestions.selectFocused();
           if (this.suggestions.allBlured()) killEvent = false;
           break;
