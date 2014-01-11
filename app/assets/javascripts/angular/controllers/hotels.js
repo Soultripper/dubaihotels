@@ -154,7 +154,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $("#loadmore i").hide();
         $("#loadmore span").text("Show More...");
       }
-    }
+    };
 
     var updateSlider = function(info)
     {
@@ -173,7 +173,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     var applyFilter = function(){
       $routeParams.page_no = 1;
       $scope.search();
-    }
+    };
 
     $scope.isSort = function(option){
       return option === (Page.info.sort || 'recommended')
@@ -190,15 +190,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         return provider ? provider.provider === providerName : false;
       });
       return providerResult === undefined ? {min_price: 0} : providerResult
-    }
+    };
 
     $scope.saving = function(hotel){
       return Math.floor( (1-(hotel.offer.min_price / hotel.offer.max_price))*100)
-    }
+    };
 
     $scope.ratingsRange = function(rating){
       return _.range(0, rating)
-    }
+    };
 
     $scope.getRooms = function(hotel) {
 
@@ -337,7 +337,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $rootScope.searchCity = function(){
       // $rootScope.$broadcast("loading-started");
       $routeParams.id = Page.info.slug;
-      $location.path(Page.info.slug)
+      $location.path(Page.info.slug);
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $routeParams.page_no = param('page_no', 1)
@@ -353,11 +353,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
 
-  $rootScope.loadMoreClick = function() {
-    toggleShowMore(true);
-    $routeParams.page_no = $routeParams.page_no+1 
-    $scope.search($scope.loadMore);
-  }
+    $rootScope.loadMoreClick = function() {
+      toggleShowMore(true);
+      $routeParams.page_no = $routeParams.page_no+1;
+      $scope.search($scope.loadMore);
+      return false;
+    };
 
     // $scope.search(false);
     // function(){
