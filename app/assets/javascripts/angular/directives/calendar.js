@@ -5,7 +5,7 @@ app.directive('checkin', ['$filter', function($filter) {
 
       var checkin = $(el).datepicker({
             startDate: "today",
-            endDate: "+2m",
+            endDate: "+1y",
             format: "D dd M",
             todayHighlight: true,
             autoclose: true,
@@ -27,8 +27,8 @@ app.directive('checkout', ['$filter', function($filter) {
     link: function(scope, el, attr) {
 
       var checkout = $(el).datepicker({
-          startDate: "today",
-          endDate: "+2m",
+          startDate: "+1d",
+          endDate: "+1y",
           format: "D dd M",
           todayHighlight: true,
           autoclose: true,
