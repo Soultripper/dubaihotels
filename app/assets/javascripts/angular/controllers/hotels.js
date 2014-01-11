@@ -133,7 +133,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $scope.search_results.hotels = $scope.search_results.hotels.concat(response.hotels);
         toggleShowMore(false);
         if($scope.search_results.hotels.length >= response.info.available_hotels)
+        {
           $("#loadmore").hide();    
+        }
       }
       else
       {
