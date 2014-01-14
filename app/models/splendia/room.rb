@@ -16,7 +16,7 @@ module Splendia
     end
 
     def price      
-      @price ||= value('fullratewithtaxes').to_f
+      @price ||= value('fullrate').to_f
     end
 
     def commonize(search_criteria, link)

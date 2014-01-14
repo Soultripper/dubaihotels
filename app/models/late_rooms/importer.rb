@@ -15,9 +15,9 @@ class LateRooms::Importer
       filename = get_and_store file
 
       if klass.respond_to? :cols
-        sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' delimiter ';' CSV HEADER;"
+        sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' delimiter ',' CSV HEADER;"
       else
-        sql = "copy #{klass.table_name} from '#{filename}' delimiter ';' CSV HEADER;"
+        sql = "copy #{klass.table_name} from '#{filename}' delimiter ',' CSV HEADER;"
       end
 
       klass.delete_all

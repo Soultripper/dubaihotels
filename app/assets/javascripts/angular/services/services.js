@@ -30,6 +30,8 @@ searchHotelsServices.factory('HotelProvider', function() {
        return 'Splendia.com';
      case 'hotels':
        return 'Hotels.com';       
+     case 'laterooms':
+       return 'LateRooms.com';          
      default:
        return name; 
      }

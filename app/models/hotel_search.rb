@@ -6,8 +6,8 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia]
-  # PROVIDERS = [:expedia]
+  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+  # PROVIDERS = [:booking, :expedia]
 
   def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
@@ -36,7 +36,7 @@ class HotelSearch
   end
 
   def all_hotels
-    @all_hotels ||= Hotel.by_location(location).limit(250).to_a 
+    @all_hotels ||= Hotel.by_location(location).limit(30).to_a 
   end
 
   def search      
@@ -76,17 +76,23 @@ class HotelSearch
     matches = 0
     time = Benchmark.realtime do 
       HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
-        matches += 1
+
         common_provider_hotel = provider_hotel.commonize(search_criteria, location)
-        if(key==:booking_hotel_id)
+
+        if key==:booking_hotel_id
           common_provider_hotel[:link] = search_criteria.booking_link(hotel)
         end
-        add_to_list(hotel, common_provider_hotel)
+
+        if key==:laterooms_hotel_id and common_provider_hotel
+          common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
+        end
 
         if(key==:ean_hotel_id)
           common_provider_hotel = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
-          add_to_list(hotel, common_provider_hotel)
         end
+
+        matches += 1 if add_to_list(hotel, common_provider_hotel)
+
       end    
     end
     persist
@@ -94,9 +100,10 @@ class HotelSearch
   end
 
   def add_to_list(hotel, common_provider_hotel)
-    return unless common_provider_hotel
+    return false unless common_provider_hotel
     hotel.compare_and_add(common_provider_hotel)
     hotel.distance_from_location = hotel.distance_from(location) unless hotel.distance_from_location
+    true
   end
 
   def finish_and_persist(provider)

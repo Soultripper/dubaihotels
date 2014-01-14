@@ -8,9 +8,11 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 20000)
 
-      query = limit(3000).order('ranking desc')
+      query = limit(3000).order('coalesce(ranking,0) desc')
 
-      if location.city? or location.landmark?
+      if location.city?
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) or lower(city) = ? ", location.point, proximity_in_metres, location.city.downcase)
+      elsif location.landmark?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
       elsif location.region?
         query = query.where("state_province = ?", location.region)

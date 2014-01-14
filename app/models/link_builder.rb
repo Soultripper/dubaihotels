@@ -9,6 +9,10 @@ module LinkBuilder
     2351254
   end
 
+  def laterooms_aid
+    15182
+  end
+
   def booking_link_detailed(booking_hotel)
 
     # "#{booking_hotel.url}?aid=#{booking_aid}
@@ -50,4 +54,14 @@ module LinkBuilder
     url = "http://www.hotels.com/PPCHotelDetails?hotelid=#{hotel_id}&numberOfRooms=#{no_of_rooms}&childrenPerRoom=0,0&childAgesPerRoom=0&adultsPerRoom=#{no_of_adults},1&arrivalDate=#{str_start_date}&departureDate=#{str_end_date}&view=rates"    
     "http://clkuk.tradedoubler.com/click?p=21874&a=#{tradedoubler_aid}&g=17461688&url=" + url
   end
+
+  def laterooms_link(hotel)
+    return unless hotel.laterooms_url    
+    str_start_date = start_date.strftime('%Y%m%d')
+    url = "#{hotel.laterooms_url}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
+  end
+
+  # def laterooms_link(hotel_id, room_id)
+  #   "https://www.laterooms.com/en/p#{laterooms_aid}/wl/Reservation.aspx?hid=#{hotel_id}&rid=#{room_id}&r=1&n=#{total_nights}&d=#{start_date}&a=#{no_of_adults}&c=0"   
+  # end
 end

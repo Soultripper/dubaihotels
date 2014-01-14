@@ -16,6 +16,7 @@ class HotelWorker
       threads << threaded {request_expedia_hotels}      if @search.include? :expedia
       threads << threaded {request_easy_to_book_hotels} if @search.include? :easy_to_book
       threads << threaded {request_splendia_hotels}     if @search.include? :splendia
+      threads << threaded {request_laterooms_hotels}    if @search.include? :laterooms
       Log.debug "Waiting for threads to finish"
       threads.each &:join
     }
@@ -88,6 +89,17 @@ class HotelWorker
   rescue Exception => msg  
     error :splendia, msg      
   end
+
+  def request_laterooms_hotels
+    hotels_ids = find_hotels_for_provider :laterooms_hotel_id
+    start :laterooms, :laterooms_hotel_id do |key|   
+      LateRooms::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
+        compare_and_persist provider_hotels, key
+      end
+    end
+  # rescue Exception => msg  
+    # error :laterooms, msg      
+  end  
 
   def start(provider, key, &block)
     provider, key = provider, key

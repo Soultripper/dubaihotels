@@ -1,4 +1,4 @@
-module Splendia
+module LateRooms
   class HotelResponse
 
     attr_reader :xml, :index
@@ -12,19 +12,19 @@ module Splendia
     end
 
     def self.from_response(xml_response)
-      new xml_response.at_xpath('//Hotelinfo')
+      new xml_response.at_xpath('//hotel')
     end
 
     def fetch_hotel
-      @hotel ||= Hotel.find_by_splendia_hotel_id hotel_id
+      @hotel ||= Hotel.find_by_laterooms_hotel_id hotel_id
     end
 
     def hotel
-      @hotel ||= SplendiaHotel.find hotel_id
+      @hotel ||= LateRoomsHotel.find hotel_id
     end
 
     def id
-      @id ||= value('hotelid').to_i
+      @id ||= value('hotel_ref').to_i
     end
 
     def hotel_id
@@ -32,7 +32,7 @@ module Splendia
     end
 
     def ranking
-      index
+      0
     end
 
     def min_price
@@ -44,7 +44,7 @@ module Splendia
     end
 
     def rooms
-      @rooms ||= Splendia::Room.from_hotel_response xml
+      @rooms ||= LateRooms::Room.from_hotel_response(xml).sort_by(&:total_price).select {|room| room.total_price > 0 }
     end
 
     def rooms_count
@@ -60,27 +60,19 @@ module Splendia
     end
 
     def commonize(search_criteria, location)
+      return unless rooms and rooms.length > 0
       {
-        provider: :splendia,
+        provider: :laterooms,
         provider_hotel_id: hotel_id,
         room_count: rooms_count,
         min_price: min_price,
         max_price: max_price,        
         ranking: ranking,
         rooms: nil,
-        link: link
       }
     rescue Exception => msg  
-      Log.error "Splendia Hotel #{id} failed to convert: #{msg}"
+      Log.error "LateRooms Hotel #{id} failed to convert: #{msg}"
       nil
-    end
-
-    def link
-      value('trackingurl')
-    end
-
-    def avg_price(price, nights)
-      price / nights
     end
     
     def value(path)

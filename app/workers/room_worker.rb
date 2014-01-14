@@ -6,7 +6,7 @@ class RoomWorker
 
   attr_accessor :search, :hotel, :finished
 
-  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :splendia_hotel_id
+  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :splendia_hotel_id, :laterooms_hotel_id
 
 
   def perform(hotel_id, cache_key)
@@ -26,6 +26,7 @@ class RoomWorker
       threads << threaded {request_easy_to_book_rooms}  if etb_hotel_id
       threads << threaded {request_agoda_rooms}         if agoda_hotel_id
       threads << threaded {request_splendia_rooms}      if splendia_hotel_id
+      threads << threaded {request_laterooms_rooms}     if laterooms_hotel_id
       Log.debug "Waiting for room worker threads to finish"
       threads.each &:join
     }
@@ -58,7 +59,7 @@ class RoomWorker
       return unless hotel_list_response.hotels.length > 0 and booking_hotel = hotel.booking_hotel
       hotel_response = hotel_list_response.hotels.first
       hotel_response.rooms.map do |room|
-        room.link = search_criteria.booking_link_detailed(booking_hotel)
+        room.link = search_criteria.booking_link(hotel)
         room.commonize(search_criteria)
       end
     end
@@ -94,6 +95,18 @@ class RoomWorker
       end
     end
   end
+
+  def request_laterooms_rooms
+    start :laterooms do 
+      hotels_list_response = LateRooms::SearchHotel.for_availability(laterooms_hotel_id, search_criteria)
+      return unless hotels_list_response.hotels.length > 0
+      hotel_response = hotels_list_response.hotels.first
+      hotel_response.rooms.map do |room|
+        link = search_criteria.laterooms_link(hotel)
+        room.commonize(search_criteria, link)
+      end
+    end
+  end  
 
   def start(provider, &block)
     rooms = nil

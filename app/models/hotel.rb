@@ -7,7 +7,7 @@ class Hotel < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :description, :user_rating
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id
 
   attr_accessor :distance_from_location
 
@@ -55,6 +55,7 @@ class Hotel < ActiveRecord::Base
     providers << provider_init(:easy_to_book) if etb_hotel_id
     providers << provider_init(:agoda)        if agoda_hotel_id
     providers << provider_init(:splendia)     if splendia_hotel_id
+    providers << provider_init(:laterooms)    if laterooms_hotel_id
     providers
   end
 
