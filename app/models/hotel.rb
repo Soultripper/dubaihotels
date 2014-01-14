@@ -44,16 +44,35 @@ class Hotel < ActiveRecord::Base
   end
 
   def sorted_deals
-    @sorted_deals ||= provider_deals.sort_by! do |p| 
-      p[:min_price] ? p[:min_price].to_f : 9999999
-    end
+    # @sorted_deals ||= provider_deals.sort_by! do |p| 
+    #   p[:min_price] ? p[:min_price].to_f : 9999999.9
+    # end
+
+    best_offers     = provider_deals.select {|d| d[:min_price].to_f == offer[:min_price].to_f}
+    non_best_offers = provider_deals.select {|d| d[:min_price].to_f != offer[:min_price].to_f}
+    @sorted_deals ||= best_offers.shuffle.concat non_best_offers
   end
 
   def best_offer
-    offer[:min_price] = sorted_deals.first[:min_price]
-    offer[:provider]  = sorted_deals.first[:provider]
+    random_best = sorted_deals.first
+    if random_best
+      offer[:provider]  = random_best[:provider]
+      offer[:link]      = random_best[:link]
+      offer[:min_price] = random_best[:min_price]
+    end
     offer
   end
+
+  # def random_best_offer
+  #   min_price = sorted_deals.first[:min_price]
+  #   best_offers = sorted_deals.select {|d| d[:min_price].to_f == min_price.to_f}
+        
+  #   sorted_deals.slice! 0,best_offers.length      
+  #   best_offers.shuffle!
+  #   sorted_deals << best_offers
+
+  #   best_offers.sample
+  # end
 
   def find_provider_deal(name)
     provider_deals.find {|deal| deal[:provider] == name}
