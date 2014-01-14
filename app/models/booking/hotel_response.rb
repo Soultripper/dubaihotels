@@ -87,8 +87,8 @@ module Booking
         provider: :booking,
         provider_hotel_id: id,
         room_count: rooms_count,
-        min_price: min_price,
-        max_price: max_price,
+        min_price: min_price.to_f,
+        max_price: max_price.to_f,
         ranking: ranking,
         rooms: nil
       }

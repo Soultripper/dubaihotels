@@ -49,18 +49,10 @@ class Hotel < ActiveRecord::Base
     # end
 
     best_offers     = provider_deals.select {|d| d[:min_price].to_f == offer[:min_price].to_f}
-    non_best_offers = provider_deals.select {|d| d[:min_price].to_f != offer[:min_price].to_f}
-    @sorted_deals ||= best_offers.shuffle.concat non_best_offers
-  end
-
-  def best_offer
-    random_best = sorted_deals.first
-    if random_best
-      offer[:provider]  = random_best[:provider]
-      offer[:link]      = random_best[:link]
-      offer[:min_price] = random_best[:min_price]
+    non_best_offers = provider_deals.select {|d| d[:min_price].to_f != offer[:min_price].to_f}.sort_by! do |p| 
+      p[:min_price] ? p[:min_price].to_f : 9999999.9
     end
-    offer
+    @sorted_deals ||= best_offers.shuffle.concat non_best_offers
   end
 
   # def random_best_offer
@@ -129,6 +121,17 @@ class Hotel < ActiveRecord::Base
       set_best_offer provider_hotel
     end
     offer[:max_price]  =  provider_hotel[:min_price].to_f if (provider_hotel[:min_price].to_f > offer[:min_price].to_f) || offer[:max_price].blank?
+  end
+
+
+  def best_offer
+    random_best = sorted_deals.first
+    if random_best
+      offer[:provider]  = random_best[:provider]
+      offer[:link]      = random_best[:link]
+      offer[:min_price] = random_best[:min_price]
+    end
+    offer
   end
 
 
