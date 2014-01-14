@@ -49,6 +49,12 @@ class Hotel < ActiveRecord::Base
     end
   end
 
+  def best_offer
+    offer[:min_price] = sorted_deals.first[:min_price]
+    offer[:provider]  = sorted_deals.first[:provider]
+    offer
+  end
+
   def find_provider_deal(name)
     provider_deals.find {|deal| deal[:provider] == name}
   end
