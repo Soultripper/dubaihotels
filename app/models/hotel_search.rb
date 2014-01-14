@@ -122,7 +122,7 @@ class HotelSearch
 
   def persist
     return unless @use_cache
-    Rails.cache.write(cache_key, self, expires_in: 5.minutes, race_condition_ttl: 15)
+    Rails.cache.write(cache_key, self, expires_in: 10.minutes, race_condition_ttl: 60)
   end
 
   def cache_key

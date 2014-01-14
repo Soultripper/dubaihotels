@@ -54,7 +54,7 @@
               <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===4.5, 'fa-star':hotel.star_rating>4.5, 'fa-star-o': hotel.star_rating<4.5}"></i>
           </div>  
           <ul class="deals">
-              <li ng-repeat="provider in providers(hotel) ">
+              <li ng-repeat="provider in hotel.providers ">
                 <a ng-href="{{provider.link}}" target="_blank">
                   <span class="name">
                     {{hotelProvider.getDescription(provider)}}

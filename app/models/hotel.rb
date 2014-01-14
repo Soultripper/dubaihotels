@@ -43,6 +43,12 @@ class Hotel < ActiveRecord::Base
     @provider_deals ||= providers_init
   end
 
+  def sorted_deals
+    @sorted_deals ||= provider_deals.sort_by! do |p| 
+      p[:min_price] ? p[:min_price].to_f : 9999999
+    end
+  end
+
   def find_provider_deal(name)
     provider_deals.find {|deal| deal[:provider] == name}
   end

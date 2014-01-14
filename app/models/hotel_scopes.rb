@@ -11,7 +11,7 @@ module HotelScopes
       query = limit(3000).order('coalesce(ranking,0) desc')
 
       if location.city?
-        query = query.where("ST_DWithin(hotels.geog, ?, ?) or lower(city) = ? ", location.point, proximity_in_metres, location.city.downcase)
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) or (lower(city) = ? and country_code = ?)", location.point, proximity_in_metres, location.city.downcase, location.country_code.downcase)
       elsif location.landmark?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
       elsif location.region?
