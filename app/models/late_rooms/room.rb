@@ -20,7 +20,7 @@ module LateRooms
     end
 
     def bed_type
-      @bed_type ||= value('bed_type')
+      @bed_type ||= value('bed_type') == "Both" ? "Double or Twin" : value('bed_type')
     end
 
     def rooms_available

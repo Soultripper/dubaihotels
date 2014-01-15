@@ -29,7 +29,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.cities
-    with_slug.where('city is not null')
+    with_slug.where('city is not null and landmark is null')
   end
 
   def self.countries

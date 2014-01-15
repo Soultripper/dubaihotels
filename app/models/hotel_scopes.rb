@@ -8,19 +8,19 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 20000)
 
-      query = limit(3000).order('coalesce(ranking,0) desc')
+      query = limit(3000)
 
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (lower(city) = ? and country_code = ?)", location.point, proximity_in_metres, location.city.downcase, location.country_code.downcase)
       elsif location.landmark?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
       elsif location.region?
-        query = query.where("state_province = ?", location.region)
+        query = query.where("lower(state_province) = ?", location.region.downcase)
       elsif location.country?
-        query = query.where("country_code = ?", location.country_code)
+        query = query.where("lower(country_code) = ?", location.country_code.downcase)
       end
 
-      query
+      query.order('coalesce(ranking,0) desc')
     end
 
 
@@ -35,27 +35,20 @@ module HotelScopes
     def with_images
       includes(:images)
     end
-
-
+    
     def hotel_select_cols
       [
         "id", 
-        "name", 
-        "address", 
-        "city", 
-        "state_province", 
-        "postal_code", 
-        "country_code", 
-        "latitude", 
-        "longitude", 
         "star_rating", 
+        "geog",
+        "user_rating",
+        "ranking",
         "ean_hotel_id", 
         "booking_hotel_id", 
         "etb_hotel_id", 
         "agoda_hotel_id", 
-        "description", 
-        "amenities", 
-        "user_rating"
+        "splendia_hotel_id",
+        "laterooms_hotel_id",        
       ]
     end
 
