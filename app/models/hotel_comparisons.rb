@@ -42,14 +42,6 @@ class HotelComparisons
     @hotel ||= Hotel.find hotel_id
   end
 
-  def sorted_deals
-    best_offers     = provider_deals.select {|d| d[:min_price].to_i == offer[:min_price].to_i}
-    non_best_offers = provider_deals.select {|d| d[:min_price].to_i != offer[:min_price].to_i}.sort_by! do |p| 
-      p[:min_price] ? p[:min_price].to_f : 9999999.9
-    end
-    @sorted_deals ||= best_offers.shuffle.concat non_best_offers
-  end
-
   def find_provider_deal(name)
     provider_deals.find {|deal| deal[:provider] == name}
   end
@@ -85,42 +77,45 @@ class HotelComparisons
     deal and deal[:loaded]
   end
 
-  def compare_and_add(provider_hotel)
-    compare provider_hotel 
-    update_provider_deal provider_hotel
-  end
-
   def distance_from(location)
     GeoDistance::Haversine.geo_distance( location.latitude, location.longitude, latitude, longitude).to_meters
   end
 
-  def compare(provider_hotel)
+  def compare_and_add(provider_hotel)
     return unless provider_hotel
-    if (provider_hotel[:min_price].to_f < offer[:min_price].to_f) || offer[:min_price].blank?
-      set_best_offer provider_hotel
-    end
-    offer[:max_price]  =  provider_hotel[:min_price].to_f if (provider_hotel[:min_price].to_f > offer[:min_price].to_f) || offer[:max_price].blank?
+    add_provider_deal provider_hotel
+    sort_by_price
+    randomize_best_offer   
   end
 
-  def best_offer
-    random_best = sorted_deals.first
-    if random_best
-      offer[:provider]  = random_best[:provider]
-      offer[:link]      = random_best[:link]
-      offer[:min_price] = random_best[:min_price]
-    end
-    offer
-  end
-
-  def set_best_offer(provider_hotel)
-    offer[:min_price] = provider_hotel[:min_price].to_f
-    offer[:provider]  = provider_hotel[:provider]
-    offer[:link]      = provider_hotel[:link]
-  end
-
-  def update_provider_deal(data)
+  def add_provider_deal(data)
     data[:loaded] = true
     idx = provider_deals.index {|deal| deal[:provider] == data[:provider]}
     idx ? provider_deals[idx] = data : provider_deals << data
   end  
+
+  def sort_by_price
+    provider_deals.sort_by! {|deal| deal[:min_price].to_i}
+  end
+
+  def randomize_best_offer
+    min_price     = provider_deals.first[:min_price].to_i
+    best_offers   = provider_deals.select {|d| d[:min_price].to_i == min_price}
+    current_best  = provider_deals.first
+    random_idx    = Random.new.rand(best_offers.count)
+    random_best   = best_offers[random_idx]
+    provider_deals[0] = random_best
+    provider_deals[random_idx] = current_best
+
+    set_best_offer random_best
+  end
+
+  def set_best_offer(provider)    
+    offer[:provider]  = provider[:provider]
+    offer[:link]      = provider[:link]
+    offer[:min_price] = provider[:min_price]
+    offer[:max_price] = provider_deals.last[:min_price]
+    offer
+  end
+
 end

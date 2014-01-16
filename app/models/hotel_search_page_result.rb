@@ -53,7 +53,7 @@ class HotelSearchPageResult
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
-      hotel.best_offer[:min_price].to_f > 0 and
+      hotel.offer[:min_price].to_f > 0 and
       filter_min_price(hotel, filters[:min_price].to_i) and 
       filter_max_price(hotel, filters[:max_price].to_i) and 
       filter_amenities(hotel, filters[:amenities]) and
@@ -103,41 +103,6 @@ class HotelSearchPageResult
   end
 
 
-  def as_json(options={})
-
-    matched_hotels = load_hotel_information(options[:hotels]) 
-
-    Jbuilder.encode do |json|
-      json.info do
-        json.query            location.title
-        json.slug             location.slug
-        json.channel          search_options[:channel]
-        json.sort             sort_key
-        json.total_hotels     search_options[:total]
-        json.available_hotels hotels.count 
-        json.min_price        @min_price 
-        json.max_price        @max_price  
-        json.min_price_filter user_filters[:min_price] if user_filters
-        json.max_price_filter user_filters[:max_price] if user_filters          
-        json.star_ratings     user_filters[:star_ratings] if user_filters
-        json.amenities        user_filters[:amenities] if user_filters
-        json.longitude        location.longitude
-        json.latitude         location.latitude
-      end      
-      json.criteria           search_options[:search_criteria]
-      json.state              search_options[:state]
-
-      if !matched_hotels.empty?
-        json.hotels matched_hotels do |hotel_comparison|
-          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
-          json.offer          hotel_comparison.best_offer
-          json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
-          json.providers      hotel_comparison.sorted_deals
-          json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
-        end
-      end
-    end
-  end
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id
@@ -171,5 +136,40 @@ class HotelSearchPageResult
     @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
   end
 
+  def as_json(options={})
+
+    matched_hotels = load_hotel_information(options[:hotels]) 
+
+    Jbuilder.encode do |json|
+      json.info do
+        json.query            location.title
+        json.slug             location.slug
+        json.channel          search_options[:channel]
+        json.sort             sort_key
+        json.total_hotels     search_options[:total]
+        json.available_hotels hotels.count 
+        json.min_price        @min_price 
+        json.max_price        @max_price  
+        json.min_price_filter user_filters[:min_price] if user_filters
+        json.max_price_filter user_filters[:max_price] if user_filters          
+        json.star_ratings     user_filters[:star_ratings] if user_filters
+        json.amenities        user_filters[:amenities] if user_filters
+        json.longitude        location.longitude
+        json.latitude         location.latitude
+      end      
+      json.criteria           search_options[:search_criteria]
+      json.state              search_options[:state]
+
+      if !matched_hotels.empty?
+        json.hotels matched_hotels do |hotel_comparison|
+          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
+          json.offer          hotel_comparison.offer
+          json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
+          json.providers      hotel_comparison.provider_deals
+          json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
+        end
+      end
+    end
+  end
 
 end
