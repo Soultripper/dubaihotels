@@ -9,7 +9,7 @@ class HotelSearch
   PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
   # PROVIDERS = [:expedia]
 
-  def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
+  def initialize(location, search_criteria, use_cache=true)
     @use_cache = use_cache
     @results_counter = ResultsCounter.new PROVIDERS
     @location, @search_criteria = location, search_criteria
@@ -36,7 +36,7 @@ class HotelSearch
   end
 
   def all_hotels
-    @all_hotels ||= HotelComparisons.by_location(location).to_a 
+    @all_hotels ||= Hotel.by_location(location).limit(30).to_a 
   end
 
   def search      
@@ -100,10 +100,10 @@ class HotelSearch
     Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
   end
 
-  def add_to_list(hotel_comparison, common_provider_hotel)
+  def add_to_list(hotel, common_provider_hotel)
     return false unless common_provider_hotel
-    hotel_comparison.compare_and_add(common_provider_hotel)
-    hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) unless hotel_comparison.distance_from_location
+    hotel.compare_and_add(common_provider_hotel)
+    hotel.distance_from_location = hotel.distance_from(location) unless hotel.distance_from_location
     true
   end
 

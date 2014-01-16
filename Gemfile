@@ -39,6 +39,7 @@ gem 'kaminari' #for pagination
 gem 'activerecord-import', '~> 0.3.1'
 gem 'geoip'
 gem 'geokit-rails'
+gem 'geo-distance'
 gem 'rubyzip'
 
 gem 'figaro'

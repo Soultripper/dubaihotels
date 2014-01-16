@@ -8,6 +8,7 @@ class HotelWorker
     Log.info "------ SEARCH BEGINNING -------- "
     @search =  Rails.cache.read cache_key
     return unless search
+    populate_provider_ids
 
     time = Benchmark.realtime{
       threads = []
@@ -33,7 +34,7 @@ class HotelWorker
   end
 
   def request_booking_hotels
-    hotels_ids = find_hotels_for_provider :booking_hotel_id
+    hotels_ids = find_hotels_for_provider :booking
     start :booking, :booking_hotel_id do |key|     
       Booking::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
       # Booking::SearchLocation.page_hotels(location, search_criteria) do |provider_hotels|
@@ -45,7 +46,7 @@ class HotelWorker
   end 
 
   def request_expedia_hotels
-    hotels_ids = find_hotels_for_provider :ean_hotel_id
+    hotels_ids = find_hotels_for_provider :expedia
     start :expedia, :ean_hotel_id do |key|   
       Expedia::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
       # Expedia::Search.by_hotel_ids(hotels_ids, search_criteria).page_hotels do |provider_hotels|
@@ -57,7 +58,7 @@ class HotelWorker
   end
 
   def request_easy_to_book_hotels
-    hotels_ids = find_hotels_for_provider :etb_hotel_id
+    hotels_ids = find_hotels_for_provider :easy_to_book
     start :easy_to_book, :etb_hotel_id do |key|   
       EasyToBook::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
       # EasyToBook::Search.by_city(@search.location.etb_city_id, @search.search_criteria).page_hotels do |provider_hotels|
@@ -69,7 +70,7 @@ class HotelWorker
   end
 
   def request_agoda_hotels
-    hotels_ids = find_hotels_for_provider :agoda_hotel_id
+    hotels_ids = find_hotels_for_provider :agoda
     start :agoda, :agoda_hotel_id do |key|   
       Agoda::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
         compare_and_persist provider_hotels, key
@@ -80,7 +81,7 @@ class HotelWorker
   end
 
   def request_splendia_hotels
-    hotels_ids = find_hotels_for_provider :splendia_hotel_id
+    hotels_ids = find_hotels_for_provider :splendia
     start :splendia, :splendia_hotel_id do |key|   
       Splendia::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
         compare_and_persist provider_hotels, key
@@ -91,7 +92,7 @@ class HotelWorker
   end
 
   def request_laterooms_hotels
-    hotels_ids = find_hotels_for_provider :laterooms_hotel_id
+    hotels_ids = find_hotels_for_provider :laterooms
     start :laterooms, :laterooms_hotel_id do |key|   
       LateRooms::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
         compare_and_persist provider_hotels, key
@@ -139,9 +140,32 @@ class HotelWorker
     Pusher[channel].trigger('results_update', { key: @search.cache_key})    
   end
 
+  def populate_provider_ids
+    @bucket_hotels ||= bucket_hotels
+  end
+
+  def bucket_hotels
+    provider_ids = {}
+    HotelsConfig::PROVIDER_IDS.each {|key, id| provider_ids[key] = []}
+    @search.hotels.each do |hotel_comparison|
+      HotelsConfig::PROVIDER_IDS.each do |key, id|
+        provider_ids[key] << hotel_comparison[id] if hotel_comparison[id]
+      end
+    end
+    provider_ids    
+  end
+
+  # def find_hotels_for_provider(provider_key)
+  #   throw @search.hotels
+  #   @hotels_for_location ||= Hotel.by_location(location).to_a
+  #   matches = @hotels_for_location.select {|hotel| hotel[provider_key]}.map &provider_key
+  #   Log.debug "Found #{matches.count} hotels to search for against provider #{provider_key}"
+  #   matches
+  # end
+
   def find_hotels_for_provider(provider_key)
-    @hotels_for_location ||= Hotel.by_location(location).to_a
-    matches = @hotels_for_location.select {|hotel| hotel[provider_key]}.map &provider_key
+    matches = @bucket_hotels[provider_key] || []
+
     Log.debug "Found #{matches.count} hotels to search for against provider #{provider_key}"
     matches
   end

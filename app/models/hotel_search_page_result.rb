@@ -16,8 +16,8 @@ class HotelSearchPageResult
   end
 
   def find_max_price 
-    hotel = hotels.max_by {|h| h.offer[:max_price].to_f}
-    @max_price ||= hotel ? hotel.offer[:max_price] : 300
+    hotel = hotels.max_by {|h| h.offer[:min_price].to_f}
+    @max_price ||= hotel ? hotel.offer[:min_price] : 300
   end
 
   def sort(key)
@@ -53,6 +53,7 @@ class HotelSearchPageResult
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
+      hotel.best_offer[:min_price].to_f > 0 and
       filter_min_price(hotel, filters[:min_price].to_i) and 
       filter_max_price(hotel, filters[:max_price].to_i) and 
       filter_amenities(hotel, filters[:amenities]) and
@@ -101,12 +102,10 @@ class HotelSearchPageResult
     search_options[:location]
   end
 
+
   def as_json(options={})
 
-    matched_hotels = options[:hotels] || hotels
-    #matched_hotels = Hotel.with_images.where(id: matched_hotel_ids)
-
-    load_images(matched_hotels)
+    matched_hotels = load_hotel_information(options[:hotels]) 
 
     Jbuilder.encode do |json|
       json.info do
@@ -129,24 +128,43 @@ class HotelSearchPageResult
       json.state              search_options[:state]
 
       if !matched_hotels.empty?
-        json.hotels matched_hotels do |hotel|
-          json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
-          json.offer          hotel.best_offer
-          json.images         find_images_by(hotel), :url, :thumbnail_url, :caption, :width, :height
-          json.providers      hotel.sorted_deals
-          json.channel        search_options[:search_criteria].channel_hotel hotel.id 
+        json.hotels matched_hotels do |hotel_comparison|
+          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
+          json.offer          hotel_comparison.best_offer
+          json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
+          json.providers      hotel_comparison.sorted_deals
+          json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
         end
       end
     end
   end
 
+  def load_hotel_information(hotel_comparisons)
+    ids = hotel_comparisons.map &:id
+    matched_hotels = Hotel.with_images.where(id: ids).to_a
+    matched_hotels.each do |hotel|
+      begin
+        hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}
+        hotel_comparison.hotel = hotel
+      rescue Excpetion => msg 
+        Log.error "Unable to set hotel offer for hotel comparison: #{hotel_comparison}. Msg: #{msg}"
+      end
+    end
+    hotel_comparisons
+
+  end
+
+  # def find_images_by(hotel, count=10)
+  #   hotel_images = @images.find {|k,v| k==hotel.id}
+  #   hotel_images ? hotel_images[1].take(count) : []
+  # end
+
   def find_images_by(hotel, count=10)
-    hotel_images = @images.find {|k,v| k==hotel.id}
-    hotel_images ? hotel_images[1].take(count) : []
+    hotel.images.slice(1,count) || []
   end
 
   def hotel_images(hotel)
-    hotel.images.take(10)
+    hotel.images
   end
 
   def load_images(filtered_hotels)
