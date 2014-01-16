@@ -53,7 +53,6 @@ class HotelSearchPageResult
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
-      hotel.offer[:min_price].to_f > 0 and
       filter_min_price(hotel, filters[:min_price].to_i) and 
       filter_max_price(hotel, filters[:max_price].to_i) and 
       filter_amenities(hotel, filters[:amenities]) and
@@ -125,7 +124,7 @@ class HotelSearchPageResult
   # end
 
   def find_images_by(hotel, count=10)
-    hotel.images.slice(1,count) || []
+    hotel.images.slice(0,count) || []
   end
 
   def hotel_images(hotel)
