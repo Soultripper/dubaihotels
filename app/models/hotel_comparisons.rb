@@ -78,6 +78,7 @@ class HotelComparisons
   end
 
   def distance_from(location)
+    return unless location.longitude and location.latitude
     GeoDistance::Haversine.geo_distance( location.latitude, location.longitude, latitude, longitude).to_meters
   end
 

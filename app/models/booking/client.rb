@@ -44,6 +44,10 @@ class Booking::Client
       parse_response(http.get(url + '/bookings.getCountries', params))
     end
 
+    def hotel_images(params={})
+      parse_response(http.get(url + '/bookings.getHotelDescriptionPhotos', params))
+    end    
+
     def post_hotel_availability(params={})
       parse_response(http.post(url + '/bookings.getHotelAvailability', params))
     end

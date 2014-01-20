@@ -64,6 +64,7 @@ Hot5.Connections.Pusher = function()
     subscribedChannel = client.subscribe(channel)
     subscribedChannel.bind('results_update', function(push_message) {
       var domElement = $('#hotel-results')
+      console.log('new hotel info available')
       angular.element(domElement).scope().search() 
     })     
   };
@@ -80,6 +81,7 @@ Hot5.Connections.Pusher = function()
     subscribedHotelChannel.bind('pusher:subscription_succeeded', subscription_succeeded)
     hotelChannels.push(hotelChannel)
     subscribedHotelChannel.bind('availability_update', function(push_message) {
+
       event_callback(push_message)
     })     
   };

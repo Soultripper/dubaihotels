@@ -31,5 +31,11 @@ module Booking::Seed
       region_hotels.map  {|region_hotel| RegionBookingHotelLookup.from_booking region_hotel}
     end
 
+    def hotel_images(offset=0, rows=1000)
+      hotel_images = Booking::Client.hotel_images offset: offset, rows: rows
+      return nil if hotel_images.empty? 
+      hotel_images.map  {|hotel_image| BookingHotelImage.from_booking hotel_image}
+    end
+
   end
 end

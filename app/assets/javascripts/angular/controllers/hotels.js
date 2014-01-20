@@ -62,6 +62,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.search = function(callback) {
+      console.log('calling search')
       if(!callback)
         callback = $scope.setupPage;
 

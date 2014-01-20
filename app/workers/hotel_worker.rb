@@ -118,8 +118,9 @@ class HotelWorker
     @search.error provider, msg
   end
 
-  def compare_and_persist(provider_hotels, key)
+  def compare_and_persist(provider_hotels, key)    
     @search.compare_and_persist provider_hotels, key
+    Log.debug "#{provider_hotels.count} hotels to compared for #{key}"
     notify
   end
 
@@ -136,8 +137,8 @@ class HotelWorker
   end
 
   def notify
-    Log.debug "Notifying channel #{channel} of hotels update. state=#{@search.state}"
-    Pusher[channel].trigger('results_update', { key: @search.cache_key})    
+    Log.debug "Notifying channel #{channel} for hotels update. state=#{@search.state}"
+    Pusher[channel].trigger_async('results_update', { key: @search.cache_key})    
   end
 
   def populate_provider_ids

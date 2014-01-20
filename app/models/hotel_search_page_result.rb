@@ -123,7 +123,7 @@ class HotelSearchPageResult
   #   hotel_images ? hotel_images[1].take(count) : []
   # end
 
-  def find_images_by(hotel, count=10)
+  def find_images_by(hotel, count=100)
     hotel.images.slice(0,count) || []
   end
 

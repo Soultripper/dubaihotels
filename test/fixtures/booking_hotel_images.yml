@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  description_type_id: 1
+  booking_hotel_id: 1
+  photo_id: 1
+  url_max_300: MyString
+  url_original: MyString
+  url_square60: MyString
+
+two:
+  description_type_id: 1
+  booking_hotel_id: 1
+  photo_id: 1
+  url_max_300: MyString
+  url_original: MyString
+  url_square60: MyString

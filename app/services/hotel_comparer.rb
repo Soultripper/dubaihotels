@@ -22,7 +22,7 @@ class HotelComparer
       hotel_ids_set = Set.new(provider_hotels.map(&:id))
       matched_hotels = Set.new(source_hotels.map(&key))
       unmatached_hotel_ids = hotel_ids_set.difference(matched_hotels)
-      new_hotels = HotelComparisons.by_provider_ids(key, unmatached_hotel_ids.to_a).to_a  
+      new_hotels = HotelComparisons.by_provider_ids(key, unmatached_hotel_ids.to_a).to_a  if !unmatached_hotel_ids.empty?
     end
     source_hotels.concat(new_hotels) if new_hotels.length > 0
     Log.info "Discovered and added #{new_hotels.length} unmatched hotels to compare in #{time}s (total: #{source_hotels.count})"
