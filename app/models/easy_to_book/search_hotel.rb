@@ -26,6 +26,7 @@ module EasyToBook
 
     def search(options={}) 
       params = {:Hotellist => {:Hotelid => ids}}.merge(search_params.merge(options)) 
+      throw params
       create_list_response EasyToBook::Client.search_availability(params)
     end
 

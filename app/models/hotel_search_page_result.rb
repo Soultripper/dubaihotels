@@ -53,8 +53,8 @@ class HotelSearchPageResult
     Log.debug "#{hotels.count} remaining before #{filters} applied"
 
     hotels.select! do |hotel|
-      filter_min_price(hotel, filters[:min_price].to_i) and 
-      filter_max_price(hotel, filters[:max_price].to_i) and 
+      filter_min_price(hotel, Utilities.nil_round(filters[:min_price])) and 
+      filter_max_price(hotel, Utilities.nil_round(filters[:max_price])) and 
       filter_amenities(hotel, filters[:amenities]) and
       filter_stars(hotel, filters[:star_ratings])
     end
@@ -71,12 +71,12 @@ class HotelSearchPageResult
 
   def filter_min_price(hotel, price)
     return true if price == 0
-    hotel.offer[:min_price].to_i > price-1
+    Utilities.nil_round(hotel.offer[:min_price]) > price-1
   end
 
   def filter_max_price(hotel, price)
     return true if price == 0
-    hotel.offer[:min_price].to_i < price+1
+    Utilities.nil_round(hotel.offer[:min_price]) < price+1
   end  
 
   def filter_stars(hotel, star_ratings)

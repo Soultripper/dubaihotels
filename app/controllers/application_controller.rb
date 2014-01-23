@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def min_price
-    @min_price = params['min_price'].to_i
+    @min_price = Utilities.nil_round(params['min_price'])
     @min_price < 30 ? 30 : @min_price
   end
 

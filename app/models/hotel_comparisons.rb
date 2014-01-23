@@ -96,12 +96,12 @@ class HotelComparisons
   end  
 
   def sort_by_price
-    provider_deals.sort_by! {|deal| deal[:min_price].to_i}
+    provider_deals.sort_by! {|deal| Utilities.nil_round(deal[:min_price])}
   end
 
   def randomize_best_offer
-    min_price     = provider_deals.first[:min_price].to_i
-    best_offers   = provider_deals.select {|d| d[:min_price].to_i == min_price}
+    min_price     = Utilities.nil_round(provider_deals.first[:min_price])
+    best_offers   = provider_deals.select {|d| Utilities.nil_round(d[:min_price]) == min_price}
     current_best  = provider_deals.first
     random_idx    = Random.new.rand(best_offers.count)
     random_best   = best_offers[random_idx]

@@ -21,6 +21,10 @@ module Utilities
     helpers.number_to_human value.to_i
   end
 
+  def nil_round(value)
+    value ? value.round : 0
+  end
+
   def file_to_json(file)
     f = File.open(file)
     doc = Nokogiri::XML(f)
