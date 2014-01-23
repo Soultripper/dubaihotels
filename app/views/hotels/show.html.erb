@@ -1,27 +1,176 @@
 
-  <% @rooms.each do |room| %>
-    <% present(room, ExpediaRoomPresenter) do |presenter| %>
-      <div class="row hotel_deal">
-        <div class="large-12 columns">
-          <a href="http://www.booking.com/searchresults.en-gb.html?city=-782831" class="js-external-deal" data-id="2421" data-name="Mina A Salam Madinat Jumeirah" data-provider="booking.com" data-price="638" data-price-total="638" data-currency="GBP" data-img="http://s.top10cdn.com/images/5931075/138/138" data-index="" data-stars="" data-room="Ocean Deluxe King Room" data-analytics="deals-table">
-            <div class="large-2 columns hotel_agent">
-              <span class="agent" data-provider="expedia.com">Expedia.com</span>
-            </div>
-            <div class="large-4 columns agent_usp">LOW RATES: best price guarantee!</div>
-            <div class="large-6 columns l">
-              <div class="room_details">
-                <div class="room_name"><%= presenter.description %></div>
-                <ul class="room_features"></ul>
-              </div>
-              <div class="room_price">
-                <div class="price_container"><%= presenter.total @search.total_nights %></div>
-                <div class="button_container">
-                  <button>Go</button>
+<div id="wrapper" ng-controller="HotelCtrl" ng-init="setupPage(<%=hotel_view.as_json%>)">
+  <header class="container">
+    <div class="row">
+      <div class="col-md-2 col-sm-12 masthead">
+        <a id="logo" href="/" target="_self">
+            Hot5
+        </a>
+      </div>
+      <div class="col-md-10 col-sm-12">
+        <form id="search" ng-submit="searchCity()" target="_self">
+          <div class="row">
+            <div class="col-lg-5 col-md-12 place">
+              <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input" />
+                <div class="input-group-addon">
+                  <i class="fa fa-search"></i>
                 </div>
               </div>
             </div>
-          </a>
+            <div class="col-lg-5 col-md-12">
+              <div class="row input-daterange dates">
+                <div class="col col-xs-6">
+                  <div class="input-group">
+                    <input type="text" id="start_date" name="start_date" class="form-control" checkin placeholder="Check In..." value="<%=start_date.strftime('%a %d %b')%>" autocomplete="off" readonly="readonly" />
+                    <div class="input-group-addon addon-hidden-sm">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col col-xs-6">
+                  <div class="input-group">
+                    <input type="text" name="end_date" id="end_date" class="form-control" checkout value="<%=end_date.strftime('%a %d %b')%>" placeholder="Check Out..." autocomplete="off" readonly="readonly" />
+                    <div class="input-group-addon addon-hidden-sm" >
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-12 submit">
+              <button type="submit" class="btn btn-primary search">
+                <i class="fa fa-search"></i>
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+  <section >
+    <div class="container">
+      <div class="top-bar">
+        <div class="info">
+          <div class="col-xs-6">
+              <h3>{{hotel.name}}</h3>
+          </div>
+          <div class="col-xs-6 text-right">
+            <h4>{{Page.criteria.start_date | date:'MMM d'}} - {{Page.criteria.end_date | date:'MMM d'}} ({{Page.criteria.total_nights}} Night)</h4>
+          </div>
         </div>
       </div>
-    <% end %>
-  <% end %>
+        <div id="hotel">
+            <div class="info-bar">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="location">
+                            <i class="fa fa-map-marker"></i>&nbsp;
+                            {{hotel.address}}, {{hotel.city}}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                      <div class="stars">
+                          <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===0.5, 'fa-star':hotel.star_rating>0.5, 'fa-star-o': hotel.star_rating<0.5}"></i>
+                          <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===1.5, 'fa-star':hotel.star_rating>1.5, 'fa-star-o': hotel.star_rating<1.5}"></i>
+                          <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===2.5, 'fa-star':hotel.star_rating>2.5, 'fa-star-o': hotel.star_rating<2.5}"></i>
+                          <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===3.5, 'fa-star':hotel.star_rating>3.5, 'fa-star-o': hotel.star_rating<3.5}"></i>
+                          <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===4.5, 'fa-star':hotel.star_rating>4.5, 'fa-star-o': hotel.star_rating<4.5}"></i>
+                      </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="row details">
+                <div class="col-lg-9">
+                    <h3>Property Location</h3>
+                    <p ng-bind-html="hotel.description"></p>
+                </div>
+                <div class="col-lg-3">
+                    <div class="main-image">
+                        <a href="#gallery">
+                            <img ng-src="{{hotel.images[0].url}}" alt="" />
+                        </a>
+                    </div>
+                    <div class="amenities">
+                        <h3>Amenities</h3>
+                        <ul class="list">
+                            <li class="wifi" ng-class="{highlight: checkAmenity(1)}" >WiFi</li>
+                            <li class="central-location" ng-class="{highlight: checkAmenity(2)}">Central Location</li>
+                            <li class="family-friendly" ng-class="{highlight: checkAmenity(4)}">Family Friendly</li>
+                            <li class="parking" ng-class="{highlight: checkAmenity(8)}">Parking</li>
+                            <li class="gym" ng-class="{highlight: checkAmenity(16)}">Gym</li>
+                            <li class="boutique" ng-class="{highlight: checkAmenity(32)}">Boutique</li>
+                            <li class="non-smoking-rooms" ng-class="{highlight: checkAmenity(64)}">Non-smoking rooms</li>
+                            <li class="pet-friendly" ng-class="{highlight: checkAmenity(128)}">Pet friendly</li>
+                            <li class="pool" ng-class="{highlight: checkAmenity(256)}">Pool</li>
+                            <li class="restaurant" ng-class="{highlight: checkAmenity(512)}">Restaurant</li>
+                            <li class="spa" ng-class="{highlight: checkAmenity(1024)}">Spa</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="rooms">
+                <h3>Best Deals</h3>
+                <div class="loader" ng-show="!hotel.rooms">
+                  <i class="fa fa-gear fa-spin"></i>
+                  Finding the best rooms...
+                </div>
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr ng-repeat="room in hotel.rooms">
+                        <td class="logo">
+                          <img ng-src="/assets/logos/{{room.provider}}.gif" />
+                        </td>
+                        <td>{{room.description}}</td>
+                        <td class="price">{{room.price | price:currency_symbol:0}}</td>
+                        <td class="cta">
+                          <a class="btn btn-success" get-deal="{{room.link}}" target="_blank">
+                            Get Deal
+                            <i class="fa fa-caret-right"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+            <div class="tab-gallery" id="gallery">
+                <h3>Gallery</h3>
+                <div class="photo">
+                  <img ng-src="{{headerImage()}}">       
+                </div>
+                <ul class="thumbs" ng-cloak>
+                  <li ng-repeat="image in hotel.images" >
+                      <a href="#" show-image="{{image.url}}" style="background-image: url({{image.thumbnail_url}})" >
+                          &nbsp;
+                      </a>
+                  </li>   
+                </ul>
+            </div>
+            <hr />
+            <div class="map" >
+                <h3>Location</h3>
+                <div style="height:378px;background-color: #ccc;" id="hotel_map">Map here</div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <ul class="menu">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 copyright">
+            &copy; 2013 Hot5.com
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

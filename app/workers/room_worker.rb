@@ -130,7 +130,7 @@ class RoomWorker
 
   def notify
     Log.debug "Notifying channel #{channel} of hotel rooms update. Current rooms = #{@search.rooms_results.count}"
-    Pusher[channel].trigger('availability_update', { key: @search.cache_key}) 
+    Pusher[channel].trigger_async('availability_update', { key: @search.cache_key}) 
   end
 
 

@@ -12,7 +12,7 @@ class ExpediaWorker
         search.compare_and_persist provider_hotels, key
       end
     end
-    Log.info "Realtime comparison of #{provider} for location: #{search.location.city}, #{search.location.country} took #{time}s"    
+    Log.info "Realtime comparison of #{provider} for location: #{search.location.description} took #{time}s"    
     search.finish_and_persist provider 
   end
 

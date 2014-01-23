@@ -1,15 +1,26 @@
 module SoulmateHandler
   extend self
 
+  def load_locations
+    load_cities
+    load_regions
+    load_countries
+    load_landmarks
+    load_places
+  end
+  
   def add_location(location)
+    soulmate = location.to_soulmate
     if location.city?
-      city_loader.add(city_to_soulmate(location))
+      city_loader.add(soulmate)
     elsif location.region?
-      region_loader.add(region_to_soulmate(location))
+      region_loader.add(soulmate)
     elsif location.country?
-      country_loader.add(country_to_soulmate(location))
+      country_loader.add(soulmate)
     elsif location.landmark?
-      landmark_loader.add(landmark_to_soulmate(location))      
+      landmark_loader.add(lsoulmate)  
+    elsif location.place?
+      place_loader.add(soulmate)     
     end
   end
 
@@ -26,23 +37,28 @@ module SoulmateHandler
   end
 
   def load_cities    
-    items = Location.cities.map{|location| city_to_soulmate(location)}
+    items = Location.cities.map{|location| location.to_soulmate}
     city_loader.load(items)
   end
 
   def load_regions    
-    items = Location.regions.map{|location| region_to_soulmate(location)}
+    items = Location.regions.map{|location| location.to_soulmate}
     region_loader.load(items)
   end
 
   def load_countries    
-    items = Location.countries.map{|location| country_to_soulmate(location)}
+    items = Location.countries.map{|location| location.to_soulmate}
     country_loader.load(items)
   end
 
   def load_landmarks
-    items = Location.landmarks.map{|location| landmark_to_soulmate(location)}
+    items = Location.landmarks.map{|location| location.to_soulmate}
     landmark_loader.load(items)    
+  end
+
+  def load_places
+    items = Location.places.map{|location| location.to_soulmate}
+    place_loader.load(items)    
   end
 
   def city_loader
@@ -61,58 +77,12 @@ module SoulmateHandler
     loader 'landmark'
   end
 
+  def place_loader
+    loader 'place'
+  end
+
   def loader(term)
     Soulmate::Loader.new(term)
   end
-
-  def city_to_soulmate(location)
-    {
-      id: location.id,
-      term: location.city,
-      score: 250 - location.slug.length,
-      data:{
-        slug: location.slug,
-        title: location.to_s
-      }
-    }.as_json
-  end
-
-  def region_to_soulmate(location)
-    {
-      id: location.id,
-      term: location.region,
-      score: 250 - location.slug.length,
-      data:{
-        slug: location.slug,
-        title: location.to_s
-      }
-    }.as_json
-  end
-
-  def country_to_soulmate(location)
-    {
-      id: location.id,
-      term: location.country,
-      score: 250 - location.slug.length,
-      data:{
-        slug: location.slug,
-        title: location.to_s
-      }
-    }.as_json
-  end
-
-
-  def landmark_to_soulmate(location)
-    {
-      id: location.id,
-      term: location.landmark,
-      score: 250 - location.slug.length,
-      data:{
-        slug: location.slug,
-        title: location.to_s
-      }
-    }.as_json
-  end
-
 
 end

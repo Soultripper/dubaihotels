@@ -35,7 +35,7 @@ class Expedia::Search
   end
 
   def by_destination(location, options={})        
-    params = search_params.merge(options).merge({ destinationString: "#{location.city}, #{location.country}"})   
+    params = search_params.merge(options).merge({ destinationString: "#{location.name}, #{location.country_code}"})   
     create_list_response Expedia::Client.get_list(params)
   end
 

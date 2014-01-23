@@ -42,7 +42,7 @@
           </div>
       </div>
       <div class="details">
-          <h4>{{hotel.name}}</h4>
+          <h4><a href="/hotels/{{hotel.id}}" target="_self"> {{hotel.name}}</a></h4>
           <div class="location">
               <i class="fa fa-map-marker"></i> {{hotel.address}}, {{hotel.city}}
           </div>
@@ -109,6 +109,20 @@
       </div>
       <div class="tabs-content">
           <div class="content tab-details" style="display: none">
+            <h4>Amenities</h4>
+            <ul class="amenities">
+                <li class="wifi" ng-class="{highlight: checkAmenity(hotel, 1)}" >WiFi</li>
+                <li class="central-location" ng-class="{highlight: checkAmenity(hotel, 2)}">Central Location</li>
+                <li class="family-friendly" ng-class="{highlight: checkAmenity(hotel, 4)}">Family Friendly</li>
+                <li class="parking" ng-class="{highlight: checkAmenity(hotel, 8)}">Parking</li>
+                <li class="gym" ng-class="{highlight: checkAmenity(hotel, 16)}">Gym</li>
+                <li class="boutique" ng-class="{highlight: checkAmenity(hotel, 32)}">Boutique</li>
+                <li class="non-smoking-rooms" ng-class="{highlight: checkAmenity(hotel, 64)}">Non-smoking rooms</li>
+                <li class="pet-friendly" ng-class="{highlight: checkAmenity(hotel, 128)}">Pet friendly</li>
+                <li class="pool" ng-class="{highlight: checkAmenity(hotel, 256)}">Pool</li>
+                <li class="restaurant" ng-class="{highlight: checkAmenity(hotel, 512)}">Restaurant</li>
+                <li class="spa" ng-class="{highlight: checkAmenity(hotel, 1024)}">Spa</li>
+            </ul>
             <h4>Property Location</h4>
             <p ng-bind-html="hotel.description"></p>
           </div>
@@ -149,7 +163,7 @@
             </div>
           </div>
           <div class="content tab-best-rooms" style="display: none">
-              <div class="loader">
+              <div class="loader" ng-show="!hotel.rooms">
                   <i class="fa fa-gear fa-spin"></i>
                   Finding the best rooms...
               </div>

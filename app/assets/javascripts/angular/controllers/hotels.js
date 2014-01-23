@@ -106,11 +106,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         Hot5.Connections.Pusher.subscribe($rootScope.channel);
         $scope.unsubscribed = false
       }
+
+      if($scope.pageState==='searching' && !response.hotels)
+        return;
       
 
       Page.criteria = response.criteria;
       Page.info = response.info;
       $scope.search_results = response
+      $scope.amenities = response.info.amenities;
       $rootScope.currency_symbol = Page.criteria.currency_symbol;
       $scope.slug = Page.info.slug
       $rootScope.channel = Page.info.channel
@@ -188,6 +192,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       })
     };
 
+    $scope.checkAmenity = function(hotel, amenityMask){
+      if(hotel.amenities)
+        return (amenityMask | hotel.amenities) === hotel.amenities
+      return false;
+    }
+
     $scope.findProvider = function(hotel, providerName){
       var providerResult =  _.find(hotel.providers, function(provider){ 
         return provider ? provider.provider === providerName : false;
@@ -212,7 +222,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       var timeoutId = $timeout(function(){
         hotel.displayRooms = true
-      }, 3000)
+      }, 10000)
 
       if(Hot5.Connections.Pusher.isHotelSubscribed(hotel.channel))
       {
@@ -285,7 +295,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $rootScope.filterAmenities = function (amenity) {
-      var amenities = Page.info.amenities;
+      var amenities = $scope.amenities || [];
+
       var idx = amenities.indexOf(amenity);
       if (idx > -1) 
         amenities.splice(idx, 1);
@@ -389,7 +400,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     initTimeoutId = $timeout(function() {
       $scope.search()                 
-    }, 4500);
+    }, 2000);
 
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);

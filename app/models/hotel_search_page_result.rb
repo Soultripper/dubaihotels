@@ -161,7 +161,7 @@ class HotelSearchPageResult
 
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
-          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description)
+          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities)
           json.offer          hotel_comparison.offer
           json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
           json.providers      hotel_comparison.provider_deals

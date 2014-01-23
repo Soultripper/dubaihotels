@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude  
                    
-  attr_accessible :city, :city_id, :country, :country_code, :language_code, :latitude, :longitude, :region, :region_id, :slug, :geog, :landmark
+  attr_accessible :name, :location_type, :description, :longitude, :latitude, :slug, :country_code, :score
   # after_save :add_to_soulmate
   # before_destroy :remove_from_soulmate
 
@@ -10,30 +10,34 @@ class Location < ActiveRecord::Base
   #   @@locations ||= super
   # end
 
-  def self.update_slugs
-    find_each do |location|
-      location.update_attribute :slug, location.create_slug
-    end
-  end
+  # def self.update_slugs
+  #   find_each do |location|
+  #     location.update_attribute :slug, location.slug
+  #   end
+  # end
 
   def self.with_slug
     where('slug is not null')
   end
 
   def self.landmarks
-    with_slug.where('landmark is not null')
+    with_slug.where(location_type: 'Point of Interest')
+  end
+
+  def self.places  
+    with_slug.where(location_type: ['Neighborhood', 'Place'])
   end
 
   def self.regions  
-    with_slug.where('city is null and region is not null')
+    with_slug.where(location_type: 'Region')
   end
 
   def self.cities
-    with_slug.where('city is not null and landmark is null')
+    with_slug.where(location_type: 'City')
   end
 
   def self.countries
-    with_slug.where('city is null and region is null and country is not null')
+    with_slug.where(location_type: 'Country')
   end
 
   def hotel_ids_for(provider_key, limit=4000)
@@ -46,6 +50,17 @@ class Location < ActiveRecord::Base
         n: l.to_s,
         s: l.slug
       }
+    end
+  end
+
+  def self.determine_scores
+    where('geog is not null and score is null').find_each do |location|
+      begin
+        location.update_attribute :score, Hotel.by_location(location).limit(nil).count
+        nil
+      rescue => msg
+        nil
+      end
     end
   end
 
@@ -85,65 +100,60 @@ class Location < ActiveRecord::Base
   end
 
   def landmark?
-    landmark
+    location_type == 'Point of Interest'
   end
 
   def city?
-    landmark.blank? and city
+    location_type == 'City'
   end
 
   def region?
-    city.blank? and region 
+    location_type == 'Region'
+    # ['Region', 'Province (State)'].include? location_type
+  end
+
+  def place?
+    ['Neighborhood', 'Place'].include? location_type
   end
 
   def country?
-    city.blank? and region.blank? and country
+    location_type == 'Country'
   end
 
   def to_s
-    s = ''
-    if landmark
-      s = "#{landmark}, #{city}"
-    elsif city and region 
-      s =  "#{city}, #{region}, #{country}" 
-    elsif region
-      s = "#{region}, #{country}"
-    elsif city
-      s = "#{city}, #{country}"
-    else
-      s = country
-    end
-    s
+    description
   end
 
   def title
-    if landmark?
-      landmark
-    elsif city?
-      city
-    elsif region?
-      region
-    elsif country?
-      country
-    else
-      to_s
-    end
+    name
   end
 
-  def create_slug
-    s = ''
-    if landmark
-      s = "#{landmark}"    
-    elsif city and region 
-      s =  "#{city}-#{region}-#{country}" 
-    elsif region
-      s = "#{region}-#{country}"
-    elsif city
-      s = "#{city}-#{country}"
-    else
-      s = country
-    end
-    s.gsub('.','').parameterize
+  # def create_slug
+  #   s = ''
+  #   if landmark
+  #     s = "#{landmark}"    
+  #   elsif city and region 
+  #     s =  "#{city}-#{region}-#{country}" 
+  #   elsif region
+  #     s = "#{region}-#{country}"
+  #   elsif city
+  #     s = "#{city}-#{country}"
+  #   else
+  #     s = country
+  #   end
+  #   s.gsub('.','').parameterize
+  # end
+
+  def to_soulmate
+    {
+      id: id,
+      term: name,
+      score: score,
+      data:{
+        slug: slug,
+        title: description
+      }
+    }.as_json
   end
 
 end
