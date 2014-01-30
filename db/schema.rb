@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117110731) do
+ActiveRecord::Schema.define(:version => 20140124195914) do
 
   create_table "agoda_cities", :force => true do |t|
     t.integer "agoda_country_id"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(:version => 20140117110731) do
     t.string  "country_iso2"
     t.float   "longitude"
     t.float   "latitude"
+  end
+
+  create_table "agoda_hotel_images", :force => true do |t|
+    t.integer  "agoda_hotel_id"
+    t.string   "image_url"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "agoda_hotels", :force => true do |t|
@@ -186,6 +193,14 @@ ActiveRecord::Schema.define(:version => 20140117110731) do
     t.string  "language_code"
     t.string  "name"
     t.string  "region_type"
+  end
+
+  create_table "ean_countries", :force => true do |t|
+    t.string "language_code"
+    t.string "country_name"
+    t.string "country_code"
+    t.string "transliteration"
+    t.string "continent_id"
   end
 
   create_table "ean_hotel_attribute_links", :force => true do |t|
@@ -477,6 +492,7 @@ ActiveRecord::Schema.define(:version => 20140117110731) do
     t.string  "booking_url"
     t.integer "laterooms_hotel_id"
     t.string  "laterooms_url"
+    t.string  "hotel_provider"
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -553,25 +569,8 @@ ActiveRecord::Schema.define(:version => 20140117110731) do
     t.integer "geog",                 :limit => 0
   end
 
-  create_table "locations", :force => true do |t|
-    t.string  "city"
-    t.integer "city_id"
-    t.string  "region"
-    t.integer "region_id"
-    t.string  "country"
-    t.string  "country_code"
-    t.string  "language_code"
-    t.float   "longitude"
-    t.float   "latitude"
-    t.string  "slug"
-    t.integer "geog",          :limit => 0
-    t.integer "etb_city_id"
-    t.string  "landmark"
-    t.string  "is_capital",    :limit => 1
-    t.integer "ranking"
-  end
-
-  add_index "locations", ["slug"], :name => "locations_slug_idx"
+# Could not dump table "locations" because of following StandardError
+#   Unknown type 'geography' for column 'geog'
 
   create_table "spatial_ref_sys", :id => false, :force => true do |t|
     t.integer "srid",                      :null => false
