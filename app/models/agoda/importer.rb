@@ -24,6 +24,10 @@ class Agoda::Importer
       import AgodaNeighbourhood
     end
 
+    def images
+      
+    end
+
     def import(klass)
       klass.delete_all
       klass.import

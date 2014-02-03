@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  laterooms_hotel_id: 1
+  image_url: MyString
+  default_image: false
+
+two:
+  laterooms_hotel_id: 1
+  image_url: MyString
+  default_image: false

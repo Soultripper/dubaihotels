@@ -22,7 +22,7 @@ module Utilities
   end
 
   def nil_round(value)
-    value ? value.round : 0
+    value ? value.to_f.round : 0
   end
 
   def file_to_json(file)
