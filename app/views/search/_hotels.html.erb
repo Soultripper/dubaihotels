@@ -7,6 +7,10 @@
           <div class="progress-bar"></div>
       </div>
   </div>
+  <div class="updater" style="display:none">
+      <div class="message">Updating results...</div>
+      <i class="fa fa-refresh fa-spin"></i>
+  </div>
   <div class="overlay" style="display:none" >&nbsp;</div>
   <div class="sort">
       <ul class="hidden-md hidden-sm hidden-xs">
@@ -54,7 +58,7 @@
               <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===4.5, 'fa-star':hotel.star_rating>4.5, 'fa-star-o': hotel.star_rating<4.5}"></i>
           </div>  
           <ul class="deals">
-              <li ng-repeat="provider in hotel.providers.slice(0,4) ">
+              <li ng-repeat="provider in hotel.providers.slice(0,4)" ng-class="{'no-price':!provider.min_price}">
                 <a ng-href="{{provider.link}}" target="_blank">
                   <span class="name">
                     {{hotelProvider.getDescription(provider)}}
@@ -64,10 +68,12 @@
                   </div>
                 </a>
               </li>    
+              <li class="all-deals">
+                <a href="#" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
+                    See all deals <i class="fa fa-caret-right"></i>
+                </a>
+              </li>
           </ul>
-          <a href="#" class="all-deals" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
-              See all deals <i class="fa fa-caret-right"></i>
-          </a>
           <ul class="tabs">
               <li class="tab-details"> 
                   <a href="#" onclick="return app.tabSelect(this, 'details')">

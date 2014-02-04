@@ -99,11 +99,6 @@ ul.amenities li.restaurant:after {
 ul.amenities li.spa:after {
   background-position: -200px;
 }
-@media (max-width: 992px) {
-  ul.amenities li {
-    width: 50%;
-  }
-}
 #results {
   position: relative;
   padding-top: 10px;
@@ -132,6 +127,23 @@ ul.amenities li.spa:after {
 }
 #results > .loader .progress {
   margin: 0;
+}
+#results > .updater {
+  z-index: 6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(235, 145, 0, 0.9);
+  text-align: center;
+  padding: 5px;
+  font-size: 25px;
+  color: #fff;
+}
+#results > .updater .message {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 #results .overlay {
   z-index: 2;
@@ -162,6 +174,9 @@ ul.amenities li.spa:after {
 }
 #results section:after {
   clear: both;
+}
+#results section h4 a {
+  color: #555555;
 }
 #results section .image {
   float: left;
@@ -274,6 +289,9 @@ ul.amenities li.spa:after {
   font-size: 12px;
   line-height: 14px;
 }
+#results section .details .deals li.no-price {
+  opacity: 0.4;
+}
 #results section .details .deals li a {
   color: #00a4ff;
 }
@@ -292,9 +310,15 @@ ul.amenities li.spa:after {
   height: 10px;
   border-bottom: 2px dotted;
 }
-#results section .details .all-deals {
+#results section .details .deals li.all-deals {
   font-size: 13px;
   font-weight: bold;
+}
+#results section .details .deals li.all-deals a {
+  color: #eb9100;
+}
+#results section .details .deals li.all-deals:after {
+  display: none;
 }
 #results section .details .tabs {
   position: absolute;
@@ -371,6 +395,8 @@ ul.amenities li.spa:after {
   height: 34px;
 }
 #results section .best-deal .high-price {
+  display: block;
+  height: 15px;
   text-decoration: line-through;
   text-align: center;
   color: #00a4ff;
@@ -498,11 +524,6 @@ ul.amenities li.spa:after {
 }
 #results section .tabs-content .content.tab-details .amenities li.spa:after {
   background-position: -200px;
-}
-@media (max-width: 992px) {
-  #results section .tabs-content .content.tab-details .amenities li {
-    width: 50%;
-  }
 }
 #results section .tabs-content .content.tab-details .amenities li {
   float: left;
@@ -768,11 +789,6 @@ ul.amenities li.spa:after {
 #refine .contents .controls .filters .features ul li.spa:after {
   background-position: -200px;
 }
-@media (max-width: 992px) {
-  #refine .contents .controls .filters .features ul li {
-    width: 50%;
-  }
-}
 #refine .contents .controls .filters .features ul li label {
   display: block;
 }
@@ -952,6 +968,9 @@ ul.amenities li.spa:after {
     height: 100%;
     right: 0;
     overflow-y: auto;
+  }
+  #refine .contents .controls .filters .features ul li {
+    font-size: 13px;
   }
   body.sidebar-open {
     overflow: hidden;

@@ -1,5 +1,5 @@
-﻿#home-search {
-  background-image: url(home/cityscape.jpg);
+#home-search {
+  background-image: url(../assets/home/cityscape.jpg);
   background-position: top center;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -11,7 +11,7 @@
 #home-search h1 {
   color: #fff;
   text-align: center;
-  background-image: url(home/underline.png);
+  background-image: url(../assets/home/underline.png);
   background-repeat: no-repeat;
   background-position: bottom center;
   font-size: 19px;
@@ -49,7 +49,7 @@
   margin: 0 10px;
 }
 .popular-destinations {
-  background-image: url(content/map-bg.jpg);
+  background-image: url(../assets/content/map-bg.jpg);
   background-repeat: no-repeat;
   background-position: top center;
   margin-bottom: 20px;
@@ -95,5 +95,10 @@
     max-width: 100%;
     width: auto;
     height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .popular-destinations div:last-child {
+    width: 100%;
   }
 }

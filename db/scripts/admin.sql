@@ -177,3 +177,14 @@ FROM
   WHERE  h.booking_hotel_id = br.booking_hotel_id AND state_province IS NULL
  limit (100)
 
+
+INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
+
+SELECT h.id, 'BookingHotel', i.url_max_300, i.url_square60,  CASE description_type_id WHEN 1 THEN FALSE ELSE TRUE END FROM hotels h 
+JOIN booking_hotel_images i on i.booking_hotel_id = h.booking_hotel_id 
+WHERE h.booking_hotel_id IS NOT NULL
+AND splendia_hotel_id IS NULL
+AND laterooms_hotel_id IS NULL
+AND ean_hotel_id IS NULL
+AND agoda_hotel_id IS NULL
+AND etb_hotel_id IS NULL

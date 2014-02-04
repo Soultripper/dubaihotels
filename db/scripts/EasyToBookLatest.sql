@@ -147,7 +147,7 @@ SELECT
 	ETB.longitude, 
 	ETB.latitude, 
 	CAST(stars AS DOUBLE PRECISION) AS star_rating,
-	ETB.check_in 
+	ETB.check_in,
 	ETB.check_out, 
 	CAST(min_price as double precision) as low_rate, 
 	NULL as property_currency, 
@@ -159,7 +159,7 @@ SELECT
 FROM etb_hotels ETB
 JOIN etb_cities cities on cities.id = ETB.city_id
 JOIN etb_countries countries on countries.id = cities.country_id
-JOIN etb_hotel_descriptions descs on desc.etb_hotel_id = ETB.id
+JOIN etb_hotel_descriptions descs on descs.etb_hotel_id = ETB.id
 LEFT JOIN hotels h1 ON h1.etb_hotel_id = ETB.id
 WHERE h1.id IS NULL
 
@@ -170,46 +170,17 @@ CREATE INDEX hotels_etb_hotel_id_idx
   (etb_hotel_id);
   
 
+select * from etb_hotel_images limit 100
 
-
--- DROP TABLE late_rooms_hotel_images;
-
--- CREATE TABLE late_rooms_hotel_images
--- (
---   id serial NOT NULL,
---   etb_hotel_id integer,
---   image_url character varying(255),
---   default_image boolean,
---   CONSTRAINT laterooms_hotel_images_pkey PRIMARY KEY (id)
--- )
--- WITH (
---   OIDS=FALSE
--- );
--- ALTER TABLE late_rooms_hotel_images
---   OWNER TO "Sky";
 -- 
--- INSERT INTO late_rooms_hotel_images (etb_hotel_id, image_url, default_image)
---  SELECT id, regexp_split_to_table(images, E';'), false 
---  FROM etb_hotels 
--- 
--- INSERT INTO late_rooms_hotel_images (etb_hotel_id, image_url, default_image)
---  SELECT id, image, true
---  FROM etb_hotels 
- 
-
--- CREATE  INDEX index_etb_hotel_id_on_late_rooms_hotel_images
---   ON late_rooms_hotel_images
---   USING btree
---   (etb_hotel_id);
-
-INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
-SELECT t1.id, 'LateRoomsHotel', hi.image_url,hi.image_url, default_image
-FROM late_rooms_hotel_images hi
-JOIN
-(SELECT h.id, etb_hotel_id FROM hotels h 
-LEFT JOIN hotel_images i ON h.id = i.hotel_id
-WHERE  i.id IS NULL AND  h.etb_hotel_id IS NOT NULL) as t1
-ON t1.etb_hotel_id = hi.etb_hotel_id 
+-- INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
+-- SELECT t1.id, 'EasyToBookHotel', hi.image,hi.image, false
+-- FROM etb_hotel_images hi
+-- JOIN
+-- (SELECT h.id, etb_hotel_id FROM hotels h 
+-- LEFT JOIN hotel_images i ON h.id = i.hotel_id
+-- WHERE  i.id IS NULL AND  h.etb_hotel_id IS NOT NULL) as t1
+-- ON t1.etb_hotel_id = hi.etb_hotel_id 
 
 -- CREATE TABLE late_rooms_amenities
 -- (

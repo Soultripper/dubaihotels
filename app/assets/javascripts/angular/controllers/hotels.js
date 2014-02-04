@@ -61,6 +61,16 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       }, 500);
     };
 
+    var startUpdater = function(){
+      $("#results .updater").fadeIn('fast');
+      $("#results .overlay").fadeIn('fast');
+    };
+
+    var stopUpdater = function(){
+      $("#results .updater").fadeOut('fast');
+      $("#results .overlay").fadeOut('fast');
+    };
+
     $scope.search = function(callback) {
       console.log('calling search')
       if(!callback)
@@ -89,6 +99,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.setupPage = function(response){
+      stopUpdater();
       $scope.pageState = response.state;
       console.log('State is:  ' + $scope.pageState)
       // console.log(response)
@@ -178,6 +189,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     var applyFilter = function(){
+      startUpdater();
       $routeParams.page_no = 1;
       $scope.search();
     };

@@ -164,5 +164,11 @@ LEFT JOIN hotel_images i ON h.id = i.hotel_id
 WHERE  i.id IS NULL AND  h.agoda_hotel_id IS NOT NULL) as t1
 ON t1.agoda_hotel_id = hi.agoda_hotel_id 
 
+select * from hotels where hotel_name = 'Fairmont The Palm Hotel'
+
+select * from agoda_hotel_images where agoda_hotel_id = 337592
+
+select * from hotel_images 
+
 
 	

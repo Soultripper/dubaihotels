@@ -8,7 +8,6 @@
           var timeoutId
           tuttimer = [];
           scope.$on("loading-started", function(e) {
-            console.log('loading-started')
 
             $("#results .loader .progress-bar").width("0%");
 
@@ -38,7 +37,6 @@
           });
 
           scope.$on("loading-complete", function(e) {
-            console.log('loading-complete')
             $timeout.cancel(timeoutId);
             for (var i = 0; i < tuttimer.length; i++) {
               $timeout.cancel(tuttimer[i])
