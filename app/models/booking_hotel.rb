@@ -7,6 +7,9 @@ class BookingHotel < ActiveRecord::Base
                   :max_persons_in_reservation,:name,:hoteltype_id,:preferred,:country_code,:class_is_estimated,:is_closed,
                   :check_out_to,:check_out_from,:zip,:contractchain_id,:classification,:maxrate,:languagecode,:currencycode, :id
 
+
+  has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id'
+
   def self.from_booking(json)
     BookingHotel.new  id: json['hotel_id'],
       district: json['district'],
@@ -49,4 +52,20 @@ class BookingHotel < ActiveRecord::Base
       offset += rows
     end
   end
+
+  # def self.without_hotel_images
+  #   Hotel.booking_only.
+  #       joins('LEFT JOIN hotel_images on hotel_images.hotel_id = hotels.id').
+  #       where('hotel_images.id IS NULL').
+  #       select('booking_hotel_id').
+  #       pluck(:booking_hotel_id)
+  # end
+
+  def self.without_booking_hotel_images
+      joins('LEFT JOIN booking_hotel_images on booking_hotel_images.booking_hotel_id = booking_hotels.id').
+      where('booking_hotel_images.id IS NULL').
+      select('booking_hotels.id').
+      pluck(:id)
+  end
+
 end

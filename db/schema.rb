@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140124195914) do
+ActiveRecord::Schema.define(:version => 20140205060702) do
 
   create_table "agoda_cities", :force => true do |t|
     t.integer "agoda_country_id"
@@ -34,11 +34,17 @@ ActiveRecord::Schema.define(:version => 20140124195914) do
     t.float   "latitude"
   end
 
+  create_table "agoda_hotel_facilities", :force => true do |t|
+    t.integer "agoda_hotel_id"
+    t.string  "group_description"
+    t.integer "property_id"
+    t.string  "name"
+    t.string  "translated_name"
+  end
+
   create_table "agoda_hotel_images", :force => true do |t|
-    t.integer  "agoda_hotel_id"
-    t.string   "image_url"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.integer "agoda_hotel_id"
+    t.string  "image_url"
   end
 
   create_table "agoda_hotels", :force => true do |t|
@@ -401,6 +407,8 @@ ActiveRecord::Schema.define(:version => 20140124195914) do
     t.integer "geog",                 :limit => 0
   end
 
+  add_index "etb_hotels", ["geog"], :name => "etb_hotels_geog_idx"
+
   create_table "etb_points_of_interests", :force => true do |t|
     t.string  "name"
     t.float   "longitude"
@@ -501,11 +509,10 @@ ActiveRecord::Schema.define(:version => 20140124195914) do
   add_index "hotels", ["ean_hotel_id"], :name => "ean_hotel_id_idx"
   add_index "hotels", ["etb_hotel_id"], :name => "hotels_etb_hotel_id_idx"
   add_index "hotels", ["geog"], :name => "hotels_geog_idx"
-  add_index "hotels", ["laterooms_hotel_id"], :name => "index_hotels_on_laterooms_hotel_id", :unique => true
+  add_index "hotels", ["laterooms_hotel_id"], :name => "index_hotels_on_laterooms_hotel_id"
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
   add_index "hotels", ["ranking"], :name => "idx_ranking"
-  add_index "hotels", ["splendia_hotel_id"], :name => "hotels_splendia_hotel_id_idx"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
   add_index "hotels", ["state_province"], :name => "hotels_state_province_idx"
 
@@ -527,6 +534,21 @@ ActiveRecord::Schema.define(:version => 20140124195914) do
 
   add_index "hotels_hotel_amenities", ["hotel_amenity_id"], :name => "index_hotels_hotel_amenities_on_hotel_amenity_id"
   add_index "hotels_hotel_amenities", ["hotel_id"], :name => "index_hotels_hotel_amenities_on_hotel_id"
+
+  create_table "late_rooms_amenities", :force => true do |t|
+    t.integer "laterooms_hotel_id"
+    t.string  "amenity"
+  end
+
+  add_index "late_rooms_amenities", ["laterooms_hotel_id"], :name => "index_laterooms_hotel_id_on_late_rooms_amenities"
+
+  create_table "late_rooms_hotel_images", :force => true do |t|
+    t.integer "laterooms_hotel_id"
+    t.string  "image_url"
+    t.boolean "default_image"
+  end
+
+  add_index "late_rooms_hotel_images", ["laterooms_hotel_id"], :name => "index_laterooms_hotel_id_on_late_rooms_hotel_images"
 
   create_table "late_rooms_hotels", :force => true do |t|
     t.string  "name"

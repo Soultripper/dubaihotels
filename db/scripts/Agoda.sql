@@ -1,16 +1,19 @@
+DROP INDEX agoda_hotel_id_idx;
+UPDATE hotels SET  agoda_hotel_id = NULL WHERE agoda_hotel_id IS NOT NULL
+
 --Add Geography
-ALTER TABLE agoda_hotels ADD COLUMN geog geography(Point,4326);
+--ALTER TABLE agoda_hotels ADD COLUMN geog geography(Point,4326);
 
 --Update Geography
-UPDATE agoda_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography)
-WHERE (longitude BETWEEN -180 AND 180)
-AND (Latitude BETWEEN -90 AND 90);
+-- UPDATE agoda_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography)
+-- WHERE (longitude BETWEEN -180 AND 180)
+-- AND (Latitude BETWEEN -90 AND 90);
 --Except for hotel 445969 which has an invalid latitude :s
 
 --Index Geography
-CREATE INDEX agoda_hotels_geog_idx
-  ON agoda_hotels
-  USING gist(geog);
+-- CREATE INDEX agoda_hotels_geog_idx
+--   ON agoda_hotels
+--   USING gist(geog);
 
 --86,090 to match
 
@@ -25,7 +28,7 @@ FROM
 WHERE
 	LOWER(H.country_code) = LOWER(AH.countryISOCode)
 	AND LOWER(H.postal_code) = LOWER(AH.zipcode)
-	AND LOWER(H.Name) = LOWER(AH.Hotel_Name)
+	AND LOWER(H.Name) = LOWER(AH.Hotel_Name);
 
 -- -- PHASE 2 -  MATCH EXACT WITH SAME NAME AND WITHIN 100m
 -- 7693
@@ -36,7 +39,7 @@ FROM
 WHERE
 	LOWER(H.Name) = LOWER(AH.Hotel_Name)
 	AND ST_DWithin(AH.geog, H.Geog, 100)
-	AND H.Agoda_Hotel_Id IS NULL	
+	AND H.Agoda_Hotel_Id IS NULL	;
 
  -- PHASE 3 - MATCH FUZZY NAME ((0.9 correlation) AND WITHIN 500m
 -- 5906
@@ -47,7 +50,7 @@ FROM (
 	JOIN hotels h ON ST_DWithin(e.geog, h.geog, 500) 
 		WHERE h.agoda_hotel_id IS NULL 
 		AND similarity(lower(h.name), lower(e.hotel_name)) >0.9 ) AS matched_hotel
-WHERE matched_hotel.hotel_id = hotels.id and hotels.agoda_hotel_id IS NULL
+WHERE matched_hotel.hotel_id = hotels.id and hotels.agoda_hotel_id IS NULL;
 
  -- PHASE 4 - MATCH FUZZY NAME ((0.9 correlation) AND WITHIN 1km
  UPDATE Public.Hotels AS H
@@ -57,7 +60,7 @@ FROM
 WHERE
 	H.agoda_hotel_id IS NULL
 	AND ST_DWithin(AH.geog, H.geog, 1000) 
-	AND SIMILARITY(H.name, AH.hotel_name) >0.9
+	AND SIMILARITY(H.name, AH.hotel_name) >0.9;
 	
 	
  -- PHASE 5 - MATCH FUZZY NAME ((0.8 correlation) AND WITHIN 500
@@ -69,7 +72,7 @@ FROM
 WHERE
 	H.agoda_hotel_id IS NULL
 	AND ST_DWithin(AH.geog, H.geog, 500) 
-	AND SIMILARITY(H.name, AH.hotel_name) >0.8
+	AND SIMILARITY(H.name, AH.hotel_name) >0.8;
 	
 
  -- PHASE 6 - MATCH FUZZY NAME ((0.85 correlation) AND WITHIN 1000
@@ -81,7 +84,7 @@ FROM
 WHERE
 	H.agoda_hotel_id IS NULL
 	AND ST_DWithin(AH.geog, H.geog, 1000) 
-	AND SIMILARITY(H.name, AH.hotel_name) >0.85
+	AND SIMILARITY(H.name, AH.hotel_name) >0.85;
 	
 -- PHASE 7 - MATCH FUZZY NAME ((0.75 correlation) AND WITHIN 2000
 UPDATE Public.Hotels AS H
@@ -91,7 +94,7 @@ FROM
 WHERE
 	H.agoda_hotel_id IS NULL
 	AND ST_DWithin(AH.geog, H.geog, 2000) 
-	AND SIMILARITY(H.name, AH.hotel_name) >0.75
+	AND SIMILARITY(H.name, AH.hotel_name) >0.75;
 
 -- PHASE 8 - MATCH FUZZY NAME ((0.75 correlation) AND WITHIN 10000
 -- 2048
@@ -102,9 +105,9 @@ FROM
 WHERE
 	H.agoda_hotel_id IS NULL
 	AND ST_DWithin(AH.geog, H.geog, 10000) 
-	AND SIMILARITY(H.name, AH.hotel_name) >0.8
+	AND SIMILARITY(H.name, AH.hotel_name) >0.8;
 	
-delete from hotels where hotel_provider = 'agoda'
+DELETE FROM  hotels WHERE hotel_provider = 'agoda';
 -- PHASE 8 - INSERT all non-matched EAN hotels
 INSERT INTO hotels (
 name, 
@@ -123,7 +126,7 @@ property_currency,
 geog, 
 description, 
 agoda_hotel_id, 
-user_rating, 
+agoda_user_rating, 
 hotel_provider)
 SELECT 
 	hotel_name as name, 
@@ -142,11 +145,31 @@ SELECT
 	ah.geog, 
 	overview as description, 
 	ah.id as agoda_hotel_id,
-	rating_average as user_rating,
+	rating_average as agoda_user_rating,
 	'agoda'
 FROM agoda_hotels ah
 LEFT JOIN hotels h1 ON h1.agoda_hotel_id = ah.id
 WHERE h1.id IS NULL
+
+-- DROP TABLE agoda_hotel_images;
+
+CREATE TABLE agoda_hotel_images
+(
+  id serial NOT NULL,
+  agoda_hotel_id integer,
+  image_url character varying(255),
+  CONSTRAINT agoda_hotel_images_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE INDEX agoda_hotel_id_idx
+  ON hotels
+  USING btree
+  (agoda_hotel_id);
+  
+DELETE FROM agoda_hotel_images
 
 INSERT INTO agoda_hotel_images (agoda_hotel_id, image_url)
 SELECT
@@ -154,6 +177,7 @@ SELECT
    unnest(array[photo1, photo2, photo3, photo4, photo5]) AS "image_url"
 FROM agoda_hotels
 
+DELETE FROM hotel_images WHERE caption = 'AgodaHotel'
 
 INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url)
 SELECT t1.id, 'AgodaHotel', hi.image_url ,hi.image_url 
@@ -164,11 +188,6 @@ LEFT JOIN hotel_images i ON h.id = i.hotel_id
 WHERE  i.id IS NULL AND  h.agoda_hotel_id IS NOT NULL) as t1
 ON t1.agoda_hotel_id = hi.agoda_hotel_id 
 
-select * from hotels where hotel_name = 'Fairmont The Palm Hotel'
-
-select * from agoda_hotel_images where agoda_hotel_id = 337592
-
-select * from hotel_images 
 
 
 	

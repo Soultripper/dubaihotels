@@ -179,12 +179,26 @@ FROM
 
 
 INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
-
 SELECT h.id, 'BookingHotel', i.url_max_300, i.url_square60,  CASE description_type_id WHEN 1 THEN FALSE ELSE TRUE END FROM hotels h 
-JOIN booking_hotel_images i on i.booking_hotel_id = h.booking_hotel_id 
+JOIN booking_hotel_images i on i.relo = h.booking_hotel_id 
 WHERE h.booking_hotel_id IS NOT NULL
 AND splendia_hotel_id IS NULL
 AND laterooms_hotel_id IS NULL
 AND ean_hotel_id IS NULL
 AND agoda_hotel_id IS NULL
 AND etb_hotel_id IS NULL
+
+
+SELECT h.id FROM hotels h 
+LEFT JOIN hotel_images hi on hi.hotel_id = h.id
+WHERE hi.id is null AND
+ h.booking_hotel_id IS NOT NULL
+AND splendia_hotel_id IS NULL
+AND laterooms_hotel_id IS NULL
+AND ean_hotel_id IS NULL
+AND agoda_hotel_id IS NULL
+AND etb_hotel_id IS NULL
+
+select count(*) from booking_hotels bh
+left join booking_hotel_images bhi on bhi.booking_hotel_id = bh.id
+where bhi.id is null

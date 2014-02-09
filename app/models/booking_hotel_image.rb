@@ -19,4 +19,14 @@ class BookingHotelImage < ActiveRecord::Base
     end
   end
 
+  def self.fetch_missing
+    ids = BookingHotel.without_booking_hotel_images
+    ids.each_slice(50) do |sliced_ids|
+      hotel_images = Booking::Client.hotel_images hotel_ids: sliced_ids
+      booking_hotel_images = hotel_images.map  {|hotel_image| BookingHotelImage.from_booking hotel_image}
+      import booking_hotel_images, :validate => false
+    end
+  end
+
+
 end

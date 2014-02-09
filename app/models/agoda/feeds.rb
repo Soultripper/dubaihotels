@@ -28,6 +28,8 @@ class Agoda::Feeds
       parse_response(http.get(url + '/bookings.getHotels', params))
     end
 
+
+
     def continents(params={})
       parse_response(http.get(feed_url(1), params))
     end
@@ -42,6 +44,10 @@ class Agoda::Feeds
 
     def neighbourhoods(params={})
       parse_response(http.get(feed_url(4), params))
+    end
+
+    def facilities(params={})
+      parse_response(http.get(feed_url(9), params))
     end
 
     def regions(params={})

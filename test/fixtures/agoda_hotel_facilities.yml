@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  agoda_hotel_id: 1
+  group_description: MyString
+  property_id: 1
+  name: MyString
+  translated_name: MyString
+
+two:
+  agoda_hotel_id: 1
+  group_description: MyString
+  property_id: 1
+  name: MyString
+  translated_name: MyString

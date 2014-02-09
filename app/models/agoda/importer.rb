@@ -6,6 +6,7 @@ class Agoda::Importer
       regions
       cities
       neighbourhoods
+      facilities
     end
 
     def countries
@@ -22,6 +23,11 @@ class Agoda::Importer
 
     def neighbourhoods
       import AgodaNeighbourhood
+    end
+
+
+    def facilities
+      import AgodaHotelFacility
     end
 
     def images

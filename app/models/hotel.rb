@@ -18,9 +18,28 @@ class Hotel < ActiveRecord::Base
   has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
   has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
 
+  has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id', :primary_key => 'booking_hotel_id'
+  has_many :hotel_images
+
   def self.cols
     "ean_hotel_id, sequence_number,name, address1,address2,city,state_province,postal_code ,country,latitude,longitude,airport_code,property_category,property_currency,star_rating,confidence, supplier_type,location,chain_code_id,region_id,high_rate,low_rate,check_in_time,check_out_time"
   end
+
+  def self.booking_only
+    where('
+      hotels.booking_hotel_id IS NOT NULL
+      AND splendia_hotel_id IS NULL
+      AND laterooms_hotel_id IS NULL
+      AND ean_hotel_id IS NULL
+      AND agoda_hotel_id IS NULL
+      AND etb_hotel_id IS NULL')
+  end
+
+  def self.without_images
+    joins('LEFT JOIN hotel_images on hotel_images.hotel_id = hotels.id').
+    where('hotel_images.id IS NULL')  
+  end
+
 
   def self.soulmate_loader
     @soulmate_loader ||= Soulmate::Loader.new("hotel")

@@ -1,27 +1,20 @@
 -- Index: hotels_etb_hotel_id_idx
-select * from etb_hotel_descriptions
--- DROP INDEX hotels_etb_hotel_id_idx;
-UPDATE hotels SET  etb_hotel_id = NULL
+-- DROP INDEX etb_hotel_id_idx;
+UPDATE hotels SET  etb_hotel_id = NULL WHERE etb_hotel_id IS NOT NULL;
 
--- select count(*) from etb_hotels
-select * from etb_hotels limit 100
---select * from etb_hotels where id =97760
 --Add Geography
-ALTER TABLE etb_hotels ADD COLUMN geog geography(Point,4326);
+-- ALTER TABLE etb_hotels ADD COLUMN geog geography(Point,4326);
 
 --Update Geography
-UPDATE etb_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography)
+-- UPDATE etb_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography)
 
 --Index Geography
-CREATE INDEX etb_hotels_geog_idx
-  ON etb_hotels
-  USING gist(geog);
-  
-UPDATE hotels SET etb_hotel_id = NULL
-
+-- CREATE INDEX etb_hotels_geog_idx
+--   ON etb_hotels
+--   USING gist(geog);
+ 
 -- PHASE 1 - MATCH ON NAME / CITY / POSTAL CODE
 -- Updated 95803
-
 UPDATE Public.Hotels AS H
 SET etb_hotel_Id = ETB.Id
 FROM
@@ -113,8 +106,8 @@ WHERE
 	AND ST_DWithin(ETB.geog, H.geog, 10000) 
 	AND SIMILARITY(H.name, ETB.name) >0.8;
 
-select * from etb_hotels
---delete from hotels where hotel_provider = 'agoda'
+DELETE FROM hotels WHERE hotel_provider = 'easytobook';
+
 -- PHASE 8 - INSERT all non-matched EAN hotels
 -- 10714
 INSERT INTO hotels (
@@ -134,7 +127,7 @@ property_currency,
 geog, 
 description, 
 etb_hotel_id, 
-user_rating, 
+etb_user_rating, 
 hotel_provider)
 SELECT 
 	ETB.name as name, 
@@ -154,55 +147,29 @@ SELECT
 	ETB.geog, 
 	descs.description as description, 
 	ETB.id as etb_hotel_id,
-	CAST(hotel_review_score AS DOUBLE PRECISION) as user_rating,
+	CAST(hotel_review_score AS DOUBLE PRECISION) as etb_user_rating,
 	'easytobook' AS hotel_provider
 FROM etb_hotels ETB
 JOIN etb_cities cities on cities.id = ETB.city_id
 JOIN etb_countries countries on countries.id = cities.country_id
 JOIN etb_hotel_descriptions descs on descs.etb_hotel_id = ETB.id
 LEFT JOIN hotels h1 ON h1.etb_hotel_id = ETB.id
-WHERE h1.id IS NULL
+WHERE h1.id IS NULL;
 
-
-CREATE INDEX hotels_etb_hotel_id_idx
+CREATE INDEX etb_hotel_id_idx
   ON hotels
   USING btree
   (etb_hotel_id);
   
 
-select * from etb_hotel_images limit 100
+DELETE FROM hotel_images where caption = 'EasyToBookHotel';
 
--- 
--- INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
--- SELECT t1.id, 'EasyToBookHotel', hi.image,hi.image, false
--- FROM etb_hotel_images hi
--- JOIN
--- (SELECT h.id, etb_hotel_id FROM hotels h 
--- LEFT JOIN hotel_images i ON h.id = i.hotel_id
--- WHERE  i.id IS NULL AND  h.etb_hotel_id IS NOT NULL) as t1
--- ON t1.etb_hotel_id = hi.etb_hotel_id 
+INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
+SELECT t1.id, 'EasyToBookHotel', hi.image,hi.image, false
+FROM etb_hotel_images hi
+JOIN
+(SELECT h.id, etb_hotel_id FROM hotels h 
+LEFT JOIN hotel_images i ON h.id = i.hotel_id
+WHERE  i.id IS NULL AND  h.etb_hotel_id IS NOT NULL) as t1
+ON t1.etb_hotel_id = hi.etb_hotel_id ;
 
--- CREATE TABLE late_rooms_amenities
--- (
---   id serial NOT NULL,
---   etb_hotel_id integer,
---   amenity character varying(255),
---   CONSTRAINT late_rooms_amenities_pkey PRIMARY KEY (id)
--- )
--- WITH (
---   OIDS=FALSE
--- );
--- ALTER TABLE late_rooms_amenities
---   OWNER TO "Sky";
-
-INSERT INTO late_rooms_amenities (etb_hotel_id, amenity)
- SELECT id, regexp_split_to_table(facilities, E';') 
- FROM etb_hotels 
-
-
-select * from late_rooms_amenities limit 1000
-
-CREATE  INDEX index_etb_hotel_id_on_late_rooms_amenities
-  ON late_rooms_amenities
-  USING btree
-  (etb_hotel_id);
