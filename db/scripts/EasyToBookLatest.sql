@@ -173,3 +173,26 @@ LEFT JOIN hotel_images i ON h.id = i.hotel_id
 WHERE  i.id IS NULL AND  h.etb_hotel_id IS NOT NULL) as t1
 ON t1.etb_hotel_id = hi.etb_hotel_id ;
 
+-- AMENITIES
+ALTER TABLE etb_facilities ADD COLUMN flag integer;
+ALTER TABLE etb_hotel_facilities ADD COLUMN amenities text;
+ALTER TABLE etb_hotel_facilities ADD COLUMN flag integer;
+
+INSERT INTO etb_facilities VALUES (586, 'Pets allowed', 128)
+INSERT INTO etb_facilities VALUES (587,'Parking (free)', 8)
+INSERT INTO etb_facilities VALUES (588,'Spa Tub', 1024)
+INSERT INTO etb_facilities VALUES (590,'Free Parking (limited)', 8)
+INSERT INTO etb_facilities VALUES (591,'Free parking', 8)
+
+
+UPDATE etb_facilities SET flag = 4 WHERE description = 'BabySitting' OR description = 'Child Care Program' or description like 'Children''s%';
+UPDATE etb_facilities SET flag = 8 WHERE lower(description) like '%parking%';
+UPDATE etb_facilities SET flag = 16 WHERE description = 'Aerobics' OR description = 'Aquagym' OR description = 'Fitness center' OR description = 'Health club' OR description = 'Yoga/Pilates';
+UPDATE etb_facilities SET flag = 64 WHERE description = 'Entire property is non-smoking' OR description = 'Smoking not allowed (fines apply)' OR description = 'Smoking area';
+UPDATE etb_facilities SET flag = 256 WHERE lower(description) like '%pool%' OR description = 'Water sports';
+UPDATE etb_facilities SET flag = 512 WHERE lower(description) like '%restaurant%';
+UPDATE etb_facilities SET flag = 1024 WHERE  description = 'Spa/wellness center';
+
+UPDATE hotels SET amenities = t.flag
+FROM (SELECT id, flag FROM etb_hotel_facilities WHERE flag IS NOT NULL) AS t
+WHERE hotels.etb_hotel_id = t.id AND hotels.amenities IS NULL
