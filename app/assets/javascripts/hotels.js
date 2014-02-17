@@ -1,5 +1,12 @@
 var Hotels = function(){
   
+  var searchOptions ={
+    domain: 'www.hot5.com',
+    // domain: 'localhost:5000',
+    minQueryLength: 2,
+    maxResults:     7    
+  }
+
   var init = function(){
     // $("#priceSlider").ionRangeSlider(
     //   {
@@ -34,12 +41,7 @@ var Hotels = function(){
   }
 
 
-  var searchOptions ={
-    domain: 'www.hot5.com',
-    // domain: 'localhost:5000',
-    minQueryLength: 2,
-    maxResults:     5    
-  }
+
 
   var priceRange = {
     change: function(priceSlider){

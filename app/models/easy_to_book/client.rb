@@ -23,9 +23,9 @@ class EasyToBook::Client
         faraday.headers['Accept-Encoding'] = 'gzip,deflate'
         faraday.headers['Content-Type'] = "application/xml; charset=utf-8"
         faraday.options[:nosignal] = true
-        faraday.request  :retry,   1   # times
+        faraday.request  :retry,   3   # times
         faraday.options[:timeout] = 20 
-        faraday.options[:open_timeout] = 2  
+        faraday.options[:open_timeout] = 20  
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
         faraday.adapter  :my_typhoeus

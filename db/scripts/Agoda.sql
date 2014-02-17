@@ -189,5 +189,63 @@ WHERE  i.id IS NULL AND  h.agoda_hotel_id IS NOT NULL) as t1
 ON t1.agoda_hotel_id = hi.agoda_hotel_id 
 
 
+CREATE TABLE agoda_hotel_facilities
+(
+  id serial NOT NULL,
+  agoda_hotel_id integer,
+  group_description character varying(255),
+  property_id integer,
+  name character varying(255),
+  translated_name character varying(255),
+  CONSTRAINT agoda_hotel_facilities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
-	
+CREATE TABLE agoda_amenities
+(
+  id integer NOT NULL ,
+  description text,
+  flag integer,
+  CONSTRAINT agoda_amenities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+INSERT INTO agoda_amenities (id, description) 
+SELECT DISTINCT property_id, name 
+FROM agoda_hotel_facilities
+ORDER BY 1 ASC
+
+UPDATE agoda_amenities SET flag = 1 WHERE lower(description) like '%wireless%';
+UPDATE agoda_amenities SET flag = 4 WHERE description = 'babysitting' OR description = 'pool (kids)' OR description = 'kids club'  OR description = 'family room' OR description = 'children''s playground';
+UPDATE agoda_amenities SET flag = 8 WHERE lower(description) like '%parking%' OR description = 'car park';
+UPDATE agoda_amenities SET flag = 16 WHERE description = 'fitness center';
+UPDATE agoda_amenities SET flag = 64 WHERE description ='non smoking rooms' OR description = 'smoking area';
+UPDATE agoda_amenities SET flag =128 WHERE description = 'pets allowed';
+UPDATE agoda_amenities SET flag = 256 WHERE lower(description) like '%pool%' ;
+UPDATE agoda_amenities SET flag = 512 WHERE lower(description) like '%restaurant%';
+UPDATE agoda_amenities SET flag = 1024 WHERE description = 'spa';
+
+
+UPDATE hotels
+SET amenities = T2.bitmask
+FROM (
+	SELECT T1.agoda_hotel_id, SUM(T1.flag) AS bitmask
+	FROM
+	(
+		SELECT DISTINCT 
+			agoda_hotel_id AS agoda_hotel_id, 
+			flag  AS flag
+		FROM agoda_hotel_facilities spa
+		JOIN agoda_amenities sa on sa.description = spa.name
+		WHERE sa.flag IS NOT NULL
+		GROUP BY agoda_hotel_id, flag
+		ORDER BY 1
+	) AS T1
+	GROUP BY T1.agoda_hotel_id
+) AS T2
+WHERE hotels.agoda_hotel_id = T2.agoda_hotel_id AND hotels.amenities IS NULL
+

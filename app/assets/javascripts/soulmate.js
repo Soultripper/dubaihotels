@@ -225,7 +225,7 @@
       this.url = url;
       this.types = types;
       this.maxResults = maxResults;
-      this.timeout = timeout || 500;
+      this.timeout = timeout || 1000;
       this.xhr = null;
       this.suggestions = new SuggestionCollection(renderCallback, selectCallback);
       this.query = new Query(minQueryLength);

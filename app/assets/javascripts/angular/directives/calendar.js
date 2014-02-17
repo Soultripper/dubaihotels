@@ -11,7 +11,7 @@ app.directive('checkin', ['$filter', function($filter) {
             autoclose: true,
             orientation: "top auto"
         }).on('changeDate', function(ev) {  
-          end_date = ev.date;
+          end_date = new Date(ev.date);
           end_date.setDate(end_date.getDate() + 1)
           angular.element('#end_date').datepicker('update', end_date)
           scope.$apply(function() {

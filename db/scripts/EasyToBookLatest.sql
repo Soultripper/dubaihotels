@@ -179,10 +179,10 @@ ALTER TABLE etb_hotel_facilities ADD COLUMN amenities text;
 ALTER TABLE etb_hotel_facilities ADD COLUMN flag integer;
 
 INSERT INTO etb_facilities VALUES (586, 'Pets allowed', 128)
-INSERT INTO etb_facilities VALUES (587,'Parking (free)', 8)
-INSERT INTO etb_facilities VALUES (588,'Spa Tub', 1024)
-INSERT INTO etb_facilities VALUES (590,'Free Parking (limited)', 8)
-INSERT INTO etb_facilities VALUES (591,'Free parking', 8)
+INSERT INTO etb_facilities VALUES (587,'Parking (free)', 8);
+INSERT INTO etb_facilities VALUES (588,'Spa Tub', 1024);
+INSERT INTO etb_facilities VALUES (590,'Free Parking (limited)', 8);
+INSERT INTO etb_facilities VALUES (591,'Free parking', 8);
 
 
 UPDATE etb_facilities SET flag = 4 WHERE description = 'BabySitting' OR description = 'Child Care Program' or description like 'Children''s%';
@@ -196,3 +196,4 @@ UPDATE etb_facilities SET flag = 1024 WHERE  description = 'Spa/wellness center'
 UPDATE hotels SET amenities = t.flag
 FROM (SELECT id, flag FROM etb_hotel_facilities WHERE flag IS NOT NULL) AS t
 WHERE hotels.etb_hotel_id = t.id AND hotels.amenities IS NULL
+

@@ -216,3 +216,33 @@ UPDATE hotels
 SET laterooms_url = t1.url
 FROM (SELECT id, url FROM late_rooms_hotels lr) as t1
 WHERE hotels.laterooms_hotel_id = t1.id
+
+-- AMENITIES
+TRUNCATE TABLE late_rooms_amenities
+INSERT INTO late_rooms_amenities (laterooms_hotel_id,amenity)
+ SELECT id, regexp_split_to_table(facilities, E';') 
+ FROM late_rooms_hotels; 
+
+ CREATE TABLE late_rooms_facilities
+(
+  id serial NOT NULL,
+  description text,
+  flag integer,
+  CONSTRAINT late_rooms_facilities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+INSERT INTO late_rooms_facilities (description)
+ select distinct amenity from late_rooms_amenities
+
+ 
+UPDATE late_rooms_facilities SET flag = 1 WHERE lower(description) like '%wi-fi%'
+UPDATE late_rooms_facilities SET flag = 4 WHERE description = 'Childrens Facilities - Outdoor' OR description = 'Babysitting services' OR description = 'Cots available' OR description = 'Childrens Facilities - Indoor'
+UPDATE late_rooms_facilities SET flag = 8 WHERE lower(description) like '%parking%';
+UPDATE late_rooms_facilities SET flag = 16 WHERE description = 'Gymnasium' OR description = 'Fitness Centre' OR description = 'Aerobics Studio' 
+UPDATE late_rooms_facilities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas'
+UPDATE late_rooms_facilities SET flag =128 WHERE description = 'Pets Allowed'
+UPDATE late_rooms_facilities SET flag = 256 WHERE lower(description) like '%pool%' 
+UPDATE late_rooms_facilities SET flag = 512 WHERE lower(description) like '%restaurant%';

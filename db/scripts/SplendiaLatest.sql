@@ -173,3 +173,64 @@ JOIN
 LEFT JOIN hotel_images i ON h.id = i.hotel_id
 WHERE  i.id IS NULL AND  h.splendia_hotel_id IS NOT NULL) as t1
 ON t1.splendia_hotel_id = hi.id 
+
+
+CREATE TABLE splendia_amenities
+(
+  id serial NOT NULL,
+  description text,
+  flag integer,
+  CONSTRAINT splendia_amenities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE splendia_hotel_amenities
+(
+  id serial NOT NULL,
+  splendia_hotel_id integer,
+  amenity character varying(255),
+  CONSTRAINT splendia_hotel_amenities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+TRUNCATE TABLE splendia_hotel_amenities
+INSERT INTO splendia_hotel_amenities (splendia_hotel_id,amenity)
+ SELECT id, regexp_split_to_table(other_services, E',') 
+ FROM splendia_hotels; 
+
+INSERT INTO splendia_amenities (description)
+SELECT DISTINCT amenity from splendia_amenities
+
+UPDATE splendia_amenities SET flag = 1 WHERE lower(description) like '%wifi%';
+UPDATE splendia_amenities SET flag = 4 WHERE description = 'Activities for children' OR description = 'Babysitting service';
+UPDATE splendia_amenities SET flag = 8 WHERE lower(description) like '%parking%';
+UPDATE splendia_amenities SET flag = 16 WHERE lower(description) like '%gym%' OR description = 'Fitness Centre';
+UPDATE splendia_amenities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas';
+UPDATE splendia_amenities SET flag =128 WHERE description = 'Pets allowed';
+UPDATE splendia_amenities SET flag = 256 WHERE lower(description) like '%pool%' ;
+UPDATE splendia_amenities SET flag = 512 WHERE lower(description) like '%restaurant%' and description != 'Restaurant Voucher';
+UPDATE splendia_amenities SET flag = 1024 WHERE lower(description) like '%spa%' and description != 'Spa voucher';
+
+UPDATE hotels
+SET amenities = T2.bitmask
+FROM (
+	SELECT T1.splendia_hotel_id, SUM(T1.flag) AS bitmask
+	FROM
+	(
+		SELECT DISTINCT 
+			splendia_hotel_id AS splendia_hotel_id, 
+			flag  AS flag
+		FROM splendia_hotel_amenities spa
+		JOIN splendia_amenities sa on sa.description = spa.amenity
+		WHERE sa.flag IS NOT NULL
+		GROUP BY splendia_hotel_id, flag
+		ORDER BY 1
+	) AS T1
+	GROUP BY T1.splendia_hotel_id
+) AS T2
+WHERE hotels.splendia_hotel_id = T2.splendia_hotel_id AND hotels.amenities IS NULL
+

@@ -10,16 +10,16 @@ class SearchController < ApplicationController
 
     # respond_with @hotel_search
 
+    if !search_criteria.valid?
+      head 400
+      return
+    end
+
     respond_to do |format|
       format.json do 
+        @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+        render json: @results
 
-        if search_criteria.valid?
-
-          @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
-          render json: @results
-        else
-          head 400
-        end
       end
       format.html do
         @results = hotel_search.results.sort(sort).paginate(1, page_size)        
