@@ -5,10 +5,10 @@ class HotelComparisons
   attr_reader :hotel_id, :stars, :longitude, :latitude, :user_rating, :ranking, :provider_deals
   attr_accessor :distance_from_location, :hotel
 
-  def_delegators :@hotel, :id, :star_rating, :longitude, :amenities, :latitude, :user_rating, :ranking, :booking_hotel_id, :ean_hotel_id, :splendia_hotel_id, :etb_hotel_id, :laterooms_hotel_id, :agoda_hotel_id, :laterooms_url, :booking_url
+  def_delegators :@hotel, :id, :star_rating, :longitude, :amenities, :latitude, :user_rating, :matches, :ranking, :booking_hotel_id, :ean_hotel_id, :splendia_hotel_id, :etb_hotel_id, :laterooms_hotel_id, :agoda_hotel_id, :laterooms_url, :booking_url
 
   def self.select_cols
-    'id, star_rating, amenities, longitude, latitude, user_rating, ranking, laterooms_url, booking_url, ' + HotelsConfig::PROVIDER_IDS.map {|k,v| v}.join(', ')
+    'id, star_rating, amenities, longitude, latitude, user_rating, matches, ranking, laterooms_url, booking_url, ' + HotelsConfig::PROVIDER_IDS.map {|k,v| v}.join(', ')
   end
 
   def initialize(hotel_details)

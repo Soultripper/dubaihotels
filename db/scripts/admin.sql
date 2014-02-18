@@ -202,3 +202,21 @@ AND etb_hotel_id IS NULL
 select count(*) from booking_hotels bh
 left join booking_hotel_images bhi on bhi.booking_hotel_id = bh.id
 where bhi.id is null
+
+
+
+UPDATE hotels SET matches = booking + agoda  + ean + etb + splendia + laterooms 
+FROM
+(
+SELECT 
+	id,
+	CASE WHEN booking_hotel_id  > 0THEN 1 ELSE 0 END AS booking,
+	CASE WHEN agoda_hotel_id  > 0THEN 1 ELSE 0 END AS agoda,
+	CASE WHEN ean_hotel_id  > 0THEN 1 ELSE 0 END AS ean,
+	CASE WHEN etb_hotel_id  > 0THEN 1 ELSE 0 END AS etb,
+	CASE WHEN splendia_hotel_id  > 0THEN 1 ELSE 0 END AS splendia,
+	CASE WHEN laterooms_hotel_id  > 0THEN 1 ELSE 0 END AS laterooms
+FROM 
+	hotels
+) AS T1
+WHERE hotels.id = T1.id

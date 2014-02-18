@@ -11,21 +11,21 @@ module HotelScopes
       query = limit(3000)
 
       if location.city?
-        query = query.where("ST_DWithin(hotels.geog, ?, ?) or (lower(city) = ? and upper(country_code) = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) or (LOWER(city) = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
       elsif location.landmark? or location.place?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
       elsif location.region?
-        query = query.where("lower(state_province) = ?", location.name.downcase)
+        query = query.where("LOWER(state_province) = ?", location.name.downcase)
       elsif location.country?
-        query = query.where("lower(country_code) = ?", location.country_code.upcase)
+        query = query.where("country_code = ?", location.country_code.upcase)
       end
 
-      query.order('coalesce(ranking,0) desc')
+      query.order('matches DESC, COALESCE(ranking,0) DESC')
     end
 
 
     def ids_within_distance_of(location, provider_key, limit=4000)
-      by_location(location).where("#{provider_key} is not null").limit(limit).map &provider_key
+      by_location(location).where("#{provider_key} IS NOT NULL").limit(limit).map &provider_key
     end
 
     def by_star_ratings(min, max)

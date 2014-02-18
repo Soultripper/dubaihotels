@@ -32,7 +32,7 @@ class HotelSearchPageResult
       when :a_z; do_sort {|h1| h1.name}
       when :distance; do_sort {|h1| h1.distance_from_location.to_f}
       when :distance_reverse; do_sort {|h1| h1.distance_from_location.to_f}.reverse!
-      else do_sort {|h1| h1.ranking.to_i}.reverse!
+      else do_sort {|h1| h1.matches}.reverse!
     end
     self
   end
