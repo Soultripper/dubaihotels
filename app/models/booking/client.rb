@@ -60,6 +60,18 @@ class Booking::Client
       parse_response(http.get(url + '/bookings.getBlockAvailability', params))
     end
 
+    def hotel_descriptions(params={})
+      parse_response(http.get(url + '/bookings.getHotelDescriptionTranslations', params))
+    end
+
+    def hotel_facilities(params={})
+      parse_response(http.get(url + '/bookings.getHotelFacilities', params))
+    end
+
+    def hotel_facility_types(params={})
+      parse_response(http.get(url + '/bookings.getHotelFacilityTypes', params))
+    end
+
     def parse_response(response)
       JSON.parse response.body if response
     end

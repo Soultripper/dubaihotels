@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140205060702) do
+ActiveRecord::Schema.define(:version => 20140221081512) do
+
+  create_table "agoda_amenities", :id => false, :force => true do |t|
+    t.integer "id",          :null => false
+    t.text    "description"
+    t.integer "flag"
+  end
 
   create_table "agoda_cities", :force => true do |t|
     t.integer "agoda_country_id"
@@ -32,6 +38,11 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
     t.string  "country_iso2"
     t.float   "longitude"
     t.float   "latitude"
+  end
+
+  create_table "agoda_hotel_amenities", :id => false, :force => true do |t|
+    t.integer "agoda_hotel_id", :null => false
+    t.integer "flag"
   end
 
   create_table "agoda_hotel_facilities", :force => true do |t|
@@ -131,6 +142,26 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
     t.string   "name"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "booking_hotel_amenities", :force => true do |t|
+    t.integer "booking_hotel_id"
+    t.string  "value"
+    t.integer "facility_type_id"
+    t.integer "booking_facility_type_id"
+  end
+
+  create_table "booking_hotel_descriptions", :force => true do |t|
+    t.integer "booking_hotel_id"
+    t.text    "description"
+    t.integer "description_type_id"
+  end
+
+  create_table "booking_hotel_facility_types", :force => true do |t|
+    t.integer "facility_type_id"
+    t.string  "name"
+    t.string  "value_type"
+    t.string  "language_code"
   end
 
   create_table "booking_hotel_images", :force => true do |t|
@@ -345,7 +376,8 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
   end
 
   create_table "etb_facilities", :force => true do |t|
-    t.text "description"
+    t.text    "description"
+    t.integer "flag"
   end
 
   create_table "etb_hotel_descriptions", :force => true do |t|
@@ -360,20 +392,22 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
   end
 
   create_table "etb_hotel_facilities", :force => true do |t|
-    t.text "services"
-    t.text "general_facilities"
-    t.text "extra_common_areas"
-    t.text "entertainment_facilities"
-    t.text "business_facilities"
-    t.text "activities"
-    t.text "wellness_facilities"
-    t.text "shops"
-    t.text "internet"
-    t.text "internet_connection"
-    t.text "parking"
-    t.text "shuttle_service"
-    t.text "internet_free"
-    t.text "internet_connection_free"
+    t.text    "services"
+    t.text    "general_facilities"
+    t.text    "extra_common_areas"
+    t.text    "entertainment_facilities"
+    t.text    "business_facilities"
+    t.text    "activities"
+    t.text    "wellness_facilities"
+    t.text    "shops"
+    t.text    "internet"
+    t.text    "internet_connection"
+    t.text    "parking"
+    t.text    "shuttle_service"
+    t.text    "internet_free"
+    t.text    "internet_connection_free"
+    t.text    "amenities"
+    t.integer "flag"
   end
 
   create_table "etb_hotel_images", :force => true do |t|
@@ -489,18 +523,24 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
     t.string  "property_currency"
     t.integer "ean_hotel_id"
     t.integer "booking_hotel_id"
-    t.integer "geog",               :limit => 0
+    t.integer "geog",                  :limit => 0
     t.text    "description"
     t.integer "amenities"
     t.integer "agoda_hotel_id"
     t.integer "etb_hotel_id"
-    t.float   "user_rating"
+    t.float   "booking_user_rating"
     t.float   "ranking"
     t.integer "splendia_hotel_id"
     t.string  "booking_url"
     t.integer "laterooms_hotel_id"
     t.string  "laterooms_url"
     t.string  "hotel_provider"
+    t.float   "agoda_user_rating"
+    t.float   "laterooms_user_rating"
+    t.float   "etb_user_rating"
+    t.float   "splendia_user_rating"
+    t.float   "user_rating"
+    t.integer "matches"
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -541,6 +581,11 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
   end
 
   add_index "late_rooms_amenities", ["laterooms_hotel_id"], :name => "index_laterooms_hotel_id_on_late_rooms_amenities"
+
+  create_table "late_rooms_facilities", :force => true do |t|
+    t.text    "description"
+    t.integer "flag"
+  end
 
   create_table "late_rooms_hotel_images", :force => true do |t|
     t.integer "laterooms_hotel_id"
@@ -602,6 +647,16 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
     t.string  "proj4text", :limit => 2048
   end
 
+  create_table "splendia_amenities", :force => true do |t|
+    t.text    "description"
+    t.integer "flag"
+  end
+
+  create_table "splendia_hotel_amenities", :force => true do |t|
+    t.integer "splendia_hotel_id"
+    t.string  "amenity"
+  end
+
   create_table "splendia_hotels", :force => true do |t|
     t.string  "name"
     t.string  "country"
@@ -635,7 +690,5 @@ ActiveRecord::Schema.define(:version => 20140205060702) do
     t.text    "offers"
     t.integer "geog",                :limit => 0
   end
-
-  add_index "splendia_hotels", ["geog"], :name => "splendia_hotels_geog_idx"
 
 end

@@ -37,5 +37,10 @@ module Booking::Seed
       hotel_images.map  {|hotel_image| BookingHotelImage.from_booking hotel_image}
     end
 
+    def hotel_facility_types
+      facility_types = Booking::Client.hotel_facility_types languagecodes: 'en'
+      facility_types.map {|facility_type| BookingHotelFacilityType.from_booking facility_type}
+    end
+
   end
 end
