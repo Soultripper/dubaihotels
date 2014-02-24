@@ -85,6 +85,7 @@ class HotelComparisons
 
   def central?(location)
     distance = distance_from(location) 
+    return false unless distance
     distance < 3000 and distance > 0  
   end
 
