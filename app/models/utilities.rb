@@ -21,8 +21,8 @@ module Utilities
     helpers.number_to_human value.to_i
   end
 
-  def nil_round(value)
-    value ? value.to_f.round : 0
+  def nil_round(value, default=0)
+    value ? value.to_f.round : default
   end
 
   def file_to_json(file)

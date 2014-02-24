@@ -6,7 +6,7 @@ class Hotel < ActiveRecord::Base
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, 
+  attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :amenities,
                   :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id
 
   attr_accessor :distance_from_location

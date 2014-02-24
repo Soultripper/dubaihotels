@@ -34,6 +34,7 @@ class HotelComparisons
     @hotel = hotel
   end
 
+  
   def [](key)
     hotel[key]
   end
@@ -79,7 +80,12 @@ class HotelComparisons
 
   def distance_from(location)
     return unless location.longitude and location.latitude
-    GeoDistance::Haversine.geo_distance( location.latitude, location.longitude, latitude, longitude).to_meters
+    @distance ||= GeoDistance::Haversine.geo_distance( location.latitude, location.longitude, latitude, longitude).to_meters
+  end
+
+  def central?(location)
+    distance = distance_from(location) 
+    distance < 3000 and distance > 0  
   end
 
   def compare_and_add(provider_hotel)
@@ -96,7 +102,7 @@ class HotelComparisons
   end  
 
   def sort_by_price
-    provider_deals.sort_by! {|deal| Utilities.nil_round(deal[:min_price])}
+    provider_deals.sort_by! {|deal| Utilities.nil_round(deal[:min_price], 999999)}
   end
 
   def randomize_best_offer
@@ -107,7 +113,6 @@ class HotelComparisons
     random_best   = best_offers[random_idx]
     provider_deals[0] = random_best
     provider_deals[random_idx] = current_best
-
     set_best_offer random_best
   end
 
@@ -115,7 +120,7 @@ class HotelComparisons
     offer[:provider]  = provider[:provider]
     offer[:link]      = provider[:link]
     offer[:min_price] = provider[:min_price]
-    offer[:max_price] = provider_deals.last[:min_price]
+    offer[:max_price] = provider_deals.select {|d|  Utilities.nil_round(d[:min_price]) != 0}.last[:min_price]
     offer
   end
 

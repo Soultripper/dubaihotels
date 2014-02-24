@@ -50,23 +50,40 @@ class HotelSearchPageResult
   def filter(filters={})   
     @user_filters = filters
 
-    Log.debug "#{hotels.count} remaining before #{filters} applied"
-
-    hotels.select! do |hotel|
-      filter_min_price(hotel, Utilities.nil_round(filters[:min_price])) and 
-      filter_max_price(hotel, Utilities.nil_round(filters[:max_price])) and 
-      filter_amenities(hotel, filters[:amenities]) and
-      filter_stars(hotel, filters[:star_ratings])
+    if filter?(filters)
+      Log.debug "#{hotels.count} hotels remaining before #{filters} applied"
+      hotels.select! do |hotel|
+        filter_min_price(hotel, Utilities.nil_round(filters[:min_price])) and 
+        filter_max_price(hotel, Utilities.nil_round(filters[:max_price])) and 
+        filter_amenities(hotel, filters[:amenities]) and
+        filter_stars(hotel, filters[:star_ratings])
+      end
+      Log.debug "#{hotels.count} hotels remaining after #{filters} applied"
+    else
+      Log.debug "#{hotels.count} hotels found - no filters applied"
     end
 
-    Log.debug "#{hotels.count} remaining after #{filters} applied"
     self
   end
 
-  def filter_amenities(hotel, selection)
+  def filter?(filters)
+    Utilities.nil_round(filters[:min_price]) != 0 or
+    Utilities.nil_round(filters[:max_price]) != 0 or
+    filters[:amenities] or 
+    filters[:star_ratings]
+  end
+
+  def filter_amenities(hotel_comparison, selection)
     return true unless selection
+
     amenities_mask = HotelAmenity.mask(selection)
-    hotel.amenities & amenities_mask == amenities_mask
+
+    if amenities_mask & 2 == 2
+      return false unless hotel_comparison.central?(location)
+      amenities_mask -= 2
+    end
+
+    hotel_comparison.amenities & amenities_mask == amenities_mask
   end
 
   def filter_min_price(hotel, price)
@@ -99,23 +116,6 @@ class HotelSearchPageResult
 
   def location
     search_options[:location]
-  end
-
-
-
-  def load_hotel_information(hotel_comparisons)
-    ids = hotel_comparisons.map &:id
-    matched_hotels = Hotel.with_images.where(id: ids).to_a
-    matched_hotels.each do |hotel|
-      begin
-        hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}
-        hotel_comparison.hotel = hotel
-      rescue Excpetion => msg 
-        Log.error "Unable to set hotel offer for hotel comparison: #{hotel_comparison}. Msg: #{msg}"
-      end
-    end
-    hotel_comparisons
-
   end
 
   # def find_images_by(hotel, count=10)
@@ -161,6 +161,7 @@ class HotelSearchPageResult
 
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
+          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities)
           json.offer          hotel_comparison.offer
           json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
@@ -170,5 +171,23 @@ class HotelSearchPageResult
       end
     end
   end
+
+
+
+  def load_hotel_information(hotel_comparisons)
+    ids = hotel_comparisons.map &:id
+    matched_hotels = Hotel.with_images.where(id: ids).to_a
+    matched_hotels.each do |hotel|
+      begin
+        hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}
+        hotel_comparison.hotel = hotel
+      rescue Excpetion => msg 
+        Log.error "Unable to set hotel offer for hotel comparison: #{hotel_comparison}. Msg: #{msg}"
+      end
+    end
+    hotel_comparisons
+
+  end
+
 
 end
