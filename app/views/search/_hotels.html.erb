@@ -48,7 +48,7 @@
       <div class="details">
           <h4><a href="/hotels/{{hotel.id}}" target="_self"> {{hotel.name}}</a></h4>
           <div class="location">
-              <i class="fa fa-map-marker"></i> {{hotel.address}}, {{hotel.city}}
+              <i class="fa fa-map-marker"></i> <span class="capitalize">{{hotel.address}}, {{hotel.city}}</span>
           </div>
           <div class="stars">
               <i class="fa" ng-class="{'fa-star-half-empty': hotel.star_rating===0.5, 'fa-star':hotel.star_rating>0.5, 'fa-star-o': hotel.star_rating<0.5}"></i>
