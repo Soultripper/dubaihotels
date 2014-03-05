@@ -153,7 +153,8 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       window.location.href = '/' + $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
     };
 
-   $scope.citySelect = function (query, slug) {
+   $scope.locationSelect = function (query, slug, type) {
+      $scope.selectType = type;
       $scope.slug = slug
     };
 

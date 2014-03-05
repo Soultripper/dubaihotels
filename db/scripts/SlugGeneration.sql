@@ -226,4 +226,101 @@ FROM
 WHERE
 	U.Id = P.Id
 
-	
+
+ALTER TABLE hotels ADD COLUMN slug character varying(512);
+
+UPDATE hotels
+SET slug =  REPLACE(LOWER(hotels.name),' ','-')
+-- Depriortise duplicate slugs by making them null - they can be updated next run
+
+
+DELETE FROM hotels
+WHERE hotels.id IN
+(
+	SELECT 
+		id
+	FROM
+	(
+		SELECT 
+			* ,
+			ROW_NUMBER() OVER(PARTITION BY laterooms_hotel_id ORDER BY matches DESC, COALESCE(user_rating,0) DESC, COALESCE(star_rating,0) DESC, COALESCE(star_rating, 0) DESC, COALESCE(ranking,0) DESC) AS preference
+		FROM hotels
+		WHERE hotels.laterooms_hotel_id IN 
+		(
+			SELECT laterooms_hotel_id
+			FROM hotels
+			WHERE laterooms_hotel_id IS NOT NULL
+			GROUP BY laterooms_hotel_id
+			HAVING COUNT(*) > 1
+		) 
+	) AS T1
+	WHERE T1.preference > 1
+)
+
+DELETE FROM hotels
+WHERE hotels.id IN
+(
+	SELECT 
+		id
+	FROM
+	(
+		SELECT 
+			* ,
+			ROW_NUMBER() OVER(PARTITION BY etb_hotel_id ORDER BY matches DESC, COALESCE(user_rating,0) DESC, COALESCE(star_rating,0) DESC, COALESCE(star_rating, 0) DESC, COALESCE(ranking,0) DESC) AS preference
+		FROM hotels
+		WHERE hotels.etb_hotel_id IN 
+		(
+			SELECT etb_hotel_id
+			FROM hotels
+			WHERE etb_hotel_id IS NOT NULL
+			GROUP BY etb_hotel_id
+			HAVING COUNT(*) > 1
+		) 
+	) AS T1
+	WHERE T1.preference > 1
+)
+
+UPDATE hotels
+	SET slug = REPLACE(LOWER(hotels.name) || '-' || LOWER(COALESCE(hotels.city, hotels.state_province)), ' ','-')
+	FROM
+	(
+		SELECT 
+			id,
+			ROW_NUMBER() OVER(PARTITION BY slug ORDER BY matches DESC, COALESCE(user_rating,0) DESC, COALESCE(star_rating,0) DESC, COALESCE(star_rating, 0) DESC, COALESCE(ranking,0) DESC) AS preference
+		FROM 
+			hotels
+	) AS T1
+WHERE hotels.id = T1.id AND  T1.preference > 1
+
+SELECT slug, count(*)
+FROM hotels
+GROUP BY slug
+HAVING COUNT(*) > 1
+ORDER BY slug
+
+
+UPDATE hotels
+	SET slug = REPLACE(
+		LOWER(hotels.name) || '-' || 
+		LOWER(COALESCE(hotels.city, hotels.state_province)) || '-' || 
+		LOWER(COALESCE(postal_code, CAST(hotels.id AS VARCHAR(10)))), ' ','-')
+	FROM
+	(
+		SELECT 
+			id,
+			ROW_NUMBER() OVER(PARTITION BY slug ORDER BY matches DESC, COALESCE(user_rating,0) DESC, COALESCE(star_rating,0) DESC, COALESCE(star_rating, 0) DESC, COALESCE(ranking,0) DESC) AS preference
+		FROM 
+			hotels
+	) AS T1
+WHERE hotels.id = T1.id AND  T1.preference > 1
+
+
+SELECT slug, count(*)
+FROM hotels
+GROUP BY slug
+HAVING COUNT(*) > 1
+ORDER BY slug
+
+
+
+			

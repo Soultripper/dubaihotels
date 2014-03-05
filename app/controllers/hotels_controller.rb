@@ -34,7 +34,7 @@ class HotelsController < ApplicationController
   end
 
   def hotel
-    @hotel ||= Hotel.find params[:id]
+    @hotel ||= Hotel.find_by_slug params[:id]
   end
 
   def validate_search

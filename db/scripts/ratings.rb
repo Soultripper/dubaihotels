@@ -13,6 +13,8 @@
 --Splendia
 -- Laterooms
 
+UPDATE hotels SET booking_user_rating = booking_user_rating / 10 WHERE booking_user_rating > 10
+
 ALTER TABLE hotels ADD COLUMN agoda_user_rating double precision;
 ALTER TABLE hotels ADD COLUMN laterooms_user_rating double precision;
 ALTER TABLE hotels ADD COLUMN etb_user_rating double precision;
@@ -25,21 +27,17 @@ select * from hotels
 where matches > 4
 order by user_rating desc  limit 1000
 
-SELECT( (COALESCE(booking_user_rating,0) * 10) + (COALESCE(agoda_user_rating,0) * 10) + (COALESCE(laterooms_user_rating,0) * 16.6) + (COALESCE(etb_user_rating,0) * 20) + COALESCE(splendia_user_rating,0)) / 
+UPDATE hotels SET user_rating = ( (COALESCE(booking_user_rating,0) * 10) + (COALESCE(agoda_user_rating,0) * 10) + (COALESCE(laterooms_user_rating,0) * 16.6) + (COALESCE(etb_user_rating,0) * 20) + COALESCE(splendia_user_rating,0)) / 
 	(CASE WHEN booking_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN agoda_user_rating > 0 THEN 1 ELSE 0 END  + 
 	CASE WHEN laterooms_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN etb_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN splendia_user_rating > 0 THEN 1 ELSE 0 END)
-FROM hotels
 WHERE 
 	(CASE WHEN booking_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN agoda_user_rating > 0 THEN 1 ELSE 0 END  + 
 	CASE WHEN laterooms_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN etb_user_rating > 0 THEN 1 ELSE 0 END + 
 	CASE WHEN splendia_user_rating > 0 THEN 1 ELSE 0 END) > 0 
-LIMIT 200
-
-WHERE id = 20514
 
 select * from hotels where id = 20514

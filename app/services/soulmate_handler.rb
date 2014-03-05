@@ -8,6 +8,15 @@ module SoulmateHandler
     load_landmarks
     load_places
   end
+
+  def load_hotels
+    items = []
+    Hotel.find_each(batch_size: 5000) do |hotel|
+      items << hotel.to_soulmate
+    end
+    hotel_loader.load(items)
+    nil
+  end
   
   def add_location(location)
     soulmate = location.to_soulmate
@@ -35,6 +44,7 @@ module SoulmateHandler
       landmark_loader.remove("id" => location.id)      
     end
   end
+
 
   def load_cities    
     items = Location.cities.map{|location| location.to_soulmate}
@@ -79,6 +89,10 @@ module SoulmateHandler
 
   def place_loader
     loader 'place'
+  end
+
+  def hotel_loader
+    loader 'hotel'
   end
 
   def loader(term)

@@ -1,8 +1,8 @@
 var Hotels = function(){
   
   var searchOptions ={
-    domain: 'www.hot5.com',
-    // domain: 'localhost:5000',
+    //domain: 'www.hot5.com',
+     domain: 'localhost:5000',
     minQueryLength: 2,
     maxResults:     7    
   }
@@ -18,7 +18,7 @@ var Hotels = function(){
 
     $('#search-input').soulmate({
       url:            'http://' + Hotels.searchOptions.domain + '/sm/search',
-      types:          ['city', 'landmark', 'region', 'country', 'place'],
+      types:          ['city', 'region', 'country', 'hotel', 'place', 'landmark'],
       renderCallback: function(term, data, type){ return data.title; },
       selectCallback: function(term, data, type){ 
         var scope, el;
@@ -30,7 +30,7 @@ var Hotels = function(){
         // var rootScope = scope.$root;
         scope.$apply(function(){
           $('#search-input').val(data.title)
-          scope.citySelect(term, data.slug || data.url)
+          scope.locationSelect(term, data.slug, type)
         })
         $('#soulmate').hide();
       },

@@ -66,14 +66,37 @@ class Hotel < ActiveRecord::Base
     end
   end
 
+  def score
+    total = 1
+    [matches, user_rating, star_rating].each do |item|
+      total = total * (item.to_i + 1)
+    end
+
+    total
+  end
+
+
+  def soulmate_desc
+    country =  BookingCountry.lookup(country_code)
+    desc = name
+    if city.blank?
+      desc = "#{desc}, #{state_province}"
+    else
+      desc = "#{desc}, #{city.capitalize}"
+    end
+
+    country.trim.blank? ? desc : "#{desc}, #{country}"
+
+  end
+
   def to_soulmate
     {
       id: id,
       term: name,
-      score: star_rating,
+      score: score,
       data:{
-        url: "hotels/#{id}",
-        title: "#{name}, #{city}, #{Country.lookup(country_code)}"
+        slug: slug,
+        title: soulmate_desc
       }
     }.as_json
   end

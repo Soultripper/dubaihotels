@@ -20,7 +20,8 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
       });
     };
 
-   $scope.citySelect = function (query, slug) {
+   $scope.locationSelect = function (query, slug, type) {
+      $scope.selectType = type;
       $scope.slug = slug
     };
 
@@ -29,17 +30,35 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
    //    Page.info().slug = $item.s
    //  };
     $scope.search = function(){
-      if($scope.slug===undefined)
-        return;
+
       var routes = {
         start_date: start_date(),
         end_date: end_date()
       } 
 
-      if(routes.start_date && routes.end_date)
-        window.location.href =  '/' + $scope.slug + '?start_date=' + routes.start_date + '&end_date=' + routes.end_date
-      else
-        window.location.href =  '/' + $scope.slug 
+      var url = '';
+
+      if($scope.slug===undefined)
+        return;
+
+      if($scope.selectType=='hotel')
+        $scope.slug = 'hotels/' + $scope.slug 
+
+      url =  '/' + $scope.slug
+
+      if(routes.start_date || routes.end_date)
+      {
+        url += '?'
+
+        if(routes.start_date)
+          url += 'start_date=' + routes.start_date + '&'
+
+        if(routes.end_date)
+          url += 'end_date=' + routes.end_date
+      }
+      
+      window.location.href = url
+
       // var location = $location.path($scope.slug).search(routes);
       
     }

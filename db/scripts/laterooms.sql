@@ -246,3 +246,10 @@ UPDATE late_rooms_facilities SET flag = 64 WHERE description = 'Hotel Non-Smokin
 UPDATE late_rooms_facilities SET flag =128 WHERE description = 'Pets Allowed'
 UPDATE late_rooms_facilities SET flag = 256 WHERE lower(description) like '%pool%' 
 UPDATE late_rooms_facilities SET flag = 512 WHERE lower(description) like '%restaurant%';
+
+
+UPDATE hotels 
+SET laterooms_user_rating = CAST(T1.score_out_of_6 AS DOUBLE PRECISION) 
+FROM
+ (SELECT id, score_out_of_6 FROM late_rooms_hotels WHERE CAST(score_out_of_6 AS DOUBLE PRECISION) > 0) AS t1
+ WHERE hotels.laterooms_hotel_id = T1.id
