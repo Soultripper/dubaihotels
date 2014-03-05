@@ -11,10 +11,12 @@ module SoulmateHandler
 
   def load_hotels
     items = []
-    Hotel.find_each(batch_size: 5000) do |hotel|
-      items << hotel.to_soulmate
-    end
     hotel_loader.load(items)
+    Hotel.find_each(batch_size: 5000) do |hotel|
+      # items << hotel.to_soulmate
+      hotel_loader.add hotel.to_soulmate
+    end
+    # hotel_loader.load(items)
     nil
   end
   

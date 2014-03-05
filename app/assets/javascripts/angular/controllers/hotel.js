@@ -142,15 +142,18 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
 
     $rootScope.searchCity = function(){
       // $rootScope.$broadcast("loading-started");
-      $routeParams.id = $scope.slug;
+      // $routeParams.id = $scope.slug;
       $location.path($scope.slug);
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
+
+      if($scope.selectType=='hotel')
+        $scope.slug = 'hotels/' + $scope.slug 
       // $location.path($routeParams.id +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date)
       // $scope.search();
       // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info.slug)
 
-      window.location.href = '/' + $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+      window.location.href = '/' + $scope.slug + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
     };
 
    $scope.locationSelect = function (query, slug, type) {
