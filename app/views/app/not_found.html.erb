@@ -48,20 +48,19 @@
       </div>
     </div>
   </header>
-    <section ng-init="setupPage(<%=@results.as_json%>)">
+  <section>
       <div class="container">
-        <div class="top-bar">
-          <div class="info">
-            <div class="col-xs-6">
-              <h4 ng-cloak>{{Page.info.query}} hotels</h4>
-            </div>
-            <div class="col-xs-6 text-right" >
-              <h4>{{Page.criteria.start_date | date:'MMM d'}} - {{Page.criteria.end_date | date:'MMM d'}} ({{Page.criteria.total_nights}} Night)</h4>
-            </div>
-          </div>
-        </div>
-        <%= render partial: 'filters' %>
+          <hr />
+          <br />
+          <h3 class="text-center">Page Not Found</h3>
+          <p class="text-center">
+               Sorry but we couldn't find the page you were looking for.
+          </p>
+          <br />
+          <hr />
+          <br />
       </div>
-    </section>
-    <%= render partial:'layouts/footer' %>
+  </section>
+  <%= render 'layouts/footer' %>
 </div>
+

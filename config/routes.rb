@@ -6,6 +6,8 @@ Hotels::Application.routes.draw do
 
   root :to => 'app#index'
 
+  match "/404", :to => "app#not_found"
+
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
 

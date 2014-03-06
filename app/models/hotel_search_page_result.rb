@@ -162,8 +162,11 @@ class HotelSearchPageResult
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
           hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
-          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities)
+          json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
+            :postal_code,  :latitude, :longitude, 
+            :star_rating, :description, :amenities, :slug)
           json.offer          hotel_comparison.offer
+          json.ratings        hotel_comparison.hotel.ratings
           json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
           json.providers      hotel_comparison.provider_deals
           json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 

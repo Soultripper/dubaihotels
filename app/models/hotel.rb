@@ -89,6 +89,18 @@ class Hotel < ActiveRecord::Base
 
   end
 
+
+  def ratings
+    {
+      overall:      user_rating,
+      agoda:        agoda_user_rating.to_f * 10,
+      booking:      booking_user_rating.to_f * 10,
+      splendia:     splendia_user_rating.to_f,
+      laterooms:    laterooms_user_rating.to_f * 16.6,
+      easy_to_book: etb_user_rating.to_f * 20
+    }
+  end
+
   def to_soulmate
     {
       id: id,

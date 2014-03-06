@@ -24,3 +24,7 @@
 .tab-map{
   min-height: 280px;
 }*/
+
+.tabs-content .content:first-child{
+  overflow-y: auto !important;
+}

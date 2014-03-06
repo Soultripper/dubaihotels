@@ -396,7 +396,7 @@ ul.amenities li.spa:after {
 }
 #results section .best-deal .high-price {
   display: block;
-  height: 15px;
+  height: 21px;
   text-decoration: line-through;
   text-align: center;
   color: #00a4ff;
@@ -539,6 +539,107 @@ ul.amenities li.spa:after {
 }
 #results section .tabs-content .content.tab-details .amenities li.highlight:before {
   background-color: #5cb85c;
+}
+#results section .tabs-content .content.tab-details .ratings {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid #ccc;
+}
+#results section .tabs-content .content.tab-details .ratings:before,
+#results section .tabs-content .content.tab-details .ratings:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+#results section .tabs-content .content.tab-details .ratings:after {
+  clear: both;
+}
+#results section .tabs-content .content.tab-details .ratings li {
+  float: left;
+  width: 16.666666666666668%;
+  min-height: 10px;
+  text-align: center;
+  padding: 3px;
+}
+#results section .tabs-content .content.tab-details .ratings li img {
+  vertical-align: middle;
+  max-width: 100%;
+  max-height: 44px;
+}
+#results section .tabs-content .content.tab-details .ratings li a,
+#results section .tabs-content .content.tab-details .ratings li span {
+  display: block;
+}
+#results section .tabs-content .content.tab-details .ratings li span.logo {
+  height: 44px;
+}
+#results section .tabs-content .content.tab-details .ratings li span.rating {
+  font-size: 24px;
+  font-weight: bold;
+  border-top: 1px solid #eeeeee;
+  padding-top: 4px;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+}
+#results section .tabs-content .content.tab-details .ratings li span.rating-text {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #666;
+}
+#results section .tabs-content .content.tab-details .ratings li a {
+  padding: 5px;
+  border: 1px solid #eeeeee;
+}
+#results section .tabs-content .content.tab-details .ratings li a:hover {
+  border-color: #eb9100;
+  text-decoration: none;
+}
+#results section .tabs-content .content.tab-details .ratings li a * {
+  cursor: pointer;
+}
+#results section .tabs-content .content.tab-details .ratings li.overall {
+  color: #fff;
+}
+#results section .tabs-content .content.tab-details .ratings li.overall > div {
+  background-color: #eb9100;
+  padding: 5px;
+  border: 1px solid #d28100;
+}
+#results section .tabs-content .content.tab-details .ratings li.overall span.title {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 44px;
+}
+#results section .tabs-content .content.tab-details .ratings li.overall span.rating {
+  border-color: #d28100;
+  padding-top: 5px;
+}
+#results section .tabs-content .content.tab-details .ratings li.overall span.rating-text {
+  color: #fff;
+}
+@media (max-width: 768px) {
+  #results section .tabs-content .content.tab-details .ratings li {
+    width: 20%;
+  }
+  #results section .tabs-content .content.tab-details .ratings li span.logo {
+    max-height: 30px;
+  }
+  #results section .tabs-content .content.tab-details .ratings li span.logo img {
+    max-height: 30px;
+  }
+  #results section .tabs-content .content.tab-details .ratings li span.rating {
+    font-size: 18px;
+  }
+  #results section .tabs-content .content.tab-details .ratings li span.rating-text {
+    font-size: 10px;
+  }
+  #results section .tabs-content .content.tab-details .ratings li.overall {
+    display: none;
+  }
 }
 #results section .tabs-content .content.tab-gallery {
   max-height: none;

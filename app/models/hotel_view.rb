@@ -6,6 +6,10 @@ class HotelView
     @hotel, @search_criteria = hotel, search_criteria
   end
 
+  def ratings
+  end
+
+
   def as_json(options={})
 
     Jbuilder.encode do |json|
@@ -13,6 +17,7 @@ class HotelView
 
       json.hotel do 
         json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities)
+        json.ratings        hotel.ratings
         json.images         hotel.images, :url, :thumbnail_url, :caption, :width, :height
         json.channel        search_criteria.channel_hotel hotel.id 
       end
