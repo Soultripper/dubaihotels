@@ -16,7 +16,7 @@ module EasyToBook
         :endpoint => 'http://www.etbxml.com/api',
         :username => 'hot5hotels',
         :password => '21efef97',
-        :campaignid => '280828275'
+        :campaignid => '280828334'
       }
     }.freeze
 
