@@ -602,6 +602,7 @@ ul.amenities li.spa:after {
 }
 #results section .tabs-content .content.tab-details .ratings li.overall {
   color: #fff;
+  float: right;
 }
 #results section .tabs-content .content.tab-details .ratings li.overall > div {
   background-color: #eb9100;

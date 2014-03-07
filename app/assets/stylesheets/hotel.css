@@ -306,6 +306,7 @@
 }
 #hotel .ratings li.overall {
   color: #fff;
+  float: right;
 }
 #hotel .ratings li.overall > div {
   background-color: #eb9100;
