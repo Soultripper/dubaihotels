@@ -62,7 +62,7 @@ class Hotel < ActiveRecord::Base
   def to_json
     Jbuilder.encode do |json|
       json.(self, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :user_rating,
-                  :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id)
+                  :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :slug)
     end
   end
 
@@ -92,12 +92,12 @@ class Hotel < ActiveRecord::Base
 
   def ratings
     {
-      overall:      user_rating,
-      agoda:        agoda_user_rating.to_f * 10,
-      booking:      booking_user_rating.to_f * 10,
-      splendia:     splendia_user_rating.to_f,
-      laterooms:    laterooms_user_rating.to_f * 16.6,
-      easy_to_book: etb_user_rating.to_f * 20
+      overall:      user_rating.to_i,
+      agoda:        (agoda_user_rating.to_f * 10).to_i,
+      booking:      (booking_user_rating.to_f * 10).to_i,
+      splendia:     splendia_user_rating.to_i,
+      laterooms:    (laterooms_user_rating.to_f * 16.6).to_i,
+      easy_to_book: (etb_user_rating.to_f * 20).to_i
     }
   end
 

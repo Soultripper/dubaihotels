@@ -39,7 +39,7 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
      
       $rootScope.channel = Page.info.channel
       $scope.hotel = response.hotel;
-      $scope.slug = 'hotels/' + $scope.hotel.id 
+      $scope.slug = 'hotels/' + $scope.hotel.slug 
       loadMap();
       $scope.getRooms()
 

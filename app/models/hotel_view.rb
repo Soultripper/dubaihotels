@@ -16,7 +16,7 @@ class HotelView
       json.criteria search_criteria
 
       json.hotel do 
-        json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities)
+        json.(hotel, :id, :name, :address, :city, :state_province, :postal_code, :user_rating, :latitude, :longitude, :star_rating, :description, :amenities, :slug)
         json.ratings        hotel.ratings
         json.images         hotel.images, :url, :thumbnail_url, :caption, :width, :height
         json.channel        search_criteria.channel_hotel hotel.id 
