@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  MIN_PRICE = 25
 
   protected  
 
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def min_price
     @min_price = Utilities.nil_round(params['min_price'])
-    @min_price < 30 ? 30 : @min_price
+    @min_price < MIN_PRICE ? MIN_PRICE : @min_price
   end
 
   def max_price
