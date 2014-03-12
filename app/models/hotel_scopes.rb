@@ -13,7 +13,7 @@ module HotelScopes
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (city = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
       elsif location.landmark? or location.place?
-        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, proximity_in_metres)
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000)
       elsif location.region?
         query = query.where("state_province = ?", location.name.downcase)
       elsif location.country?
@@ -22,7 +22,6 @@ module HotelScopes
 
       query.order('matches DESC, COALESCE(ranking,0) DESC')
     end
-
 
     def ids_within_distance_of(location, provider_key, limit=4000)
       by_location(location).where("#{provider_key} IS NOT NULL").limit(limit).map &provider_key
