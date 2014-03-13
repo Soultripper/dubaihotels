@@ -18,7 +18,9 @@ Hotels::Application.routes.draw do
   end
 
   get '/locations', to: 'search#locations'
+  get '/reports/:action', to: 'reports#:action'
   get '/:id', to: 'search#index'
+
 
 
 

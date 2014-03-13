@@ -76,7 +76,7 @@ class Hotel < ActiveRecord::Base
   end
 
 
-  def soulmate_desc
+  def full_address
     country =  BookingCountry.lookup(country_code)
     desc = name
     if city.blank?
@@ -87,6 +87,11 @@ class Hotel < ActiveRecord::Base
 
     country.trim.blank? ? desc : "#{desc}, #{country}"
 
+  end
+
+  def name_with_city
+    return name if city.blank?      
+    "#{name}, #{city.capitalize}" 
   end
 
 
@@ -108,10 +113,18 @@ class Hotel < ActiveRecord::Base
       score: score,
       data:{
         slug: slug,
-        title: soulmate_desc
+        title: full_address
       }
     }.as_json
   end
 
+  # def self.to_csv(options = {})
+  #   CSV.generate(options) do |csv|
+  #     csv << column_names
+  #     find_each do |hotel|
+  #       csv << product.attributes.values_at(*column_names)
+  #     end
+  #   end
+  # end
 
 end
