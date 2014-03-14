@@ -50,7 +50,9 @@ class HotelSearchPageResult
   def filter(filters={})   
     @user_filters = filters
 
+
     if filter?(filters)
+      searched_hotel = ensure_searched_hotel
       Log.debug "#{hotels.count} hotels remaining before #{filters} applied"
       hotels.select! do |hotel|
         filter_min_price(hotel, Utilities.nil_round(filters[:min_price])) and 
@@ -58,12 +60,17 @@ class HotelSearchPageResult
         filter_amenities(hotel, filters[:amenities]) and
         filter_stars(hotel, filters[:star_ratings])
       end
+      hotels.insert(0,searched_hotel) if !ensure_searched_hotel and searched_hotel
       Log.debug "#{hotels.count} hotels remaining after #{filters} applied"
     else
       Log.debug "#{hotels.count} hotels found - no filters applied"
     end
 
     self
+  end
+
+  def ensure_searched_hotel    
+    hotels.find {|h| h.slug == location.slug} if location.hotel?
   end
 
   def filter?(filters)

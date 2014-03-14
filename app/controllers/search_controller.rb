@@ -39,6 +39,14 @@ class SearchController < ApplicationController
 
   protected
 
+  def sort
+    if location and location.hotel? and params["sort"].blank?
+      :distance
+    else
+      params["sort"] || :recommended
+    end
+  end
+
   def validate_search
     search_criteria.valid?
   end

@@ -57,7 +57,7 @@ searchHotelsServices.factory('Page', function() {
 
   var mapTypeOptions = {
     zoom: 10,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: typeof(google) != 'undefined' ? google.maps.MapTypeId.ROADMAP : null
   };
 
   var mapOptions = {
@@ -73,8 +73,10 @@ searchHotelsServices.factory('Page', function() {
     currentCoords = {lng: lng, lat: lat };
 
     var container = document.getElementById(elementId)
-    var mapCenter = {center: new google.maps.LatLng(lat, lng)};     
-    var map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
+    var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
+    var map;  
+    if(google) 
+      map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
   }
 
 

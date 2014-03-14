@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude  
                    
-  attr_accessible :name, :location_type, :description, :longitude, :latitude, :slug, :country_code, :score
+  attr_accessible :name, :location_type, :description, :longitude, :latitude, :slug, :country_code, :score, :geog
   # after_save :add_to_soulmate
   # before_destroy :remove_from_soulmate
 
@@ -118,6 +118,10 @@ class Location < ActiveRecord::Base
 
   def country?
     location_type == 'Country'
+  end
+
+  def hotel?
+    location_type == 'Hotel'
   end
 
   def to_s

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="Hot5">
 <head>
-    <title>Hot 5 Hotel Search</title>
+    <title>Hot5 Hotel Search</title>
     <meta name="description" content="Hot5 compares all leading hotel booking engines, to find you the best price.">
     <meta name="keywords" content="hot5, hotel, hotels, booking, location, vacation, hotel comparison, hotel compare, best hotel price">
     <meta charset="utf-8" />
@@ -21,6 +21,7 @@
 
 </head>
 <body >
+  <%= render partial:'shared/google_tag_manager' %>
    <%= yield %>
    <%= render partial:'shared/google_analytics' %>
 </body>

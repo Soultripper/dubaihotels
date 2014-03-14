@@ -79,7 +79,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $routeParams.page_no = param('page_no', 1)
-      $routeParams.sort = param('sort', 'recommended')
+      $routeParams.sort = param('sort','')
 
       var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
 

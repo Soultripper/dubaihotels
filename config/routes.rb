@@ -11,6 +11,8 @@ Hotels::Application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
 
+  get '/hotels/:id/discover', to: 'search#discover_hotel'
+  
   resources :hotels, only: [:index, :show] do
     member do
       get '/rooms', to: 'hotels#rooms'
