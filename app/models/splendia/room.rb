@@ -15,6 +15,10 @@ module Splendia
       @description ||= value('roomname')
     end
 
+    def daily_price
+      @daily_price ||= value('fullratewithtaxes').to_f
+    end
+
     def price      
       @price ||= value('totalfullratewithtaxes').to_f
     end

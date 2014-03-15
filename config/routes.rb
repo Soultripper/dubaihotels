@@ -1,8 +1,18 @@
 require 'sidekiq/web'
 
+module PPCConstraint
+  extend self
+
+  def matches?(request)
+    !request.query_parameters["hotel"].blank?
+  end
+end
+
 Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
+
+  match "/" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
 
@@ -10,6 +20,7 @@ Hotels::Application.routes.draw do
 
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
+
 
   resources :hotels, only: [:index, :show] do
     member do

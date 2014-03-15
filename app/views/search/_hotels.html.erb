@@ -21,6 +21,7 @@
           <li ng-class="{active: isSort('rating')}"><a ng-click="sort('rating')" href="#">Star Rating</a></li>
           <li ng-class="{active: isSort('user')}"><a ng-click="sort('user')" href="#">User Rating</a></li>
           <li ng-class="{active: isSort('distance')}"><a ng-click="sort('distance')" href="#">Distance</a></li>
+          <li ng-class="{active: isSort('saving')}"><a ng-click="sort('saving')" href="#">Saving</a></li>
       </ul>
       <div class="dropdown hidden-lg">
           <label for="sortby" class="title">Sort By <i class="fa fa-caret-right"></i></label>
@@ -32,6 +33,7 @@
                   <option ng-selected="isSort('rating')" value="rating">Star Rating</option>
                   <option ng-selected="isSort('user')" value="user">User Rating</option>
                   <option ng-selected="isSort('distance')" value="distance">Distance</option>
+                  <option ng-selected="isSort('saving')" value="saving">Saving</option>
               </select>
           </div>
       </div>

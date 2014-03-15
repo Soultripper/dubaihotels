@@ -6,20 +6,18 @@ module HotelScopes
 
   module ClassMethods
 
-    def by_location(location, proximity_in_metres = 20000)
+    def by_location(location, proximity_in_metres = 8000)
 
       query = limit(3000)
 
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (city = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
-      elsif location.landmark? or location.place?
-        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000)
+      elsif location.distance_based?
+        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
       elsif location.region?
         query = query.where("state_province = ?", location.name.downcase)
       elsif location.country?
         query = query.where("country_code = ?", location.country_code.upcase)
-      elsif location.hotel?
-        return query.where("ST_DWithin(hotels.geog, ?, ?)", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
       end
 
       query.order('matches DESC, COALESCE(ranking,0) DESC')

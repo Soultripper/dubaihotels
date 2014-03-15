@@ -36,11 +36,11 @@ module LateRooms
     end
 
     def min_price
-      cheapest_room.price
+      cheapest_room.price if cheapest_room
     end
 
     def max_price
-      expensive_room.price
+      expensive_room.price if expensive_room
     end
 
     def rooms
@@ -52,21 +52,21 @@ module LateRooms
     end
 
     def cheapest_room
-      rooms[0]
+      @cheapest_room ||= rooms.find {|r| r.rooms_available?}
     end
 
     def expensive_room
-      rooms[-1]
+      @expensive_room ||= rooms.reverse.find {|r| r.rooms_available?}
     end
 
     def commonize(search_criteria, location)
-      return unless rooms and rooms.length > 0
+      return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
       {
         provider: :laterooms,
         provider_hotel_id: hotel_id,
         room_count: rooms_count,
-        min_price: min_price,
-        max_price: max_price,        
+        min_price: min_price.to_f,
+        max_price: max_price.to_f,        
         ranking: ranking,
         rooms: nil,
       }

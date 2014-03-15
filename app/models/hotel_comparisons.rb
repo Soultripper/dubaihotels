@@ -128,6 +128,7 @@ class HotelComparisons
     offer[:link]      = provider[:link]
     offer[:min_price] = provider[:min_price]
     offer[:max_price] = provider_deals.select {|d|  Utilities.nil_round(d[:min_price]) != 0}.last[:min_price]
+    offer[:saving]    = ((1 - offer[:min_price].to_f / offer[:max_price].to_f) * 100) if offer[:max_price].to_f > 0
     offer
   end
 

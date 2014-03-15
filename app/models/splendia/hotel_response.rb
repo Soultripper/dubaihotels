@@ -36,11 +36,11 @@ module Splendia
     end
 
     def min_price
-      cheapest_room.price
+      cheapest_room.daily_price
     end
 
     def max_price
-      expensive_room.price
+      expensive_room.daily_price
     end
 
     def rooms
@@ -64,8 +64,8 @@ module Splendia
         provider: :splendia,
         provider_hotel_id: hotel_id,
         room_count: rooms_count,
-        min_price: min_price,
-        max_price: max_price,        
+        min_price: min_price.to_f,
+        max_price: max_price.to_f,        
         ranking: ranking,
         rooms: nil,
         link: link

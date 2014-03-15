@@ -40,7 +40,7 @@ class SearchController < ApplicationController
   protected
 
   def sort
-    if location and location.hotel? and params["sort"].blank?
+    if location and location.distance_based? and params["sort"].blank?
       :distance
     else
       params["sort"] || :recommended
@@ -56,7 +56,7 @@ class SearchController < ApplicationController
   end
 
   def slug
-    @slug ||= params[:id]
+    @slug ||= (params[:id] || params[:hotel])
   end
 
   def query

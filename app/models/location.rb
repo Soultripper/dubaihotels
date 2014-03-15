@@ -99,6 +99,12 @@ class Location < ActiveRecord::Base
     all_slugs.select {|loc| loc[:n].downcase.start_with? query}
   end
 
+
+  def distance_based?
+    landmark? or place? or hotel?
+  end
+
+
   def landmark?
     location_type == 'Point of Interest'
   end

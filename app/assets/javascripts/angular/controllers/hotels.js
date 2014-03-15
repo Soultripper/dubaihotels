@@ -195,7 +195,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.isSort = function(option){
-      return option === (Page.info.sort || 'recommended')
+      return option === Page.info.sort
     };
 
     $scope.providers = function(hotel){
@@ -367,14 +367,21 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $routeParams.page_no = 1;
-      $routeParams.sort = 'recommended';
+      // $routeParams.sort = 'recommended';
 
       if($scope.selectType=='hotel')
       {
         window.location.href = 'hotels/' + Page.info.slug + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
       }
       else
-        window.location.href = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no  + '&sort=' + $routeParams.sort
+      {
+        var url = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no 
+        
+        if($routeParams.sort)
+          url = url + '&sort=' + $routeParams.sort
+
+        window.location.href = url
+      }
 
       // $location.path($routeParams.id +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date)
       // $scope.search();
