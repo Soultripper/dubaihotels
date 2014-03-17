@@ -64,6 +64,16 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def self.my_location(latitude, longitude)
+    Location.new name: 'My location', longitude: longitude, latitude: latitude, slug:"my-location", location_type: 'MyLocation', description: 'My Location'
+  end
+
+
+  def unique_id
+    return "my-location-#{longitude}-#{latitude}" if my_location?
+    slug
+  end
+
   # def self.save_cities_as_json(filename)
   #   File.open(filename, 'w') do |f|
   #     cities.each do |location|
@@ -101,9 +111,12 @@ class Location < ActiveRecord::Base
 
 
   def distance_based?
-    landmark? or place? or hotel?
+    landmark? or place? or hotel? or my_location?
   end
 
+  def my_location?
+    location_type == 'MyLocation'
+  end
 
   def landmark?
     location_type == 'Point of Interest'

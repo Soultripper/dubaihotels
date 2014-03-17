@@ -52,11 +52,19 @@ class SearchController < ApplicationController
   end
 
   def location
-    @location ||= Location.find_by_slug slug
+    if coordinates
+      @location = Location.my_location *coordinates
+    else
+      @location ||= Location.find_by_slug slug
+    end
   end
 
   def slug
     @slug ||= (params[:id] || params[:hotel])
+  end
+
+  def coordinates
+    @coordinates ||= params[:coordinates].split(',') if params[:coordinates]
   end
 
   def query

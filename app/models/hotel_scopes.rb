@@ -12,8 +12,11 @@ module HotelScopes
 
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (city = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
+      elsif location.my_location?
+        return query.where("ST_DWithin(hotels.geog, ST_MakePoint(?,?), ?) ", location.longitude, location.latitude, 3000).
+        order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude}))")
       elsif location.distance_based?
-        query = query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
+        return query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
       elsif location.region?
         query = query.where("state_province = ?", location.name.downcase)
       elsif location.country?

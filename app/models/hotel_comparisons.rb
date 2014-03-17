@@ -38,6 +38,10 @@ class HotelComparisons
     @hotel = hotel
   end
 
+  def has_a_deal?
+    provider_deals.find {|deal| deal[:loaded]==true}
+  end
+
   
   def [](key)
     hotel[key]

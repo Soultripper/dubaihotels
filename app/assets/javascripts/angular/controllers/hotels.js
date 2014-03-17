@@ -72,6 +72,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.search = function(callback) {
+
+      var qs = $location.search()
+
       console.log('calling search')
       if(!callback)
         callback = $scope.setupPage;
@@ -95,6 +98,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         url += '&amenities=' + $routeParams.amenities;
       if($routeParams.page_no)
         url += '&page_no=' + $routeParams.page_no;
+      if(qs.coordinates)
+        url += '&coordinates=' + qs.coordinates;
       $http.get(url).success(callback)
     };
 
@@ -133,13 +138,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       updateSlider(response.info);
 
       toggleShowMore(false);
-      $scope.search_results.hotels.length < Page.info.available_hotels ?  angular.element("#loadmore").show() : angular.element("#loadmore").hide();
+
+      if( $scope.search_results.hotels)
+        $scope.search_results.hotels.length < Page.info.available_hotels ?  angular.element("#loadmore").show() : angular.element("#loadmore").hide();
 
       angular.element('#search-input').val('')
       angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
       angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
       Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude)      
     };
+
+
 
     $scope.loadMore = function(response){
       console.log('Loading more:  ' + response.state)
@@ -180,9 +189,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       if(slider)
       {
         slider.ionRangeSlider("update", {
-            min:  Math.round(30),
+            min:  Math.round(25),
             max:  Math.round(info.max_price),
-            from: Math.round(info.min_price_filter || 30),               // change default FROM setting
+            from: Math.round(info.min_price_filter || 25),               // change default FROM setting
             to:   Math.round(info.max_price_filter || info.max_price),   // change default TO setting
         });
       } 
@@ -361,6 +370,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $rootScope.searchCity = function(){
+
+      var qs = $location.search()
       // $rootScope.$broadcast("loading-started");
       $routeParams.id = Page.info.slug;
       // $location.path(Page.info.slug);
@@ -369,6 +380,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.page_no = 1;
       // $routeParams.sort = 'recommended';
 
+
       if($scope.selectType=='hotel')
       {
         window.location.href = 'hotels/' + Page.info.slug + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
@@ -376,9 +388,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       else
       {
         var url = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no 
-        
+          
         if($routeParams.sort)
-          url = url + '&sort=' + $routeParams.sort
+           url = url + '&sort=' + $routeParams.sort
+
+        if(qs.coordinates)
+          url += '&coordinates=' + qs.coordinates;
 
         window.location.href = url
       }
@@ -418,8 +433,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       prefix: '£',
       hideMinMax: true,
       hideFromTo: true,
-      min: 30,
-      from: 30,
+      min: 25,
+      from: 25,
       to: 1000,
       step: 5,
       onFinish: Hotels.priceRange.change

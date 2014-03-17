@@ -12,11 +12,12 @@ Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match "/" => "search#index", :constraints => PPCConstraint
+  match "/hotels" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
 
   match "/404", :to => "app#not_found"
+  match "/500", :to => "app#not_found"
 
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'

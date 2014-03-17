@@ -41,8 +41,8 @@ class HotelSearch
 
   def search      
     return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
+    # HotelWorker.perform_async cache_key 
+    HotelWorker.new.perform cache_key
     self
   end
 
@@ -54,14 +54,18 @@ class HotelSearch
       search_criteria: search_criteria,
       state: @state
     }
-    cur_hotels = compared_hotels
-    cur_hotels = cur_hotels.length > 0 ? cur_hotels : all_hotels
+    cur_hotels = loaded_hotels
+    cur_hotels = (cur_hotels.length > 0 or state == :finished) ? cur_hotels : all_hotels
     HotelSearchPageResult.new cur_hotels.clone, results
   end
 
 
   def hotels
     @hotels ||= compared_hotels
+  end
+
+  def loaded_hotels
+    compared_hotels.select {|h| h.has_a_deal?}
   end
 
   def compared_hotels
@@ -127,7 +131,7 @@ class HotelSearch
   end
 
   def cache_key
-    search_criteria.as_json.merge({query:location.slug})
+    search_criteria.as_json.merge({query:location.unique_id})
   end
 
   def channel

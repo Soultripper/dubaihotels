@@ -56,7 +56,7 @@ class SearchCriteria
   end
   
   def channel_search(location)
-    "hot5.com-#{start_date}-#{end_date}-#{currency_code}-#{location.slug}".parameterize
+    "hot5.com-#{start_date}-#{end_date}-#{currency_code}-#{location.unique_id}".parameterize
   end
 
   def channel_hotel(hotel_id)
