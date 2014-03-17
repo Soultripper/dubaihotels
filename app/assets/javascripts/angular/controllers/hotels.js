@@ -380,7 +380,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       var qs = $location.search()
       // $rootScope.$broadcast("loading-started");
-      $routeParams.id = $location.path();
+
+      if($scope.selectType)
+        $routeParams.id = Page.info.slug;
+      else
+        $routeParams.id = $location.path();
+      
       // $location.path(Page.info.slug);
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
@@ -396,7 +401,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       {
         var url = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no 
           
-        if(qs.hotel)
+        if(qs.hotel && !$scope.selectType)
           url+= "&hotel=" + qs.hotel;
 
         if($routeParams.sort)
