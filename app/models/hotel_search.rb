@@ -65,7 +65,7 @@ class HotelSearch
   end
 
   def loaded_hotels
-    compared_hotels.select {|h| h.has_a_deal?}
+    compared_hotels.select {|h| h.has_a_deal? or (location.hotel? and location.slug == h.slug)}
   end
 
   def compared_hotels

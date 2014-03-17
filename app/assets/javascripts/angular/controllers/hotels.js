@@ -87,7 +87,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       var url = $location.path();
 
-      url += '.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+
+      url += '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
 
       if(qs.hotel)
         url+= "&hotel=" + qs.hotel;
@@ -106,7 +107,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         url += '&page_no=' + $routeParams.page_no;
       if(qs.coordinates)
         url += '&coordinates=' + qs.coordinates;
-      $http.get(url).success(callback)
+      $http.get(url, {headers:{'Accept':"application/json"}}).success(callback)
     };
 
     $scope.setupPage = function(response){
@@ -379,7 +380,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       var qs = $location.search()
       // $rootScope.$broadcast("loading-started");
-      $routeParams.id = Page.info.slug;
+      $routeParams.id = $location.path();
       // $location.path(Page.info.slug);
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
@@ -395,6 +396,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       {
         var url = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no 
           
+        if(qs.hotel)
+          url+= "&hotel=" + qs.hotel;
+
         if($routeParams.sort)
            url = url + '&sort=' + $routeParams.sort
 
