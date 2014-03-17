@@ -76,6 +76,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var qs = $location.search()
 
       console.log('calling search')
+
       if(!callback)
         callback = $scope.setupPage;
 
@@ -84,7 +85,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.page_no = param('page_no', 1)
       $routeParams.sort = param('sort','')
 
-      var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+      var url = $location.path();
+
+      url += '.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+
+      if(qs.hotel)
+        url+= "&hotel=" + qs.hotel;
 
       if($routeParams.min_price)
         url += '&min_price=' + $routeParams.min_price;

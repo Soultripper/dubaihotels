@@ -12,7 +12,7 @@ Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match "/hotels" => "search#index", :constraints => PPCConstraint
+  match "/" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
 
