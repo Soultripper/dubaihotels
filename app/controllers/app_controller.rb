@@ -5,6 +5,6 @@ class AppController < ApplicationController
   end
 
   def not_found
-    render layout: 'hotel'
+    render layout: 'error'
   end
 end

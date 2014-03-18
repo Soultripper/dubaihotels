@@ -141,6 +141,10 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
     };
 
     $rootScope.searchCity = function(){
+
+      if($scope.slug==undefined)
+        return;
+
       if($scope.slug=='my-location')
       {
         app._onSearchSubmitGeo();
@@ -159,8 +163,15 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       // $location.path($routeParams.id +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date)
       // $scope.search();
       // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info.slug)
+      var url = '/' + $scope.slug + '?';
 
-      window.location.href = '/' + $scope.slug + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+      if($routeParams.start_date!=undefined)
+        url += 'start_date=' + $routeParams.start_date
+
+      if($routeParams.end_date!=undefined)
+        url += 'end_date=' + $routeParams.end_date
+      
+      window.location.href =  url;
     };
 
    $scope.locationSelect = function (query, slug, type) {

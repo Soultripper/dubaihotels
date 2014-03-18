@@ -388,6 +388,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.searchCity = function(){
 
+      if($scope.slug==undefined)
+        return;
+      
       if($scope.slug=='my-location')
       {
         app._onSearchSubmitGeo();
