@@ -3,14 +3,17 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
   function ($scope, $http, $location, $window, $filter, $rootScope) { 
 
     var start_date = function(){
-      var date = $scope.start_date
-      return $filter('date')(date, 'yyyy-MM-dd')
+      var format = 'yyyy-mm-dd';
+      return angular.element("#start_date").data('datepicker').getFormattedDate(format);
+
+      // var date = $scope.start_date
+      // return $filter('date')(date, 'yyyy-MM-dd')
     }    
 
 
     var end_date = function(){
-       var date = $scope.end_date
-      return $filter('date')(date, 'yyyy-MM-dd')
+      var format = 'yyyy-mm-dd';
+      return angular.element("#end_date").data('datepicker').getFormattedDate(format);
     }
 
 

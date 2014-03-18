@@ -28,7 +28,7 @@
   height: auto;
 }
 #home-search #search .input-group-btn button {
-  height: 48px;
+  height: 48px !important; 
 }
 #home-search button.search {
   font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;

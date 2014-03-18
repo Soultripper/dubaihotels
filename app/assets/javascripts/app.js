@@ -36,6 +36,8 @@
         $("#search-geo").show();
         $("#search-geo button").click(function () {
             searchInput.val("My Location");
+            $("#start_date").datepicker('update', 'today')
+            $("#end_date").datepicker('update', '+1d')
             return false;
         });
 
