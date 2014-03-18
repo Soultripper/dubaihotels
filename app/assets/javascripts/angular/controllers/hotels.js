@@ -407,8 +407,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         if($routeParams.sort)
            url = url + '&sort=' + $routeParams.sort
 
-        if(qs.coordinates)
-          url += '&coordinates=' + qs.coordinates;
+        // if(qs.coordinates)
+        //   url += '&coordinates=' + qs.coordinates;
 
         window.location.href = url
       }

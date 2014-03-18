@@ -23,6 +23,61 @@
         // });
 
         Hotels.init()
+        app._initGeoLocation();
+    },
+
+    _initGeoLocation: function() {
+        var searchForm = $("#search");
+        var searchInput = $("#search-input");
+        
+        if (!navigator.geolocation)
+            return;
+
+        $("#search-geo").show();
+        $("#search-geo button").click(function () {
+            searchInput.val("My Location");
+            return false;
+        });
+
+        $("#search").submit(app._onSearchSubmitGeo);
+
+        if (searchInput.val())
+            return;
+
+        // searchInput.val("My Location");
+    },
+
+    _onSearchSubmitGeo: function(e) {
+        var searchInput = $("#search-input");
+        if (searchInput.val() != "My Location")
+            return true;
+
+        app._startGeoSearch();
+        return false;
+    },
+
+    _startGeoSearch: function() {
+        if (!navigator.geolocation)
+            return;
+
+        navigator.geolocation.getCurrentPosition(app._onGeoLocationReceived, app._onGeoLocationError);
+    },
+
+    _onGeoLocationReceived: function (position) {
+        var format = 'yyyy-mm-dd';
+        var startDate = $("#start_date").data('datepicker').getFormattedDate(format);
+        var endDate = $("#end_date").data('datepicker').getFormattedDate(format);
+        var qsParams = [];
+        qsParams.push('start_date=' + startDate);
+        qsParams.push('end_date=' + endDate);
+        // qsParams.push('page_no=1');
+        qsParams.push('coordinates=' + position.coords.latitude + ',' + position.coords.longitude);
+        
+        window.location = "/my-location?" + qsParams.join("&");
+    },
+
+    _onGeoLocationError: function(e) {
+        alert("There was an error determining your location.");
     },
 
     refine: {

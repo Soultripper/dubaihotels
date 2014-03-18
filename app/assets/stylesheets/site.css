@@ -3,7 +3,7 @@
 }
 #wrapper > header #logo {
   display: block;
-  background-image: url(masthead/hot5-logo.gif);
+  background-image: url(../assets/masthead/hot5-logo.gif);
   -moz-background-size: cover;
   -o-background-size: cover;
   -webkit-background-size: cover;
@@ -20,6 +20,9 @@
 }
 #wrapper #search input[readonly] {
   cursor: pointer;
+}
+#wrapper #search .input-group-btn button {
+  height: 39px;
 }
 #wrapper > footer {
   background-color: #eb9100;
