@@ -141,6 +141,12 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
     };
 
     $rootScope.searchCity = function(){
+      if($scope.slug=='my-location')
+      {
+        app._onSearchSubmitGeo();
+        return;
+      }
+      
       // $rootScope.$broadcast("loading-started");
       // $routeParams.id = $scope.slug;
       // $location.path($scope.slug);

@@ -2,6 +2,16 @@
 app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
   function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page, HotelProvider, HotelFactory) { 
 
+    // var searchInput = angular.element('#search-input');
+    
+    // searchInput.focus(function(){
+    //   var self = $(this)
+    //   if(self.val() == "My Location")    
+    //   {      
+    //     self.val('');
+    //     $scope.slug = undefined;
+    //   }
+    // })
 
     var tuttimer = [];
     var timeoutId, initTimeoutId;
@@ -378,6 +388,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.searchCity = function(){
 
+      if($scope.slug=='my-location')
+      {
+        app._onSearchSubmitGeo();
+        return;
+      }
+
       var qs = $location.search()
       // $rootScope.$broadcast("loading-started");
 
@@ -406,9 +422,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
         if($routeParams.sort)
            url = url + '&sort=' + $routeParams.sort
-
-        // if(qs.coordinates)
-        //   url += '&coordinates=' + qs.coordinates;
 
         window.location.href = url
       }

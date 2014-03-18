@@ -29,7 +29,8 @@
     _initGeoLocation: function() {
         var searchForm = $("#search");
         var searchInput = $("#search-input");
-        
+        var scope = angular.element("#search").scope();
+
         if (!navigator.geolocation)
             return;
 
@@ -38,21 +39,33 @@
             searchInput.val("My Location");
             $("#start_date").datepicker('update', 'today')
             $("#end_date").datepicker('update', '+1d')
+            scope.$apply(function(){
+              scope.slug = 'my-location'
+            })
             return false;
         });
 
-        $("#search").submit(app._onSearchSubmitGeo);
+        // $("#search").submit(app._onSearchSubmitGeo);
 
         if (searchInput.val())
             return;
 
-        // searchInput.val("My Location");
+        searchInput.focus(function(){
+          var self = $(this)
+          if(self.val() == "My Location")          
+          {
+            scope.$apply(function(){
+              $('#search-input').val('')
+              scope.slug = undefined
+            })
+          }
+        })
     },
 
     _onSearchSubmitGeo: function(e) {
-        var searchInput = $("#search-input");
-        if (searchInput.val() != "My Location")
-            return true;
+        var scope = angular.element("#search").scope();
+        if (scope.slug != "my-location")
+          return true;
 
         app._startGeoSearch();
         return false;
@@ -75,6 +88,11 @@
         // qsParams.push('page_no=1');
         qsParams.push('coordinates=' + position.coords.latitude + ',' + position.coords.longitude);
         
+        var scope = angular.element("#search").scope();
+        scope.$apply(function(){
+          scope.slug = 'my-location'
+        })
+
         window.location = "/my-location?" + qsParams.join("&");
     },
 

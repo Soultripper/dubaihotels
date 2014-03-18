@@ -5,9 +5,6 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
     var start_date = function(){
       var format = 'yyyy-mm-dd';
       return angular.element("#start_date").data('datepicker').getFormattedDate(format);
-
-      // var date = $scope.start_date
-      // return $filter('date')(date, 'yyyy-MM-dd')
     }    
 
 
@@ -28,10 +25,6 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
       $scope.slug = slug
     };
 
-   // $scope.citySelect = function ($item, $model, $label) {
-   //    Page.info().query = $item.n
-   //    Page.info().slug = $item.s
-   //  };
     $scope.search = function(){
 
       var routes = {
@@ -43,6 +36,12 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
 
       if($scope.slug===undefined)
         return;
+
+      if($scope.slug=='my-location')
+      {
+        app._onSearchSubmitGeo();
+        return;
+      }
 
       if($scope.selectType=='hotel')
         $scope.slug = 'hotels/' + $scope.slug 
