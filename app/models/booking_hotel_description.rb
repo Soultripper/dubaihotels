@@ -10,6 +10,15 @@ class BookingHotelDescription < ActiveRecord::Base
     end
   end
 
+  def self.fetch(hotel_ids)
+    hotel_ids.each_slice(500) do |booking_hotel_ids|
+      descriptions = Booking::Client.hotel_descriptions hotel_ids: booking_hotel_ids.join(','), descriptiontype_ids: 6, languagecodes: 'en'
+      hotel_descriptions = descriptions.map {|json| BookingHotelDescription.from_booking json}
+      BookingHotelDescription.where(booking_hotel_id: booking_hotel_ids).delete_all
+      import hotel_descriptions.compact, :validate => false
+    end
+  end
+
 
   def self.from_booking(json)
     return unless json['languagecode']=='en'

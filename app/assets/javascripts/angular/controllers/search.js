@@ -2,6 +2,9 @@
 app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter', '$rootScope',  
   function ($scope, $http, $location, $window, $filter, $rootScope) { 
 
+    angular.element("#search-input").val('My Location');
+    $scope.slug = 'my-location'
+
     var start_date = function(){
       var format = 'yyyy-mm-dd';
       return angular.element("#start_date").data('datepicker').getFormattedDate(format);

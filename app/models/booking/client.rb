@@ -23,6 +23,9 @@ class Booking::Client
       end
     end
 
+    def changed_hotels(params={})
+      parse_response(http.get(url + '/bookings.getChangedHotels', params))
+    end
 
     def hotels(params={})
       parse_response(http.get(url + '/bookings.getHotels', params))

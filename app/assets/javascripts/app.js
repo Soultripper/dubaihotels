@@ -50,15 +50,15 @@
 
         // $("#search").submit(app._onSearchSubmitGeo);
 
-        if (searchInput.val())
-            return;
+        // if (searchInput.val())
+        //     return;
 
         searchInput.focus(function(){
           var self = $(this)
           if(self.val() == "My Location")          
           {
-            scope.$apply(function(){
-              $('#search-input').val('')
+            angular.element('#search-input').val('')
+            scope.$apply(function(){              
               scope.slug = undefined
             })
           }

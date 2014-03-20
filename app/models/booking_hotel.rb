@@ -5,12 +5,13 @@ class BookingHotel < ActiveRecord::Base
   attr_accessible :district,:nr_rooms,:city,:check_in_to,:check_in_from,:minrate,:url,
                   :review_nr,:address,:commission,:ranking,:city_id,:review_score,:longitude,:latitude,:max_rooms_in_reservation,
                   :max_persons_in_reservation,:name,:hoteltype_id,:preferred,:country_code,:class_is_estimated,:is_closed,
-                  :check_out_to,:check_out_from,:zip,:contractchain_id,:classification,:maxrate,:languagecode,:currencycode, :id
+                  :check_out_to,:check_out_from,:zip,:contractchain_id,:classification,:maxrate,:languagecode,:currencycode, :id,
+                  :process_state
 
 
   has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id'
 
-  def self.from_booking(json)
+  def self.from_booking(json, process_state = 0)
     BookingHotel.new  id: json['hotel_id'],
       district: json['district'],
       nr_rooms: json['nr_rooms'],
@@ -42,7 +43,8 @@ class BookingHotel < ActiveRecord::Base
       classification: json['class'],
       maxrate: json['maxrate'],     
       languagecode: json['languagecode'],       
-      currencycode: json['currencycode']
+      currencycode: json['currencycode'], 
+      process_state: process_state
   end                  
 
   def self.seed_from_booking(offset=0, rows=1000)
@@ -50,6 +52,15 @@ class BookingHotel < ActiveRecord::Base
     while booking_hotels = Booking::Seed.hotels(offset, rows)
       import booking_hotels, :validate => false
       offset += rows
+    end
+  end
+
+  def self.fetch(hotel_ids)
+    hotel_ids.each_slice(500) do |ids|
+      hotels_json = Booking::Client.hotels hotel_ids: ids.join(',')
+      booking_hotels = hotels_json.map  {|hotel| BookingHotel.from_booking hotel, 3}
+      BookingHotel.where(id: ids).delete_all
+      import booking_hotels, :validate => false
     end
   end
 

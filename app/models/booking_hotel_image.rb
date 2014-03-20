@@ -22,8 +22,17 @@ class BookingHotelImage < ActiveRecord::Base
   def self.fetch_missing
     ids = BookingHotel.without_booking_hotel_images
     ids.each_slice(50) do |sliced_ids|
+      hotel_images = Booking::Client.hotel_images hotel_ids: sliced_ids.join(',')
+      booking_hotel_images = hotel_images.map  {|hotel_image| BookingHotelImage.from_booking hotel_image}
+      import booking_hotel_images, :validate => false
+    end
+  end
+
+  def self.fetch(hotel_ids)
+    hotel_ids.each_slice(50) do |sliced_ids|
       hotel_images = Booking::Client.hotel_images hotel_ids: sliced_ids
       booking_hotel_images = hotel_images.map  {|hotel_image| BookingHotelImage.from_booking hotel_image}
+      BookingHotelImage.where(booking_hotel_id: sliced_ids).delete_all
       import booking_hotel_images, :validate => false
     end
   end

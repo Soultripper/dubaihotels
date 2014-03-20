@@ -23,10 +23,12 @@ class ApplicationController < ActionController::Base
   end
 
   def start_date
+    return Date.today if params[:msitewrapper].to_i == 1
     (!params["start_date"].blank? ? Date.parse(params["start_date"]) : 20.days.from_now).to_date
   end
 
   def end_date
+    return Date.tomorrow if params[:msitewrapper].to_i == 1
     (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : 3.weeks.from_now).to_date
   end
 

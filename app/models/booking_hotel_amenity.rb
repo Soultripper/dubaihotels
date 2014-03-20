@@ -13,6 +13,17 @@ class BookingHotelAmenity < ActiveRecord::Base
     end
   end
 
+  def self.fetch(hotel_ids)
+    hotel_facility_ids = BookingHotelFacilityType.matched_ids.join(',')
+
+    hotel_ids.each_slice(30) do |booking_hotel_ids|
+      results = Booking::Client.hotel_facilities hotel_ids: booking_hotel_ids.join(','), hotelfacilitytype_ids: hotel_facility_ids
+      hotel_amenities = results.map {|json| BookingHotelAmenity.from_booking json}
+      BookingHotelAmenity.where(booking_hotel_id: booking_hotel_ids).delete_all
+      import hotel_amenities, :validate => false
+    end
+  end
+
 
   def self.from_booking(json)
     BookingHotelAmenity.new  booking_hotel_id:           json['hotel_id'],
