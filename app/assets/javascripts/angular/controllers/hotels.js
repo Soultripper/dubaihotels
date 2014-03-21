@@ -390,12 +390,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       if($scope.slug==undefined)
         return;
-      
-      if($scope.slug=='my-location')
-      {
-        app._onSearchSubmitGeo();
-        return;
-      }
 
       var qs = $location.search()
       // $rootScope.$broadcast("loading-started");
@@ -404,6 +398,13 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $routeParams.id = Page.info.slug;
       else
         $routeParams.id = $location.path();
+      
+      if($routeParams.id=='my-location')
+      {
+        app._onSearchSubmitGeo();
+        return;
+      }
+
       
       // $location.path(Page.info.slug);
       $routeParams.start_date = start_date();
