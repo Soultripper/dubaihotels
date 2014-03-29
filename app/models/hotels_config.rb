@@ -6,7 +6,8 @@ module HotelsConfig
     splendia: :splendia_hotel_id, 
     easy_to_book: :etb_hotel_id, 
     laterooms: :laterooms_hotel_id, 
-    agoda: :agoda_hotel_id
+    agoda: :agoda_hotel_id,
+    venere: :venere_hotel_id
   }
 
   class << self

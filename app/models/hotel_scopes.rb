@@ -50,7 +50,8 @@ module HotelScopes
         "etb_hotel_id", 
         "agoda_hotel_id", 
         "splendia_hotel_id",
-        "laterooms_hotel_id",        
+        "laterooms_hotel_id", 
+        "venere_hotel_id"       
       ]
     end
 

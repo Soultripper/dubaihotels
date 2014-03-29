@@ -23,14 +23,16 @@ Hotels::Application.routes.draw do
   mount Soulmate::Server, :at => '/sm'
 
 
+  get '/locations',       to: 'search#locations'
+  get '/reports/:action', to: 'reports#:action'
+  get '/map/:id',         to: 'map#index'
+  
   resources :hotels, only: [:index, :show] do
     member do
       get '/rooms', to: 'hotels#rooms'
     end
   end
 
-  get '/locations', to: 'search#locations'
-  get '/reports/:action', to: 'reports#:action'
   get '/:id', to: 'search#index'
 
 

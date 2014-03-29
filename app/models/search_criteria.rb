@@ -1,7 +1,7 @@
 class SearchCriteria
   include LinkBuilder
   
-  attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :currency_code
+  attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :currency_code, :country_code
 
   attr_accessor :children, :star_ratings
 
@@ -11,6 +11,7 @@ class SearchCriteria
     @no_of_adults   = args[:no_of_adults]   || 2
     @star_ratings   = args[:star_ratings]   || []
     @currency_code  = args[:currency_code]  || 'GBP'
+    @country_code   = args[:country_code]   || 'GB'
   end
 
 

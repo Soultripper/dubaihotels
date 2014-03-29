@@ -17,7 +17,10 @@ UPDATE hotels SET laterooms_hotel_id = NULL WHERE laterooms_hotel_id IS NOT NULL
 -- Updated 15882
 --select * from late_rooms_hotels limit 100
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -30,7 +33,10 @@ WHERE
 -- -- PHASE 2 -  MATCH EXACT WITH SAME NAME AND WITHIN 100m
 -- 3152
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -43,9 +49,10 @@ WHERE
 UPDATE hotels 
 SET 
 	laterooms_hotel_id =  matched_hotel.laterooms_hotel_id, 
-	laterooms_url = matched_hotel.url
+	laterooms_url = matched_hotel.url,
+  laterooms_user_rating = CAST(LR.rating AS DOUBLE PRECISION)
 FROM ( 
-	SELECT DISTINCT e.id AS laterooms_hotel_id, h.id AS hotel_id, e.url as url
+	SELECT DISTINCT e.id AS laterooms_hotel_id, h.id AS hotel_id, e.url as url, e.score_out_of_6 AS rating
 	FROM late_rooms_hotels e 
 	JOIN hotels h ON ST_DWithin(e.geog, h.geog, 500) 
 		WHERE h.laterooms_hotel_id IS NULL 
@@ -54,8 +61,11 @@ WHERE matched_hotel.hotel_id = hotels.id and hotels.laterooms_hotel_id IS NULL;
 
  -- PHASE 4 - MATCH FUZZY NAME ((0.9 correlation) AND WITHIN 1km
  -- 442
- UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+UPDATE Public.Hotels AS H
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -67,7 +77,10 @@ WHERE
  -- PHASE 5 - MATCH FUZZY NAME ((0.8 correlation) AND WITHIN 500
  -- 2295
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -79,7 +92,10 @@ WHERE
  -- PHASE 6 - MATCH FUZZY NAME ((0.85 correlation) AND WITHIN 1000
  --  70
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -90,7 +106,10 @@ WHERE
 -- PHASE 7 - MATCH FUZZY NAME ((0.75 correlation) AND WITHIN 2000
 --2694
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE
@@ -101,7 +120,10 @@ WHERE
 -- PHASE 8 - MATCH FUZZY NAME ((0.75 correlation) AND WITHIN 10000
 --  693
 UPDATE Public.Hotels AS H
-SET laterooms_hotel_id = LR.Id, laterooms_url = LR.url
+SET 
+  laterooms_hotel_id = LR.Id, 
+  laterooms_url = LR.url,
+  laterooms_user_rating = CAST(LR.score_out_of_6 AS DOUBLE PRECISION)
 FROM
 	Public.late_rooms_hotels AS LR
 WHERE

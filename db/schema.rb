@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140221081512) do
+ActiveRecord::Schema.define(:version => 20140326080540) do
 
   create_table "agoda_amenities", :id => false, :force => true do |t|
     t.integer "id",          :null => false
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
     t.string  "name"
     t.string  "value_type"
     t.string  "language_code"
+    t.integer "flag"
   end
 
   create_table "booking_hotel_images", :force => true do |t|
@@ -206,6 +207,7 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
     t.string  "languagecode"
     t.string  "currencycode"
     t.integer "geog",                       :limit => 0
+    t.integer "process_state"
   end
 
   add_index "booking_hotels", ["geog"], :name => "booking_hotels_geog_idx"
@@ -541,6 +543,7 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
     t.float   "splendia_user_rating"
     t.float   "user_rating"
     t.integer "matches"
+    t.string  "slug",                  :limit => 512
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -553,6 +556,7 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
   add_index "hotels", ["longitude", "latitude"], :name => "index_hotels_on_location"
   add_index "hotels", ["name", "city"], :name => "index_hotels_on_name_city"
   add_index "hotels", ["ranking"], :name => "idx_ranking"
+  add_index "hotels", ["slug"], :name => "hotels_slug_idx"
   add_index "hotels", ["star_rating", "city"], :name => "index_hotels_on_star_rating_and_city"
   add_index "hotels", ["state_province"], :name => "hotels_state_province_idx"
 
@@ -634,6 +638,7 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
     t.string  "check_out_time"
     t.string  "latest_check_in_time"
     t.integer "geog",                 :limit => 0
+    t.float   "star_rating_normal"
   end
 
 # Could not dump table "locations" because of following StandardError
@@ -689,6 +694,53 @@ ActiveRecord::Schema.define(:version => 20140221081512) do
     t.string  "category"
     t.text    "offers"
     t.integer "geog",                :limit => 0
+  end
+
+  create_table "venere_hotels", :force => true do |t|
+    t.string   "name"
+    t.string   "status"
+    t.datetime "last_update"
+    t.string   "hotel_type"
+    t.integer  "rating"
+    t.float    "user_rating"
+    t.string   "currency_code"
+    t.string   "hotel_amenities"
+    t.string   "room_amenities"
+    t.float    "price"
+    t.string   "location_description"
+    t.string   "location_attractions"
+    t.string   "geo_id"
+    t.text     "address"
+    t.string   "zip"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "country"
+    t.string   "country_iso_code"
+    t.string   "state"
+    t.string   "region"
+    t.string   "province"
+    t.string   "city"
+    t.string   "place"
+    t.string   "city_zone"
+    t.text     "hotel_overview"
+    t.text     "stay_policy"
+    t.string   "service_fees"
+    t.text     "breakfast_description"
+    t.text     "directions"
+    t.string   "location_url"
+    t.string   "property_url"
+    t.string   "dyn_property_url"
+    t.string   "hotel_image_url"
+    t.datetime "hotel_image_url_last_update"
+    t.string   "hotel_thumb_url"
+    t.datetime "hotel_thumb_url_last_update"
+    t.string   "hotel_url_finder_image"
+    t.datetime "hotel_url_finder_image_last_update"
+    t.text     "image_url"
+    t.text     "image_url_last_update"
+    t.text     "thumb_url"
+    t.text     "thumb_url_last_update"
+    t.text     "image_title"
   end
 
 end

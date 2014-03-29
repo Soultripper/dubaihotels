@@ -43,8 +43,11 @@ gem 'geo-distance'
 gem 'rubyzip'
 
 gem 'figaro'
-gem 'savon', '~> 2.0'
+gem 'savon', '~> 2.3.0' # used for SOAP messaging
 gem 'zipruby'
+
+gem 'newrelic_rpm'
+
 #gem 'bugsnag'
 
 # Gems used only for assets and not required

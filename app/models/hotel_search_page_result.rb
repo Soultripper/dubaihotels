@@ -39,11 +39,6 @@ class HotelSearchPageResult
     self
   end
 
-  def check_page_size(value)
-    return HotelsConfig.max_page_size if value > HotelsConfig.max_page_size
-    return HotelsConfig.min_page_size if value < HotelsConfig.min_page_size
-    value
-  end
 
   def do_sort(&block)    
     hotels.sort_by!(&block)
@@ -123,6 +118,12 @@ class HotelSearchPageResult
     end
   end
 
+  def check_page_size(value)
+    return HotelsConfig.max_page_size if value > HotelsConfig.max_page_size
+    return HotelsConfig.min_page_size if value < HotelsConfig.min_page_size
+    value
+  end
+
   def location
     search_options[:location]
   end
@@ -132,17 +133,7 @@ class HotelSearchPageResult
   #   hotel_images ? hotel_images[1].take(count) : []
   # end
 
-  def find_images_by(hotel, count=100)
-    hotel.images.slice(0,count) || []
-  end
 
-  def hotel_images(hotel)
-    hotel.images
-  end
-
-  def load_images(filtered_hotels)
-    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
-  end
 
   def as_json(options={})
 
@@ -184,7 +175,28 @@ class HotelSearchPageResult
     end
   end
 
+  def take(page_no, page_size)
+    count = page_count(page_no, page_size)
+    as_json hotels: hotels.take(count)
+  end
 
+  def page_count(page_no, page_size)
+    page_size = check_page_size page_size
+    page_index = (page_no-1) * page_size
+    (page_index + page_size) > hotels.length ? hotels.length : page_index + page_size
+  end
+
+  def find_images_by(hotel, count=20)
+    hotel.images.slice(0,count) || []
+  end
+
+  def hotel_images(hotel)
+    hotel.images
+  end
+
+  def load_images(filtered_hotels)
+    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
+  end
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id

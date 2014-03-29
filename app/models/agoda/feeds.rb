@@ -54,6 +54,10 @@ class Agoda::Feeds
       parse_response(http.get(feed_url(21), params))
     end
 
+    def changed_hotels(params)
+      parse_response(http.get(feed_url(11), params))    
+    end
+
     def parse_response(response)
       Nokogiri.XML(response.body)
     end

@@ -1,0 +1,93 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  status: MyString
+  last_update: 2014-03-26 15:05:40
+  hotel_type: MyString
+  rating: 1
+  user_rating: 1.5
+  currency_code: MyString
+  hotel_amenities: MyString
+  room_amenities: MyString
+  price: 1.5
+  location_description: MyString
+  location_attractions: MyString
+  geo_id: MyString
+  address: MyText
+  zip: MyString
+  latitude: 1.5
+  longitude: 1.5
+  country: MyString
+  country_iso_code: MyString
+  state: MyString
+  region: MyString
+  province: MyString
+  city: MyString
+  place: MyString
+  city_zone: MyString
+  hotel_overview: MyText
+  stay_policy: MyText
+  service_fees: MyString
+  breakfast_description: MyText
+  directions: MyText
+  location_url: MyString
+  property_url: MyString
+  dyn_property_url: MyString
+  hotel_image_url: MyString
+  hotel_image_url_last_update: 2014-03-26 15:05:40
+  hotel_thumb_url: MyString
+  hotel_thumb_url_last_update: 2014-03-26 15:05:40
+  hotel_url_finder_image: MyString
+  hotel_url_finder_image_last_update: 2014-03-26 15:05:40
+  image_url: MyText
+  image_url_last_update: MyText
+  thumb_url: MyText
+  thumb_url_last_update: MyText
+  image_title: MyText
+
+two:
+  name: MyString
+  status: MyString
+  last_update: 2014-03-26 15:05:40
+  hotel_type: MyString
+  rating: 1
+  user_rating: 1.5
+  currency_code: MyString
+  hotel_amenities: MyString
+  room_amenities: MyString
+  price: 1.5
+  location_description: MyString
+  location_attractions: MyString
+  geo_id: MyString
+  address: MyText
+  zip: MyString
+  latitude: 1.5
+  longitude: 1.5
+  country: MyString
+  country_iso_code: MyString
+  state: MyString
+  region: MyString
+  province: MyString
+  city: MyString
+  place: MyString
+  city_zone: MyString
+  hotel_overview: MyText
+  stay_policy: MyText
+  service_fees: MyString
+  breakfast_description: MyText
+  directions: MyText
+  location_url: MyString
+  property_url: MyString
+  dyn_property_url: MyString
+  hotel_image_url: MyString
+  hotel_image_url_last_update: 2014-03-26 15:05:40
+  hotel_thumb_url: MyString
+  hotel_thumb_url_last_update: 2014-03-26 15:05:40
+  hotel_url_finder_image: MyString
+  hotel_url_finder_image_last_update: 2014-03-26 15:05:40
+  image_url: MyText
+  image_url_last_update: MyText
+  thumb_url: MyText
+  thumb_url_last_update: MyText
+  image_title: MyText

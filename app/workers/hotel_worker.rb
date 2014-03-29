@@ -18,6 +18,8 @@ class HotelWorker
       threads << threaded {request_easy_to_book_hotels} if @search.include? :easy_to_book
       threads << threaded {request_splendia_hotels}     if @search.include? :splendia
       threads << threaded {request_laterooms_hotels}    if @search.include? :laterooms
+      threads << threaded {request_venere_hotels}       if @search.include? :venere
+
       Log.debug "Waiting for threads to finish"
       threads.each &:join
     }
@@ -95,6 +97,17 @@ class HotelWorker
     hotels_ids = find_hotels_for_provider :laterooms
     start :laterooms, :laterooms_hotel_id do |key|   
       LateRooms::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
+        compare_and_persist provider_hotels, key
+      end
+    end
+  # rescue Exception => msg  
+    # error :laterooms, msg      
+  end  
+
+  def request_venere_hotels
+    hotels_ids = find_hotels_for_provider :venere
+    start :venere, :venere_hotel_id do |key|   
+      Venere::SearchHotel.page_hotels(hotels_ids, search_criteria) do |provider_hotels|
         compare_and_persist provider_hotels, key
       end
     end
