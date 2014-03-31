@@ -31,7 +31,9 @@ searchHotelsServices.factory('HotelProvider', function() {
      case 'hotels':
        return 'Hotels.com';       
      case 'laterooms':
-       return 'LateRooms.com';          
+       return 'LateRooms.com';  
+     case 'venere':
+       return 'Venere.com';           
      default:
        return name; 
      }
@@ -67,11 +69,13 @@ searchHotelsServices.factory('Page', function() {
   };
 
   var currentCoords = {};
-  var showlocationMap = function(elementId, lng, lat){
+  var showlocationMap = function(elementId, lng, lat, zoom){
 
     if(currentCoords.lng === lng && currentCoords.lat === lat) return;
     currentCoords = {lng: lng, lat: lat };
 
+    mapOptions['zoom'] = zoom;
+    
     var container = document.getElementById(elementId)
     var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
     var map;  

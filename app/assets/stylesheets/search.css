@@ -1,3 +1,161 @@
+body.map-showing .map-hidden {
+  display: none !important;
+}
+body.map-showing .map-visible {
+  display: block !important;
+}
+body.map-showing #wrapper > section > .container {
+  width: 100%;
+}
+body.map-showing #wrapper > footer {
+  display: none;
+}
+body.map-showing #wrapper #refine {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+@media (min-width: 992px) {
+  body.map-showing #wrapper > section > .container > .row {
+    position: absolute;
+    top: 143px;
+    left: 15px;
+    right: 15px;
+    bottom: 0;
+  }
+  body.map-showing #wrapper > section > .container > .row #map-view {
+    position: absolute;
+    width: auto;
+    top: 0;
+    left: 15px;
+    right: 15px;
+    bottom: 0;
+  }
+  body.map-showing #wrapper > section > .container #sidebar {
+    position: absolute;
+    left: 30px;
+    top: 15px;
+    bottom: 15px;
+    width: 20%;
+    z-index: 3;
+    background-color: #fff;
+    overflow-y: auto;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(50, 50, 50, 0.75);
+    box-shadow: 0px 0px 6px 0px rgba(50, 50, 50, 0.75);
+  }
+}
+.map-marker-info:before,
+.map-marker-info:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.map-marker-info:after {
+  clear: both;
+}
+.map-marker-info .image {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+  float: left;
+  margin-right: 5px;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center center;
+}
+.map-marker-info .info {
+  float: right;
+}
+.map-marker-info .info:before,
+.map-marker-info .info:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.map-marker-info .info:after {
+  clear: both;
+}
+.map-marker-info .info h3 {
+  font-size: 20px;
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 3px;
+}
+.map-marker-info .info .rating {
+  color: #eb9100;
+}
+.map-marker-info .info .price {
+  font-size: 18px;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+}
+.map-marker-info .buttons {
+  clear: both;
+  padding-top: 5px;
+}
+.map-marker-info .buttons .get-deal,
+.map-marker-info .buttons .more-info {
+  float: left;
+  width: 49%;
+}
+.map-marker-info .buttons .get-deal {
+  margin-right: 2px;
+}
+#map-view {
+  position: relative;
+}
+#map-container {
+  background-color: #ccc;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+@media (max-width: 992px) {
+  #map-view {
+    position: absolute;
+    top: 218px;
+    bottom: 0;
+  }
+}
+#map-loader {
+  font-size: 20px;
+  text-align: center;
+  color: #555555;
+  padding: 10px;
+  font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
+  position: absolute;
+  width: 50%;
+  background-color: #fff;
+  border-radius: 5px;
+  left: 50%;
+  top: 20px;
+  margin-left: -25%;
+  z-index: 2;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+}
+#map-loader i {
+  font-size: 24px;
+}
+.map-buttons {
+  padding-left: 10px;
+  margin-top: -3px;
+  margin-bottom: -4px;
+}
+.map-visible {
+  display: none !important;
+}
+.map-return {
+  padding-top: 10px;
+}
 #search {
   padding: 22px 0;
 }
@@ -775,8 +933,8 @@ ul.amenities li.spa:after {
   clear: both;
 }
 #refine .contents {
-  -webkit-transition: left 0.2s ease;
-  transition: left 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 #refine .contents .toggle {
   display: none;
@@ -1033,7 +1191,10 @@ ul.amenities li.spa:after {
     background-color: #fff;
     border-right: 3px solid #eb9100;
     width: 273px;
-    left: -273px;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    -webkit-transform: translate3d(-273px, 0, 0);
+    transform: translate3d(-273px, 0, 0);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -1083,7 +1244,8 @@ ul.amenities li.spa:after {
     background-color: rgba(255, 255, 255, 0.5);
   }
   body.sidebar-open #refine .contents {
-    left: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   body.sidebar-open #refine .contents .toggle {
     right: -50px;

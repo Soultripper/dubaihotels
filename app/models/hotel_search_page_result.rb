@@ -155,6 +155,7 @@ class HotelSearchPageResult
         json.amenities        user_filters[:amenities] if user_filters
         json.longitude        location.longitude
         json.latitude         location.latitude
+        json.zoom             location.default_zoom
       end      
       json.criteria           search_options[:search_criteria]
       json.state              search_options[:state]
@@ -186,7 +187,7 @@ class HotelSearchPageResult
     (page_index + page_size) > hotels.length ? hotels.length : page_index + page_size
   end
 
-  def find_images_by(hotel, count=20)
+  def find_images_by(hotel, count=18)
     hotel.images.slice(0,count) || []
   end
 

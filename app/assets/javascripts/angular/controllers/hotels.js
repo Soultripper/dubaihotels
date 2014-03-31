@@ -67,18 +67,20 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       
       $timeout(function() {
         $(".overlay").fadeOut('fast');
-        $(".loader").fadeOut('fast');                    
+        $(".loader").fadeOut('fast');                 
       }, 500);
     };
 
     var startUpdater = function(){
       $("#results .updater").fadeIn('fast');
       $("#results .overlay").fadeIn('fast');
+      $("#map-loader").show();
     };
 
     var stopUpdater = function(){
       $("#results .updater").fadeOut('fast');
       $("#results .overlay").fadeOut('fast');
+      $("#map-loader").hide();
     };
 
     $scope.search = function(callback) {
@@ -122,16 +124,14 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $scope.setupPage = function(response){
       stopUpdater();
+
       $scope.pageState = response.state;
-      console.log('State is:  ' + $scope.pageState)
-      // console.log(response)
       $scope.start_date = response.criteria.start_date;
       $scope.end_date = response.criteria.end_date;
       
       if($scope.pageState==='finished')
       {
         stopLoader();
-        // $rootScope.$broadcast("loading-complete");  
         Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
         $scope.unsubscribed = true
       }
@@ -146,12 +146,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       Page.criteria = response.criteria;
       Page.info = response.info;
+
+      $scope.zoom = response.info.zoom;
       $scope.search_results = response
       $scope.amenities = response.info.amenities;
-      $rootScope.currency_symbol = Page.criteria.currency_symbol;
       $scope.slug = Page.info.slug
+      
       $rootScope.channel = Page.info.channel
+      $rootScope.currency_symbol = Page.criteria.currency_symbol;
+
       Hot5.Connections.Pusher.changeChannel($rootScope.channel);
+
       updateSlider(response.info);
 
       toggleShowMore(false);
@@ -162,7 +167,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       angular.element('#search-input').val('')
       angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
       angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
-      Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude)      
+
+      Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude, Page.info.zoom)      
     };
 
 
@@ -450,6 +456,24 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return false;
     };
 
+    $scope.getGoogleMapCenter = function(){
+      return new google.maps.LatLng(Page.info.latitude, Page.info.longitude)
+    }
+
+    $scope.hotelLocations = function(){
+     return  _.map($scope.search_results.hotels, function(hotel){
+        return {
+          'name': hotel.name,
+          'latitude': hotel.latitude,
+          'longitude': hotel.longitude,
+          'star_rating': hotel.star_rating,
+          'price': accounting.formatMoney(hotel.offer.min_price, $rootScope.currency_symbol, 0),
+          'deal': hotel.offer.link,
+          'image': hotel.images[0].thumbnail_url,
+          'slug': hotel.slug,
+        };
+      });
+    }
     // $scope.search(false);
     // function(){
     //   // $rootScope.$broadcast("loading-started");

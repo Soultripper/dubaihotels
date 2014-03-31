@@ -143,6 +143,17 @@ class Location < ActiveRecord::Base
     location_type == 'Hotel'
   end
 
+  def default_zoom
+    if distance_based?
+      return 13
+    elsif hotel?
+      return 14
+    else
+      return 12
+    end
+  end
+
+
   def to_s
     description
   end

@@ -56,6 +56,20 @@
     <section ng-init="setupPage(<%=@results.as_json%>)" ng-cloak>
       <div class="container">
         <div class="top-bar">
+          <div class="map-buttons visible-sm visible-xs">
+            <div class="map-hidden">
+              <a href="#" show-map class="btn btn-default">
+                <i class="fa fa-map-marker"></i>&nbsp;
+                View Map
+              </a>
+            </div>
+            <div class="map-visible">
+              <a href="#" onclick="app.showResults();return false" class="btn btn-default">
+                <i class="fa fa-caret-left"></i>&nbsp;
+                Back to Results
+              </a>
+            </div>
+          </div>
           <div class="info">
             <div class="col-xs-6">
               <h4 ng-cloak>{{Page.info.query}} hotels</h4>

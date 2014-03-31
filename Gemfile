@@ -47,6 +47,7 @@ gem 'savon', '~> 2.3.0' # used for SOAP messaging
 gem 'zipruby'
 
 gem 'newrelic_rpm'
+gem "oink" #Rails AR profiler
 
 #gem 'bugsnag'
 

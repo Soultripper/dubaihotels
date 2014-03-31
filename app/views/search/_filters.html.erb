@@ -1,168 +1,186 @@
 <div class="row" >
-    <div id="sidebar" class="col-md-3 col-xs-12">
-        <div class="hidden-sm hidden-xs">
-            <h4 style="min-height:20px">
-              <div ng-show="Page.info.available_hotels == 0"> No hotels available</div>
-              <div ng-show="Page.info.available_hotels > 0" >{{Page.info.available_hotels}} Hotels available</div>
-            </h4>
-            <div class="map" id="location-map">
-              <img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom=12&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude">
-            </div>
-        </div>
-        <div id="refine">
-            <div class="contents">
-                <div class="toggle">
-                    <div class="closed">
-                        <i class="fa fa-caret-left"></i> Refine
-                    </div>
-                    <div class="open">
-                        <i class="fa fa-times"></i>
-                    </div>
-                </div>
-                <div class="controls">
-                    <h4>Refine Results</h4>
-                    <div class="filters">
-                        <h5>Price Per Night</h5>
-                        <div class="price-range">
-                          <input type="text" id="priceSlider" name="priceRange" value="25;300"/>
-                        </div>
-                        <h5>Star Rating</h5>
-                        <div class="star-rating">
-                            <ul>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(5)" ng-checked="containsStarRating('5')"/>&nbsp;
-                                        <span>5 star</span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(4)"  ng-checked="containsStarRating('4')"/>&nbsp;
-                                        <span>4 star</span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(3)"  ng-checked="containsStarRating('3')"/>&nbsp;
-                                        <span>3 star</span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(2)"/>&nbsp;
-                                        <span>2 star</span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </label>
-                                </li>
-                                <li>
-                                    <label>
-                                        <input type="checkbox" ng-click="filterStarRatings(1)"/>&nbsp;
-                                        <span>1 star</span>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <h5>Features</h5>
-                          <div class="features">
-                            <ul>
-                              <li class="wifi">
-                                <label>
-                                  WiFi
-                                  <input type="checkbox" ng-click="filterAmenities('wifi')" ng-checked="containsAmenity('wifi')"/>
-                                </label>
-                              </li>
-                              <li class="central-location" >
-                                <label>
-                                  Central Location
-                                  <input type="checkbox" ng-click="filterAmenities('central-location')" ng-checked="containsAmenity('central-location')"/>
-                                </label>
-                              </li>
-                              <li class="family-friendly">
-                                <label>
-                                  Family Friendly
-                                  <input type="checkbox" ng-click="filterAmenities('family-friendly')" ng-checked="containsAmenity('family-friendly')"/>
-                                </label>
-                              </li>
-                              <li class="parking">
-                                <label>
-                                  Parking
-                                  <input type="checkbox" ng-click="filterAmenities('parking')" ng-checked="containsAmenity('parking')"/>
-                                </label>
-                              </li>
-                              <li class="gym">
-                                <label>
-                                  Gym
-                                  <input type="checkbox" ng-click="filterAmenities('gym')" ng-checked="containsAmenity('gym')"/>
-                                </label>
-                              </li>
-                           <!--    <li class="boutique">
-                                <label>
-                                  Boutique
-                                  <input type="checkbox" ng-click="filterAmenities('boutique')" ng-checked="containsAmenity('boutique')"/>
-                                </label>
-                              </li> -->
-                              <li class="non-smoking-rooms">
-                                <label>
-                                  Non-smoking rooms
-                                  <input type="checkbox" ng-click="filterAmenities('non-smoking-rooms')" ng-checked="containsAmenity('non-smoking-rooms')"/>
-                                </label>
-                              </li>
-                              <li class="pet-friendly">
-                                <label>
-                                  Pet friendly
-                                  <input type="checkbox" ng-click="filterAmenities('pet-friendly')" ng-checked="containsAmenity('pet-friendly')"/>
-                                </label>
-                              </li>
-                              <li class="pool">
-                                <label>
-                                  Pool
-                                  <input type="checkbox" ng-click="filterAmenities('pool')" ng-checked="containsAmenity('pool')"/>
-                                </label>
-                              </li>
-                              <li class="restaurant">
-                                <label>
-                                  Restaurant
-                                  <input type="checkbox" ng-click="filterAmenities('restaurant')" ng-checked="containsAmenity('restaurant')"/>
-                                </label>
-                              </li>
-                              <li class="spa">
-                                <label>
-                                  Spa
-                                  <input type="checkbox" ng-click="filterAmenities('spa')" ng-checked="containsAmenity('spa')"/>
-                                </label>
-                              </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div id="sidebar" class="col-md-3 col-xs-12">
+    <div class="map-hidden hidden-sm hidden-xs">
+      <h4 style="min-height:20px">
+        <div ng-show="Page.info.available_hotels == 0"> No hotels available</div>
+        <div ng-show="Page.info.available_hotels > 0" >{{Page.info.available_hotels}} Hotels available</div>
+      </h4>
+      <div class="map" id="location-map">
+        <img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom={{Page.info.zoom}}&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude" show-map>
+        <!-- onclick="app.showMap(); return false;"> -->
+      </div>
     </div>
-    <div id="hotel-results" > 
-      <%= render partial: 'hotels' %>          
-    </div>        
+    <div class="hidden-sm hidden-xs">
+      <div class="map-visible map-return">
+        <a href="#" onclick="app.showResults();return false" class="btn btn-primary btn-block">
+            <i class="fa fa-caret-left"></i>&nbsp;
+            Back to Results
+        </a>
+      </div>
+    </div>
+    <div id="refine">
+      <div class="contents">
+        <div class="toggle">
+          <div class="closed">
+            <i class="fa fa-caret-left"></i> Refine
+          </div>
+          <div class="open">
+            <i class="fa fa-times"></i>
+          </div>
+        </div>
+        <div class="controls">
+          <h4>Refine Results</h4>
+          <div class="filters">
+            <h5>Price Per Night</h5>
+            <div class="price-range">
+              <input type="text" id="priceSlider" name="priceRange" value="25;300"/>
+            </div>
+            <h5>Star Rating</h5>
+            <div class="star-rating">
+              <ul>
+                <li>
+                  <label>
+                    <input type="checkbox" ng-click="filterStarRatings(5)" ng-checked="containsStarRating('5')"/>&nbsp;
+                    <span>5 star</span>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" ng-click="filterStarRatings(4)"  ng-checked="containsStarRating('4')"/>&nbsp;
+                    <span>4 star</span>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" ng-click="filterStarRatings(3)"  ng-checked="containsStarRating('3')"/>&nbsp;
+                    <span>3 star</span>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" ng-click="filterStarRatings(2)"/>&nbsp;
+                    <span>2 star</span>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" ng-click="filterStarRatings(1)"/>&nbsp;
+                    <span>1 star</span>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o"></i>
+                  </label>
+                </li>
+              </ul>
+            </div>
+            <h5>Features</h5>
+            <div class="features">
+              <ul>
+                <li class="wifi">
+                  <label>
+                    WiFi
+                    <input type="checkbox" ng-click="filterAmenities('wifi')" ng-checked="containsAmenity('wifi')"/>
+                  </label>
+                </li>
+                <li class="central-location" >
+                  <label>
+                    Central Location
+                    <input type="checkbox" ng-click="filterAmenities('central-location')" ng-checked="containsAmenity('central-location')"/>
+                  </label>
+                </li>
+                <li class="family-friendly">
+                  <label>
+                    Family Friendly
+                    <input type="checkbox" ng-click="filterAmenities('family-friendly')" ng-checked="containsAmenity('family-friendly')"/>
+                  </label>
+                </li>
+                <li class="parking">
+                  <label>
+                    Parking
+                    <input type="checkbox" ng-click="filterAmenities('parking')" ng-checked="containsAmenity('parking')"/>
+                  </label>
+                </li>
+                <li class="gym">
+                  <label>
+                    Gym
+                    <input type="checkbox" ng-click="filterAmenities('gym')" ng-checked="containsAmenity('gym')"/>
+                  </label>
+                </li>
+             <!--    <li class="boutique">
+                  <label>
+                    Boutique
+                    <input type="checkbox" ng-click="filterAmenities('boutique')" ng-checked="containsAmenity('boutique')"/>
+                  </label>
+                </li> -->
+                <li class="non-smoking-rooms">
+                  <label>
+                    Non-smoking rooms
+                    <input type="checkbox" ng-click="filterAmenities('non-smoking-rooms')" ng-checked="containsAmenity('non-smoking-rooms')"/>
+                  </label>
+                </li>
+                <li class="pet-friendly">
+                  <label>
+                    Pet friendly
+                    <input type="checkbox" ng-click="filterAmenities('pet-friendly')" ng-checked="containsAmenity('pet-friendly')"/>
+                  </label>
+                </li>
+                <li class="pool">
+                  <label>
+                    Pool
+                    <input type="checkbox" ng-click="filterAmenities('pool')" ng-checked="containsAmenity('pool')"/>
+                  </label>
+                </li>
+                <li class="restaurant">
+                  <label>
+                    Restaurant
+                    <input type="checkbox" ng-click="filterAmenities('restaurant')" ng-checked="containsAmenity('restaurant')"/>
+                  </label>
+                </li>
+                <li class="spa">
+                  <label>
+                    Spa
+                    <input type="checkbox" ng-click="filterAmenities('spa')" ng-checked="containsAmenity('spa')"/>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="hotel-results" > 
+    <%= render partial: 'hotels' %>          
+  </div> 
+  <div id="map-view" class="col-md-9 col-xs-12 map-visible">
+    <div id="map-loader">
+        Updating...<br />
+        <i class="fa fa-gear fa-spin"></i>
+    </div>
+    <div id="map-container">
+    </div>
+  </div>
+
 </div>
