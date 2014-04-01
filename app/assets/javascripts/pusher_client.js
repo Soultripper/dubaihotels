@@ -40,9 +40,9 @@ Hot5.Connections || (Hot5.Connections = {})
 Hot5.Connections.Pusher = function()
 {
 
-  Pusher.log = function(message) {
-    if (window.console && window.console.log) window.console.log(message);
-  };
+  // Pusher.log = function(message) {
+  //   if (window.console && window.console.log) window.console.log(message);
+  // };
 
   Pusher.host = 'ws-eu.pusher.com';
   Pusher.sockjs_host = 'sockjs-eu.pusher.com';

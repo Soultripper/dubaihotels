@@ -178,69 +178,6 @@
         return false;
     },
 
-    // showMap: function () {
-    //     $(document.body).addClass("map-showing");
-    //     $("#map-loader").show();
-
-    //     // Get map data....
-    //     setTimeout(function () {
-    //         $("#map-loader").hide();
-    //         var location = new google.maps.LatLng(-34.397, 150.644);
-    //         var mapOptions = {
-    //             center: location,
-    //             zoom: 8
-    //         };
-    //         var map = new google.maps.Map($("#map-container")[0], mapOptions);
-    //         map.panBy(0, 30);
-
-    //         var infowindow = new google.maps.InfoWindow({
-    //             content: "<i class='fa fa-gear fa-spin'></i>"
-    //         });
-
-    //         function createMarker(pos, title) {
-    //             var marker = new google.maps.Marker({
-    //                 position: pos,
-    //                 map: map,
-    //                 title: title,
-    //                 image: "http://media.expedia.com/hotels/1000000/20000/19800/19782/19782_164_b.jpg",
-    //                 rating: Math.floor(Math.random() * 5) + 1,
-    //                 price: "£" + (Math.floor(Math.random() * 300) + 50)
-    //             });
-
-    //             google.maps.event.addListener(marker, 'click', showInfo);
-    //             return marker;
-    //         }
-
-    //         function showInfo() {
-    //             var infoHtml = $("<div class='map-marker-info'><div class='image'></div><div class='info'><h3>...</h3><div class='rating'></div><div class='price'></div></div><div class='buttons'><a href='#' class='btn btn-success get-deal'>Get Deal</a><a href='#' class='btn btn-primary more-info'>More Info</a></div></div>");
-    //             $(".image", infoHtml).css("background-image", "url(" + this.image + ")");
-    //             $("h3", infoHtml).text(this.title);
-    //             $(".rating", infoHtml).empty();
-    //             $(".price", infoHtml).text(this.price);
-    //             $(".get-deal", infoHtml).attr("href", "javascript:alert('Go to deal');");
-    //             $(".more-info", infoHtml).attr("href", "hotel.html");
-
-    //             for (var i = 1; i <= 5; i++) {
-    //                 var starClass = "fa-star";
-
-    //                 if (i > this.rating)
-    //                     starClass = "fa-star-o";
-                    
-    //                 $(".rating", infoHtml).append("<i class='fa " + starClass + "'></i>");
-    //             }
-
-    //             infowindow.setContent(infoHtml.prop('outerHTML'));
-    //             infowindow.open(map, this);
-    //         }
-
-    //         for (var i = 0; i < 30; i++) {
-    //             var lat = -(34.397 - Math.random());
-    //             var lng = 150.644 - Math.random();
-    //             createMarker(new google.maps.LatLng(lat, lng), "Long Hotel Name " + (i + 1));
-    //         }
-    //     }, 1000);
-    // },
-
     showResults: function () {
       $(document.body).removeClass("map-showing");
     },

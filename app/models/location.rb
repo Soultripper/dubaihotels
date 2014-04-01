@@ -149,7 +149,7 @@ class Location < ActiveRecord::Base
     elsif hotel?
       return 14
     else
-      return 12
+      return 10
     end
   end
 

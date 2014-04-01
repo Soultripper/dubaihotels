@@ -86,9 +86,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $scope.search = function(callback) {
 
       var qs = $location.search()
-
-      console.log('calling search')
-
+      
       if(!callback)
         callback = $scope.setupPage;
 
@@ -168,14 +166,14 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
       angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
 
-      Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude, Page.info.zoom)      
+      Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude, Page.info.zoom);
+
+      $scope.$broadcast('results-loaded');
     };
 
 
 
     $scope.loadMore = function(response){
-      console.log('Loading more:  ' + response.state)
-
       if(response.hotels && response.hotels.length > 0)
       {
         $scope.search_results.hotels = $scope.search_results.hotels.concat(response.hotels);
@@ -266,7 +264,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       var timeoutId = $timeout(function(){
         hotel.displayRooms = true
-      }, 10000)
+      }, 30000)
 
       if(Hot5.Connections.Pusher.isHotelSubscribed(hotel.channel))
       {
@@ -281,7 +279,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.showImage = function(e, image){
-      console.log('showImage clicked: ' + e.srcElement)
       return app.loadImage(e.srcElement, image.url);
     };
 
@@ -410,7 +407,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         app._onSearchSubmitGeo();
         return;
       }
-
       
       // $location.path(Page.info.slug);
       $routeParams.start_date = start_date();
@@ -435,11 +431,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
         window.location.href = url
       }
-
-      // $location.path($routeParams.id +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date)
-      // $scope.search();
-      // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info.slug)
-
     };
 
    $scope.locationSelect = function (query, slug, type) {
@@ -447,7 +438,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $scope.slug = slug;
       Page.info.slug = slug;
     };
-
 
     $rootScope.loadMoreClick = function() {
       toggleShowMore(true);
