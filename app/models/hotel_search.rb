@@ -6,8 +6,8 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
-  # PROVIDERS = [:splendia]
+  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
+  # PROVIDERS = [:venere, :booking]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
@@ -85,9 +85,7 @@ class HotelSearch
 
         if key==:booking_hotel_id
           common_provider_hotel[:link] = search_criteria.booking_link(hotel)
-        end
-
-        if key==:laterooms_hotel_id and common_provider_hotel
+        elsif key==:laterooms_hotel_id and common_provider_hotel
           common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
         end
 

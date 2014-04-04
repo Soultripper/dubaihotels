@@ -120,6 +120,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $http.get(url, {headers:{'Accept':"application/json"}}).success(callback)
     };
 
+    $scope.hotelLink = function(hotel){
+      var qs = [];
+      qs.push('/hotels/');
+      qs.push(hotel.slug);
+      qs.push('?start_date=' + start_date())
+      qs.push('&end_date='   + end_date())
+      return qs.join('')
+    };
+
     $scope.setupPage = function(response){
       stopUpdater();
 

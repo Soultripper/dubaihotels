@@ -48,7 +48,7 @@
           </div>
       </div>
       <div class="details">
-          <h4><a href="/hotels/{{hotel.slug}}" target="_self"> {{hotel.name}}</a></h4>
+          <h4><a ng-href="{{hotelLink(hotel)}}" target="_self"> {{hotel.name}}</a></h4>
           <div class="location">
               <i class="fa fa-map-marker"></i> <span class="capitalize">{{hotel.address}}, {{hotel.city}}</span>
           </div>

@@ -3,7 +3,7 @@ module Venere
 
     attr_reader :ids, :responses
 
-    DEFAULT_SLICE = 150
+    DEFAULT_SLICE = 350
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -24,30 +24,33 @@ module Venere
 
     def search(options={})
       params = search_params.merge(hotel_params)
-      Venere::Client.hotel_availability(params)
+      create_list_response Venere::Client.hotel_availability(params)
     end
 
 
     def page_hotels(options={}, &block)
+
       responses, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       time = Benchmark.realtime do 
-        (conn = LateRooms::Client.http).in_parallel do 
+        (conn = Venere::Client.http).in_parallel do 
           ids.each_slice(slice_by) do |sliced_ids|          
-            Log.info "Sending request of #{sliced_ids.count} hotels to LateRooms.com:\n"
+            Log.info "Sending request for #{sliced_ids.count} out of #{ids.count} hotels to Venere.com:\n"
+
             params = search_params.merge(hotel_params(sliced_ids))
-            responses << conn.get( LateRooms::Client.url, params)
+            soap_envelope = Venere::Client.soap_envelope(params)
+            responses << conn.post( Venere::Client.url + 'XHI_HotelAvail.soap', soap_envelope)
           end
         end
       end
 
       hotels = collect_hotels(concat_responses(responses))
-      Log.info "Collected #{hotels.count} hotels out of #{responses.count} LateRooms responses for comparison in #{time}s"
+      Log.info "Collected #{hotels.count} hotels out of #{ids.count} hotels in #{responses.count} Venere requests. Time taken: #{time}s"
       yield hotels if block_given?
     end 
 
     def concat_responses(responses)
-      responses.map {|response| create_list_response Nokogiri.XML(response.body)}
+      responses.map {|response| create_list_response Nokogiri.XML(response.body).remove_namespaces!}
     end
 
     def collect_hotels(list_responses)
@@ -56,7 +59,7 @@ module Venere
 
     def hotel_params(custom_ids=nil)
       {
-        hotel_ids: (custom_ids || ids).join(' ')
+        hotel_ids: (custom_ids || ids).take(500).join(' ')
       }
     end
 

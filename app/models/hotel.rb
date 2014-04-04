@@ -7,7 +7,8 @@ class Hotel < ActiveRecord::Base
                    :lng_column_name => :longitude
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :amenities,
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id
+                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, 
+                  :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id, :venere_hotel_id
 
   attr_accessor :distance_from_location
 
@@ -17,6 +18,7 @@ class Hotel < ActiveRecord::Base
   has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
   has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
   has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
+  has_one :venere_hotel, :foreign_key => 'id', :primary_key => 'venere_hotel_id'
 
   has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id', :primary_key => 'booking_hotel_id'
   has_many :hotel_images
@@ -32,7 +34,8 @@ class Hotel < ActiveRecord::Base
       AND laterooms_hotel_id IS NULL
       AND ean_hotel_id IS NULL
       AND agoda_hotel_id IS NULL
-      AND etb_hotel_id IS NULL')
+      AND etb_hotel_id IS NULL
+      AND venere_hotel_id IS NULL')
   end
 
   def self.without_images
@@ -62,7 +65,7 @@ class Hotel < ActiveRecord::Base
   def to_json
     Jbuilder.encode do |json|
       json.(self, :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :user_rating,
-                  :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :slug)
+                  :description, :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :venere_hotel_id, :slug)
     end
   end
 

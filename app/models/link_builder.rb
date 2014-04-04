@@ -13,6 +13,10 @@ module LinkBuilder
     15182
   end
 
+  def venere_aid
+    2015826
+  end
+
   def booking_link_detailed(booking_hotel)
 
     # "#{booking_hotel.url}?aid=#{booking_aid}
@@ -60,6 +64,18 @@ module LinkBuilder
     str_start_date = start_date.strftime('%Y%m%d')
     url = "#{hotel.laterooms_url}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
   end
+
+  def venere_link(hotel_id)
+    qs =  "?htid=#{hotel_id}&lg=en&ref=#{venere_aid}"
+    qs += "&sd=#{start_date.day}&sm=#{start_date.month}&sy=#{start_date.year}"
+    qs += "&ed=#{end_date.day}&em=#{end_date.month}&ey=#{end_date.year}"
+    qs += "&pval=#{no_of_adults}"
+    qs += "&rval=#{no_of_rooms}"
+    qs += "&cur=#{currency_code}"
+
+    "http://www.venere.com/hotel/#{qs}"
+  end
+
 
   # def laterooms_link(hotel_id, room_id)
   #   "https://www.laterooms.com/en/p#{laterooms_aid}/wl/Reservation.aspx?hid=#{hotel_id}&rid=#{room_id}&r=1&n=#{total_nights}&d=#{start_date}&a=#{no_of_adults}&c=0"   

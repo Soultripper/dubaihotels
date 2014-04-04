@@ -11,7 +11,7 @@ class Venere::Search
   protected
 
   def create_list_response(response)
-    LateRooms::HotelListResponse.new(response)
+    Venere::HotelListResponse.new(response)
   end
 
   def search_params

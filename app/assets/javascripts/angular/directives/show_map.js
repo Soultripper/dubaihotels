@@ -12,7 +12,14 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
       var location = scope.getGoogleMapCenter(); 
       var mapOptions = {
           center: location,
-          zoom: scope.zoom+3
+          zoom: scope.zoom+3,
+          mapTypeControl: true,
+          zoomControl: true,
+          zoomControlOptions: {
+            style:google.maps.ZoomControlStyle.SMALL,
+            position: google.maps.ControlPosition.BOTTOM_RIGHT
+          },
+          mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
       map = new google.maps.Map($("#map-container")[0], mapOptions);

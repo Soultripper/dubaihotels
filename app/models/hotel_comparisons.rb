@@ -9,7 +9,7 @@ class HotelComparisons
                   :user_rating, :matches, :ranking, :booking_hotel_id, :ean_hotel_id, 
                   :splendia_hotel_id, :etb_hotel_id, :laterooms_hotel_id, :agoda_hotel_id, 
                   :agoda_user_rating, :laterooms_user_rating, :etb_user_rating, :splendia_user_rating, :booking_user_rating,
-                  :laterooms_url, :booking_url, :slug
+                  :laterooms_url, :booking_url, :slug, :venere_hotel_id
 
   def self.select_cols
     'id, star_rating, amenities, longitude, latitude, user_rating, matches, ranking, laterooms_url, booking_url, slug, ' + HotelsConfig::PROVIDER_IDS.map {|k,v| v}.join(', ')
