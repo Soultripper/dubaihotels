@@ -1,3 +1,6 @@
+require 'zipruby'
+require 'fileutils'
+
 class Venere::Importer
   class << self 
 
@@ -6,21 +9,24 @@ class Venere::Importer
     end
 
     def hotels
-      import VenereHotel, 'properties_catalog'
+      import VenereHotel
       #TODO: Update geography / nameaddress
     end
 
-    def import(klass, file)
+    def import(klass, filename=nil)
 
-      filename = get_and_store file
+      filename = get_and_store unless filename
+      filename = unzip filename
 
       if klass.respond_to? :cols
-        sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' delimiter '|' CSV HEADER QUOTE '{' ESCAPE '\';"
+        sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' delimiter '|' CSV HEADER QUOTE '{' ESCAPE '^';"
       else
-        sql = "copy #{klass.table_name} from '#{filename}' delimiter '|' CSV HEADER QUOTE '{' ESCAPE '\';"
+        sql = "copy #{klass.table_name} from '#{filename}' delimiter '|' CSV HEADER QUOTE '{' ESCAPE '^';"
       end
 
+
       klass.delete_all
+      Log.debug "Deleted all #{klass} records"
       Log.info sql
       ActiveRecord::Base.connection.execute sql
     end
@@ -30,10 +36,31 @@ class Venere::Importer
       store_file(response)
     end
 
+    def unzip(filename)
+
+      Log.debug "Unzipping #{filename}....."
+      path = ''
+      Zip::Archive.open(filename) do |ar|
+        ar.each do |zf|
+          path = Tempfile.new(zf.name).path
+          open(path, 'wb') do |f|
+            f << zf.read
+          end
+        end
+      end
+      Log.debug "Unzipped #{filename} to #{path}"
+      path
+    end
+
     def get_file
-      url = "https://catalogs.venere.com/xhi-1.0/XHI_InventoryCatalogue?org=Venere&user=CataloguesTester&psw=T3s73R&filter={'format':'xml,zip'}"
+
       conn = Faraday.new(url)
       conn.get
+    end
+
+    def url
+      filter = CGI.escape("{'format':'xml.zip'}")
+      "https://catalogs.venere.com/xhi-1.0/XHI_InventoryCatalogue?org=Venere&user=CataloguesTester&psw=T3s73R&filter=" + filter
     end
 
 

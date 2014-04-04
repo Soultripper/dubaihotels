@@ -14,7 +14,9 @@
 
     <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
 
+    <%= jquery_include_tag :google %>
     <%= javascript_include_tag "application" %>
+    
     <script>
       Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @user_channel || "open"%>')
     </script>
