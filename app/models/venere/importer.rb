@@ -35,7 +35,6 @@ class Venere::Importer
 
       klass.delete_all
       Log.debug "Deleted all #{klass} records"
-      Log.info sql
 
       conn = ActiveRecord::Base.connection_pool.checkout
       raw  = conn.raw_connection
