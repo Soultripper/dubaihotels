@@ -51,6 +51,11 @@ GEM
     arel (3.0.3)
     awesome_print (1.2.0)
     builder (3.0.4)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     commonjs (0.2.7)
@@ -62,6 +67,7 @@ GEM
     ethon (0.6.1)
       ffi (>= 1.3.0)
       mime-types (~> 1.18)
+    excon (0.32.1)
     execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
@@ -71,6 +77,24 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
+    fog (1.21.0)
+      fog-brightbox
+      fog-core (~> 1.21, >= 1.21.1)
+      fog-json
+      nokogiri (~> 1.5, >= 1.5.11)
+    fog-brightbox (0.0.1)
+      fog-core
+      fog-json
+    fog-core (1.21.1)
+      builder
+      excon (~> 0.32)
+      formatador (~> 0.2.0)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+    fog-json (1.0.0)
+      multi_json (~> 1.0)
+    formatador (0.2.4)
     geo-distance (0.2.0)
       geo_point (~> 0.2.5)
       geo_units (~> 0.2.4.1)
@@ -137,6 +161,9 @@ GEM
     moped (1.5.1)
     multi_json (1.8.2)
     multipart-post (1.2.0)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.8.0)
     newrelic_rpm (3.6.0.78)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
@@ -222,6 +249,7 @@ GEM
     slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
+    smarter_csv (1.0.17)
     soulmate (1.0.0)
       multi_json (>= 1.0)
       redis (>= 2.0)
@@ -276,10 +304,12 @@ DEPENDENCIES
   angular-ui-bootstrap-rails
   angularjs-rails
   awesome_print
+  carrierwave
   dalli
   faraday
   faraday_middleware
   figaro
+  fog
   geo-distance
   geoip
   geokit-rails
@@ -310,6 +340,7 @@ DEPENDENCIES
   simple_form
   sinatra
   slim
+  smarter_csv
   soulmate
   therubyracer
   twitter-bootstrap-rails

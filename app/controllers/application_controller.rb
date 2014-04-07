@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : 3.weeks.from_now).to_date
   end
 
+  def count
+    (params[:count] || HotelsConfig.page_size).to_i
+  end
+
   def page_no
     (params[:page_no] || 1).to_i
   end

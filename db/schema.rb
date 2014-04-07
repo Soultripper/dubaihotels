@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140326080540) do
+ActiveRecord::Schema.define(:version => 20140407091337) do
 
   create_table "agoda_amenities", :id => false, :force => true do |t|
     t.integer "id",          :null => false
@@ -495,6 +495,8 @@ ActiveRecord::Schema.define(:version => 20140326080540) do
     t.integer "byte_size"
     t.string  "thumbnail_url"
     t.boolean "default_image"
+    t.string  "remote_url"
+    t.string  "cdn"
   end
 
   add_index "hotel_images", ["hotel_id"], :name => "index_hotel_images_on_hotel_id"
@@ -544,6 +546,8 @@ ActiveRecord::Schema.define(:version => 20140326080540) do
     t.float   "user_rating"
     t.integer "matches"
     t.string  "slug",                  :limit => 512
+    t.integer "venere_hotel_id"
+    t.float   "venere_user_rating"
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -707,8 +711,8 @@ ActiveRecord::Schema.define(:version => 20140326080540) do
     t.string   "hotel_amenities"
     t.string   "room_amenities"
     t.float    "price"
-    t.string   "location_description"
-    t.string   "location_attractions"
+    t.text     "location_description"
+    t.text     "location_attractions"
     t.string   "geo_id"
     t.text     "address"
     t.string   "zip"
@@ -724,7 +728,7 @@ ActiveRecord::Schema.define(:version => 20140326080540) do
     t.string   "city_zone"
     t.text     "hotel_overview"
     t.text     "stay_policy"
-    t.string   "service_fees"
+    t.text     "service_fees"
     t.text     "breakfast_description"
     t.text     "directions"
     t.string   "location_url"
@@ -741,6 +745,7 @@ ActiveRecord::Schema.define(:version => 20140326080540) do
     t.text     "thumb_url"
     t.text     "thumb_url_last_update"
     t.text     "image_title"
+    t.string   "tx_id"
   end
 
 end

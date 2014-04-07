@@ -1,5 +1,8 @@
 class HotelImage < ActiveRecord::Base
-  attr_accessible :byte_size, :caption, :default_image, :ean_hotel_id, :height, :thumbnail_url, :url, :width
+
+  mount_uploader :cdn, HotelImageUploader
+
+  attr_accessible :byte_size, :caption, :default_image, :ean_hotel_id, :height, :thumbnail_url, :url, :width, :cdn
 
   belongs_to :hotel
 

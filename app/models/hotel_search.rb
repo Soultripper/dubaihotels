@@ -41,8 +41,8 @@ class HotelSearch
 
   def search      
     return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
+    # HotelWorker.perform_async cache_key 
+    HotelWorker.new.perform cache_key
     self
   end
 

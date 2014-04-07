@@ -156,6 +156,7 @@ class HotelSearchPageResult
         json.longitude        location.longitude
         json.latitude         location.latitude
         json.zoom             location.default_zoom
+        json.page_size        HotelsConfig.page_size
       end      
       json.criteria           search_options[:search_criteria]
       json.state              search_options[:state]
@@ -176,10 +177,14 @@ class HotelSearchPageResult
     end
   end
 
-  def take(page_no, page_size)
-    count = page_count(page_no, page_size)
+  def select(count = HotelsConfig.page_size)
     as_json hotels: hotels.take(count)
   end
+
+  # def take(page_no, page_size)
+  #   count = page_count(page_no, page_size)
+  #   as_json hotels: hotels.take(count)
+  # end
 
   def page_count(page_no, page_size)
     page_size = check_page_size page_size

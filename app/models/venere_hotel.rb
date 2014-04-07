@@ -4,5 +4,12 @@ class VenereHotel < ActiveRecord::Base
                   :hotel_type, :hotel_url_finder_image, :hotel_url_finder_image_last_update, :image_title, :image_url, :image_url_last_update, :last_update, 
                   :latitude, :location_attractions, :location_description, :location_url, :longitude, :name, :place, :price, :property_url, :province, 
                   :rating, :region, :room_amenities, :service_fees, :state, :status, :stay_policy, :thumb_url, :thumb_url_last_update, :user_rating, :zip, :tx_id
+
+
+  def self.bulk_import(data)
+    import data.map {|hotel| new hotel}
+    data = nil
+  end
+
 end
 

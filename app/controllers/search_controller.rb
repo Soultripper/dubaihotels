@@ -17,12 +17,13 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.json do 
-        @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+        # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+        @results = hotel_search.results.sort(sort).filter(filters).select(count)        
         render json: @results
 
       end
       format.html do
-        @results = hotel_search.results.sort(sort).paginate(1, page_size)        
+        @results = hotel_search.results.sort(sort).select   
         @user_channel = hotel_search.channel
       end
     end

@@ -51,6 +51,10 @@ gem "oink" #Rails AR profiler
 gem 'jquery-rails-cdn'
 
 gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
+gem 'smarter_csv'
+gem 'carrierwave'
+gem "fog"
+
 #gem 'bugsnag'
 
 # Gems used only for assets and not required

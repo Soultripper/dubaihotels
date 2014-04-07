@@ -84,46 +84,46 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.search = function(callback) {
-
-      var qs = $location.search()
-      
       if(!callback)
         callback = $scope.setupPage;
 
+      var params = $scope.buildParams();
+
+      $http.get($location.path(), {
+        headers:{'Accept':"application/json"}, 
+        params: params
+      }).success(callback)
+    };
+
+    $scope.buildParams = function(){
+
+      var params = {},
+          qs  = $location.search()
+
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
-      $routeParams.page_no = param('page_no', 1)
+      $routeParams.count = param('count', 15)
       $routeParams.sort = param('sort','')
 
-      var url = $location.path();
+      params.start_date   = $routeParams.start_date;
+      params.end_date     = $routeParams.end_date;
+      params.hotel        = qs.hotel;
+      params.count        = $routeParams.count;
+      params.min_price    = $routeParams.min_price;
+      params.max_price    = $routeParams.max_price;
+      params.sort         = $routeParams.sort;
+      params.star_ratings = $routeParams.star_ratings;
+      params.amenities    = $routeParams.amenities;
+      params.coordinates  = qs.coordinates;
 
-
-      url += '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
-
-      if(qs.hotel)
-        url+= "&hotel=" + qs.hotel;
-
-      if($routeParams.min_price)
-        url += '&min_price=' + $routeParams.min_price;
-      if($routeParams.max_price)
-        url += '&max_price=' + $routeParams.max_price;
-      if($routeParams.sort)
-        url += '&sort=' + $routeParams.sort;
-      if($routeParams.star_ratings)
-        url += '&star_ratings=' + $routeParams.star_ratings;
-      if($routeParams.amenities)
-        url += '&amenities=' + $routeParams.amenities;
-      if($routeParams.page_no)
-        url += '&page_no=' + $routeParams.page_no;
-      if(qs.coordinates)
-        url += '&coordinates=' + qs.coordinates;
-      $http.get(url, {headers:{'Accept':"application/json"}}).success(callback)
+      return params;
     };
+
 
     $scope.hotelLink = function(hotel){
       var qs = [];
       qs.push('/hotels/');
-      qs.push(hotel.slug);
+      qs.push(hotel.slug );
       qs.push('?start_date=' + start_date())
       qs.push('&end_date='   + end_date())
       return qs.join('')
@@ -180,12 +180,10 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $scope.$broadcast('results-loaded');
     };
 
-
-
     $scope.loadMore = function(response){
       if(response.hotels && response.hotels.length > 0)
       {
-        $scope.search_results.hotels = $scope.search_results.hotels.concat(response.hotels);
+        $scope.search_results.hotels = response.hotels;
         toggleShowMore(false);
         if($scope.search_results.hotels.length >= response.info.available_hotels)
         {
@@ -229,7 +227,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     var applyFilter = function(){
       startUpdater();
-      $routeParams.page_no = 1;
+      $routeParams.count = Page.info.page_size;
       $scope.search();
     };
 
@@ -450,7 +448,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.loadMoreClick = function() {
       toggleShowMore(true);
-      $routeParams.page_no = $routeParams.page_no+1;
+      $routeParams.count += Page.info.page_size;
       $scope.search($scope.loadMore);
       return false;
     };
@@ -468,17 +466,26 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
           'star_rating': hotel.star_rating,
           'price': accounting.formatMoney(hotel.offer.min_price, $rootScope.currency_symbol, 0),
           'deal': hotel.offer.link,
-          'image': hotel.images[0].thumbnail_url,
+          'image': $scope.headerImage(hotel),
           'slug': hotel.slug,
         };
       });
     }
-    // $scope.search(false);
-    // function(){
-    //   // $rootScope.$broadcast("loading-started");
-    //   $scope.search(false);
-    // }();
-  
+
+
+    $scope.queryMap = function(coordinates, callback){
+      var url = '/map' + $location.path(),
+          params = $scope.buildParams();
+
+      params.count = 101;
+
+      $http.get(url, {
+        headers:{'Accept':"application/json"}, 
+        params:params
+      }).success(callback)
+    }
+
+
   var init = function(){
     startLoader();
     $routeParams.page_no = 1;

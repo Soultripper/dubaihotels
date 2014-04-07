@@ -5,12 +5,12 @@ class MapController < ApplicationController
 
   def index        
 
-    respond_to do |format|
-      format.json do 
-        @results = hotel_search.results.sort(sort).filter(filters).take(page_no, page_size)   
+    # respond_to do |format|
+      # format.json do 
+        @results = hotel_search.results.sort(sort).filter(filters).select(count)   
         render json: @results
-      end
-    end
+      # end
+    # end
 
   end
 
