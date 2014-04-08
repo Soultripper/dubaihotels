@@ -8,7 +8,8 @@ class Venere::Importer
     CSV_OPTIONS = {
       col_sep: '|',
       quote_char: '{',
-      chunk_size: 200
+      chunk_size: 100,
+      key_mapping: VenereHotel.key_mappings
     }
 
     def all

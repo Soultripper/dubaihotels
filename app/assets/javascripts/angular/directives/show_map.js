@@ -1,11 +1,14 @@
-app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
+app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $timeout, $interval) {
   return function( scope, element, attrs) 
   {
 
-    var map, infowindow;
-    var markers = [];
-    var bound = false;
-    
+    var map, infowindow, centerMarker;
+    var markersPrimary   = [],
+        markersSecondary = [],
+        bound            = false,
+        searchingTimerId;
+
+    var myPin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|00FF00|000000");
 
     element.bind('click', function(){
       if(!bound)
@@ -15,7 +18,9 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
       }
 
       $(document.body).addClass("map-showing");
+
       var location = scope.getGoogleMapCenter(); 
+
       var mapOptions = {
           center: location,
           zoom: scope.zoom+3,
@@ -29,14 +34,12 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
       };
 
       map = new google.maps.Map($("#map-container")[0], mapOptions);
-      
-     
-      // map.panBy(0, 30);
 
-      google.maps.event.addListener(map, "bounds_changed", function() {
-        console.log("map bounds "+map.getBounds());
+      plotCenter();
+
+      google.maps.event.addListener(map, "idle", function() {
+        $timeout(plotNewCoordinates, 300)
       });
-
 
       infowindow = new google.maps.InfoWindow({
         content: "<i class='fa fa-gear fa-spin'></i>"
@@ -45,13 +48,27 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
       loadMarkers();
     });
 
-    function loadMarkers(){
-      clearMarkers();
-      drawMarkers(scope.hotelLocations());
-      loadHotels(map);
-    }
+    function plotNewCoordinates(){
+      centerMarker.setMap(null);
 
-    function drawMarkers(hotels)
+      console.log('Map is now idle: ' + map.getCenter());
+
+      plotCenter();
+
+      loadHotels(map);
+
+      searchingTimerId = $interval(function() {
+        loadHotels(map);
+      }, 2000, 5);
+    };
+
+    function loadMarkers(){
+      // clearMarkers();
+      drawMarkers(scope.hotelLocations(), markersPrimary);
+      loadHotels(map);
+    };
+
+    function drawMarkers(hotels, markerArray)
     {
       if(!$(document.body).hasClass("map-showing"))
         return;
@@ -59,14 +76,17 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
       _.each(hotels, function(hotel){
         createMarker(hotel);
       })         
-      // setAllMap(map)
-    }
+    };
 
     function loadHotels(map){
-      scope.queryMap(map, plotHotels);
-    }
+      var center = map.getCenter();
+      scope.queryMap(center, plotHotels);
+    };
 
     function plotHotels(response){
+      if(response.state=='finished')
+        $interval.cancel(searchingTimerId);
+
      var hotels = _.map(response.hotels, function(hotel){
         return {
           'name': hotel.name,
@@ -79,9 +99,19 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
           'slug': hotel.slug,
         };
       });
-     drawMarkers(hotels);
+
+     drawMarkers(hotels, markersSecondary);
      // map.fitBounds(map.getBounds());
-    }
+    };
+
+    function plotCenter(){
+      centerMarker = new google.maps.Marker({
+          position: map.getCenter(),
+          map: map,
+          icon: myPin,
+          title: 'Center'
+        })
+    };
 
     function createMarker(hotel) {
       var marker = new google.maps.Marker({
@@ -97,20 +127,14 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
 
       google.maps.event.addListener(marker, 'click', showInfo);
       google.maps.event.addListener(marker, 'mouseover', showInfo);
-
-      markers.push(marker);
       return marker;
-    }
+    };
 
-    function setAllMap(mapOwner) {
+    function setAllMap(markers, mapOwner) {
       for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(mapOwner);
       }
-    }
-
-    function clearMarkers() {
-      setAllMap(null);
-    }
+    };
 
     function showInfo() {
         var infoHtml = $("<div class='map-marker-info'><div class='image'></div><div class='info'><h3>...</h3><div class='rating'></div><div class='price'></div></div><div class='buttons'><a href='#' class='btn btn-success get-deal' target='_blank'>Get Deal</a><a href='#' class='btn btn-primary more-info' target='_self'>More Info</a></div></div>");
@@ -130,7 +154,7 @@ app.directive('showMap', ['$filter','$timeout', function($filter, $timeout) {
 
         infowindow.setContent(infoHtml.prop('outerHTML'));
         infowindow.open(map, this);
-    }
+    };
 
   }
 }]);

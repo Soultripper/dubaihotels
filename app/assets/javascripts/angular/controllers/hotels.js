@@ -473,11 +473,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     }
 
 
-    $scope.queryMap = function(coordinates, callback){
-      var url = '/map' + $location.path(),
-          params = $scope.buildParams();
+    $scope.queryMap = function(mapCenter, callback){
+      var url     = '/map/my-location',
+          params  = $scope.buildParams();
 
       params.count = 101;
+      params.coordinates = mapCenter.lat() + ',' + mapCenter.lng();
 
       $http.get(url, {
         headers:{'Accept':"application/json"}, 

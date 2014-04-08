@@ -182,6 +182,8 @@ class HotelSearchPageResult
     matched_hotels = load_hotel_information(options[:hotels]) 
 
     Jbuilder.encode do |json|
+      json.state search_options[:state]
+      
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
           hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
