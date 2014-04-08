@@ -177,8 +177,29 @@ class HotelSearchPageResult
     end
   end
 
+  def as_map_json(options={})
+
+    matched_hotels = load_hotel_information(options[:hotels]) 
+
+    Jbuilder.encode do |json|
+      if !matched_hotels.empty?
+        json.hotels matched_hotels do |hotel_comparison|
+          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
+          json.(hotel_comparison.hotel, :id, :name, :latitude, :longitude, :star_rating,  :slug)
+          json.offer          hotel_comparison.offer
+          json.images         find_images_by(hotel_comparison.hotel, 1), :url, :thumbnail_url
+        end
+      end
+    end
+  end
+
   def select(count = HotelsConfig.page_size)
     as_json hotels: hotels.take(count)
+  end
+
+
+  def select_map_view(count = HotelsConfig.page_size)
+    as_map_json hotels: hotels.take(count)
   end
 
   # def take(page_no, page_size)

@@ -7,7 +7,7 @@ class MapController < ApplicationController
 
     # respond_to do |format|
       # format.json do 
-        @results = hotel_search.results.sort(sort).filter(filters).select(count)   
+        @results = hotel_search.results.sort(sort).filter(filters).select_map_view(count)   
         render json: @results
       # end
     # end
