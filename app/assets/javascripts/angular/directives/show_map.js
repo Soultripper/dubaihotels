@@ -17,6 +17,8 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         scope.$on('filter-applied', function(){
           setAllMap(markersSecondary, null)
           markersSecondary =[]
+          setAllMap(markersPrimary, null)
+          // markersSecondary =[]
           loadHotels();
         });
         bound = true;
