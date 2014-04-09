@@ -49,6 +49,22 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
 
     };
 
+    $scope.buildParams = function(){
+
+      var params = {},
+          qs  = $location.search()
+
+      $routeParams.start_date = start_date();
+      $routeParams.end_date = end_date();
+
+      params.start_date   = $routeParams.start_date;
+      params.end_date     = $routeParams.end_date;
+      params.coordinates  = qs.coordinates;
+
+      return params;
+    };
+
+
     $scope.setupHeader = function(criteria){
       Page.criteria = criteria;
 
@@ -164,14 +180,15 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       // $scope.search();
       // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info.slug)
       var url = '/' + $scope.slug + '?';
+      var qs = []
 
       if($routeParams.start_date!=undefined)
-        url += 'start_date=' + $routeParams.start_date
+        qs.push('start_date=' + $routeParams.start_date)
 
       if($routeParams.end_date!=undefined)
-        url += 'end_date=' + $routeParams.end_date
+        qs.push('end_date=' + $routeParams.end_date)
       
-      window.location.href =  url;
+      window.location.href =  url + qs.join('&');
     };
 
    $scope.locationSelect = function (query, slug, type) {
