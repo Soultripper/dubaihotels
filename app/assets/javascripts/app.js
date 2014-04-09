@@ -190,7 +190,7 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      var map_container = document.getElementById('google-hotel-map-' + container.data('show-map'))
+      var map_container = document.getElementById('google-hotel-map-' + container.data('map'))
 
       container.show(function(){
         if(!loaded)

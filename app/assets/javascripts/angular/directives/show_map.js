@@ -5,25 +5,34 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
     var map, infowindow, centerMarker;
     var markersPrimary   = [],
         markersSecondary = [],
-        bound            = false,
+        bound = false,
         searchingTimerId;
 
     var myPin = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|00FF00|000000");
 
-    element.bind('click', function(){
-      if(!bound)
-      {
+
+    function addEventListeners(){
+      if(!bound){
         scope.$on('results-loaded', loadMarkers);
+        scope.$on('filter-applied', function(){
+          setAllMap(markersSecondary, null)
+          markersSecondary =[]
+          loadHotels();
+        });
         bound = true;
       }
+    }
 
+    element.bind('click', function(){
+
+      addEventListeners();
       $(document.body).addClass("map-showing");
 
       var location = scope.getGoogleMapCenter(); 
 
       var mapOptions = {
           center: location,
-          zoom: scope.zoom+3,
+          zoom: scope.zoom+2,
           mapTypeControl: true,
           zoomControl: true,
           zoomControlOptions: {
@@ -38,7 +47,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
       plotCenter();
 
       google.maps.event.addListener(map, "idle", function() {
-        $timeout(plotNewCoordinates, 300)
+        $timeout(plotNewCoordinates, 1000)
       });
 
       infowindow = new google.maps.InfoWindow({
@@ -48,62 +57,6 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
       loadMarkers();
     });
 
-    function plotNewCoordinates(){
-      centerMarker.setMap(null);
-
-      console.log('Map is now idle: ' + map.getCenter());
-
-      plotCenter();
-
-      loadHotels(map);
-
-      searchingTimerId = $interval(function() {
-        loadHotels(map);
-      }, 2000, 5);
-    };
-
-    function loadMarkers(){
-      // clearMarkers();
-      drawMarkers(scope.hotelLocations(), markersPrimary);
-      loadHotels(map);
-    };
-
-    function drawMarkers(hotels, markerArray)
-    {
-      if(!$(document.body).hasClass("map-showing"))
-        return;
-
-      _.each(hotels, function(hotel){
-        createMarker(hotel);
-      })         
-    };
-
-    function loadHotels(map){
-      var center = map.getCenter();
-      scope.queryMap(center, plotHotels);
-    };
-
-    function plotHotels(response){
-      if(response.state=='finished')
-        $interval.cancel(searchingTimerId);
-
-     var hotels = _.map(response.hotels, function(hotel){
-        return {
-          'name': hotel.name,
-          'latitude': hotel.latitude,
-          'longitude': hotel.longitude,
-          'star_rating': hotel.star_rating,
-          'price': accounting.formatMoney(hotel.offer.min_price, scope.currency_symbol, 0),
-          'deal': hotel.offer.link,
-          'image': scope.headerImage(hotel),
-          'slug': hotel.slug,
-        };
-      });
-
-     drawMarkers(hotels, markersSecondary);
-     // map.fitBounds(map.getBounds());
-    };
-
     function plotCenter(){
       centerMarker = new google.maps.Marker({
           position: map.getCenter(),
@@ -111,6 +64,25 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
           icon: myPin,
           title: 'Center'
         })
+    };
+
+    function loadMarkers(){
+      setAllMap(markersPrimary, null);
+      markersPrimary = [];
+      drawMarkers(scope.hotelLocations(), markersPrimary);
+      // loadHotels();
+    };
+
+    function drawMarkers(hotels, markerArray)
+    {
+
+      if(!$(document.body).hasClass("map-showing"))
+        return;
+
+      _.each(hotels, function(hotel){
+        markerArray.push(createMarker(hotel));
+      })         
+      // console.log('After drawing markers: ' + markerArray.length)
     };
 
     function createMarker(hotel) {
@@ -129,6 +101,50 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
       google.maps.event.addListener(marker, 'mouseover', showInfo);
       return marker;
     };
+
+    function loadHotels(){
+      var center = map.getCenter();
+      // markersSecondary = []
+      scope.queryMap(center, plotHotels);
+    };
+
+    function plotNewCoordinates(){
+      centerMarker.setMap(null);
+
+      console.log('Map is now idle: ' + map.getCenter());
+
+      plotCenter();
+
+      loadHotels(map);
+
+      searchingTimerId = $interval(function() {
+        loadHotels(map);
+      }, 2000, 5);
+    };
+
+
+    function plotHotels(response){
+      if(response.state==='finished')
+        $interval.cancel(searchingTimerId);
+
+     var hotels = _.map(response.hotels, function(hotel){
+        return {
+          'name': hotel.name,
+          'latitude': hotel.latitude,
+          'longitude': hotel.longitude,
+          'star_rating': hotel.star_rating,
+          'price': accounting.formatMoney(hotel.offer.min_price, scope.currency_symbol, 0),
+          'deal': hotel.offer.link,
+          'image': scope.headerImage(hotel),
+          'slug': hotel.slug,
+        };
+      });
+
+     
+     drawMarkers(hotels, markersSecondary);
+     // map.fitBounds(map.getBounds());
+    };
+
 
     function setAllMap(markers, mapOwner) {
       for (var i = 0; i < markers.length; i++) {

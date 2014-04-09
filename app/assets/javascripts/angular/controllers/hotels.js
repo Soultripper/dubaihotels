@@ -229,6 +229,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       startUpdater();
       $routeParams.count = Page.info.page_size;
       $scope.search();
+      $scope.$broadcast('filter-applied');
     };
 
     $scope.isSort = function(option){
