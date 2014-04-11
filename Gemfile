@@ -55,6 +55,8 @@ gem 'smarter_csv'
 gem 'carrierwave'
 gem "fog"
 
+gem 'ruby-prof'
+
 #gem 'bugsnag'
 
 # Gems used only for assets and not required

@@ -221,6 +221,7 @@ GEM
     require_all (1.2.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    ruby-prof (0.13.0)
     rubyntlm (0.3.4)
     rubyzip (1.1.0)
     safe_yaml (0.9.7)
@@ -334,6 +335,7 @@ DEPENDENCIES
   rails_12factor
   resque (~> 2.0.0.pre.1)!
   rest-client
+  ruby-prof
   rubyzip
   savon (~> 2.3.0)
   sidekiq

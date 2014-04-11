@@ -137,9 +137,10 @@ class Venere::Importer
       tmp_file.path
     end
 
-    def upload_file(filename)
+    def upload_file
       uploader = HotelCatalogUploader.new
-      uploader.store! File.open(filename)
+      uploader.download! url
+      uploader.store! 
     end
 
   end
