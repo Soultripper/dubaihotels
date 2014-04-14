@@ -43,8 +43,21 @@ body.map-showing #wrapper #refine {
     box-shadow: 0px 0px 6px 0px rgba(50, 50, 50, 0.75);
   }
 }
-.map-marker-info:before,
-.map-marker-info:after {
+#map-view {
+  position: relative;
+}
+#map-info-window {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  min-width: 25%;
+  display: none;
+}
+#map-info-window:before,
+#map-info-window:after {
   content: " ";
   /* 1 */
 
@@ -52,10 +65,10 @@ body.map-showing #wrapper #refine {
   /* 2 */
 
 }
-.map-marker-info:after {
+#map-info-window:after {
   clear: both;
 }
-.map-marker-info .image {
+#map-info-window .image {
   width: 80px;
   height: 80px;
   background-color: #ccc;
@@ -67,11 +80,12 @@ body.map-showing #wrapper #refine {
   background-size: cover;
   background-position: center center;
 }
-.map-marker-info .info {
-  float: right;
+#map-info-window .info {
+  float: left;
+  margin-left: 5px;
 }
-.map-marker-info .info:before,
-.map-marker-info .info:after {
+#map-info-window .info:before,
+#map-info-window .info:after {
   content: " ";
   /* 1 */
 
@@ -79,36 +93,39 @@ body.map-showing #wrapper #refine {
   /* 2 */
 
 }
-.map-marker-info .info:after {
+#map-info-window .info:after {
   clear: both;
 }
-.map-marker-info .info h3 {
+#map-info-window .info h3 {
   font-size: 20px;
   margin-top: 0;
   padding-top: 0;
   margin-bottom: 3px;
 }
-.map-marker-info .info .rating {
+#map-info-window .info .rating {
   color: #eb9100;
 }
-.map-marker-info .info .price {
+#map-info-window .info .price {
   font-size: 18px;
   font-family: 'ITCLubalinGraphW01-Md', Georgia, "Times New Roman", Times, serif;
 }
-.map-marker-info .buttons {
+#map-info-window .buttons {
   clear: both;
   padding-top: 5px;
 }
-.map-marker-info .buttons .get-deal,
-.map-marker-info .buttons .more-info {
-  float: left;
-  width: 49%;
+#map-info-window .buttons .get-deal,
+#map-info-window .buttons .more-info {
+  display: block;
 }
-.map-marker-info .buttons .get-deal {
-  margin-right: 2px;
-}
-#map-view {
-  position: relative;
+#map-info-window .exit {
+  position: absolute;
+  padding: 5px;
+  right: 0;
+  top: -38px;
+  width: 38px;
+  text-align: center;
+  background-color: #ff9c00;
+  color: #fff;
 }
 #map-container {
   background-color: #ccc;
@@ -121,8 +138,14 @@ body.map-showing #wrapper #refine {
 @media (max-width: 992px) {
   #map-view {
     position: absolute;
-    top: 218px;
+    top: 32px;
     bottom: 0;
+  }
+  #map-info-window {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
   }
 }
 #map-loader {
@@ -1216,6 +1239,8 @@ ul.amenities li.spa:after {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    -webkit-transition: top 0.2s ease-in-out;
+    transition: top 0.2s ease-in-out;
   }
   #refine .contents .toggle .closed {
     width: 80px;
@@ -1258,6 +1283,18 @@ ul.amenities li.spa:after {
     display: block;
     text-align: center;
     font-size: 25px;
+  }
+  .map-showing #sidebar .map-return {
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  .map-showing #refine .toggle {
+    top: 38px;
   }
 }
 @media (min-width: 992px) {

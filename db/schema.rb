@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140407091337) do
+ActiveRecord::Schema.define(:version => 20140411110408) do
 
   create_table "agoda_amenities", :id => false, :force => true do |t|
     t.integer "id",          :null => false
@@ -548,6 +548,7 @@ ActiveRecord::Schema.define(:version => 20140407091337) do
     t.string  "slug",                  :limit => 512
     t.integer "venere_hotel_id"
     t.float   "venere_user_rating"
+    t.string  "normal_name"
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -647,6 +648,27 @@ ActiveRecord::Schema.define(:version => 20140407091337) do
 
 # Could not dump table "locations" because of following StandardError
 #   Unknown type 'geography' for column 'geog'
+
+  create_table "provider_hotels", :force => true do |t|
+    t.integer  "hotel_id"
+    t.string   "provider_id"
+    t.integer  "provider_hotel_id"
+    t.string   "name"
+    t.text     "address"
+    t.string   "city"
+    t.string   "state_province"
+    t.string   "postal_code"
+    t.string   "country_code"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.text     "description"
+    t.integer  "amenities"
+    t.float    "star_rating"
+    t.float    "user_rating"
+    t.string   "hotel_link"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
 
   create_table "spatial_ref_sys", :id => false, :force => true do |t|
     t.integer "srid",                      :null => false

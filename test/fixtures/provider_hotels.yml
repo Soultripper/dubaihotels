@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  hotel_id: 1
+  provider_id: MyString
+  provider_hotel_id: 1
+  name: MyString
+  address: MyText
+  city: MyString
+  state_province: MyString
+  postal_code: MyString
+  country_code: MyString
+  latitude: 1.5
+  longitude: 1.5
+  description: 
+  amenities: 1
+  star_rating: 1.5
+  user_rating: 1.5
+  hotel_link: MyString
+
+two:
+  hotel_id: 1
+  provider_id: MyString
+  provider_hotel_id: 1
+  name: MyString
+  address: MyText
+  city: MyString
+  state_province: MyString
+  postal_code: MyString
+  country_code: MyString
+  latitude: 1.5
+  longitude: 1.5
+  description: 
+  amenities: 1
+  star_rating: 1.5
+  user_rating: 1.5
+  hotel_link: MyString
