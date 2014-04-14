@@ -200,7 +200,9 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
     }
 
       function resetMarkerIcons() {
-        $(markersPrimary).each(function () {
+        var markers = markersPrimary.concat(markersSecondary);
+
+        $(markers).each(function () {
             if (this.icon.indexOf("map-marker-s.png") == -1)
                 return;
 
