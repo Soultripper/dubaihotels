@@ -4,7 +4,7 @@ class Expedia::Search
 
   DEFAULT_PARAMS =  {
     # options: 'ROOM_RATE_DETAILS',
-    numberOfResults: 200,
+    numberOfResults: 300,
     maxRatePlanCount: 10
     # supplierType: 'E|V'
   }

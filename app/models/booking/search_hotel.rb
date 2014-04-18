@@ -3,8 +3,6 @@ module Booking
 
     attr_reader :ids
 
-    DEFAULT_SLICE = 150
-
     def initialize(ids, search_criteria)
        super search_criteria
         @ids = ids

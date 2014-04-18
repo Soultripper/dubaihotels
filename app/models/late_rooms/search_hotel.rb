@@ -3,7 +3,7 @@ module LateRooms
 
     attr_reader :ids, :responses
 
-    DEFAULT_SLICE = 150
+    DEFAULT_SLICE = 200
 
     def initialize(ids, search_criteria)
       super search_criteria

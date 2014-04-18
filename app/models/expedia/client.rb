@@ -10,17 +10,7 @@ class Expedia::Client
     end
 
     def http
-      Faraday.new(url: url) do |faraday|
-        faraday.headers['Accept-Encoding'] = 'gzip,deflate'
-        faraday.options[:nosignal] = true
-        faraday.request  :retry,   3   # times
-        faraday.options[:timeout] = 20
-        faraday.options[:open_timeout] = 20         
-        faraday.request  :url_encoded             # form-encode POST params
-        faraday.response :logger                  # log requests to STDOUT
-        faraday.response :gzip 
-        faraday.adapter  :my_typhoeus
-      end
+      FaradayService.http url
     end
 
     def get_list(params)  
