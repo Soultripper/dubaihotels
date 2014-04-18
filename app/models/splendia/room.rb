@@ -23,12 +23,23 @@ module Splendia
       @price ||= value('totalfullratewithtaxes').to_f
     end
 
+    def breakfast?
+      value('ratebreakfastincluded').to_i === 1
+    end
+
+    def cancellation?
+      value('ratefreecancellable').to_i === 1
+    end
+
+
     def commonize(search_criteria, link)
       {
         provider: :splendia,
         description: description,
         price: avg_price(search_criteria.total_nights),
-        link: link
+        link: link,
+        breakfast: breakfast?,
+        cancellation: cancellation?
       }
     end
 

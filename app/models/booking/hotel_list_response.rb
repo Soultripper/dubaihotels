@@ -24,7 +24,7 @@ module Booking
     end
 
     def hotels
-      @hotels ||= results.map {|response| Booking::HotelResponse.new response}.sort_by(&:ranking).reverse
+      @hotels ||= results.map {|response| Booking::HotelResponse.new response}
     end
 
     def hotel_ids

@@ -6,7 +6,7 @@ class Expedia::Client
     end
 
     def url
-      "http://api.ean.com"
+      "http://api.eancdn.com"
     end
 
     def http

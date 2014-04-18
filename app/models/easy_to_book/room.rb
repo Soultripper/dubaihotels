@@ -11,6 +11,10 @@ module EasyToBook
       xml_response.xpath('Roomtype').map {|room| new room}
     end
 
+    def room_id
+      value('Roomid').to_f
+    end
+
     def description
       @description ||= value('Roomname')
     end
@@ -20,12 +24,23 @@ module EasyToBook
       @price ||= (other_currency ? other_currency :  value('Price/Gross')).to_f
     end
 
+    def breakfast?
+      value('Breakfast').to_i == 1
+    end
+
+    def offer_text
+      value("Specialoffers/Specialoffer/Text")
+    end
+
     def commonize(search_criteria)
       {
         provider: :easy_to_book,
         description: description,
         price: avg_price(price(search_criteria.currency_code), search_criteria.total_nights),
-        link: link
+        link: link,
+        id: room_id,
+        breakfast: breakfast?,
+        offer: offer_text
       }
     end
     

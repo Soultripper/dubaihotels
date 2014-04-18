@@ -55,6 +55,12 @@ module HotelScopes
       ]
     end
 
+    def by_location_slug(slug)
+      loc = Location.find_by_slug slug
+      by_location loc
+    end
+
+
   end
 
   def main_image

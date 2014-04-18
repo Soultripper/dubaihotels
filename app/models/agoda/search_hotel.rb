@@ -23,7 +23,7 @@ module Agoda
     end
 
     def search(options={}) 
-      params = {:Id => ids}.merge(search_params.merge(options)) 
+      params = {:Id => ids.join(',')}.merge(search_params.merge(options)) 
       create_list_response Agoda::Client.search_availability(params)
     end
 

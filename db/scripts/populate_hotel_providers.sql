@@ -29,6 +29,8 @@
 --   OIDS=FALSE
 -- );
 
+ ALTER TABLE provider_hotels  ADD COLUMN geog geography(Point,4326);
+
 -- EAN
 --SELECT * FROM ean_hotels LIMIT 1
 
@@ -209,3 +211,4 @@ SELECT
 FROM venere_hotels h;
 
 --SELECT COUNT(*) FROM provider_hotels
+ UPDATE provider_hotels SET geog = ST_MakePoint(longitude, latitude);

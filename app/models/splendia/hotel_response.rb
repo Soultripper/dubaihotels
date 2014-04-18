@@ -67,7 +67,7 @@ module Splendia
         min_price: min_price.to_f,
         max_price: max_price.to_f,        
         ranking: ranking,
-        rooms: nil,
+        rooms: rooms.map{|r| r.commonize(search_criteria, link)},
         link: link
       }
     rescue Exception => msg  

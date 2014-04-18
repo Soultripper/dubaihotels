@@ -28,7 +28,7 @@ class LateRooms::Client
     end
 
     def hotels(params={})
-      create_response(http.get(url + '&rtype=3', params))
+      create_response(http.get(url + '&rtype=7', params))
     end
 
     def create_response(response)

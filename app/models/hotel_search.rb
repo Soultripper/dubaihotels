@@ -7,7 +7,7 @@ class HotelSearch
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
   PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
-  # PROVIDERS = [:venere, :booking]
+  # PROVIDERS = [:booking]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
@@ -41,8 +41,8 @@ class HotelSearch
 
   def search      
     return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
+    # HotelWorker.perform_async cache_key 
+    HotelWorker.new.perform cache_key
     self
   end
 
@@ -85,21 +85,27 @@ class HotelSearch
 
         if key==:booking_hotel_id
           common_provider_hotel[:link] = search_criteria.booking_link(hotel)
+          set_rooms_link(common_provider_hotel)
         elsif key==:laterooms_hotel_id and common_provider_hotel
           common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
+          set_rooms_link(common_provider_hotel)
         end
 
         matches += 1 if add_to_list(hotel, common_provider_hotel)
 
         if(key==:ean_hotel_id)
-          common_provider_hotel = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
-          add_to_list(hotel, common_provider_hotel)
+          hotels_com = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
+          add_to_list(hotel, hotels_com)
         end
 
       end    
     end
     persist
     Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
+  end
+
+  def set_rooms_link(hotel_hash)
+    hotel_hash[:rooms].each {|room| room[:link] = hotel_hash[:link]}
   end
 
   def add_to_list(hotel_comparison, common_provider_hotel)

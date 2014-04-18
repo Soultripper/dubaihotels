@@ -167,6 +167,7 @@ class HotelSearchPageResult
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
             :postal_code,  :latitude, :longitude, 
             :star_rating, :description, :amenities, :slug)
+          json.rooms          hotel_comparison.rooms
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
           json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height

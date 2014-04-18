@@ -25,6 +25,10 @@
   min-height: 280px;
 }*/
 
-.tabs-content .content:first-child{
+/*.tabs-content .content:first-child{
+  overflow-y: auto !important;
+}*/
+
+.tabs-content .tab-rooms, .tab-details{
   overflow-y: auto !important;
 }

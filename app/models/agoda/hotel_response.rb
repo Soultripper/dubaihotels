@@ -67,7 +67,7 @@ module Agoda
         min_price: avg_price(min_price, search_criteria.total_nights),
         max_price: avg_price(max_price, search_criteria.total_nights),        
         ranking: ranking,
-        rooms: nil,
+        rooms: rooms.map {|r| r.commonize(search_criteria)},
         link: link
       }
     rescue Exception => msg  

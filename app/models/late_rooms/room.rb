@@ -32,7 +32,11 @@ module LateRooms
     end
 
     def breakfast?
-      @breakfast ||= value('breakfast')
+      value('breakfast')
+    end
+
+    def dinner?
+      value('dinner')
     end
 
     def sleeps
@@ -47,6 +51,15 @@ module LateRooms
       xml.xpath('rate').count
     end
 
+    def cancellation_days
+      @cancellation_days ||= value('cancellation_days').to_i
+    end
+
+    def cancellation?
+      cancellation_days === 0
+    end
+
+
     def total_price
       total = 0.0
       xml.xpath('rate/numeric_price').each do |price|
@@ -56,14 +69,32 @@ module LateRooms
       total
     end
 
-    def commonize(search_criteria, link)
+    # def to_json
+    #   return nil unless total_price
+    #   {
+    #     provider: :laterooms,
+    #     description: description,
+    #     price: price,
+    #     total_price: total_price,
+    #     id: room_id,
+    #     breakfast: breakfast?,
+    #     dinner: dinner?,
+    #     cancellation: cancellation?
+    #   }
+    # end
+
+    def commonize(search_criteria, link = nil)
       return nil unless total_price
       {
         provider: :laterooms,
         description: description,
         price: price,
         total_price: total_price,
-        link: link
+        link: link,
+        id: room_id,
+        breakfast: breakfast?,
+        dinner: dinner?,
+        cancellation: cancellation?
       }
     end
 

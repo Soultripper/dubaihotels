@@ -78,7 +78,7 @@ module Expedia
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
         link: search_criteria.expedia_link(expedia_id),
-        rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
+        rooms: rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue Exception => msg  
       Log.error "Hotel #{id} failed to convert for Expedia.co.uk: #{msg}"
@@ -95,7 +95,7 @@ module Expedia
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
         link: search_criteria.hotels_link(id),
-        rooms: nil# rooms.map{|r| r.commonize(search_criteria)}
+        rooms: rooms.map{|r| r.commonize_to_hotels_dot_com(search_criteria, id)}
       }
     rescue Exception => msg  
       Log.error "Hotel #{id} failed to convert for hotels.com: #{msg}"

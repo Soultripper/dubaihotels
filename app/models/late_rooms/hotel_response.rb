@@ -68,11 +68,11 @@ module LateRooms
         min_price: min_price.to_f,
         max_price: max_price.to_f,        
         ranking: ranking,
-        rooms: nil,
+        rooms: rooms.map{|r| r.commonize(search_criteria)},
       }
-    rescue Exception => msg  
-      Log.error "LateRooms Hotel #{id} failed to convert: #{msg}"
-      nil
+    # rescue Exception => msg  
+    #   Log.error "LateRooms Hotel #{id} failed to convert: #{msg}"
+    #   nil
     end
     
     def value(path)

@@ -1,9 +1,9 @@
-module Booking
-  class SearchHotel < Booking::Search
+module EWS
+  class SearchHotel < EWS::Search
 
     attr_reader :ids
 
-    DEFAULT_SLICE = 150
+    DEFAULT_SLICE = 600
 
     def initialize(ids, search_criteria)
        super search_criteria
@@ -23,7 +23,7 @@ module Booking
     end
 
     def search(options={})
-      create_response Booking::Client.get_block_availability(params(options))
+      create_response EWS::Client.get_hotel_availability(params(options))
     end
 
     def availability(options={})
@@ -37,12 +37,13 @@ module Booking
       (conn = Booking::Client.http).in_parallel do 
         ids.each_slice((options[:slice] || DEFAULT_SLICE)) do |sliced_ids|
           Log.info "Requesting #{sliced_ids.count} hotels from booking.com"
-          # responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge(hotel_params(sliced_ids)))
-          responses << conn.post( Booking::Client.url + '/bookings.getBlockAvailability', search_params.merge(hotel_params(sliced_ids)))
+          responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge(hotel_params(sliced_ids)))
         end
       end
 
       concat_responses(responses, 1, &block)
+      # Log.info "Collected #{hotels.count} hotels out of #{ids.count} booking.com responses for comparison"
+      # yield hotels if block_given?
     end 
 
     def concat_responses(responses, page_start = 0, &block)
@@ -65,9 +66,7 @@ module Booking
 
     def hotel_params(custom_ids=nil)
       {
-        hotel_ids: (custom_ids || ids).join(','),
-        include_internet: 1,
-        include_addon_type: 1
+        hotel_ids: (custom_ids || ids).join(',')
       }
     end
 

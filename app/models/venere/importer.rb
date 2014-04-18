@@ -94,10 +94,14 @@ class Venere::Importer
       path = ''
       Zip::Archive.open(filename) do |ar|
         ar.each do |zf|
-          path = Tempfile.new(zf.name).path
-          open(path, 'wb') do |f|
-            f << zf.read
-          end
+          tmp_file = Tempfile.new(zf.name, "#{Rails.root}/tmp")
+          tmp_file.binmode
+          tmp_file.write zf.read
+          tmp_file.close
+          path = tmp_file.path
+          # open(path, 'wb') do |f|
+          #   f << zf.read
+          # end
         end
       end
       Log.debug "Unzipped #{filename} to #{path}"
@@ -132,9 +136,10 @@ class Venere::Importer
       tmp_file.write response.body
       tmp_file.close
       Log.info "Written temp file #{ tmp_file.path}"
+      path = tmp_file.path
       response = nil
       tmp_file = nil
-      tmp_file.path
+      path
     end
 
     def upload_file

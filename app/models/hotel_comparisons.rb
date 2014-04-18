@@ -77,6 +77,15 @@ class HotelComparisons
   end
 
 
+  def rooms
+    @rooms = loaded_providers.map {|deal| deal[:rooms]}.flatten.compact
+    @rooms.sort_by {|room| room[:price].to_f} if @rooms
+  end
+
+  def loaded_providers
+    provider_deals.select {|provider| provider[:loaded]===true }
+  end
+
 
   def booking?
     deal = find_provider_deal(:booking) 

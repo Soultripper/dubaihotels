@@ -12,7 +12,7 @@ module Expedia
     end
 
     def description
-      data['roomTypeDescription'] if data
+      (data['roomDescription'] || data['roomTypeDescription']) if data
     end
 
     def chargeable_rates
@@ -35,13 +35,18 @@ module Expedia
       chargeable_rates['@averageRate']
     end
 
+    def offer_text
+      data['RateInfos']['promoDescription']
+    end
+
     def commonize(search_criteria)
-      return nil unless property_id
+      return nil unless expedia_id
       {
         provider: :expedia,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: search_criteria.expedia_link(property_id)
+        link: search_criteria.expedia_link(expedia_id),
+        offer: offer_text
       }
     end
 
@@ -50,7 +55,8 @@ module Expedia
         provider: :hotels,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: search_criteria.hotels_link(hotel_id)
+        link: search_criteria.hotels_link(hotel_id),
+        offer: offer_text
       }
     end    
     

@@ -227,6 +227,28 @@
             </div>
           </div>
           <div class="content tab-rooms" style="display:none" >
+  
+            <div class="list" >
+              <table class="table table-bordered table-striped">
+                <tbody>
+                  <tr ng-repeat="room in hotel.rooms">
+                    <td class="logo">
+                      <img ng-src="assets/logos/{{room.provider}}.gif" />
+                    </td>
+                    <td>{{room.description}}</td>
+                    <td class="price">{{room.price | price:currency_symbol:0}}</td>
+                    <td class="cta">
+                      <a class="btn btn-success" get-deal="{{room.link}}" target="_blank">
+                        Get Deal
+                        <i class="fa fa-caret-right"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+<!--           <div class="content tab-rooms" style="display:none" >
             <div class="rooms-loader" ng-show="!hotel.displayRooms">
                 <i class="fa fa-gear fa-spin"></i>
                 Finding rooms...
@@ -250,7 +272,7 @@
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> -->
           <div class="content tab-gallery" style="display: none">
               <div class="photo">                  
               </div>

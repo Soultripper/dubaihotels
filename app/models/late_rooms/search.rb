@@ -18,7 +18,7 @@ class LateRooms::Search
 
   def search_params
     @params = DEFAULT_PARAMS
-    @params.merge!({adults: search_criteria.no_of_adults})
+    # @params.merge!({adults: search_criteria.no_of_adults})
     add_currency_code
     add_dates
   end

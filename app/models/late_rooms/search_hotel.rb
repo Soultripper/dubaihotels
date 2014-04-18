@@ -56,8 +56,8 @@ module LateRooms
 
     def hotel_params(custom_ids=nil)
       {
-        rtype: 7,
-        hids: (custom_ids || ids).join(',')
+        hids: (custom_ids || ids).join(','),
+        rtype: 7
       }
     end
 

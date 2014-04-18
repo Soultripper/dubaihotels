@@ -34,6 +34,16 @@ module Booking
       other_currency? ? other_currency['price'] : price['price']
     end 
 
+    def breakfast?
+      self['breakfast_included'].to_i == 1
+    end
+
+    def wifi?
+      self['free_wifi'].to_i == 1
+    end
+
+
+
     # def max_price
     #   other_currency? ? other_currency['price'] : price['price']
     # end
@@ -41,10 +51,12 @@ module Booking
 
     def commonize(search_criteria)
       {
-        provider: 'booking',
+        provider: :booking,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: link
+        link: link,
+        breakfast: breakfast?,
+        wifi: wifi?
       }
     end
 
