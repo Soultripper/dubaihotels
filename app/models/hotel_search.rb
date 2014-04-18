@@ -7,7 +7,7 @@ class HotelSearch
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
   PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
-  # PROVIDERS = [:booking,:expedia]
+  # PROVIDERS = [:booking]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
