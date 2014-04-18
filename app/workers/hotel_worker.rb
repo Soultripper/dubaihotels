@@ -123,7 +123,7 @@ class HotelWorker
   end
 
   def log_and_finish(provider, time)
-    Log.info "Realtime comparison of #{provider} for location: #{location.description} took #{time}s" 
+    Log.info "Realtime comparison of #{provider.upcase} for location: #{location.description} took #{time}s" 
     @search.finish_and_persist provider
   end
 

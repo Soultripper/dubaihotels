@@ -6,8 +6,8 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
-  # PROVIDERS = [:booking]
+  # PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
+  PROVIDERS = [:booking,:expedia]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
@@ -126,7 +126,7 @@ class HotelSearch
   def error(provider, msg)
     finish provider
     persist    
-    Log.error "ERROR ----- Provider #{provider} errored. #{msg}" 
+    Log.error "ERROR ----- Provider #{provider.upcase} errored. #{msg}" 
   end
 
   def persist
