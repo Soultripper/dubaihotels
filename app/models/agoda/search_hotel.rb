@@ -3,7 +3,7 @@ module Agoda
 
     attr_reader :ids
 
-    DEFAULT_SLICE = 200
+    DEFAULT_SLICE = 100
 
     def initialize(ids, search_criteria)
        super search_criteria

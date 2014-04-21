@@ -6,8 +6,8 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
-  # PROVIDERS = [:booking]
+  # PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+  PROVIDERS = [:agoda]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
@@ -41,8 +41,8 @@ class HotelSearch
 
   def search      
     return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
+    # HotelWorker.perform_async cache_key 
+    HotelWorker.new.perform cache_key
     self
   end
 
