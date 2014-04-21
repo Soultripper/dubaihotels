@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  MIN_PRICE = 20
+  MIN_PRICE = 25
 
   protected  
 
