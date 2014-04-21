@@ -6,7 +6,7 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
+  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
   # PROVIDERS = [:booking]
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
@@ -93,10 +93,10 @@ class HotelSearch
 
         matches += 1 if add_to_list(hotel, common_provider_hotel)
 
-        if(key==:ean_hotel_id)
-          hotels_com = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
-          add_to_list(hotel, hotels_com)
-        end
+        # if(key==:ean_hotel_id)
+        #   hotels_com = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
+        #   add_to_list(hotel, hotels_com)
+        # end
 
       end    
     end

@@ -21,7 +21,7 @@ module Booking
     end
 
     def search(options={})
-      create_response Booking::Client.get_block_availability(params(options))
+      create_response Booking::Client.get_hotel_availability(params(options))
     end
 
     def availability(options={})
@@ -64,6 +64,7 @@ module Booking
     def hotel_params(custom_ids=nil)
       {
         hotel_ids: (custom_ids || ids).join(','),
+        limit_incremental_prices: 1,
         include_internet: 1,
         include_addon_type: 1
       }

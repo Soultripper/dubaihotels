@@ -187,7 +187,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         $(".rating", infoHtml).empty();
         $(".price", infoHtml).text(this.price);
         $(".get-deal", infoHtml).attr("href", "javascript:alert('Go to deal');");
-        $(".more-info", infoHtml).attr("href", "hotel.html");
+        $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug);
 
         for (var i = 1; i <= 5; i++) {
             var starClass = "fa-star";
@@ -211,6 +211,12 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         });
       }
 
+     $("#map-info-window").hide();
+      $("#map-info-window .exit").on("click", function () {
+          $("#map-info-window").hide();
+          resetMarkerIcons();
+      });
+            
 
   }
 }]);

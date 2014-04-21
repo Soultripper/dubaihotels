@@ -49,7 +49,7 @@ class RoomWorker
       room_availability_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
       return unless room_availability_response
       expedia_rooms = room_availability_response.rooms.map { |room| room.commonize(search_criteria) }.compact
-      expedia_rooms.concat(room_availability_response.rooms.map { |room| room.commonize_to_hotels_dot_com(search_criteria, ean_hotel_id) })
+      # expedia_rooms.concat(room_availability_response.rooms.map { |room| room.commonize_to_hotels_dot_com(search_criteria, ean_hotel_id) })
     end
   end
 
