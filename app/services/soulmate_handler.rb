@@ -7,6 +7,7 @@ module SoulmateHandler
     load_countries
     load_landmarks
     load_places
+    load_hotels
   end
 
   def load_hotels

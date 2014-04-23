@@ -196,7 +196,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         $("h3", infoHtml).text(this.title);
         $(".rating", infoHtml).empty();
         $(".price", infoHtml).text(this.price);
-        $(".get-deal", infoHtml).attr("href", "javascript:alert('Go to deal');");
+        $(".get-deal", infoHtml).attr("href", this.deal);
         $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug);
 
         for (var i = 1; i <= 5; i++) {
