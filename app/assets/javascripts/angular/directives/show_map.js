@@ -44,8 +44,18 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
           mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      map = new google.maps.Map($("#map-container")[0], mapOptions);
+      var styles = [
+         {
+           featureType: "poi",
+           stylers: [
+            { visibility: "off" }
+           ]   
+          }
+      ];
 
+      map = new google.maps.Map($("#map-container")[0], mapOptions);
+      map.setOptions({styles: styles});
+      
       plotCenter();
 
       google.maps.event.addListener(map, "idle", function() {
