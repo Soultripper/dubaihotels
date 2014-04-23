@@ -192,12 +192,15 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         this.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 
         var infoHtml = $("#map-info-window").show();
+        var params = scope.buildParams();
+        Hotels.removeEmptyKeys(params);
+
         $(".image", infoHtml).css("background-image", "url(" + this.image + ")");
         $("h3", infoHtml).text(this.title);
         $(".rating", infoHtml).empty();
         $(".price", infoHtml).text(this.price);
         $(".get-deal", infoHtml).attr("href", this.deal);
-        $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug);
+        $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug + '?' + $.param(params));
 
         for (var i = 1; i <= 5; i++) {
             var starClass = "fa-star";
