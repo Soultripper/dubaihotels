@@ -84,12 +84,43 @@ var Hotels = function(){
   var amenities = function(){
   };
 
+  var getDescription =  function(hotelProvider){
+   switch(hotelProvider){
+     case 'booking':
+       return "Booking.com";
+     case 'expedia':
+       return "Expedia.co.uk";
+     case 'agoda':
+       return 'Agoda.com';
+     case 'easy_to_book':
+       return 'EasyToBook.com';
+     case 'splendia':
+       return 'Splendia.com';
+     // case 'hotels':
+     //   return 'Hotels.com';       
+     case 'laterooms':
+       return 'LateRooms.com';  
+     case 'venere':
+       return 'Venere.com';           
+     default:
+       return hotelProvider; 
+     }
+   };
 
+  
+  var removeEmptyKeys = function(obj){
+    Object.keys(obj).forEach(function(k) {
+        if (!obj[k]) delete obj[k];
+      }
+    );
+  };
 
   return {
     init: init,
     stars: stars,
     priceRange: priceRange,
-    searchOptions: searchOptions
+    searchOptions: searchOptions,
+    description: getDescription,
+    removeEmptyKeys: removeEmptyKeys
   }
 }();

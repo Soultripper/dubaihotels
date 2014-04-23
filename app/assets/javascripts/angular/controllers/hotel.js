@@ -196,6 +196,18 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       $scope.slug = slug
     };
 
+    $scope.trackClick = function(clickDetails){
+      var params = $scope.buildParams();
+     
+      var url = '/offer/' + clickDetails.provider + '?';
+      params.price = clickDetails.price;
+      params.hotel_id = clickDetails.hotel_id;
+      params.target_url = clickDetails.url;
+      Hotels.removeEmptyKeys(params)
+      var result = decodeURIComponent($.param(params));
+      window.open(url + result);
+    }
+
     // $scope.search(false);
     // function(){
     //   // $rootScope.$broadcast("loading-started");

@@ -56,6 +56,7 @@ gem 'carrierwave'
 gem "fog"
 
 gem 'ruby-prof'
+gem 'meta-tags', :require => 'meta_tags'
 
 #gem 'bugsnag'
 

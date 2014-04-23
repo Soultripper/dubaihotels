@@ -212,7 +212,7 @@
                         <td>{{room.description}}</td>
                         <td class="price">{{room.price | price:currency_symbol:0}}</td>
                         <td class="cta">
-                          <a class="btn btn-success" get-deal="{{room.link}}" target="_blank">
+                          <a class="btn btn-success" get-deal="{{room.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{room.provider}}" data-price="{{room.price}}" target="_blank">
                             Get Deal
                             <i class="fa fa-caret-right"></i>
                           </a>

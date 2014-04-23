@@ -22,10 +22,10 @@ Hotels::Application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
 
-
-  get '/locations',       to: 'search#locations'
-  get '/reports/:action', to: 'reports#:action'
-  get '/map/:id',         to: 'map#index'
+  get '/offer/:provider',           to: 'offer#index'
+  get '/locations',                 to: 'search#locations'
+  get '/reports/:action',           to: 'reports#:action'
+  get '/map/:id',                   to: 'map#index'
   
   resources :hotels, only: [:index, :show] do
     member do

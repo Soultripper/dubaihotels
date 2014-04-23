@@ -148,6 +148,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     memcachier (0.0.2)
+    meta-tags (1.5.0)
+      actionpack
     mime-types (1.25.1)
     mini_portile (0.5.2)
     money (5.1.1)
@@ -322,6 +324,7 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   log4r
   memcachier
+  meta-tags
   money
   mongoid
   newrelic_rpm

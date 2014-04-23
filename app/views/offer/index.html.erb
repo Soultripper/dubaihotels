@@ -1,0 +1,38 @@
+<% refresh meta_refresh %>
+<div id="wrapper" >
+
+  <section >
+    <div class="container">
+      <div class="top-bar">
+        <div class="info">
+          <div class="col-xs-12">
+              <h3><%= hotel.name %></h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="hotel">
+        <div class="info-bar">
+          <div class="row">
+            <div class="col-lg-6">
+                <div class="location">
+                    <i class="fa fa-map-marker"></i>&nbsp;
+                    <span class="capitalize"><%= "#{hotel.address}, #{hotel.city}"%></span>
+                </div>
+            </div>
+          
+          </div>
+        </div>
+
+        <div class="row details"> 
+          <div class="col-lg-12 text-center">
+            <h4>Please wait whilst we take you to</h4> 
+            <%= image_tag "logos/#{provider}.gif" %> </h4>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>
