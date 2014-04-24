@@ -115,12 +115,28 @@ var Hotels = function(){
     );
   };
 
+  var ratingsText = function(rating_percentage){
+    if(rating_percentage > 90)
+      return "HOT";
+    if(rating_percentage > 80)
+      return "Excellent";
+    else if(rating_percentage > 70)
+      return "Great";
+    else if(rating_percentage > 60)
+      return "Good";
+    else if(rating_percentage > 40) 
+      return "Average";
+    else
+      return "Poor"
+  }
+
   return {
     init: init,
     stars: stars,
     priceRange: priceRange,
     searchOptions: searchOptions,
     description: getDescription,
-    removeEmptyKeys: removeEmptyKeys
+    removeEmptyKeys: removeEmptyKeys,
+    ratingsText: ratingsText
   }
 }();

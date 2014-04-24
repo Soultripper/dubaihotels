@@ -142,7 +142,7 @@
                           {{hotel.ratings.agoda}}%
                       </span>
                       <span class="rating-text">
-                          Excellent
+                        {{ratingsText(hotel.ratings.agoda)}}
                       </span>
                   </a>
                 </li>
@@ -155,7 +155,7 @@
                             {{hotel.ratings.booking}}%
                         </span>
                         <span class="rating-text">
-                            Great
+                          {{ratingsText(hotel.ratings.booking)}}
                         </span>
                     </a>
                 </li>
@@ -165,10 +165,10 @@
                             <img src="assets/logos/splendia.gif" alt="Splendia" />
                         </span>
                         <span class="rating">
-                           {{hotel.ratings.splendia}}%
+                          {{hotel.ratings.splendia}}%
                         </span>
                         <span class="rating-text">
-                            Excellent
+                          {{ratingsText(hotel.ratings.splendia)}}
                         </span>
                     </a>
                 </li>
@@ -181,7 +181,7 @@
                             {{hotel.ratings.laterooms}}%
                         </span>
                         <span class="rating-text">
-                            Excellent
+                          {{ratingsText(hotel.ratings.laterooms)}}
                         </span>
                     </a>
                 </li>
@@ -194,22 +194,22 @@
                             {{hotel.ratings.easy_to_book}}%
                         </span>
                         <span class="rating-text">
-                            Excellent
+                          {{ratingsText(hotel.ratings.easy_to_book)}}
                         </span>
                     </a>
                 </li>
                 <li class="overall">
-                    <div>
-                        <span class="title">
-                            Overall
-                        </span>
-                        <span class="rating">
-                            {{hotel.ratings.overall}}%
-                        </span>
-                        <span class="rating-text">
-                            Excellent
-                        </span>
-                    </div>
+                  <div>
+                    <span class="title">
+                      Overall
+                    </span>
+                    <span class="rating">
+                      {{hotel.ratings.overall}}%
+                    </span>
+                    <span class="rating-text">
+                      {{ratingsText(hotel.ratings.overall)}}
+                    </span>
+                  </div>
                 </li>
             </ul>
             <h4>Details</h4>

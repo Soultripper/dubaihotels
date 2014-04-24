@@ -22,7 +22,6 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
     }
 
     $scope.search = function(callback) {
-      console.log('calling search')
       if(!callback)
         callback = $scope.setupPage;
 
@@ -208,6 +207,15 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       window.open(url + result);
     }
 
+    $scope.mapWidth = function(){
+      var missingImages = 6 - $scope.hotel.images.length;
+      if(missingImages <= 0)
+        return 16.666;
+      return 16.666 * missingImages;
+    }
+
+    $scope.ratingsText = Hotels.ratingsText; 
+
     // $scope.search(false);
     // function(){
     //   // $rootScope.$broadcast("loading-started");
@@ -228,16 +236,39 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
           position: mapCenter.center,
           map: map
       });  
+
+      showFixedMap('small-map', $scope.hotel.latitude, $scope.hotel.longitude)
     }
   
-  var init = function(){
-    // $scope.search();
 
-  };
+    var showFixedMap = function(elementId, lat, lng, zoom){
+      var mapOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        streetViewControl: false,
+        draggable: true,
+        disableDefaultUI: true
+      };
 
-  init();
-  
+      mapOptions['zoom'] = zoom || 14;
+      
+      var container = document.getElementById(elementId)
+      var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
+      var map = new google.maps.Map(container, $.extend( mapCenter, mapOptions ));
 
+      var marker = Hotels.Map.createMarker(
+        {
+          latitude: lat, 
+          longitude: lng, 
+          name: $scope.hotel.name, 
+          map: map
+        });
+    }
+
+    var init = function(){
+      
+    };
+
+    // init();
 
 }]);
 

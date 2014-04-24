@@ -123,13 +123,8 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
 
     function plotNewCoordinates(){
       centerMarker.setMap(null);
-
-      console.log('Map is now idle: ' + map.getCenter());
-
       plotCenter();
-
       loadHotels(map);
-
       searchingTimerId = $interval(function() {
         loadHotels(map);
       }, 2000, 5);
@@ -203,32 +198,32 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
         $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug + '?' + $.param(params));
 
         for (var i = 1; i <= 5; i++) {
-            var starClass = "fa-star";
+          var starClass = "fa-star";
 
-            if (i > this.rating)
-                starClass = "fa-star-o";
-            
-            $(".rating", infoHtml).append("<i class='fa " + starClass + "'></i>");
+          if (i > this.rating)
+              starClass = "fa-star-o";
+          
+          $(".rating", infoHtml).append("<i class='fa " + starClass + "'></i>");
         }
     }
 
-      function resetMarkerIcons() {
-        var markers = markersPrimary.concat(markersSecondary);
+    function resetMarkerIcons() {
+      var markers = markersPrimary.concat(markersSecondary);
 
-        $(markers).each(function () {
-            if (this.icon.indexOf("map-marker-s.png") == -1)
-                return;
+      $(markers).each(function () {
+          if (this.icon.indexOf("map-marker-s.png") == -1)
+              return;
 
-            this.setIcon("assets/icons/map-marker.png");
-            this.setZIndex(google.maps.Marker.MAX_ZINDEX);
-        });
-      }
-
-     $("#map-info-window").hide();
-      $("#map-info-window .exit").on("click", function () {
-          $("#map-info-window").hide();
-          resetMarkerIcons();
+          this.setIcon("assets/icons/map-marker.png");
+          this.setZIndex(google.maps.Marker.MAX_ZINDEX);
       });
+    }
+
+    $("#map-info-window").hide();
+    $("#map-info-window .exit").on("click", function () {
+        $("#map-info-window").hide();
+        resetMarkerIcons();
+    });
             
 
   }

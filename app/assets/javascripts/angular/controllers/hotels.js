@@ -500,7 +500,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var result = decodeURIComponent($.param(params));
       window.open(url + result);
     }
-
+    
+    $scope.ratingsText = Hotels.ratingsText; 
 
 
   var init = function(){
