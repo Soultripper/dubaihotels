@@ -123,6 +123,7 @@ module AppHelper
   end
 
   def display_star_rating(index, hotel_star_rating)
+    hotel_star_rating = hotel_star_rating.to_f
     if hotel_star_rating > index and hotel_star_rating < index+1
       content_tag(:i, nil, class: "fa fa-star-half-empty") 
     elsif hotel_star_rating > index

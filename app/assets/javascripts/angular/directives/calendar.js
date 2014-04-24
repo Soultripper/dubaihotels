@@ -1,7 +1,5 @@
 app.directive('checkin', ['$filter', function($filter) {
-  return {
-    // require: 'ngModel',
-    link: function(scope, el, attr) {
+  return function(scope, el, attr) {
 
       var checkin = $(el).datepicker({
             startDate: "today",
@@ -9,7 +7,8 @@ app.directive('checkin', ['$filter', function($filter) {
             format: "D dd M",
             todayHighlight: true,
             autoclose: true,
-            orientation: "top auto"
+            orientation: "top auto",
+            todayBtn: 'linked'
         }).on('changeDate', function(ev) {  
           end_date = new Date(ev.date);
           end_date.setDate(end_date.getDate() + 1)
@@ -20,21 +19,18 @@ app.directive('checkin', ['$filter', function($filter) {
           })
         }).data('datepicker');
       }
-    }
   }]);
 
 app.directive('checkout', ['$filter', function($filter) {
-  return {
-    // require: 'ngModel',
-    link: function(scope, el, attr) {
+  return function(scope, el, attr) {
 
       var checkout = $(el).datepicker({
           startDate: "+1d",
           endDate: "+1y",
           format: "D dd M",
-          todayHighlight: true,
+          todayHighlight: 'true',
           autoclose: true,
-          orientation: "top auto",     
+          orientation: "top auto",  
           beforeShowDay: function(date){
             var checkin = angular.element('#start_date').datepicker('getDate')
             return date.valueOf() <= checkin.valueOf() ? 'disabled' : '';
@@ -47,5 +43,4 @@ app.directive('checkout', ['$filter', function($filter) {
           })
         }).data('datepicker');
       }
-    }
   }]);

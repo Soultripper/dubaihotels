@@ -9,13 +9,15 @@ app.directive( 'getDeal', ['$location', '$window', function($location, $window) 
     element.bind( 'click', function () {
       var self = $(this);
 
+      var url = path || self.data('get-deal')
+
       var details = {
         provider: self.data('provider'),
         price: accounting.toFixed(self.data('price'),0),
         max_price: accounting.toFixed(self.data('max-price'),0),
         saving: self.data('saving'),
         hotel_id: self.data('hotel-id'),
-        url: encodeURIComponent(path)
+        url: encodeURIComponent(url)
       }
       // var provider  = this.data('provider'),
       //     price     = this.data('price'),

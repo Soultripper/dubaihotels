@@ -81,7 +81,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
     function loadMarkers(){
       setAllMap(markersPrimary, null);
       markersPrimary = [];
-      drawMarkers(scope.hotelLocations(), markersPrimary);
+      drawMarkers(scope.search_results.hotels, markersPrimary);
       // loadHotels();
     };
 
@@ -102,12 +102,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
           position: new google.maps.LatLng(hotel.latitude, hotel.longitude),
           map: map,
           icon: "assets/icons/map-marker.png",
-          title: hotel.name,
-          image: hotel.image,
-          rating: hotel.star_rating,
-          price: hotel.price,
-          deal: hotel.deal,
-          slug: hotel.slug
+          hotel: hotel
       });
 
       google.maps.event.addListener(marker, 'click', showInfo);
@@ -134,22 +129,8 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
     function plotHotels(response){
       if(response.state==='finished')
         $interval.cancel(searchingTimerId);
-
-     var hotels = _.map(response.hotels, function(hotel){
-        return {
-          'name': hotel.name,
-          'latitude': hotel.latitude,
-          'longitude': hotel.longitude,
-          'star_rating': hotel.star_rating,
-          'price': accounting.formatMoney(hotel.offer.min_price, scope.currency_symbol, 0),
-          'deal': hotel.offer.link,
-          'image': scope.headerImage(hotel),
-          'slug': hotel.slug,
-        };
-      });
-
      
-     drawMarkers(hotels, markersSecondary);
+     drawMarkers(response.hotels, markersSecondary);
      // map.fitBounds(map.getBounds());
     };
 
@@ -160,47 +141,40 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
       }
     };
 
-    // function showInfo() {
-    //     var infoHtml = $("<div class='map-marker-info'><div class='image'></div><div class='info'><h3>...</h3><div class='rating'></div><div class='price'></div></div><div class='buttons'><a href='#' class='btn btn-success get-deal' target='_blank'>Get Deal</a><a href='#' class='btn btn-primary more-info' target='_self'>More Info</a></div></div>");
-    //     $(".image", infoHtml).css("background-image", "url(" + this.image + ")");
-    //     $("h3", infoHtml).text(this.title);
-    //     $(".rating", infoHtml).empty();
-    //     $(".price", infoHtml).text(this.price);
-    //     $(".get-deal", infoHtml).attr("href", this.deal);
-    //     $(".more-info", infoHtml).attr("href", '/hotels/'+this.slug);
-
-    //     for (var i = 1; i <= 5; i++) {
-    //       var starClass = "fa-star";
-    //       if (i > this.rating)
-    //           starClass = "fa-star-o";                
-    //       $(".rating", infoHtml).append("<i class='fa " + starClass + "'></i>");
-    //     }
-
-    //     infowindow.setContent(infoHtml.prop('outerHTML'));
-    //     infowindow.open(map, this);
-    // };
-
     function showInfo() {
         resetMarkerIcons();
+
+        var hotel = this.hotel;
+        var hotel_image = scope.headerImage(hotel);
 
         this.setIcon("assets/icons/map-marker-s.png");
         this.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 
         var infoHtml = $("#map-info-window").show();
         var params = scope.buildParams();
+
         Hotels.removeEmptyKeys(params);
 
-        $(".image", infoHtml).css("background-image", "url(" + this.image + ")");
-        $("h3", infoHtml).text(this.title);
+        var getDeal = $(".get-deal", infoHtml);
+
+        getDeal.data("get-deal", hotel.offer.link);
+        getDeal.data("price", hotel.offer.min_price);
+        getDeal.data("hotel-id", hotel.id);
+        getDeal.data("provider", hotel.offer.provider);
+        getDeal.data("max-price", hotel.offer.max_price);
+        getDeal.data("saving", scope.saving(hotel));
+
+        $(".image", infoHtml).css("background-image", "url(" + hotel_image + ")");
+        $("h3", infoHtml).text(hotel.name);
         $(".rating", infoHtml).empty();
-        $(".price", infoHtml).text(this.price);
-        $(".get-deal", infoHtml).attr("href", this.deal);
-        $(".more-info", infoHtml).attr("href", '/hotels/' + this.slug + '?' + $.param(params));
+        $(".price", infoHtml).text(accounting.formatMoney(hotel.offer.min_price, scope.currency_symbol, 0));
+        
+        $(".more-info", infoHtml).attr("href", '/hotels/' + hotel.slug + '?' + $.param(params));
 
         for (var i = 1; i <= 5; i++) {
           var starClass = "fa-star";
 
-          if (i > this.rating)
+          if (i > hotel.star_rating)
               starClass = "fa-star-o";
           
           $(".rating", infoHtml).append("<i class='fa " + starClass + "'></i>");

@@ -24,8 +24,8 @@
                     <i class="fa fa-map-marker"></i> <%= "#{hotel.address}, #{hotel.city}"%>
                 </div>
                 <ul class="summary">
-                    <li>From <%= start_date %></li>
-                    <li>To <%= end_date %></li>
+                    <li>From <%= start_date.strftime('%d/%m/%Y') %></li>
+                    <li>To <%= end_date.strftime('%d/%m/%Y') %></li>
                 </ul>
                   <div class="stars">
                     <% 5.times do |index| %>

@@ -32,3 +32,7 @@
 .tabs-content .tab-rooms, .tab-details{
   overflow-y: auto !important;
 }
+
+.input-group-addon {
+  cursor: pointer;
+}

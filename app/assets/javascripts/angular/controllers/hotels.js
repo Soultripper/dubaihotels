@@ -459,18 +459,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     }
 
     $scope.hotelLocations = function(){
-     return  _.map($scope.search_results.hotels, function(hotel){
-        return {
-          'name': hotel.name,
-          'latitude': hotel.latitude,
-          'longitude': hotel.longitude,
-          'star_rating': hotel.star_rating,
-          'price': accounting.formatMoney(hotel.offer.min_price, $rootScope.currency_symbol, 0),
-          'deal': hotel.offer.link,
-          'image': $scope.headerImage(hotel),
-          'slug': hotel.slug,
-        };
-      });
+     return  $scope.search_results.hotels;
     }
 
 
