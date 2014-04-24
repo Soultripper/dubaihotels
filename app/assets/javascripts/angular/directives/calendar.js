@@ -28,7 +28,7 @@ app.directive('checkout', ['$filter', function($filter) {
           startDate: "+1d",
           endDate: "+1y",
           format: "D dd M",
-          todayHighlight: 'true',
+          todayHighlight: true,
           autoclose: true,
           orientation: "top auto",  
           beforeShowDay: function(date){
