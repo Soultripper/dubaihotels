@@ -240,7 +240,6 @@ class HotelSearchPageResult
       end
     end
     hotel_comparisons
-
   end
 
 

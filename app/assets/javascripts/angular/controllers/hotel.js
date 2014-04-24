@@ -224,7 +224,11 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
 
     var loadMap = function(){
       var map_container = document.getElementById('hotel_map');
-      var mapCenter = {center: new google.maps.LatLng($scope.hotel.latitude, $scope.hotel.longitude)};   
+
+      var lat = $scope.hotel.latitude;
+      var lng = $scope.hotel.longitude;
+
+      var mapCenter = {center: new google.maps.LatLng(lat, lng)};   
       var mapOptions = {
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -237,32 +241,17 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
           map: map
       });  
 
-      showFixedMap('small-map', $scope.hotel.latitude, $scope.hotel.longitude)
-    }
-  
-
-    var showFixedMap = function(elementId, lat, lng, zoom){
-      var mapOptions = {
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        streetViewControl: false,
-        draggable: true,
-        disableDefaultUI: true
-      };
-
-      mapOptions['zoom'] = zoom || 14;
-      
-      var container = document.getElementById(elementId)
-      var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
-      var map = new google.maps.Map(container, $.extend( mapCenter, mapOptions ));
-
+      var fixedMap = Hotels.Map.createFixedMap('small-map', lat, lng)
       var marker = Hotels.Map.createMarker(
         {
           latitude: lat, 
           longitude: lng, 
           name: $scope.hotel.name, 
-          map: map
+          map: fixedMap
         });
     }
+  
+
 
     var init = function(){
       

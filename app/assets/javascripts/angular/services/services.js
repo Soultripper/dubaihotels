@@ -71,16 +71,20 @@ searchHotelsServices.factory('Page', function() {
   var currentCoords = {};
   var showlocationMap = function(elementId, lng, lat, zoom){
 
+
     if(currentCoords.lng === lng && currentCoords.lat === lat) return;
     currentCoords = {lng: lng, lat: lat };
 
-    mapOptions['zoom'] = zoom;
+    // mapOptions['zoom'] = zoom;
     
-    var container = document.getElementById(elementId)
-    var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
-    var map;  
-    if(google) 
-      map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
+    var map = Hotels.Map.createFixedMap(elementId, lat, lng, {zoom: zoom, draggable: false} )
+
+
+    // var container = document.getElementById(elementId)
+    // var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
+    // var map;  
+    // if(google) 
+    //   map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
   }
 
 

@@ -5,8 +5,8 @@
         <div ng-show="Page.info.available_hotels == 0"> No hotels available</div>
         <div ng-show="Page.info.available_hotels > 0" >{{Page.info.available_hotels}} Hotels available</div>
       </h4>
-      <div class="map" id="location-map">
-        <img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom={{Page.info.zoom}}&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude" show-map>
+      <div class="map" id="location-map" show-map>
+       <!--  <img ng-src="http://maps.googleapis.com/maps/api/staticmap?center={{Page.info.latitude}},{{Page.info.longitude}}&zoom={{Page.info.zoom}}&size=263x130&maptype=roadmap&sensor=false&key=AIzaSyA6vkiYeZ9BNWullUEZ1aZuPEMwL0-Z69A" ng-show="Page.info.latitude" show-map> -->
         <!-- onclick="app.showMap(); return false;"> -->
       </div>
     </div>

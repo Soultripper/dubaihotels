@@ -12,8 +12,28 @@ Hotels.Map = function(){
     return marker;
   }
 
+  var createFixedMap = function(elementId, lat, lng, options){
+
+      options = options || {};
+
+      var mapOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        streetViewControl: false,
+        draggable: options['draggable'],
+        disableDefaultUI: true
+      };
+
+      mapOptions['zoom'] = options['zoom'] || 14;
+      
+      var container = document.getElementById(elementId)
+      var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
+      var map = new google.maps.Map(container, $.extend( mapCenter, mapOptions ));
+      return map;
+    }
+
   return {
-    createMarker: createMarker
+    createMarker: createMarker,
+    createFixedMap: createFixedMap
   };
 
 

@@ -3,6 +3,8 @@ class MapController < ApplicationController
   respond_to :json
 
 
+  HOTEL_LIMIT = 75
+
   def index        
 
     # respond_to do |format|
@@ -26,6 +28,9 @@ class MapController < ApplicationController
     else
       @location ||= Location.find_by_slug slug
     end
+
+    @location.hotel_limit = HOTEL_LIMIT
+    @location
   end
 
   def slug

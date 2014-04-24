@@ -8,13 +8,15 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 8000)
 
-      query = limit(3000)
+      limit = location.hotel_limit || 3000
+
+      query = limit(limit)
 
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (city = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
       elsif location.my_location?
         return query.where("ST_DWithin(hotels.geog, ST_MakePoint(?,?), ?) ", location.longitude, location.latitude, 3000).
-        order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude}))")
+               order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude})), matches DESC, COALESCE(ranking,0) DESC")
       elsif location.distance_based?
         return query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
       elsif location.region?

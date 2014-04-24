@@ -175,7 +175,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
       angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
 
-      Page.showlocationMap('location-map', Page.info.longitude, Page.info.latitude, Page.info.zoom);
+      Hotels.Map.createFixedMap('location-map', Page.info.latitude, Page.info.longitude, {zoom: Page.info.zoom, draggable: false});
 
       $scope.$broadcast('results-loaded');
     };

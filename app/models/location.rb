@@ -3,6 +3,9 @@ class Location < ActiveRecord::Base
                    :lng_column_name => :longitude  
                    
   attr_accessible :name, :location_type, :description, :longitude, :latitude, :slug, :country_code, :score, :geog
+
+  attr_accessor :hotel_limit
+
   # after_save :add_to_soulmate
   # before_destroy :remove_from_soulmate
 
