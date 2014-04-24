@@ -1,4 +1,4 @@
-<% refresh meta_refresh %>
+<%# refresh meta_refresh %>
 
 
 <div id="wrapper">
@@ -27,24 +27,22 @@
                     <li>From <%= start_date %></li>
                     <li>To <%= end_date %></li>
                 </ul>
-                <!--   <div class="stars">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star-half-empty"></i>
-                      <i class="fa fa-star-o"></i>
-                      <i class="fa fa-star-o"></i>
-                  </div> -->
+                  <div class="stars">
+                    <% 5.times do |index| %>
+                      <%= display_star_rating index, hotel.star_rating %>
+                    <% end %>
+                  </div>
             </div>
             <div class="best-deal">
                 
                   <div class="high-price">
                     <% if max_price.to_f > 0 and max_price != price %>
-                      <%= "#{search_criteria.currency_symbol} #{max_price}" %>
+                      <%= "#{search_criteria.currency_symbol}#{max_price}" %>
                       <% end %>
                   </div>
                 
                 <div class="price">
-                    <%= "#{search_criteria.currency_symbol} #{price}" %>
+                    <%= "#{search_criteria.currency_symbol}#{price}" %>
                 </div>
             </div>
         </section>

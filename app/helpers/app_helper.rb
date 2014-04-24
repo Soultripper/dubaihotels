@@ -121,4 +121,15 @@ module AppHelper
       "sydney" => 'Sydney',
       "melbourne" => 'Melbourne'}
   end
+
+  def display_star_rating(index, hotel_star_rating)
+    if hotel_star_rating > index and hotel_star_rating < index+1
+      content_tag(:i, nil, class: "fa fa-star-half-empty") 
+    elsif hotel_star_rating > index
+      content_tag(:i, nil, class: "fa fa-star") 
+    else
+      content_tag(:i, nil, class: "fa fa-star-o") 
+    end
+  end
+
 end

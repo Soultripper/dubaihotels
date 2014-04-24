@@ -15,7 +15,7 @@ class OfferController < ApplicationController
   end
 
   def hotel_image
-    @hotel_image ||= HotelImage.where(hotel_id: hotel_id).first
+    @hotel_image ||= hotel.images.first
   end
 
   def provider
