@@ -12,6 +12,8 @@ app.directive( 'getDeal', ['$location', '$window', function($location, $window) 
       var details = {
         provider: self.data('provider'),
         price: accounting.toFixed(self.data('price'),0),
+        max_price: accounting.toFixed(self.data('max-price'),0),
+        saving: self.data('saving'),
         hotel_id: self.data('hotel-id'),
         url: encodeURIComponent(path)
       }

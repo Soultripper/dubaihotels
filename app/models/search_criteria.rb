@@ -73,4 +73,5 @@ class SearchCriteria
       currency_symbol:  currency_symbol
     }
   end
+
 end

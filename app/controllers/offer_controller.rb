@@ -43,7 +43,15 @@ class OfferController < ApplicationController
     @meta_refresh = "5;URL=#{target_url}"
   end
 
-  helper_method :meta_refresh, :hotel, :hotel_image, :provider
+  def saving
+    @saving ||= params[:saving].to_i
+  end
+
+  def max_price
+    @max_price ||= params[:max_price]
+  end
+
+  helper_method :meta_refresh, :hotel, :hotel_image, :provider, :saving, :max_price, :price, :search_criteria
 
 
 end

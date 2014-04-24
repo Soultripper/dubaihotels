@@ -492,6 +492,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
      
       var url = '/offer/' + clickDetails.provider + '?';
       params.price = clickDetails.price;
+      params.max_price = clickDetails.max_price;
+      params.saving = clickDetails.saving;
       params.hotel_id = clickDetails.hotel_id;
       params.target_url = clickDetails.url;
       Hotels.removeEmptyKeys(params)

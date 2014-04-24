@@ -1,38 +1,53 @@
 <% refresh meta_refresh %>
-<div id="wrapper" >
 
-  <section >
-    <div class="container">
-      <div class="top-bar">
-        <div class="info">
-          <div class="col-xs-12">
-              <h3><%= hotel.name %></h3>
-          </div>
-        </div>
-      </div>
 
-      <div id="hotel">
-        <div class="info-bar">
-          <div class="row">
-            <div class="col-lg-6">
+<div id="wrapper">
+  <div id="redirect" class="container">
+    <div class="message">
+        Please wait whilst we take you to
+    </div>
+    <div class="logo">
+        <%= image_tag "logos/#{provider}.gif", alt: provider %> </h4>
+    </div>
+    <div id="hotel">
+        <section>
+            <div class="image" style='<%="background-image: url(#{hotel_image.url});"%>'>
+              <% if saving > 0 %>
+                <div class="savings">
+                    Save <%= saving %>%
+                </div>
+              <% end %>
+            </div>
+            <div class="details">
+                <h4><%= hotel.name %></h4>
                 <div class="location">
-                    <i class="fa fa-map-marker"></i>&nbsp;
-                    <span class="capitalize"><%= "#{hotel.address}, #{hotel.city}"%></span>
+                    <i class="fa fa-map-marker"></i> <%= "#{hotel.address}, #{hotel.city}"%>
+                </div>
+                <ul class="summary">
+                    <li>From <%= start_date %></li>
+                    <li>To <%= end_date %></li>
+                </ul>
+                <!--   <div class="stars">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star-half-empty"></i>
+                      <i class="fa fa-star-o"></i>
+                      <i class="fa fa-star-o"></i>
+                  </div> -->
+            </div>
+            <div class="best-deal">
+                
+                  <div class="high-price">
+                    <% if max_price.to_f > 0 and max_price != price %>
+                      <%= "#{search_criteria.currency_symbol} #{max_price}" %>
+                      <% end %>
+                  </div>
+                
+                <div class="price">
+                    <%= "#{search_criteria.currency_symbol} #{price}" %>
                 </div>
             </div>
-          
-          </div>
-        </div>
-
-        <div class="row details"> 
-          <div class="col-lg-12 text-center">
-            <h4>Please wait whilst we take you to</h4> 
-            <%= image_tag "logos/#{provider}.gif" %> </h4>
-          </div>
-        </div>
-
-      </div>
-
+        </section>
     </div>
-  </section>
+  </div>
 </div>
