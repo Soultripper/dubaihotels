@@ -3,7 +3,7 @@ class MapController < ApplicationController
   respond_to :json
 
 
-  HOTEL_LIMIT = 75
+  HOTEL_LIMIT = 300
 
   def index        
 

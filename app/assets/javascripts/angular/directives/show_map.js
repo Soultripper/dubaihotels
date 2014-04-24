@@ -59,7 +59,7 @@ app.directive('showMap', ['$filter','$timeout', '$interval', function($filter, $
       plotCenter();
 
       google.maps.event.addListener(map, "idle", function() {
-        $timeout(plotNewCoordinates, 1000)
+        $timeout(plotNewCoordinates, 2000)
       });
 
       infowindow = new google.maps.InfoWindow({
