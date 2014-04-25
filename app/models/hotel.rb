@@ -8,11 +8,11 @@ class Hotel < ActiveRecord::Base
 
   attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :amenities,
                   :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, 
-                  :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id, :venere_hotel_id
+                  :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id, :venere_hotel_id, :image_url, :thumbnail_url
 
   attr_accessor :distance_from_location
 
-  has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC'
+  has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC, id ASC'
   has_many :hotel_amenities, :class_name => "HotelsHotelAmenity"
 
   has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'

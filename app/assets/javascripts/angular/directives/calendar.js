@@ -25,7 +25,7 @@ app.directive('checkout', ['$filter', function($filter) {
   return function(scope, el, attr) {
 
       var checkout = $(el).datepicker({
-          startDate: "+2d",
+          startDate: "+1d",
           endDate: "+1y",
           format: "D dd M",
           todayHighlight: true,

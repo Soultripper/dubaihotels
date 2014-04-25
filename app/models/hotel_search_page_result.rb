@@ -216,8 +216,8 @@ class HotelSearchPageResult
     (page_index + page_size) > hotels.length ? hotels.length : page_index + page_size
   end
 
-  def find_images_by(hotel, count=18)
-    hotel.images.slice(0,count) || []
+  def find_images_by(hotel, count=11)
+    hotel.images.limit(count) || []
   end
 
   def hotel_images(hotel)
@@ -230,7 +230,8 @@ class HotelSearchPageResult
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id
-    matched_hotels = Hotel.with_images.where(id: ids).to_a
+    # matched_hotels = Hotel.with_images.where(id: ids).to_a
+    matched_hotels = Hotel.where(id: ids).to_a
     matched_hotels.each do |hotel|
       begin
         hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}
