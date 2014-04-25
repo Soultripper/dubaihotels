@@ -58,6 +58,7 @@ GEM
       mime-types (>= 1.16)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    certified (0.1.1)
     commonjs (0.2.7)
     connection_pool (1.1.0)
     crack (0.4.1)
@@ -308,6 +309,7 @@ DEPENDENCIES
   angularjs-rails
   awesome_print
   carrierwave
+  certified
   dalli
   faraday
   faraday_middleware
