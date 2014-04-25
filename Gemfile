@@ -58,6 +58,7 @@ gem "fog"
 gem 'ruby-prof'
 gem 'meta-tags', :require => 'meta_tags'
 gem  'certified'
+gem 'hirefire-resource'
 #gem 'bugsnag'
 
 # Gems used only for assets and not required
