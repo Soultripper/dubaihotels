@@ -4,7 +4,7 @@ class Booking::Search
 
   DEFAULT_PARAMS =  {}
 
-  DEFAULT_SLICE = 500
+  DEFAULT_SLICE = 300
 
   CACHE_OPTIONS = {
     expires_in: 4.hours,

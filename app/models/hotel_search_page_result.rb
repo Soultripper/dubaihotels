@@ -190,7 +190,7 @@ class HotelSearchPageResult
           hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :latitude, :longitude, :star_rating,  :slug)
           json.offer          hotel_comparison.offer
-          json.images         find_images_by(hotel_comparison.hotel, 1), :url, :thumbnail_url
+          json.images         hotel_comparison.hotel, :url, :thumbnail_url
         end
       end
     end
