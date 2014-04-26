@@ -93,7 +93,7 @@
     },
 
     _onGeoLocationError: function(e) {
-        alert("There was an error determining your location.");
+        alert("Sorry, we couldn't find your location. Please enable location services for Safari on your device to use the Hot5 location search.");
     },
 
     refine: {

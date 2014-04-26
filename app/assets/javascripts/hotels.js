@@ -130,6 +130,17 @@ var Hotels = function(){
       return "Poor"
   }
 
+  var setDatesToToday = function(){
+    var scope = angular.element("#search").scope();
+    $("#start_date").datepicker('update', 'today');
+    $("#end_date").datepicker('update', '+1d');
+    scope.$apply(function(){
+      var format = 'yyyy-mm-dd';
+      scope.start_date = $("#start_date").data('datepicker').getFormattedDate(format);
+      scope.end_date = $("#end_date").data('datepicker').getFormattedDate(format);
+    })
+  }
+
   return {
     init: init,
     stars: stars,
@@ -137,6 +148,7 @@ var Hotels = function(){
     searchOptions: searchOptions,
     description: getDescription,
     removeEmptyKeys: removeEmptyKeys,
-    ratingsText: ratingsText
+    ratingsText: ratingsText,
+    setDatesToToday: setDatesToToday
   }
 }();

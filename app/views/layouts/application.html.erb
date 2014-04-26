@@ -19,6 +19,9 @@
     
     <script>
       Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @user_channel || "open"%>')
+      $(function(){
+        Hotels.setDatesToToday();
+      })
     </script>
 
 </head>
