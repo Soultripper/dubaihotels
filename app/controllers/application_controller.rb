@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   MIN_PRICE = 25
-
+  START_DATE = Date.today
+  END_DATE = Date.tomorrow
   protected  
 
   def user_channel
@@ -24,12 +25,12 @@ class ApplicationController < ActionController::Base
 
   def start_date
     return Date.today if params[:msitewrapper].to_i == 1
-    (!params["start_date"].blank? ? Date.parse(params["start_date"]) : 20.days.from_now).to_date
+    (!params["start_date"].blank? ? Date.parse(params["start_date"]) : START_DATE).to_date
   end
 
   def end_date
     return Date.tomorrow if params[:msitewrapper].to_i == 1
-    (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : 3.weeks.from_now).to_date
+    (!params["end_date"].blank?  ? Date.parse(params["end_date"]) : END_DATE).to_date
   end
 
   def count
