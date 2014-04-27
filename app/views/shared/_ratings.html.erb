@@ -1,0 +1,81 @@
+<h4>Ratings</h4>
+<ul class="ratings" ng-show="hotel.ratings.overall > 0">
+    <li ng-show="hotel.ratings.agoda > 0">
+      <a href="#">
+          <span class="logo">
+            <%= logo "agoda.gif", "Agoda.com" %>
+          </span>
+          <span class="rating">
+              {{hotel.ratings.agoda}}%
+          </span>
+          <span class="rating-text">
+            {{ratingsText(hotel.ratings.agoda)}}
+          </span>
+      </a>
+    </li>
+    <li ng-show="hotel.ratings.booking > 0">
+        <a href="#">
+            <span class="logo">
+              <%= logo "booking.gif", "Booking.com" %>
+            </span>
+            <span class="rating">
+              {{hotel.ratings.booking}}%
+            </span>
+            <span class="rating-text">
+              {{ratingsText(hotel.ratings.booking)}}
+            </span>
+        </a>
+    </li>
+     <li ng-show="hotel.ratings.splendia > 0">
+        <a href="#">
+            <span class="logo">
+              <%= logo "splendia.gif", "Splendia.com" %>
+            </span>
+            <span class="rating">
+               {{hotel.ratings.splendia}}%
+            </span>
+            <span class="rating-text">
+              {{ratingsText(hotel.ratings.splendia)}}
+            </span>
+        </a>
+    </li>
+     <li ng-show="hotel.ratings.laterooms > 0">
+        <a href="#">
+            <span class="logo">
+              <%= logo "laterooms.gif", "LateRooms.com" %>
+            </span>
+            <span class="rating">
+              {{hotel.ratings.laterooms}}%
+            </span>
+            <span class="rating-text">
+              {{ratingsText(hotel.ratings.laterooms)}}
+            </span>
+        </a>
+    </li>
+     <li ng-show="hotel.ratings.easy_to_book > 0">
+        <a href="#">
+            <span class="logo">
+              <%= logo "easy_to_book.gif", "EasyToBook.com" %>
+            </span>
+            <span class="rating">
+                {{hotel.ratings.easy_to_book}}%
+            </span>
+            <span class="rating-text">
+              {{ratingsText(hotel.ratings.easy_to_book)}}
+            </span>
+        </a>
+    </li>
+    <li class="overall">
+        <div>
+            <span class="title">
+                Overall
+            </span>
+            <span class="rating">
+              {{hotel.ratings.overall}}%
+            </span>
+            <span class="rating-text">
+              {{ratingsText(hotel.ratings.overall)}}
+            </span>
+        </div>
+    </li>
+</ul>

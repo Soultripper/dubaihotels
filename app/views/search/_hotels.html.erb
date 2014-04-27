@@ -105,7 +105,7 @@
       </div>
       <div class="best-deal">
         <div class="logo" >
-            <img ng-src="{{providerImage(hotel.offer.provider)}}" alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider" />
+            <img ng-src=' <%= asset_path "{{providerImage(hotel.offer.provider)}}" %>' alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider" />
         </div>
         <div class="high-price" >
             {{hotel.offer.max_price | price:currency_symbol:0 }}
@@ -131,87 +131,7 @@
                 <li class="restaurant" ng-class="{highlight: checkAmenity(hotel, 512)}">Restaurant</li>
                 <li class="spa" ng-class="{highlight: checkAmenity(hotel, 1024)}">Spa</li>
             </ul>
-            <h4>Ratings</h4>
-            <ul class="ratings" ng-show="hotel.ratings.overall > 0">
-                <li ng-show="hotel.ratings.agoda > 0">
-                  <a href="#">
-                      <span class="logo">
-                          <img src="assets/logos/agoda.gif" alt="Agoda" />
-                      </span>
-                      <span class="rating">
-                          {{hotel.ratings.agoda}}%
-                      </span>
-                      <span class="rating-text">
-                        {{ratingsText(hotel.ratings.agoda)}}
-                      </span>
-                  </a>
-                </li>
-                <li ng-show="hotel.ratings.booking > 0">
-                    <a href="#">
-                        <span class="logo">
-                            <img src="assets/logos/booking.gif" alt="Booking" />
-                        </span>
-                        <span class="rating">
-                            {{hotel.ratings.booking}}%
-                        </span>
-                        <span class="rating-text">
-                          {{ratingsText(hotel.ratings.booking)}}
-                        </span>
-                    </a>
-                </li>
-                 <li ng-show="hotel.ratings.splendia > 0">
-                    <a href="#">
-                        <span class="logo">
-                            <img src="assets/logos/splendia.gif" alt="Splendia" />
-                        </span>
-                        <span class="rating">
-                          {{hotel.ratings.splendia}}%
-                        </span>
-                        <span class="rating-text">
-                          {{ratingsText(hotel.ratings.splendia)}}
-                        </span>
-                    </a>
-                </li>
-                 <li ng-show="hotel.ratings.laterooms > 0">
-                    <a href="#">
-                        <span class="logo">
-                            <img src="assets/logos/laterooms.gif" alt="Laterooms" />
-                        </span>
-                        <span class="rating">
-                            {{hotel.ratings.laterooms}}%
-                        </span>
-                        <span class="rating-text">
-                          {{ratingsText(hotel.ratings.laterooms)}}
-                        </span>
-                    </a>
-                </li>
-                 <li ng-show="hotel.ratings.easy_to_book > 0">
-                    <a href="#">
-                        <span class="logo">
-                            <img src="assets/logos/easy_to_book.gif" alt="EasyToBook" />
-                        </span>
-                        <span class="rating">
-                            {{hotel.ratings.easy_to_book}}%
-                        </span>
-                        <span class="rating-text">
-                          {{ratingsText(hotel.ratings.easy_to_book)}}
-                        </span>
-                    </a>
-                </li>
-                <li class="overall">
-                  <div>
-                    <span class="title">
-                      Overall
-                    </span>
-                    <span class="rating">
-                      {{hotel.ratings.overall}}%
-                    </span>
-                    <span class="rating-text">
-                      {{ratingsText(hotel.ratings.overall)}}
-                    </span>
-                  </div>
-                </li>
-            </ul>
+            <%= render partial: 'shared/ratings' %>
             <h4>Details</h4>
             <p ng-bind-html="hotel.description"></p>
           </div>
@@ -226,53 +146,11 @@
               </div>               
             </div>
           </div>
-          <div class="content tab-rooms" style="display:none" >
-  
+          <div class="content tab-rooms" style="display:none" >  
             <div class="list" >
-              <table class="table table-bordered table-striped">
-                <tbody>
-                  <tr ng-repeat="room in hotel.rooms">
-                    <td class="logo">
-                      <img ng-src="assets/logos/{{room.provider}}.gif" />
-                    </td>
-                    <td>{{room.description}}</td>
-                    <td class="price">{{room.price | price:currency_symbol:0}}</td>
-                    <td class="cta">
-                      <a class="btn btn-success" get-deal="{{room.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{room.provider}}" data-price="{{room.price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}" target="_blank">
-                        Get Deal
-                        <i class="fa fa-caret-right"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <%= render partial: 'shared/rooms' %>
             </div>
           </div>
-<!--           <div class="content tab-rooms" style="display:none" >
-            <div class="rooms-loader" ng-show="!hotel.displayRooms">
-                <i class="fa fa-gear fa-spin"></i>
-                Finding rooms...
-            </div>
-            <div class="list" ng-show="hotel.displayRooms" >
-              <table class="table table-bordered table-striped">
-                <tbody>
-                  <tr ng-repeat="room in hotel.rooms">
-                    <td class="logo">
-                      <img ng-src="assets/logos/{{room.provider}}.gif" />
-                    </td>
-                    <td>{{room.description}}</td>
-                    <td class="price">{{room.price | price:currency_symbol:0}}</td>
-                    <td class="cta">
-                      <a class="btn btn-success" get-deal="{{room.link}}" target="_blank">
-                        Get Deal
-                        <i class="fa fa-caret-right"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div> -->
           <div class="content tab-gallery" style="display: none">
               <div class="photo">                  
               </div>

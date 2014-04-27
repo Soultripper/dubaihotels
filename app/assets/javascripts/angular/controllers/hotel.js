@@ -93,9 +93,9 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
 
       $scope.hotel.displayRooms = false
 
-      var timeoutId = $timeout(function(){
-        $scope.hotel.displayRooms = true
-      }, 4500)
+      // var timeoutId = $timeout(function(){
+      //   $scope.hotel.displayRooms = true
+      // }, 4500)
 
       if(Hot5.Connections.Pusher.isHotelSubscribed($scope.hotel.channel))
       {
@@ -121,7 +121,7 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
           hotel.rooms = response.rooms    
           if(response.finished===true)
           {
-            $timeout.cancel(timeoutId);
+            // $timeout.cancel(timeoutId);
             hotel.displayRooms = true;
             Hot5.Connections.Pusher.unsubscribeHotel(hotel.channel)
           }

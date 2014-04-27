@@ -1,15 +1,14 @@
 <header>
   <div class="row">
     <div class="large-2 small-12 columns text-center">
-        <a href="/" target="_self"><img src="assets/masthead/hot5-logo-simple.gif" width="140" height="64" alt="Hot5" /></a>
+        <a href="/" target="_self">
+          <%= image_tag "masthead/hot5-logo-simple.gif", width: 140, height: 64, alt: "Hot5" %>
+        </a>
     </div>
     <div class="large-8 small-12 columns text-center">
       <form id="search" ng-submit="search()">
         <div class="large-4 small-12 columns text center">
-<!--            <input type="text" id="search" placeholder="Destination" class="search-icon" tabindex="1" ng-model="Page.info().query" typeahead="city for city in cities($viewValue)" autocomplete="off" typeahead-on-select='citySelect($item, $model, $label)' typeahead-editable="false"/> -->
-
           <input id="search-input" type="text" name="q" value="" autocomplete="off"/>
-<!--            <input type="hidden" ng-model="Page.info().slug">{{slug}}</input> -->
         </div>
         <div class="large-3 small-12 columns">
           <input type="text" id="start_date" placeholder="Check in..." class="date-icon" calendar tabindex="2" ng-model="Page.criteria.start_date"/>
@@ -24,9 +23,21 @@
     </div>
     <div class="large-2 small-12 columns text-center">
       <ul class="social">
-        <li class="pinterest"><a href="#"><img src="assets/masthead/pinterest-icon.gif" width="36" height="36" alt="Pinterest" /></a></li>
-        <li class="instagram"><a href="#"><img src="assets/masthead/instagram-icon.gif" width="36" height="36" alt="Instagram" /></a></li>
-        <li class="facebook"><a href="#"><img src="assets/masthead/facebook-icon.gif" width="36" height="36" alt="Facebook" /></a></li>
+        <li class="pinterest">
+          <a href="#">
+            <%= image_tag "masthead/pinterest-icon.gif", width: 36, height: 36, alt: "Pinterest" %>
+          </a>
+        </li>
+        <li class="instagram">
+          <a href="#">
+            <%= image_tag "masthead/instagram-icon.gif", width: 36, height: 36, alt: "Instagram" %>
+          </a>
+        </li>
+        <li class="facebook">
+          <a href="#">
+            <%= image_tag "masthead/facebook-icon.gif", width: 36, height: 36, alt: "Facebook" %>
+          </a>
+        </li>
       </ul>
     </div>
   </div>

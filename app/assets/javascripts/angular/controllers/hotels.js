@@ -323,7 +323,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $scope.providerImage = function(provider){
       if(provider)
-        return 'assets/logos/' + provider + '.gif'
+        return 'logos/' + provider + '.gif'
       return ''    
     };
 
