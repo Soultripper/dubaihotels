@@ -2,8 +2,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   MIN_PRICE = 25
-  START_DATE = Date.today
-  END_DATE = Date.tomorrow
+  START_DATE = Date.tomorrow
+  END_DATE = 2.days.from_now
+  
   protected  
 
   def user_channel

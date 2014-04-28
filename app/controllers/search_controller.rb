@@ -10,19 +10,25 @@ class SearchController < ApplicationController
 
     # respond_with @hotel_search
 
-    if !search_criteria.valid?
-      head 400
-      return
-    end
-
     respond_to do |format|
       format.json do 
+
+        if !search_criteria.valid?
+          head 400
+          return
+        end
+
         # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
         @results = hotel_search.results.sort(sort).filter(filters).select(count)        
         render json: @results
 
       end
       format.html do
+
+        if !search_criteria.valid?
+          return
+        end
+
         @results = hotel_search.results.sort(sort).select   
         @user_channel = hotel_search.channel
       end
@@ -72,5 +78,5 @@ class SearchController < ApplicationController
     @query ||= params[:query]
   end
 
-  helper_method :location
+  helper_method :location, :search_criteria
 end
