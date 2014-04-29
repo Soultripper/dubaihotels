@@ -2,8 +2,22 @@ class OfferController < ApplicationController
 
   layout 'tracking'
 
-  def index        
-    data = params.merge(provider_name: provider_name, server_time: Time.now, total_nights: search_criteria.total_nights).merge! request_params
+  def index    
+    offer = params.except :action, :controller, :start_date, :end_date
+    data = {
+      server_time: Time.now, 
+      search: search_criteria.as_json,
+      offer: offer.merge(provider_id: provider_id),
+      hotel: {
+        id: hotel.id,
+        name: hotel.name,
+        address: hotel.address,
+        city: hotel.city, 
+        country_code: hotel.country_code,
+        star_rating: hotel.star_rating,
+        slug: hotel.slug
+        }
+      }.merge request: request_params
     Analytics.publish "#{provider}_offer", data
   end
 
@@ -24,8 +38,8 @@ class OfferController < ApplicationController
     params[:provider]
   end
 
-  def provider_name
-    HotelsConfig::PROVIDER_IDS[provider]
+  def provider_id
+    hotel.send HotelsConfig::PROVIDER_IDS[provider.to_sym]
   end
 
 

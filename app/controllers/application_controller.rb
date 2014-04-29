@@ -16,8 +16,10 @@ class ApplicationController < ActionController::Base
       remote_ip: request.remote_ip,
       browser: user_agent.browser,
       platform: user_agent.platform,
+      browser_version: user_agent.version.to_s,
       os: user_agent.os, 
-      is_mobile: user_agent.mobile?
+      is_mobile: user_agent.mobile?,
+      uuid: request.uuid
     }
   end
 

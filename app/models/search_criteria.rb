@@ -70,7 +70,8 @@ class SearchCriteria
       end_date:         end_date.strftime('%F'),
       total_nights:     total_nights, 
       currency_code:    currency_code,
-      currency_symbol:  currency_symbol
+      currency_symbol:  currency_symbol,
+      country_code:     country_code
     }
   end
 
