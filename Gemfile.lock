@@ -291,6 +291,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     underscore-rails (1.5.2)
+    useragent (0.6.0)
     vcr (2.8.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
@@ -360,6 +361,7 @@ DEPENDENCIES
   typhoeus
   uglifier (>= 1.0.3)
   underscore-rails
+  useragent
   vcr
   webmock
   zipruby

@@ -3,11 +3,13 @@ class OfferController < ApplicationController
   layout 'tracking'
 
   def index        
-
+    data = params.merge(provider_name: provider_name, server_time: Time.now, total_nights: search_criteria.total_nights).merge! request_params
+    Analytics.publish "#{provider}_offer", data
   end
 
 
   protected
+
 
 
   def hotel

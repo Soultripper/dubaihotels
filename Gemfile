@@ -61,6 +61,8 @@ gem  'certified'
 gem 'hirefire-resource'
 #gem 'bugsnag'
 gem 'keen'
+gem 'useragent'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

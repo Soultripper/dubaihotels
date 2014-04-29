@@ -7,6 +7,20 @@ class ApplicationController < ActionController::Base
   
   protected  
 
+  def user_agent
+    @user_agent ||= UserAgent.parse(request.user_agent)
+  end
+
+  def request_params
+    {
+      remote_ip: request.remote_ip,
+      browser: user_agent.browser,
+      platform: user_agent.platform,
+      os: user_agent.os, 
+      is_mobile: user_agent.mobile?
+    }
+  end
+
   def user_channel
     @user_channel = session['session_id']
   end
