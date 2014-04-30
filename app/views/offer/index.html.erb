@@ -1,4 +1,4 @@
-<% refresh meta_refresh %>
+<%# refresh meta_refresh %>
 
 
 <div id="wrapper">
@@ -52,8 +52,8 @@
 
 <script>
 $(function(){
-  setTimeout(function () {
-    window.location.replace(unescape('<%= target_url %>'))
+  setTimeout(function () {    
+    window.location.replace('<%= unescaped_url %>')
   }, 5000);
 })
 </script>
