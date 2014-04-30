@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   def request_params
     {
       server_time: Time.now,
+      host: request.headers['HTTP_HOST'],
       remote_ip: request.remote_ip,
       browser: user_agent.browser,
       platform: user_agent.platform,

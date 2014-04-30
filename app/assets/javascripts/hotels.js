@@ -133,7 +133,7 @@ var Hotels = function(){
   var setDatesToToday = function(){
     var scope = angular.element("#search").scope();
     $("#start_date").datepicker('update', 'today');
-    $("#end_date").datepicker('update', '+1d');
+    $("#end_date").datepicker({startDate: '+1d'});
     scope.$apply(function(){
       var format = 'yyyy-mm-dd';
       scope.start_date = $("#start_date").data('datepicker').getFormattedDate(format);
