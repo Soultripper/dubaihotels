@@ -18,6 +18,7 @@ class OfferController < ApplicationController
         slug: hotel.slug
         }
       }.merge request: request_params
+      # throw unescaped_url
     Analytics.publish "clickthrough", data
   end
 

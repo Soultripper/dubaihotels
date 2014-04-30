@@ -1,6 +1,5 @@
 <%# refresh meta_refresh %>
 
-
 <div id="wrapper">
   <div id="redirect" class="container">
     <div class="message">
@@ -53,7 +52,7 @@
 <script>
 $(function(){
   setTimeout(function () {    
-    window.location.replace('<%= unescaped_url %>')
-  }, 5000);
+    window.location.replace('<%= unescaped_url.html_safe %>')
+  }, 2500);
 })
 </script>
