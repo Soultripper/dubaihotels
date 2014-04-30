@@ -1,6 +1,6 @@
 
-app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter', '$rootScope',  
-  function ($scope, $http, $location, $window, $filter, $rootScope) { 
+app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filter', '$rootScope', 'Analytics',  
+  function ($scope, $http, $location, $window, $filter, $rootScope, Analytics) { 
 
     angular.element("#search-input").val('My Location');
     $scope.slug = 'my-location'
@@ -27,6 +27,8 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
       $scope.selectType = type;
       $scope.slug = slug
     };
+
+    $scope.analytics = function() {return Analytics;};
 
     $scope.search = function(){
 

@@ -5,7 +5,7 @@ class OfferController < ApplicationController
   def index    
     offer = params.except :action, :controller, :start_date, :end_date
     data = {
-      server_time: Time.now, 
+      provider: provider,
       search: search_criteria.as_json,
       offer: offer.merge(provider_id: provider_id),
       hotel: {
@@ -18,7 +18,7 @@ class OfferController < ApplicationController
         slug: hotel.slug
         }
       }.merge request: request_params
-    Analytics.publish "#{provider}_offer", data
+    Analytics.publish "clickthrough", data
   end
 
 

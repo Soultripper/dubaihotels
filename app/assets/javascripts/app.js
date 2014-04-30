@@ -60,6 +60,7 @@
 
     _onSearchSubmitGeo: function(e) {
         var scope = angular.element("#search").scope();
+         
         if (scope.slug != "my-location")
           return true;
 
@@ -93,6 +94,8 @@
     },
 
     _onGeoLocationError: function(e) {
+        var scope = angular.element("#search").scope();
+        scope.analytics().errors.geolocate();
         alert("Sorry, we couldn't find your location. Please enable location services for Safari on your device to use the Hot5 location search.");
     },
 

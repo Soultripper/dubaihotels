@@ -97,3 +97,27 @@ searchHotelsServices.factory('Page', function() {
     // setInfo: function(newInfo) { this.info = newInfo }
   };
 });
+
+searchHotelsServices.factory('Analytics', ['$http', '$location',
+  function($http, $location){
+
+    var errors_geolocate = function(){
+      post('geolocate_error')
+    }
+
+    var post = function(path, data){
+      var protocol = $location.protocol(), 
+          host     = $location.host(),
+          csrf     = $('meta[name=csrf-token]').attr("content");
+
+          console.log(csrf)
+      var url =  protocol + '://analytics.' + host + '/' + path;
+      $http({'method': 'POST', 'url': url, 'data': data})
+    }
+
+    return {
+      errors:{
+          geolocate: errors_geolocate
+      }
+    };
+  }]);

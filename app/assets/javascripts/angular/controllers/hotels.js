@@ -1,6 +1,6 @@
 
-app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
-  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page, HotelProvider, HotelFactory) { 
+app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, HotelRooms, Page, HotelProvider, HotelFactory) { 
 
     // var searchInput = angular.element('#search-input');
     
