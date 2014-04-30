@@ -1,3 +1,6 @@
+<% refresh meta_refresh %>
+
+
 <div id="wrapper">
   <div id="redirect" class="container">
     <div class="message">
@@ -50,7 +53,7 @@
 <script>
 $(function(){
   setTimeout(function () {
-    window.location.replace('<%= target_url %>')
+    window.location.replace(unescape('<%= target_url %>'))
   }, 5000);
 })
 </script>
