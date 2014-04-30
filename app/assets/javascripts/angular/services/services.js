@@ -105,13 +105,17 @@ searchHotelsServices.factory('Analytics', ['$http', '$location',
       post('geolocate_error')
     }
 
+    var getDomainName = function(hostName)
+    {
+      return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
+    }
+
     var post = function(path, data){
       var protocol = $location.protocol(), 
           host     = $location.host(),
           csrf     = $('meta[name=csrf-token]').attr("content");
 
-          console.log(csrf)
-      var url =  protocol + '://analytics.' + host + '/' + path;
+      var url =  protocol + '://analytics.' + getDomainName(host) + '/' + path;
       $http({'method': 'POST', 'url': url, 'data': data})
     }
 

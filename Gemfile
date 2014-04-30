@@ -37,7 +37,6 @@ gem "jbuilder"
 gem 'money'
 gem 'kaminari' #for pagination
 gem 'activerecord-import', '~> 0.3.1'
-gem 'geoip'
 gem 'geokit-rails'
 gem 'geo-distance'
 gem 'rubyzip'
@@ -62,6 +61,7 @@ gem 'hirefire-resource'
 #gem 'bugsnag'
 gem 'keen'
 gem 'useragent'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

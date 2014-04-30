@@ -1,10 +1,14 @@
 class Analytics
 
   class << self 
+
+    
     def publish(key, data)
       return unless data and key
-      add_geo_lookup(data[:request]) 
-      Keen.publish key, data
+      Thread.new do 
+        add_geo_lookup(data[:request]) 
+        Keen.publish key, data
+      end
     end
 
     def add_geo_lookup(request)
