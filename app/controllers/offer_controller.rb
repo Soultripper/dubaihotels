@@ -67,7 +67,7 @@ class OfferController < ApplicationController
     @max_price ||= params[:max_price]
   end
 
-  helper_method :meta_refresh, :hotel, :hotel_image, :provider, :saving, :max_price, :price, :search_criteria
+  helper_method :meta_refresh, :hotel, :hotel_image, :provider, :saving, :max_price, :price, :search_criteria, :target_url
 
 
 end
