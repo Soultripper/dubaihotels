@@ -23,7 +23,7 @@ Hotels::Application.routes.draw do
   mount Soulmate::Server, :at => '/sm'
 
   get '/offer/:provider',           to: 'offer#index'
-  match '/geolocate_error',           to: 'analytics#geolocate_error', constraints: { :subdomain => 'analytics' }
+  match '/geolocate_error',         to: 'analytics#geolocate_error', constraints: { :subdomain => /^analytics\b/ }
   get '/locations',                 to: 'search#locations'
   get '/reports/:action',           to: 'reports#:action'
   get '/map/:id',                   to: 'map#index'
