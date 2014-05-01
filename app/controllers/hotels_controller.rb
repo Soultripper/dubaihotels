@@ -1,6 +1,6 @@
 class HotelsController < ApplicationController
 
-  before_filter :validate_search, :publish_hotel_seo
+  before_filter :validate_search 
 
   respond_to :json, :html
 
@@ -11,6 +11,7 @@ class HotelsController < ApplicationController
   end
 
   def show
+    publish_hotel_seo
     respond_with hotel_view
   end
 
