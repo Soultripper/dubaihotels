@@ -29,6 +29,7 @@ class Analytics
           },
         request: options[:request_params]
       }
+      HotelScorer.score hotel, :clickthrough
       publish :clickthrough, data
     end
 
@@ -57,6 +58,7 @@ class Analytics
           },
         request: options[:request_params]
       }
+      HotelScorer.score hotel, :hotel_seo
       publish :hotel_seo, data
     end
 

@@ -69,7 +69,7 @@ class Hotel < ActiveRecord::Base
     end
   end
 
-  def score
+  def soulmate_score
     total = 1
     [matches, user_rating, star_rating].each do |item|
       total = total * (item.to_i + 1)
@@ -113,7 +113,7 @@ class Hotel < ActiveRecord::Base
     {
       id: id,
       term: name,
-      score: score,
+      score: soulmate_score,
       data:{
         slug: slug,
         title: full_address

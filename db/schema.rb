@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140411110408) do
+ActiveRecord::Schema.define(:version => 20140501134606) do
 
   create_table "agoda_amenities", :id => false, :force => true do |t|
     t.integer "id",          :null => false
@@ -549,6 +549,9 @@ ActiveRecord::Schema.define(:version => 20140411110408) do
     t.integer "venere_hotel_id"
     t.float   "venere_user_rating"
     t.string  "normal_name"
+    t.string  "image_url"
+    t.string  "thumbnail_url"
+    t.float   "score",                                :default => 0.0
   end
 
   add_index "hotels", ["agoda_hotel_id"], :name => "agoda_hotel_id_idx"
@@ -665,10 +668,18 @@ ActiveRecord::Schema.define(:version => 20140411110408) do
     t.integer  "amenities"
     t.float    "star_rating"
     t.float    "user_rating"
-    t.string   "hotel_link"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.string   "hotel_link",         :limit => 512
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.float    "user_rating_normal"
+    t.float    "star_rating_normal"
+    t.float    "ranking"
+    t.string   "name_normal"
+    t.integer  "geog",               :limit => 0
   end
+
+  add_index "provider_hotels", ["hotel_id"], :name => "idx_hotel_id"
+  add_index "provider_hotels", ["provider_id", "provider_hotel_id"], :name => "idx_property_id_property_hotel_id"
 
   create_table "spatial_ref_sys", :id => false, :force => true do |t|
     t.integer "srid",                      :null => false
@@ -720,6 +731,13 @@ ActiveRecord::Schema.define(:version => 20140411110408) do
     t.string  "category"
     t.text    "offers"
     t.integer "geog",                :limit => 0
+  end
+
+  create_table "temp_normal_matching", :id => false, :force => true do |t|
+    t.integer "lhs_id",      :null => false
+    t.integer "rhs_id",      :null => false
+    t.integer "lhs_ranking"
+    t.integer "rhs_ranking"
   end
 
   create_table "venere_hotels", :force => true do |t|
