@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Change required distance & similarity below
 	At 100% (1.00) and 100 meters, was 1515 seconds (25 minutes). 7904 duplicates, appx 3950 deletes. 1 bad match observed.
 	At 90% (0.90) and 100 meters was 1916 seconds (32 minutes), 2892 duplicates, 1266 deletes. No bad matches observed.
@@ -7,9 +7,6 @@
 		This version doesn't merge rooms/images/other, it just retains the victor.
 		This version doesn't delete unmatched rooms/images/provider hotels/other.
 */
-DROP TABLE temp_normal_matching_victors_victims_roots;
-DROP TABLE temp_normal_matching_victors_victims;
-DROP TABLE temp_normal_matching;
 /*
 	Temp tables, as there's just too much work otherwise (Too slow)
 */
@@ -31,7 +28,7 @@ FROM
 	hotels AS lhs
 	INNER JOIN hotels AS rhs
 	ON ST_DWithin(lhs.geog, rhs.geog, 100)
-	AND SIMILARITY(lhs.normal_name, rhs.normal_name) >= 1.00
+	AND SIMILARITY(lhs.normal_name, rhs.normal_name) >= 1
 	AND lhs.id != rhs.id;
 
 CREATE INDEX lhs_id_idx ON temp_normal_matching USING btree(lhs_id);

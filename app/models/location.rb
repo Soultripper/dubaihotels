@@ -193,4 +193,18 @@ class Location < ActiveRecord::Base
     }.as_json
   end
 
+  def as_json
+    {
+      id: id, 
+      name: name,
+      location_type: location_type,
+      description: description,
+      latitude: latitude,
+      longitude: longitude,
+      slug: slug,
+      country_code: country_code
+    }
+  end
+
+
 end

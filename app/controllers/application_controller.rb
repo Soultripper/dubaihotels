@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
       browser_version: user_agent.version.to_s,
       os: user_agent.os, 
       is_mobile: user_agent.mobile?,
+      referrer: request.referrer,
       uuid: request.uuid
     }
   end

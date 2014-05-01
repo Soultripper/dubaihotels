@@ -2,29 +2,26 @@ class OfferController < ApplicationController
 
   layout 'tracking'
 
+  before_filter :index, :publish_clickthrough
+
   def index    
-    offer = params.except :action, :controller, :start_date, :end_date
-    data = {
-      provider: provider,
-      search: search_criteria.as_json,
-      offer: offer.merge(provider_id: provider_id),
-      hotel: {
-        id: hotel.id,
-        name: hotel.name,
-        address: hotel.address,
-        city: hotel.city, 
-        country_code: hotel.country_code,
-        star_rating: hotel.star_rating,
-        slug: hotel.slug
-        }
-      }.merge request: request_params
-      # throw unescaped_url
-    Analytics.publish "clickthrough", data
+
   end
 
 
   protected
 
+  protected 
+  def publish_clickthrough
+    options = {
+      offer: params.except(:action, :controller, :start_date, :end_date).merge(provider_id: provider_id),
+      provider: provider,
+      search_criteria: search_criteria.as_json,
+      hotel: hotel,
+      request_params: request_params
+    }
+    Analytics.clickthrough options
+  end
 
 
   def hotel
@@ -48,17 +45,17 @@ class OfferController < ApplicationController
     @target_url ||= params[:target_url]
   end
 
-  def unescaped_url
-    url = target_url
-    if url.index('url=')
-      pos = url.index('url=') + 4
-      qs = url[pos..-1]
-      url[pos..-1] = CGI.escape(qs) 
-      url
-    else
-      CGI.unescape target_url
-    end
-  end
+  # def unescaped_url
+  #   url = target_url
+  #   if url.index('url=')
+  #     pos = url.index('url=') + 4
+  #     qs = url[pos..-1]
+  #     url[pos..-1] = CGI.escape(qs) 
+  #     url
+  #   else
+  #     CGI.unescape target_url
+  #   end
+  # end
 
 
   def hotel_id
@@ -81,7 +78,7 @@ class OfferController < ApplicationController
     @max_price ||= params[:max_price]
   end
 
-  helper_method :meta_refresh, :hotel, :hotel_image, :provider, :saving, :max_price, :price, :search_criteria, :unescaped_url, :target_url
+  helper_method :meta_refresh, :hotel, :hotel_image, :provider, :saving, :max_price, :price, :search_criteria, :target_url
 
 
 end

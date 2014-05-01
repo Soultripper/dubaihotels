@@ -1,6 +1,6 @@
 class HotelsController < ApplicationController
 
-  before_filter :validate_search
+  before_filter :validate_search, :publish_hotel_seo
 
   respond_to :json, :html
 
@@ -20,6 +20,15 @@ class HotelsController < ApplicationController
   end
 
   protected
+
+  def publish_hotel_seo
+    options = {
+      search_criteria: search_criteria.as_json.merge(sort: sort),
+      hotel: hotel,
+      request_params: request_params
+    }
+    Analytics.hotel_seo options
+  end
 
   def hotel_view
     @hotel_view ||= HotelView.new(hotel, search_criteria).as_json

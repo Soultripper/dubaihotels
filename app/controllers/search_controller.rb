@@ -18,6 +18,8 @@ class SearchController < ApplicationController
           return
         end
 
+        publish_more_hotels
+
         # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
         @results = hotel_search.results.sort(sort).filter(filters).select(count)        
         render json: @results
@@ -25,9 +27,11 @@ class SearchController < ApplicationController
       end
       format.html do
 
-        if !search_criteria.valid?
+        unless search_criteria.valid? and location
           return
         end
+
+        publish_search
 
         @results = hotel_search.results.sort(sort).select   
         @user_channel = hotel_search.channel
@@ -46,6 +50,22 @@ class SearchController < ApplicationController
 
   protected
 
+  def publish_search
+    Analytics.search publish_options
+  end
+
+  def publish_more_hotels
+    Analytics.more_hotels(publish_options.merge(count: count)) if load_more?
+  end
+
+  def publish_options
+    {
+      search_criteria: search_criteria.as_json.merge(sort: sort),
+      location: location.as_json,
+      request_params: request_params
+    }
+  end
+
   def sort
     if location and location.distance_based? and params["sort"].blank?
       :distance
@@ -56,6 +76,10 @@ class SearchController < ApplicationController
 
   def validate_search
     search_criteria.valid?
+  end
+
+  def load_more?
+    params[:load_more]
   end
 
   def location
