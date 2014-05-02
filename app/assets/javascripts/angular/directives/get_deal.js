@@ -10,7 +10,8 @@ app.directive( 'getDeal', ['$location', '$window', function($location, $window) 
       var self = $(this);
 
       var url = path || self.data('get-deal')
-
+     
+      if(!url) return;
       var details = {
         provider: self.data('provider'),
         price: accounting.toFixed(self.data('price'),0),
