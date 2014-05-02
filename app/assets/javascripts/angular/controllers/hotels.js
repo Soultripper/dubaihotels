@@ -1,6 +1,6 @@
 
-app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
-  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, HotelRooms, Page, HotelProvider, HotelFactory) { 
+app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page, HotelProvider, HotelFactory) { 
 
     // var searchInput = angular.element('#search-input');
     
@@ -115,7 +115,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.star_ratings = $routeParams.star_ratings;
       params.amenities    = $routeParams.amenities;
       params.coordinates  = qs.coordinates;
-      params.load_more    = $routeParams.load_more;
+
       return params;
     };
 
@@ -181,12 +181,11 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.loadMore = function(response){
-      delete $routeParams.load_more
       if(response.hotels && response.hotels.length > 0)
       {
         $scope.search_results.hotels = response.hotels;
         toggleShowMore(false);
-        if(($scope.search_results.hotels.length >= response.info.available_hotels) || ($scope.search_results.hotels.length >= 100))
+        if($scope.search_results.hotels.length >= response.info.available_hotels)
         {
           $("#loadmore").hide();    
         }
@@ -451,7 +450,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $rootScope.loadMoreClick = function() {
       toggleShowMore(true);
       $routeParams.count += Page.info.page_size;
-      $routeParams.load_more = true;
       $scope.search($scope.loadMore);
       return false;
     };

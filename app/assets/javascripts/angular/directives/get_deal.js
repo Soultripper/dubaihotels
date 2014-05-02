@@ -3,7 +3,7 @@ app.directive( 'getDeal', ['$location', '$window', function($location, $window) 
     var path;
 
     attrs.$observe( 'getDeal', function (val) {
-      path = val;
+      path = val.link;
     });
 
     element.bind( 'click', function () {

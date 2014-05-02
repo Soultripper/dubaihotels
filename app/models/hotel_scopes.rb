@@ -8,7 +8,7 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 8000)
 
-      limit = location.hotel_limit || 3000
+      limit = location.hotel_limit || 750
 
       query = limit(limit)
 
