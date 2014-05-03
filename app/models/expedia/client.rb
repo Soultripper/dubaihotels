@@ -24,7 +24,7 @@ class Expedia::Client
     end
 
     def parse_response(response)
-      JSON.parse response.body if response
+      JSON.parse response.body if response and !response.body.empty?
       rescue Exception => msg
         Log.error "Unable to process Expedia response: #{msg}..Response: #{response}"
     end

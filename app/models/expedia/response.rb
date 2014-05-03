@@ -4,15 +4,20 @@ module Expedia
     attr_reader :name, :data
 
     def initialize(name, data)
+
       @name, @data = name, data[name]
-      if error?
-        return nil if(error_message==="Results NULL")
-        Log.error "Expedia Response Invalid: #{data}"
-        raise "Expedia Response Invalid: #{error_message}"
-      end
+
     end
 
-    def error?
+    def valid?
+      return false unless data
+      return true unless error?       
+      return false if(error_message==="Results NULL")
+      Log.error "Expedia Response Invalid: #{data}"
+      # raise "Expedia Response Invalid: #{error_message}"
+    end
+
+    def error?      
       data['EanWsError']
     end
 

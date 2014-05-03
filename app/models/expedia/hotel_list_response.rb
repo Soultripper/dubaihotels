@@ -13,11 +13,13 @@ module Expedia
       Log.debug "Processing #{total} Expedia hotels"
       yield self.hotels if block_given?
       response = self
-      while response.more_pages?
+      while response.more_pages? and response.valid?
         response = Expedia::HotelListResponse.new(response.next_page)
-        Log.debug "Processing additional #{response.hotels.count} Expedia hotels"
-        total += response.hotels.count
-        yield response.hotels if block_given?
+        if response.valid? and block_given?
+          Log.debug "Processing additional #{response.hotels.count} Expedia hotels"
+          total += response.hotels.count
+          yield response.hotels
+        end
       end 
       nil
     end

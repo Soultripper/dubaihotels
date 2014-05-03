@@ -13,7 +13,7 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.json do 
 
-        if !search_criteria.valid?
+        if !search_criteria.valid? or !location
           head 400
           return
         end
