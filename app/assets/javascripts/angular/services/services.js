@@ -57,43 +57,21 @@ searchHotelsServices.factory('Page', function() {
     amenities: []
    };
 
-  var mapTypeOptions = {
-    zoom: 10,
-    mapTypeId: typeof(google) != 'undefined' ? google.maps.MapTypeId.ROADMAP : null
-  };
-
-  var mapOptions = {
-    zoom: 10,
-    streetViewControl: false,
-    // mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
-
-  var currentCoords = {};
-  var showlocationMap = function(elementId, lng, lat, zoom){
-
-
-    if(currentCoords.lng === lng && currentCoords.lat === lat) return;
-    currentCoords = {lng: lng, lat: lat };
-
-    // mapOptions['zoom'] = zoom;
-    
-    var map = Hotels.Map.createFixedMap(elementId, lat, lng, {zoom: zoom, draggable: false} )
-
-
-    // var container = document.getElementById(elementId)
-    // var mapCenter = {center: new google.maps.LatLng(lat, lng)};  
-    // var map;  
-    // if(google) 
-    //   map = new google.maps.ImageMapType(container, $.extend( mapCenter, mapOptions ));
-  }
-
-
+   var hotelsAvailable = function(){
+    var hotelCount = this.info.available_hotels
+    if(hotelCount>=750)
+      return "750+ hotels available";
+    if(hotelCount>=0)
+      return hotelCount+ " hotels available"
+    return "&nbsp;"
+   }
 
   return {
     criteria: criteria,
-    showlocationMap: showlocationMap,
+    // showlocationMap: showlocationMap,
     // setCriteria: function(newCriteria) { this.criteria = newCriteria },
     info: info,
+    hotelsAvailable: hotelsAvailable
     // setInfo: function(newInfo) { this.info = newInfo }
   };
 });

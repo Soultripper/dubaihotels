@@ -149,8 +149,10 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $scope.unsubscribed = false
       }
 
-      if( !response.hotels)
+      if($scope.pageState==='new_search' && !response.hotels)
         return;
+      
+
       
 
       Page.criteria = response.criteria;
@@ -220,9 +222,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       {
         slider.ionRangeSlider("update", {
             min:  Math.round(25),
-            max:  Math.round(info.max_price),
+            max:  Math.round(info.max_price || 300),
             from: Math.round(info.min_price_filter || 25),               // change default FROM setting
-            to:   Math.round(info.max_price_filter || info.max_price),   // change default TO setting
+            to:   Math.round(info.max_price_filter || (info.max_price || 300)),   // change default TO setting
         });
       } 
     };

@@ -73,8 +73,7 @@
           </div>
           <div class="info">
             <div class="col-xs-6">
-              <h4 ng-cloak ng-show="Page.info.available_hotels > 0">{{Page.info.query}} hotels</h4>
-              <h4 ng-cloak ng-show="Page.info.available_hotels == 0">&nbsp;</h4>
+              <h4><%= location.name %> hotels</h4>
             </div>
             <div class="col-xs-6 text-right">
               <h4><%= "#{start_date.strftime('%a %d')} - #{end_date.strftime('%a %d')} (#{search_criteria.total_nights} #{"Night".pluralize(search_criteria.total_nights)})"%></h4>

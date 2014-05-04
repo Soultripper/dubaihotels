@@ -2,8 +2,8 @@
   <div id="sidebar" class="col-md-3 col-xs-12">
     <div class="map-hidden hidden-sm hidden-xs">
       <h4 style="min-height:20px">
-        <div ng-show="Page.info.available_hotels == 0"> &nbsp;</div>
-        <div ng-show="Page.info.available_hotels > 0" >{{Page.info.available_hotels}} Hotels available</div>
+        <!-- <div ng-show="Page.info.available_hotels == 0"> &nbsp;</div> -->
+        <div>{{Page.hotelsAvailable()}}</div>
       </h4>
       <div class="map" id="location-map" show-map ng-show="Page.info.available_hotels > 0">
       </div>
