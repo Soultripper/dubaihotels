@@ -12,10 +12,17 @@ Hotels::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  constraints(:subdomain => /^cdn\b/) do
+    root :to => redirect("http://www.hot5.com")
+    match '/*path', :to => redirect {|params| "http://www.hot5.com/#{params[:path]}"}
+  end
+
+
   match "/" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
 
+  
   match "/404", :to => "app#not_found"
   match "/500", :to => "app#not_found"
 
