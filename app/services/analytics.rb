@@ -1,16 +1,31 @@
 class Analytics
 
+  IGNORE_AGENTS = ["ADmantX", "Amazon", "Dalvik", "DoCoMo", "WeSEE:Ads", "ia_archiver"]
+
   class << self 
 
     
     def publish(key, data)
+
       return unless data and key
+      return unless valid_user_agent? (data)
+      
       Thread.new do 
         add_geo_lookup(data[:request]) 
         Keen.publish key, data
         Log.debug "Published analytic: #{key}"
       end
     end
+
+    def valid_user_agent?(data)
+
+      return false unless data
+
+      return true unless data[:request]
+
+      IGNORE_AGENTS.include?(data[:request][:browser]) ? false : true
+    end
+
 
     def clickthrough(options)
       hotel = options[:hotel]
