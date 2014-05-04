@@ -131,12 +131,25 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return qs.join('')
     };
 
+    $scope.initPage = function(initData){
+      Hotels.Map.createFixedMap('location-map', initData.info.latitude, initData.info.longitude, {zoom: initData.info.zoom, draggable: false});
+
+      $scope.start_date = initData.criteria.start_date;
+      $scope.end_date = initData.criteria.end_date;
+      
+      angular.element('#search-input').val('')
+      angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
+      angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
+
+
+
+      $scope.setupPage(initData)
+    };
+
     $scope.setupPage = function(response){
       stopUpdater();
 
       $scope.pageState = response.state;
-      $scope.start_date = response.criteria.start_date;
-      $scope.end_date = response.criteria.end_date;
       
       if($scope.pageState==='finished')
       {
@@ -151,9 +164,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       if($scope.pageState==='new_search' && !response.hotels)
         return;
-      
-
-      
 
       Page.criteria = response.criteria;
       Page.info = response.info;
@@ -174,12 +184,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       if( $scope.search_results.hotels)
         $scope.search_results.hotels.length < Page.info.available_hotels ?  angular.element("#loadmore").show() : angular.element("#loadmore").hide();
-
-      angular.element('#search-input').val('')
-      angular.element('#start_date').datepicker('update', new Date(Date.parse($scope.start_date)));
-      angular.element('#end_date').datepicker('update', new Date(Date.parse($scope.end_date)));
-
-      Hotels.Map.createFixedMap('location-map', Page.info.latitude, Page.info.longitude, {zoom: Page.info.zoom, draggable: false});
 
       $scope.$broadcast('results-loaded');
     };
@@ -509,7 +513,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       hideFromTo: true,
       min: 25,
       from: 25,
-      to: 1000,
+      to: 300,
       step: 5,
       onFinish: Hotels.priceRange.change
     })
