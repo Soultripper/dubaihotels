@@ -28,7 +28,7 @@ class HotelSearch
 
   def start
     return self if @state
-    @state = :searching
+    @state = :new_search
     all_hotels
     Log.debug "Hotel Search: #{total_hotels} hotels to search"
     persist
@@ -41,8 +41,8 @@ class HotelSearch
 
   def search      
     return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
+    # HotelWorker.perform_async cache_key 
+    HotelWorker.new.perform cache_key
     self
   end
 
@@ -77,6 +77,7 @@ class HotelSearch
   end
 
   def compare_and_persist(hotels, key)
+    @state = :searching
     matches = 0
     time = Benchmark.realtime do 
       HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
@@ -119,7 +120,7 @@ class HotelSearch
     finish provider
     @state = finished? ? :finished : @state
     persist
-    Log.debug "COMPLETE - #{provider.upcase}: #{hotels.count} hotels compared"
+    Log.debug "#{provider.upcase} Completed: #{hotels.count} hotels compared"
     hotels.count
   end
 

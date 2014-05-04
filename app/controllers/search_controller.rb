@@ -33,7 +33,14 @@ class SearchController < ApplicationController
 
         publish_search
 
-        @results = hotel_search.results.sort(sort).select   
+        @results = hotel_search.results.sort(sort)
+
+        if(hotel_search.state!=:new_search)
+          @results = @results.filter(filters)  
+        end
+
+        @results = @results.select
+
         @user_channel = hotel_search.channel
       end
     end

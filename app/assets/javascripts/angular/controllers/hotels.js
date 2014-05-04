@@ -103,7 +103,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $routeParams.start_date = start_date();
       $routeParams.end_date = end_date();
       $routeParams.count = param('count', 15)
-      $routeParams.sort = param('sort','')
+      $routeParams.sort = param('sort')
+      $routeParams.min_price = param('min_price')
+      $routeParams.max_price = param('max_price')
 
       params.start_date   = $routeParams.start_date;
       params.end_date     = $routeParams.end_date;
@@ -147,7 +149,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $scope.unsubscribed = false
       }
 
-      if($scope.pageState==='searching' && !response.hotels)
+      if( !response.hotels)
         return;
       
 

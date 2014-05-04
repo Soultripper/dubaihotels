@@ -17,7 +17,11 @@ class HotelSearchPageResult
 
   def find_max_price 
     hotel = hotels.max_by {|h| h.offer[:min_price].to_f}
-    @max_price ||= hotel ? hotel.offer[:min_price] : 300
+    @max_price ||= hotel ? (round_up_max_price(hotel.offer[:min_price]))   : 300
+  end
+
+  def round_up_max_price(price, nearest=5.0)
+    (price / nearest).ceil * nearest
   end
 
   def sort(key)
