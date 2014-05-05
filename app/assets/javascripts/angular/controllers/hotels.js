@@ -101,11 +101,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
           qs  = $location.search()
 
       $routeParams.start_date = start_date();
-      $routeParams.end_date = end_date();
-      $routeParams.count = param('count', 15)
-      $routeParams.sort = param('sort')
-      $routeParams.min_price = param('min_price')
-      $routeParams.max_price = param('max_price')
+      $routeParams.end_date   = end_date();
+      $routeParams.count      = param('count', 15)
+      $routeParams.sort       = param('sort')
+      $routeParams.currency   = param('currency')
+      $routeParams.min_price  = param('min_price')
+      $routeParams.max_price  = param('max_price')
 
       params.start_date   = $routeParams.start_date;
       params.end_date     = $routeParams.end_date;
@@ -118,6 +119,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.amenities    = $routeParams.amenities;
       params.coordinates  = qs.coordinates;
       params.load_more    = $routeParams.load_more;
+      params.currency     = $routeParams.currency;
       return params;
     };
 
