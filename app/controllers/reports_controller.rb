@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
 
     if location
       respond_to do |format|
-        format.csv { render text: Reporter.hotels_by_location(location) }
+        format.csv { render text: Reporter.hotels_by_location(location, order_clause) }
       end
 
       # respond_with 
@@ -29,5 +29,10 @@ class ReportsController < ApplicationController
   def location
     location ||= Location.find_by_slug params[:location]
   end
+
+  def order_clause
+    params[:order] || :star_rating
+  end
+
 
 end
