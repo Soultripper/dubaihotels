@@ -14,7 +14,7 @@ Hotels::Application.routes.draw do
 
   constraints(:subdomain => /^cdn\b/) do
     root :to => redirect("http://www.hot5.com")
-    match '/*path', :to => redirect {|params| "http://www.hot5.com/#{params[:path]}"}
+    match '/*path', :to => redirect {|params, request| "http://www.hot5.com/#{params[:path]}"}
   end
 
 

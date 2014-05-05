@@ -1,6 +1,6 @@
 class Analytics
 
-  IGNORE_AGENTS = ["ADmantX", "Amazon", "Dalvik", "DoCoMo", "WeSEE:Ads", "ia_archiver"]
+  IGNORE_AGENTS = ["ADmantX", "Amazon", "Dalvik", "DoCoMo", "WeSEE:Ads", "ia_archiver", "AdsBot-Google", "facebookexternalhit"]
 
   class << self 
 
