@@ -10,7 +10,7 @@
     </div>
     <div id="hotel">
         <section>
-            <div class="image" style='<%="background-image: url(#{hotel_image.url});"%>'>
+            <div class="image" style='<%="background-image: url(#{hotel_image_src(hotel_image)});"%>'>
               <% if saving > 0 and max_price.to_f > price.to_f %>
                 <div class="savings">
                     Save <%= saving %>%

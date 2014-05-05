@@ -91,13 +91,14 @@
           </div>
             <div class="row details">
               <div class="col-md-12">
-                <ul class="top-thumbs hidden-md hidden-sm hidden-xs">
-                  <li ng-repeat="image in hotel.images.slice(0,5)" >
-                    <a href="#gallery" style="background-image: url({{image.url}})" >
+                <ul class="top-thumbs hidden-md hidden-sm hidden-xs" >
+                 
+                  <li ng-repeat="image in hotel.images.slice(0,5)"  >
+                    <a href="#gallery" ng-style="{'background-image': 'url({{image.url}})'}" >
                       &nbsp;
                     </a>
                   </li>
-                  <li style="width: {{mapWidth()}}%">
+                  <li ng-style="width: {{mapWidth()}}%">
                     <div class="small-map" id="small-map">
                     </div>
                   </li>

@@ -17,10 +17,11 @@ class OfferController < ApplicationController
       offer: params.except(:action, :controller, :start_date, :end_date).merge(provider_id: provider_id),
       provider: provider,
       search_criteria: search_criteria.as_json,
-      hotel: hotel,
+      hotel: hotel.to_analytics,
       request_params: request_params
     }
-    Analytics.clickthrough options
+
+    HotelScorer.score(hotel, :clickthrough) if Analytics.clickthrough(options)
   end
 
 

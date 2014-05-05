@@ -25,10 +25,10 @@ class HotelsController < ApplicationController
   def publish_hotel_seo
     options = {
       search_criteria: search_criteria.as_json.merge(sort: sort),
-      hotel: hotel,
+      hotel: hotel.to_analytics,
       request_params: request_params
     }
-    Analytics.hotel_seo options
+    HotelScorer.score(hotel, :hotel_seo) if Analytics.hotel_seo(options) 
   end
 
   def hotel_view

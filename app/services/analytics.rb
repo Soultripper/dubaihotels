@@ -7,14 +7,27 @@ class Analytics
     
     def publish(key, data)
 
-      return unless data and key
-      return unless valid_user_agent? (data)
+      return false unless data and key
+      return false unless valid_user_agent? (data)
       
       Thread.new do 
-        add_geo_lookup(data[:request]) 
-        Keen.publish key, data
-        Log.debug "Published analytic: #{key}"
+        add_geo_lookup data[:request]
+
+        user_event_data = user_event(key, data)
+
+        Keen.publish_batch key => [data],  user_event: [user_event_data]
+
+        Log.debug "Published analytics: #{key}"
       end
+      true
+    end
+
+    def user_event(key, data)
+       {
+        event_type: key,
+        remote_ip: data[:request][:remote_ip],
+        data: data
+       }
     end
 
     def valid_user_agent?(data)
@@ -28,23 +41,13 @@ class Analytics
 
 
     def clickthrough(options)
-      hotel = options[:hotel]
       data = {
         provider: options[:provider],
         search: options[:search_criteria],
         offer: options[:offer],
-        hotel: {
-          id: hotel.id,
-          name: hotel.name,
-          address: hotel.address,
-          city: hotel.city, 
-          country_code: hotel.country_code,
-          star_rating: hotel.star_rating,
-          slug: hotel.slug
-          },
+        hotel: options[:hotel],
         request: options[:request_params]
       }
-      HotelScorer.score hotel, :clickthrough
       publish :clickthrough, data
     end
 
@@ -59,21 +62,11 @@ class Analytics
 
 
     def hotel_seo(options)
-      hotel = options[:hotel]
       data = {
         search: options[:search_criteria],
-        hotel: {
-          id: hotel.id,
-          name: hotel.name,
-          address: hotel.address,
-          city: hotel.city, 
-          country_code: hotel.country_code,
-          star_rating: hotel.star_rating,
-          slug: hotel.slug
-          },
+        hotel: options[:hotel],
         request: options[:request_params]
       }
-      HotelScorer.score hotel, :hotel_seo
       publish :hotel_seo, data
     end
 

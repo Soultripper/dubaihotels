@@ -21,5 +21,9 @@ module AppHelper
     image_tag "logos/#{name}",  alt: desc
   end
 
+  def hotel_image_src(hotel_image)
+    hotel_image  ? hotel_image.url : 'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+  end
+
 
 end

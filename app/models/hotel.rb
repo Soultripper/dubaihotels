@@ -121,6 +121,18 @@ class Hotel < ActiveRecord::Base
     }.as_json
   end
 
+  def to_analytics
+    {
+      id: id,
+      name: name,
+      address: address,
+      city: city, 
+      country_code: country_code,
+      star_rating: star_rating,
+      slug: slug,
+      score: score
+    }
+  end
   # def self.to_csv(options = {})
   #   CSV.generate(options) do |csv|
   #     csv << column_names

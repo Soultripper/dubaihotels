@@ -117,7 +117,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.star_ratings = $routeParams.star_ratings;
       params.amenities    = $routeParams.amenities;
       params.coordinates  = qs.coordinates;
-
+      params.load_more    = $routeParams.load_more;
       return params;
     };
 
@@ -189,6 +189,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.loadMore = function(response){
+      delete $routeParams.load_more
       if(response.hotels && response.hotels.length > 0)
       {
         $scope.search_results.hotels = response.hotels;
@@ -331,7 +332,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $scope.providerImage = function(provider){
       if(provider)
-        return 'logos/' + provider + '.gif'
+        return '/assets/logos/' + provider + '.gif'
       return ''    
     };
 
@@ -458,6 +459,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $rootScope.loadMoreClick = function() {
       toggleShowMore(true);
       $routeParams.count += Page.info.page_size;
+      $routeParams.load_more = true;
       $scope.search($scope.loadMore);
       return false;
     };
@@ -520,7 +522,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     initTimeoutId = $timeout(function() {
       $scope.search()                 
-    }, 2000);
+    }, 2500);
 
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
