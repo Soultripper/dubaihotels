@@ -119,7 +119,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.amenities    = $routeParams.amenities;
       params.coordinates  = qs.coordinates;
       params.load_more    = $routeParams.load_more;
-      params.currency     = $routeParams.currency;
+      params.currency     = $routeParams.currency || Page.criteria.currency_code;
       return params;
     };
 
@@ -130,6 +130,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       qs.push(hotel.slug );
       qs.push('?start_date=' + start_date())
       qs.push('&end_date='   + end_date())
+      qs.push('&currency='   + Page.criteria.currency_code)
       return qs.join('')
     };
 
@@ -174,6 +175,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $scope.search_results = response
       $scope.amenities = response.info.amenities;
       $scope.slug = Page.info.slug
+
       
       $rootScope.channel = Page.info.channel
       $rootScope.currency_symbol = Page.criteria.currency_symbol;
@@ -413,8 +415,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       if($scope.slug==undefined)
         return;
 
-      var qs = $location.search()
-      // $rootScope.$broadcast("loading-started");
+      var params = {},
+          qs  = $location.search(),
+          url = '';
 
       if($scope.selectType)
         $routeParams.id = $scope.slug;
@@ -427,29 +430,26 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         return;
       }
       
-      // $location.path(Page.info.slug);
-      $routeParams.start_date = start_date();
-      $routeParams.end_date = end_date();
-      $routeParams.page_no = 1;
-      // $routeParams.sort = 'recommended';
-
+      params.start_date = start_date();
+      params.end_date = end_date();
+      params.currency = Page.criteria.currency_code;
 
       if($scope.selectType=='hotel')
       {
-        window.location.href = 'hotels/' + Page.info.slug + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+        url = 'hotels/';
       }
       else
       {
-        var url = $routeParams.id + '?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date + '&page_no=' + $routeParams.page_no 
-          
+        params.sort = $routeParams.sort;
+
         if(qs.hotel && !$scope.selectType)
-          url+= "&hotel=" + qs.hotel;
-
-        if($routeParams.sort)
-           url = url + '&sort=' + $routeParams.sort
-
-        window.location.href = url
+          params.hotel = qs.hotel;
       }
+
+      Hotels.removeEmptyKeys(params);
+      url += $routeParams.id + '?' + $.param(params);
+        
+      window.location.href = url
     };
 
    $scope.locationSelect = function (query, slug, type) {

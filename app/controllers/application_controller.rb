@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   MIN_PRICE = 25
   START_DATE = Date.tomorrow
   END_DATE = 2.days.from_now
+  # COUNTRY_CODE = 'GB'
+  CURRENCY_CODE = 'USD'
   
   protected  
 
@@ -100,7 +102,19 @@ class ApplicationController < ActionController::Base
   end
 
   def currency
-     (!params["currency"].blank?) ? params["currency"] : "GBP"
+     (!params["currency"].blank?) ? params["currency"] : locate_currency_code
+  end
+
+  def locate_currency_code
+    if numcode = locate_country_numcode
+      Money::Currency.find_by_iso_numeric(numcode).iso_code
+    else
+      CURRENCY_CODE
+    end
+  end
+
+  def locate_country_numcode
+    CountryCode.find_by_iso2(request.location.country_code)
   end
 
   def sort

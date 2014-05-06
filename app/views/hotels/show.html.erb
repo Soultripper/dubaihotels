@@ -98,7 +98,7 @@
                       &nbsp;
                     </a>
                   </li>
-                  <li ng-style="width: {{mapWidth()}}%">
+                  <li style="{'width': '{{mapWidth()}}%'}">
                     <div class="small-map" id="small-map">
                     </div>
                   </li>
@@ -144,7 +144,7 @@
                 </div>
                 <ul class="thumbs" ng-cloak>
                   <li ng-repeat="image in hotel.images" >
-                      <a href="#" show-image="{{image.url}}" style="background-image: url({{image.thumbnail_url}})" >
+                      <a href="#" show-image="{{image.url}}" ng-style="{'background-image': 'url({{image.thumbnail_url}})'}" >
                           &nbsp;
                       </a>
                   </li>   
