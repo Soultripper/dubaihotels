@@ -103,10 +103,14 @@ class ApplicationController < ActionController::Base
 
   def currency
      (!params["currency"].blank?) ? params["currency"] : locate_currency_code
+   rescue => msg
+    Log.error "Unable to locate country code, msg: #{msg}"
+    CURRENCY_CODE
   end
 
   def locate_currency_code
-    if numcode = locate_country_numcode
+    located_country_code = locate_country_numcode
+    if located_country_code and numcode = located_country_code.numcode
       Money::Currency.find_by_iso_numeric(numcode).iso_code
     else
       CURRENCY_CODE
@@ -114,7 +118,11 @@ class ApplicationController < ActionController::Base
   end
 
   def locate_country_numcode
-    CountryCode.find_by_iso2(request.location.country_code)
+    @country_code ||= CountryCode.find_by_iso2(user_location_code)
+  end
+
+  def user_location_code
+    @user_country_code = request.location.country_code
   end
 
   def sort
