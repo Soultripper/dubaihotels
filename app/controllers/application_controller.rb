@@ -22,8 +22,13 @@ class ApplicationController < ActionController::Base
       os: user_agent.os, 
       is_mobile: user_agent.mobile?,
       referrer: request.referrer,
-      uuid: request.uuid
+      uuid: request.uuid,
+      location: geo_location.data.as_json
     }
+  end
+
+  def geo_location
+    @geo_location ||= request.location
   end
 
   def user_channel

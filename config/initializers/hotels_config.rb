@@ -5,4 +5,6 @@ Rails.application.config.to_prepare do
     config.min_page_size = 1    
     config.max_price = 100  
   end
+
+  Geocoder.configure(cache: Redis.new)
 end

@@ -11,8 +11,6 @@ class Analytics
       return false unless valid_user_agent? (data)
       
       Thread.new do 
-        add_geo_lookup data[:request]
-
         user_event_data = user_event(key, data)
 
         Keen.publish_batch key => [data],  user_event: [user_event_data]
@@ -80,24 +78,6 @@ class Analytics
       publish :more_hotels, data
     end
 
-
-    def add_geo_lookup(request)
-      return nil unless request and request[:remote_ip]
-      loc = Geokit::Geocoders::IpGeocoder.geocode(request[:remote_ip])
-      request[:location] = {
-          latitude: loc.lat,
-          longitude: loc.lng,
-          full_address: loc.full_address,
-          address: loc.street_address,
-          address2: loc.sub_premise,
-          city: loc.city,
-          province: loc.province,
-          district: loc.district,
-          state: loc.state,
-          post_code: loc.zip,
-          country_code: loc.country_code
-      } if loc and loc.success
-    end
   end
 
 end

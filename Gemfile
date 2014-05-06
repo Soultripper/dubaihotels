@@ -40,6 +40,7 @@ gem 'activerecord-import', '~> 0.3.1'
 gem 'geokit-rails'
 gem 'geoip'
 gem 'geo-distance'
+gem 'geocoder' # for postcode lookup
 gem 'rubyzip'
 
 gem 'figaro'
