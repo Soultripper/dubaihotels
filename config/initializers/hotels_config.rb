@@ -6,5 +6,5 @@ Rails.application.config.to_prepare do
     config.max_price = 100  
   end
 
-  Geocoder.configure(cache: Redis.new)
+  Geocoder.configure(cache: Redis.new(url: ENV["REDISCLOUD_URL"]))
 end
