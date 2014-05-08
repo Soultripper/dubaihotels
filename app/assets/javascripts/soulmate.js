@@ -332,19 +332,19 @@
       if (this.xhr != null) this.xhr.abort();
 
       var data =  {'term': this.query.getValue(), 'types[]': this.types, 'limit': this.maxResults}
-      // $.get(this.url,data, function(data) { return _this.update(data.results); }, 'json');
+      $.get(this.url,data, function(data) { return _this.update(data.results); }, 'json');
 
-      return this.xhr = $.ajax({
-        url: this.url,
-        dataType: 'GET',
-        timeout: this.timeout,
-        cache: true,
-        data: data,
-        success: function(data) {
-                console.log(data)
-          return _this.update(data.results);
-        }
-      });
+      // return this.xhr = $.ajax({
+      //   url: this.url,
+      //   dataType: 'GET',
+      //   timeout: this.timeout,
+      //   cache: true,
+      //   data: data,
+      //   success: function(data) {
+      //           console.log(data)
+      //     return _this.update(data.results);
+      //   }
+      // });
     };
 
     Soulmate.prototype.update = function(results) {
