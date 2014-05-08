@@ -308,20 +308,40 @@
       });
     };
 
+    // Soulmate.prototype.fetchResults = function() {
+    //   var _this = this;
+    //   if (this.xhr != null) this.xhr.abort();
+    //   return this.xhr = $.ajax({
+    //     url: this.url,
+    //     dataType: 'jsonp',
+    //     timeout: this.timeout,
+    //     cache: true,
+    //     data: {
+    //       term: this.query.getValue(),
+    //       types: this.types,
+    //       limit: this.maxResults
+    //     },
+    //     success: function(data) {
+    //       return _this.update(data.results);
+    //     }
+    //   });
+    // };
+
     Soulmate.prototype.fetchResults = function() {
       var _this = this;
       if (this.xhr != null) this.xhr.abort();
+
+      var data =  {'term': this.query.getValue(), 'types[]': this.types, 'limit': this.maxResults}
+      // $.get(this.url,data, function(data) { return _this.update(data.results); }, 'json');
+
       return this.xhr = $.ajax({
         url: this.url,
-        dataType: 'jsonp',
+        dataType: 'GET',
         timeout: this.timeout,
         cache: true,
-        data: {
-          term: this.query.getValue(),
-          types: this.types,
-          limit: this.maxResults
-        },
+        data: data,
         success: function(data) {
+                console.log(data)
           return _this.update(data.results);
         }
       });
