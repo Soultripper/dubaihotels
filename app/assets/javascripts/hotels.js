@@ -1,7 +1,7 @@
 var Hotels = function(){
   
   var searchOptions ={
-    domain: 'staging.hot5.com',
+    domain: window.location.host,
     // domain: 'localhost:5000',
     minQueryLength: 2,
     maxResults:     7    
