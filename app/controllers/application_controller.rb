@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
   MIN_PRICE = 25
   START_DATE = Date.tomorrow
   END_DATE = 2.days.from_now
-  # COUNTRY_CODE = 'GB'
-  CURRENCY_CODE = 'USD'
+  CURRENCY_CODE = 'GBP'
   
   protected  
 
@@ -101,11 +100,16 @@ class ApplicationController < ActionController::Base
     (params["id"] || "dubai").gsub('-hotels', '').gsub('-',' ')
   end
 
+  # def currency
+  #    (!params["currency"].blank?) ? params["currency"] : locate_currency_code
+  #  rescue => msg
+  #   Log.error "Unable to locate country code, msg: #{msg}"
+  #   CURRENCY_CODE
+  # end
+
+
   def currency
-     (!params["currency"].blank?) ? params["currency"] : locate_currency_code
-   rescue => msg
-    Log.error "Unable to locate country code, msg: #{msg}"
-    CURRENCY_CODE
+     (!params["currency"].blank?) ? params["currency"] : CURRENCY_CODE
   end
 
   def locate_currency_code

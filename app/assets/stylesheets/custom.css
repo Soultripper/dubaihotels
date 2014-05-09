@@ -36,3 +36,24 @@
 .input-group-addon {
   cursor: pointer;
 }
+
+.nomore{
+
+}
+
+#logo:focus{
+  outline: none;
+}
+#results #nomore {
+  display: block;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  #results #nomore 
+  {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+}

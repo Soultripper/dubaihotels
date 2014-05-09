@@ -165,11 +165,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $scope.unsubscribed = false
       }
 
+      $routeParams.count = response.info.page_size;
+
       if($scope.pageState==='new_search' && !response.hotels)
         return;
 
+
       Page.criteria = response.criteria;
       Page.info = response.info;
+
+      
+      
 
       $scope.zoom = response.info.zoom;
       $scope.search_results = response
@@ -198,15 +204,24 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       {
         $scope.search_results.hotels = response.hotels;
         toggleShowMore(false);
-        if($scope.search_results.hotels.length >= response.info.available_hotels)
+        if((response.hotels.length >= response.info.available_hotels) || (response.hotels.length > 100))
         {
           $("#loadmore").hide();    
+          $("#nomore").show();    
         }
       }
       else
       {
         init();       
       }
+    };
+
+    $rootScope.loadMoreClick = function() {
+      toggleShowMore(true);
+      $routeParams.count += Page.info.page_size;
+      $routeParams.load_more = true;
+      $scope.search($scope.loadMore);
+      return false;
     };
 
     var toggleShowMore = function(isLoading){
@@ -221,6 +236,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         $("#loadmore").removeClass("disabled");
         $("#loadmore i").hide();
         $("#loadmore span").text("Show More...");
+        $("#nomore").hide();    
       }
     };
 
@@ -458,13 +474,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       Page.info.slug = slug;
     };
 
-    $rootScope.loadMoreClick = function() {
-      toggleShowMore(true);
-      $routeParams.count += Page.info.page_size;
-      $routeParams.load_more = true;
-      $scope.search($scope.loadMore);
-      return false;
-    };
 
     $scope.getGoogleMapCenter = function(){
       return new google.maps.LatLng(Page.info.latitude, Page.info.longitude)
