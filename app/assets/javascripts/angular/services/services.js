@@ -109,7 +109,7 @@ searchHotelsServices.factory('HotelResults', ['$http', '$location',
       var protocol = $location.protocol(), 
           host     = $location.host();
 
-      var url =  protocol + '://hotels.' + host + path;
+      var url =  protocol + '://hotels.hotels.dev'  + path;
       return $http({'method': 'GET', 'url': url, 'headers':{'Accept':"application/json"}, 'params': params})
     }
 
