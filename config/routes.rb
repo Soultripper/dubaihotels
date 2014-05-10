@@ -18,10 +18,13 @@ Hotels::Application.routes.draw do
   end
 
 
+
+
   match "/" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
 
+  match '/' => 'results#hotel_rooms', constraints: { :subdomain => 'results' }
   
   match "/404", :to => "app#not_found"
   match "/500", :to => "app#not_found"
@@ -29,8 +32,15 @@ Hotels::Application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
 
+  constraints( subdomain: /^hotels\b/, format: 'json' ) do
+    get '/hotels/:id/rooms',            to: 'hotel_results#hotel_rooms'
+    get '/hotels/:id',                  to: 'hotel_results#hotel_details'
+    get '/:id',                         to: 'hotel_results#search'
+  end
+
   get '/offer/:provider',           to: 'offer#index'
-  match '/geolocate_error',         to: 'analytics#geolocate_error', constraints: { :subdomain => /^analytics\b/ }
+  match '/geolocate_error',         to: 'analytics#geolocate_error', constraints: { subdomain: /^analytics\b/ }
+
   get '/locations',                 to: 'search#locations'
   get '/reports/:action',           to: 'reports#:action'
   get '/map/:id',                   to: 'map#index'

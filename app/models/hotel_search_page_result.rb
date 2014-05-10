@@ -152,6 +152,7 @@ class HotelSearchPageResult
         json.query            location.title
         json.slug             location.slug
         json.channel          search_options[:channel]
+        json.key              search_options[:cache_key]
         json.sort             sort_key
         json.total_hotels     search_options[:total]
         json.available_hotels hotels.count 
@@ -175,16 +176,18 @@ class HotelSearchPageResult
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
             :postal_code,  :latitude, :longitude, 
             :star_rating, :description, :amenities, :slug)
-          json.rooms          hotel_comparison.rooms
+          # json.rooms          hotel_comparison.rooms
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
-          json.images         find_images_by(hotel_comparison.hotel), :url, :thumbnail_url, :caption, :width, :height
-          json.providers      hotel_comparison.provider_deals
+          json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
+          # json.images       hotel_comparison.images, :url, :thumbnail_url
+          json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
           json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
         end
       end
     end
   end
+
 
   def as_map_json(options={})
 
@@ -198,7 +201,7 @@ class HotelSearchPageResult
           hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :latitude, :longitude, :star_rating,  :slug)
           json.offer          hotel_comparison.offer
-          json.images         find_images_by(hotel_comparison.hotel, 1), :url, :thumbnail_url
+          json.images         find_images_for(hotel_comparison.hotel, 1), :url, :thumbnail_url
         end
       end
     end
@@ -224,17 +227,6 @@ class HotelSearchPageResult
     (page_index + page_size) > hotels.length ? hotels.length : page_index + page_size
   end
 
-  def find_images_by(hotel, count=11)
-    hotel.images.limit(count) || []
-  end
-
-  def hotel_images(hotel)
-    hotel.images
-  end
-
-  def load_images(filtered_hotels)
-    @images ||= HotelImage.where(hotel_id: filtered_hotels.map(&:id)).order('default_image desc').group_by &:hotel_id
-  end
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id

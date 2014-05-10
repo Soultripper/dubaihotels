@@ -15,12 +15,17 @@ class HotelsController < ApplicationController
     respond_with hotel_view
   end
 
-  def rooms
-    @rooms = hotel_room_search.results
-    respond_with @rooms, layout: nil
-  end
 
   protected
+
+  def hotel_view
+    key = hotel_room_search.cache_key unless rooms
+    @hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: rooms, key: key
+  end
+
+  def hotel
+    @hotel ||=  Hotel.find_by_slug(params[:id])
+  end
 
   def publish_hotel_seo
     options = {
@@ -31,21 +36,24 @@ class HotelsController < ApplicationController
     HotelScorer.score(hotel, :hotel_seo) if Analytics.hotel_seo(options) 
   end
 
-  def hotel_view
-    @hotel_view ||= HotelView.new(hotel, search_criteria).as_json
+  def cached_search
+    @cached_search ||= HotelSearch.find params[:key]
   end
 
   def hotel_room_search
-    @hotel_room_search ||= HotelRoomSearch.find_or_create(hotel_id, search_criteria).start
+    @hotel_room_search ||= HotelRoomSearch.find_or_create(hotel, search_criteria).start
+  end
+
+  def rooms
+    if cached_search and @hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
+      @hotel_comparison.rooms
+    end
   end
 
   def hotel_id
     params[:id].to_i
   end
 
-  def hotel
-    @hotel ||= Hotel.find_by_slug params[:id]
-  end
 
   def validate_search
     search_criteria.valid?

@@ -19,6 +19,10 @@ class HotelSearch
     HotelSearch.new(location, search_criteria).find_or_create   
   end
 
+  def self.find(cache_key)
+    Rails.cache.fetch cache_key if cache_key
+  end
+
   def find_or_create
     Rails.cache.fetch cache_key, force: !@use_cache do 
       Log.info "Starting new search: #{cache_key}"
@@ -27,7 +31,7 @@ class HotelSearch
   end
 
   def start
-    return self if @state
+    return self if @state or !valid?
     @state = :new_search
     all_hotels
     Log.debug "Hotel Search: #{total_hotels} hotels to search"
@@ -39,11 +43,9 @@ class HotelSearch
     @all_hotels ||= HotelComparisons.by_location(location).to_a 
   end
 
-  def search      
-    return unless search_criteria.valid?
-    HotelWorker.perform_async cache_key 
-    # HotelWorker.new.perform cache_key
-    self
+
+  def valid?
+    search_criteria.valid? and location
   end
 
   def results
@@ -52,7 +54,8 @@ class HotelSearch
       location: location,
       channel: channel,
       search_criteria: search_criteria,
-      state: @state
+      state: @state,
+      cache_key: cache_key.to_s
     }
     cur_hotels = loaded_hotels
     cur_hotels = (cur_hotels.length > 0 or state == :finished) ? cur_hotels : all_hotels
@@ -132,14 +135,23 @@ class HotelSearch
 
   def persist
     return unless @use_cache
-    Rails.cache.write(cache_key, self, expires_in: 10.minutes, race_condition_ttl: 60)
+    Rails.cache.write(cache_key, self, expires_in: HotelsConfig.cache_expiry, race_condition_ttl: 60)
   end
 
   def cache_key
-    search_criteria.as_json.merge({query:location.unique_id})
+    @cache_key ||= Digest::MD5.hexdigest(search_criteria.as_json.merge({query:location.unique_id}).to_s)
   end
 
   def channel
     search_criteria.channel_search location
   end
+
+  protected
+
+  def search      
+    HotelWorker.perform_async cache_key 
+    # HotelWorker.new.perform cache_key
+    self
+  end
+
 end

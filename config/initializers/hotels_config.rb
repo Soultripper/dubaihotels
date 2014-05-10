@@ -3,7 +3,8 @@ Rails.application.config.to_prepare do
     config.page_size  = 15
     config.max_page_size  = 50
     config.min_page_size = 1    
-    config.max_price = 100  
+    config.max_price = 100,
+    config.cache_expiry = 20.minutes
   end
 
   Geocoder.configure(cache: Redis.new(url: ENV["REDISCLOUD_URL"]))

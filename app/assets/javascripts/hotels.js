@@ -141,6 +141,11 @@ var Hotels = function(){
     })
   }
 
+  var getDomainName = function(hostName){
+    hostName = hostName || window.location.host;
+    return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
+  }
+
   return {
     init: init,
     stars: stars,
@@ -149,6 +154,7 @@ var Hotels = function(){
     description: getDescription,
     removeEmptyKeys: removeEmptyKeys,
     ratingsText: ratingsText,
-    setDatesToToday: setDatesToToday
+    setDatesToToday: setDatesToToday,
+    getDomainName: getDomainName
   }
 }();

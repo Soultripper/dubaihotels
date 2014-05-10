@@ -10,6 +10,7 @@ class Analytics
       return false unless data and key
       return false unless valid_user_agent? (data)
       
+      return if Rails.env == :development
       Thread.new do 
         user_event_data = user_event(key, data)
 

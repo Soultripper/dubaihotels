@@ -2,7 +2,7 @@ class SearchController < ApplicationController
 
   before_filter :validate_search
 
-  respond_to :json
+  respond_to :html
 
   layout 'search'
 
@@ -10,40 +10,37 @@ class SearchController < ApplicationController
 
     # respond_with @hotel_search
 
-    respond_to do |format|
-      format.json do 
+    # respond_to do |format|
+    #   format.json do 
 
-        if !search_criteria.valid? or !location
-          head 400
-          return
-        end
+    #     if !search_criteria.valid? or !location
+    #       head 400
+    #       return
+    #     end
 
-        publish_more_hotels
+    #     publish_more_hotels
 
-        # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
-        @results = hotel_search.results.sort(sort).filter(filters).select(count)        
-        render json: @results
+    #     # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
+    #     @results = hotel_search.results.sort(sort).filter(filters).select(count)        
+    #     render json: @results
 
-      end
-      format.html do
+    #   end
+    #   format.html do
 
-        unless search_criteria.valid? and location
-          return
-        end
 
-        publish_search
+    publish_search
 
-        @results = hotel_search.results.sort(sort)
+    @results = hotel_search.results.sort(sort)
 
-        if(hotel_search.state!=:new_search)
-          @results = @results.filter(filters)  
-        end
-
-        @results = @results.select
-
-        @user_channel = hotel_search.channel
-      end
+    if(hotel_search.state!=:new_search and hotel_search.state!=:invalid)
+      @results = @results.filter(filters)  
     end
+
+    @results = @results.select
+
+    @user_channel = hotel_search.channel
+      # end
+    # end
 
   end
 

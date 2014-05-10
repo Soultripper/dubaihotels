@@ -43,7 +43,8 @@
           <div class="savings" ng-show="saving(hotel) >= 5">
               Save {{saving(hotel)}}%
           </div>
-          <div class="view" onclick="return app.tabSelect(this, 'gallery')">
+          <!-- <div class="view" onclick="return app.tabSelect(this, 'gallery')" > -->
+          <div class="view" ng-click="getImages($event, hotel)" > 
               <i class="fa fa-picture-o"></i>
           </div>
       </div>
@@ -79,7 +80,7 @@
                 </span>
               </li>    
               <li class="all-deals">
-                <a href="#" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
+                <a href="#" ng-click="getRooms(hotel)">
                     See all deals <i class="fa fa-caret-right"></i>
                 </a>
               </li>
@@ -98,7 +99,7 @@
                   </a>
               </li>
               <li class="tab-rooms">
-                  <a href="#" onclick="return app.tabSelect(this, 'rooms')" ng-click="getRooms(hotel)">
+                  <a href="#" ng-click="getRooms($event, hotel)">
                       <i class="fa fa-building-o"></i>
                       Rooms
                   </a>
@@ -159,20 +160,28 @@
             </div>
           </div>
           <div class="content tab-rooms" style="display:none" >  
-            <div class="list" >
+            <div class="rooms-loader" ng-show="hotel.loadingRooms">
+              <i class="fa fa-gear fa-spin"></i>
+              Finding the best rooms...
+            </div>
+            <div class="list" ng-show="!hotel.loadingRooms">
               <%= render partial: 'shared/rooms' %>
             </div>
           </div>
-          <div class="content tab-gallery" style="display: none">
-              <div class="photo">                  
-              </div>
-              <ul class="thumbs">
-                <li ng-repeat="image in hotel.images">
-                    <a href="#" show-image="{{image.url}}" style="background-image: url({{image.thumbnail_url}})">
-                        &nbsp;
-                    </a>
-                </li>               
-              </ul>
+          <div class="content tab-gallery" style="display: none" id="tab-gallery-{{hotel.id}}">
+            <div class="tab-loader" ng-show="hotel.loadingImages" >
+              <i class="fa fa-gear fa-spin"></i>
+              Loading images...
+            </div>
+            <div class="photo">                  
+            </div>
+            <ul class="thumbs" ng-show="!hotel.loadingImages">
+              <li ng-repeat="image in hotel.images">
+                  <a href="#" show-image="{{image.url}}" style="background-image: url({{image.thumbnail_url}})">
+                      &nbsp;
+                  </a>
+              </li>               
+            </ul>
           </div>
       </div>
   </section>

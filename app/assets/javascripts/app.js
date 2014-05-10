@@ -129,9 +129,9 @@
             //     this._loadRooms(container);
             //     break;
 
-            case "best-rooms":
-                this._loadBestRooms(container);
-                break;
+            // case "best-rooms":
+            //     this._loadBestRooms(container);
+            //     break;
             case "map":
                 this._loadMap(container);
                 break;
@@ -162,6 +162,7 @@
     },
 
     _loadGallery: function (container) {
+      console.log(container)
         if ($("li.active", container).length == 0)
             $("li:first a", container).trigger("click");
     },

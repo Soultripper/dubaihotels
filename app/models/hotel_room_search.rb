@@ -1,10 +1,14 @@
 class HotelRoomSearch
   extend Forwardable
 
-  attr_reader :hotel_id, :search_criteria, :finished
+  attr_reader :hotel, :search_criteria, :finished
 
-  def initialize(hotel_id, search_criteria)
-    @hotel_id, @search_criteria = hotel_id, search_criteria
+  def initialize(hotel, search_criteria)
+    @hotel, @search_criteria = hotel, search_criteria
+  end
+
+  def hotel_id
+    hotel.id
   end
 
   def self.check_availability(hotel_id, search_criteria)
@@ -49,7 +53,7 @@ class HotelRoomSearch
   end
 
   def persist
-    Rails.cache.write(cache_key, self, expires_in: 15.seconds, race_condition_ttl: 5)
+    Rails.cache.write(cache_key, self, expires_in: HotelsConfig.cache_expiry, race_condition_ttl: 5)
   end
 
   def add_rooms(rooms)
@@ -59,7 +63,7 @@ class HotelRoomSearch
   end
 
   def cache_key
-    search_criteria.as_json.merge({hotel_id: hotel_id})
+    @cache_key ||= Digest::MD5.hexdigest(search_criteria.as_json.merge({hotel_id: hotel_id}).to_s)
   end
 
   def channel

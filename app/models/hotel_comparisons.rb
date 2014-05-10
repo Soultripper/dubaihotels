@@ -23,7 +23,7 @@ class HotelComparisons
     # @latitude       = hotel_details[:latitude]
     # @user_rating    = hotel_details[:user_rating].to_f
     # @ranking        = hotel_details[:ranking].to_f 
-    @provider_deals = providers_init
+    @provider_deals   = providers_init
   end
 
   def self.by_location(location, proximity_in_metres = 20000)
@@ -70,6 +70,14 @@ class HotelComparisons
       provider: name,
       loaded: false
     }
+  end
+
+  def main_image
+    images.first || []
+  end
+
+  def images(count=11)
+    hotel.images.limit(count) || []
   end
 
   def offer

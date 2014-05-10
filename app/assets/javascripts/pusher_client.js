@@ -64,7 +64,6 @@ Hot5.Connections.Pusher = function()
     subscribedChannel = client.subscribe(channel)
     subscribedChannel.bind('results_update', function(push_message) {
       var domElement = $('#hotel-results')
-      console.log('new hotel info available')
       if(angular.element(domElement).scope().search)
         angular.element(domElement).scope().search() 
     })     

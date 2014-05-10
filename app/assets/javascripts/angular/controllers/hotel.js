@@ -1,6 +1,6 @@
 
-app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'SearchHotels', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
-  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, SearchHotels, HotelRooms, Page, HotelProvider, HotelFactory) { 
+app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'HotelResults', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory',  
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, HotelResults, HotelRooms, Page, HotelProvider, HotelFactory) { 
 
     var timeoutId, initTimeoutId;
 
@@ -21,32 +21,29 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       return $filter('date')(date, 'yyyy-MM-dd')
     }
 
-    $scope.search = function(callback) {
-      if(!callback)
-        callback = $scope.setupPage;
+    // $scope.search = function(callback) {
+    //   if(!callback)
+    //     callback = $scope.setupPage;
 
-      $routeParams.start_date = start_date();
-      $routeParams.end_date = end_date();
+    //   $routeParams.start_date = start_date();
+    //   $routeParams.end_date = end_date();
 
-      var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
-      $http.get(url).success(callback)
-    };
+    //   var url = $location.path() +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date
+    //   $http.get(url).success(callback)
+    // };
 
-    $scope.setupPage = function(response){
-      $scope.setupHeader(response.criteria);
-      $scope.search_results = response
+    $scope.initPage = function(initData){
+      $scope.setupHeader(initData.criteria);
+      $scope.search_results = initData    
      
-      $rootScope.channel = Page.info.channel
-      $scope.hotel = response.hotel;
+      $scope.hotel = initData.hotel;
       $scope.slug = 'hotels/' + $scope.hotel.slug 
       loadMap();
       $scope.getRooms()
 
       $(".thumbs li:first a").click();
-      Hot5.Connections.Pusher.changeChannel($rootScope.channel);
-
-
-    };
+      
+    }
 
     $scope.buildParams = function(){
 
@@ -86,46 +83,73 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
 
     $scope.getRooms = function() {
 
-      var rooms = $scope.hotel.rooms;
+      var hotel = $scope.hotel;
+      var rooms = hotel.rooms;
 
       if(rooms && rooms.length > 0)
-        return;
+        return hotel.displayRooms = true;
 
-      $scope.hotel.displayRooms = false
+      hotel.displayRooms = false
 
       // var timeoutId = $timeout(function(){
       //   $scope.hotel.displayRooms = true
       // }, 4500)
 
-      if(Hot5.Connections.Pusher.isHotelSubscribed($scope.hotel.channel))
+      if(Hot5.Connections.Pusher.isHotelSubscribed(hotel.channel))
       {
         roomsQuery(timeoutId)
       }
       else
       {
-        Hot5.Connections.Pusher.subscribeHotel($scope.hotel.channel, 
+        Hot5.Connections.Pusher.subscribeHotel(hotel.channel, 
           function(){ roomsQuery(timeoutId) },
           function(push_message){ roomsQuery(timeoutId)});
       }
     };
 
-    $scope.showImage = function(e, image){
-      return app.loadImage(e.srcElement, image.url);
+    // $scope.getRooms = function(obj) {
+    //   var hotel = $scope.hotel;
+
+    //   if(hotel.rooms && hotel.rooms.length > 0)
+    //     return hotel.displayRooms = true;
+    //   hotel.displayRooms = false
+    //   roomsQuery(hotel, timeoutId, obj)
+    // };
+
+
+    // var roomsQuery = function(hotel, timeoutId, obj){
+    //   var hotel = $scope.hotel;
+
+    //   Hot5.Connections.Pusher.changeChannel(hotel.channel);
+
+    //   var params = {'key': hotel.key }
+
+    //   HotelResults.get('/hotels/' + hotel.slug + '/rooms', params).success(
+    //     function(response){
+    //       hotel.rooms = response  
+    //       hotel.displayRooms = true;;
+    //     });
+    // };
+
+
+
+    var roomsQuery = function(timeoutId){
+      var hotel = $scope.hotel;
+
+      var params = {'key': hotel.key }
+
+      HotelResults.get('/hotels/' + hotel.slug + '/rooms', params).success(
+        function(response){
+          hotel.rooms = response  
+          hotel.displayRooms = true;
+          if(response.finished===true)
+            Hot5.Connections.Pusher.unsubscribeHotel(hotel.channel)
+          
+        });
     };
 
-    var roomsQuery = function( timeoutId){
-      var hotel = $scope.hotel;
-      HotelRooms.query({id: hotel.id, currency: param('currency', 'GBP'), end_date: param('end_date'), start_date: param('start_date')}, 
-        function(response)
-        {
-          hotel.rooms = response.rooms    
-          if(response.finished===true)
-          {
-            // $timeout.cancel(timeoutId);
-            hotel.displayRooms = true;
-            Hot5.Connections.Pusher.unsubscribeHotel(hotel.channel)
-          }
-        }); 
+    $scope.showImage = function(e, image){
+      return app.loadImage(e.srcElement, image.url);
     };
 
     $rootScope.safeApply = function( fn ) {
