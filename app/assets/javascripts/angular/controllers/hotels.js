@@ -108,6 +108,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.coordinates  = qs.coordinates;
       params.load_more    = $routeParams.load_more;
       params.currency     = $routeParams.currency || Page.criteria.currency_code;
+      params.key          = Page.info.key
       return params;
     };
 
@@ -497,10 +498,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       params.count = 101;
       params.coordinates = mapCenter.lat() + ',' + mapCenter.lng();
 
-      $http.get(url, {
-        headers:{'Accept':"application/json"}, 
-        params:params
-      }).success(callback)
+      HotelResults.get(url,params).success(callback)
     }
 
     $scope.trackClick = function(clickDetails){

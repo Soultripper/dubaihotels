@@ -1,20 +1,18 @@
 class HotelResultsController < SearchController
 
-  before_filter :publish_more_hotels, only: :index
   after_filter :cors_set_access_control_headers
 
   respond_to :json
 
   def search       
+    return head(400) unless valid_search?
+    publish_more_hotels   
+    render json: search_results.select(count)       
+  end
 
-    if !search_criteria.valid? or !location
-      head 400
-      return
-    end
-
-    publish_more_hotels
-    @results = hotel_search.results.sort(sort).filter(filters).select(count)        
-    render json: @results
+  def map_search
+    location.hotel_limit = 150
+    render json: search_results.select_map_view(count)  
   end
 
   def hotel_rooms
@@ -29,22 +27,9 @@ class HotelResultsController < SearchController
     end
     
   end
-
+ 
   def hotel_details
     render json: HotelView.new(hotel, search_criteria).as_json
-  end
-
-
-  def cached_search
-    @cached_search ||= HotelSearch.find params[:key]
-  end
-
-  def hotel_search
-    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria).start
-  end
-
-  def locations
-    respond_with Location.autocomplete(query).sort_by {|l| l[:s].length}.take(10)
   end
 
   protected
@@ -53,15 +38,10 @@ class HotelResultsController < SearchController
     @hotel ||= Hotel.find_by_slug params[:id]
   end
 
-  def publish_more_hotels
-    Analytics.more_hotels(publish_options.merge(count: count)) if load_more?
-  end
-
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Max-Age'] = "1728000"
   end
-
 
 end

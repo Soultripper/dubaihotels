@@ -35,6 +35,7 @@ Hotels::Application.routes.draw do
   constraints( subdomain: /^hotels\b/, format: 'json' ) do
     get '/hotels/:id/rooms',            to: 'hotel_results#hotel_rooms'
     get '/hotels/:id',                  to: 'hotel_results#hotel_details'
+    get '/map/:id',                     to: 'hotel_results#map_search'
     get '/:id',                         to: 'hotel_results#search'
   end
 

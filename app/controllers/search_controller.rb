@@ -1,51 +1,20 @@
 class SearchController < ApplicationController
 
-  before_filter :validate_search
-
+  before_filter :publish_search, only: :index
   respond_to :html
 
   layout 'search'
 
   def index        
-
-    # respond_with @hotel_search
-
-    # respond_to do |format|
-    #   format.json do 
-
-    #     if !search_criteria.valid? or !location
-    #       head 400
-    #       return
-    #     end
-
-    #     publish_more_hotels
-
-    #     # @results = hotel_search.results.sort(sort).filter(filters).paginate(page_no, page_size)        
-    #     @results = hotel_search.results.sort(sort).filter(filters).select(count)        
-    #     render json: @results
-
-    #   end
-    #   format.html do
-
-
-    publish_search
-
     @results = hotel_search.results.sort(sort)
+    @user_channel = hotel_search.channel
 
-    if(hotel_search.state!=:new_search and hotel_search.state!=:invalid)
-      @results = @results.filter(filters)  
+    if(hotel_search.state != :new_search and hotel_search.state != :invalid)
+      @results = search_results
     end
 
     @results = @results.select
-
-    @user_channel = hotel_search.channel
-      # end
-    # end
-
-  end
-
-  def hotel_search
-    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria).start
+   
   end
 
   def locations
@@ -53,6 +22,54 @@ class SearchController < ApplicationController
   end
 
   protected
+
+  def cached_search
+    @cached_search ||= HotelSearch.find params[:key]
+  end
+
+  def search_results
+    hotel_search.results.sort(sort).filter(filters) 
+  end
+
+  def hotel_search
+    @hotel_search ||= HotelSearch.find_or_create(location, search_criteria).start
+  end
+
+  def sort
+    if location and location.distance_based? and params["sort"].blank?
+      :distance
+    else
+      params["sort"] || :recommended
+    end
+  end
+
+  def valid_search?
+    search_criteria.valid? and location
+  end
+
+  def load_more?
+    params[:load_more]
+  end
+
+  def location
+    if coordinates
+      @location ||= Location.my_location *coordinates
+    else
+      @location ||= Location.find_by_slug slug
+    end
+  end
+
+  def slug
+    @slug ||= (params[:id] || params[:hotel])
+  end
+
+  def coordinates
+    @coordinates ||= params[:coordinates].split(',') if params[:coordinates]
+  end
+
+  def query
+    @query ||= params[:query]
+  end
 
   def publish_search
     Analytics.search publish_options
@@ -70,41 +87,6 @@ class SearchController < ApplicationController
     }
   end
 
-  def sort
-    if location and location.distance_based? and params["sort"].blank?
-      :distance
-    else
-      params["sort"] || :recommended
-    end
-  end
-
-  def validate_search
-    search_criteria.valid?
-  end
-
-  def load_more?
-    params[:load_more]
-  end
-
-  def location
-    if coordinates
-      @location = Location.my_location *coordinates
-    else
-      @location ||= Location.find_by_slug slug
-    end
-  end
-
-  def slug
-    @slug ||= (params[:id] || params[:hotel])
-  end
-
-  def coordinates
-    @coordinates ||= params[:coordinates].split(',') if params[:coordinates]
-  end
-
-  def query
-    @query ||= params[:query]
-  end
 
   helper_method :location, :search_criteria
 end
