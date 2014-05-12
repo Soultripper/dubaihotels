@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
 
 
-  respond_to :csv
+  respond_to :csv,  :text, :html
   layout nil
 
   http_basic_authenticate_with :name => "hot5reports", :password => "2 never back down"
@@ -13,8 +13,11 @@ class ReportsController < ApplicationController
   def by_location
 
     if location
+      @report = Reporter.hotels_by_location(location, order_clause)
       respond_to do |format|
-        format.csv { render text: Reporter.hotels_by_location(location, order_clause) }
+        format.csv  { render text:  @report}
+        format.text { render text:  @report}
+        format.html
       end
 
       # respond_with 
@@ -24,7 +27,12 @@ class ReportsController < ApplicationController
   end
 
 
+
   protected
+
+  def report
+    @report
+  end
 
   def location
     location ||= Location.find_by_slug params[:location]
@@ -33,6 +41,8 @@ class ReportsController < ApplicationController
   def order_clause
     params[:order] || :star_rating
   end
+
+  helper_method :report
 
 
 end

@@ -1,0 +1,12 @@
+<table border="1">
+  <thead>
+    <%= report.headers.each do |header| %>
+      <%= content_tag :th, header %>
+    <% end %>
+  </thead>
+  <tbody>
+    <%= report.each do |row | %>
+      <%= content_tag :td, row %>
+    <% end %>
+  </tbody>
+</table>
