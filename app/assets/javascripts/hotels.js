@@ -1,7 +1,7 @@
 var Hotels = function(){
   
   var searchOptions ={
-    domain: 'hot5.com',
+    domain: 'www.hot5.com',
     // domain: 'localhost:5000',
     minQueryLength: 2,
     maxResults:     7    

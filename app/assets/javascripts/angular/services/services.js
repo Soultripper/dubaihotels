@@ -87,9 +87,7 @@ searchHotelsServices.factory('Analytics', ['$http', '$location',
     }
 
     var post = function(path, data){
-      var protocol = $location.protocol()
-
-      var url =  protocol + '://analytics.' +  Hotels.getDomainName()  + '/' + path;
+      var url =  $location.protocol() + '://analytics.' +  Hotels.getDomainName()  + '/' + path;
       $http({'method': 'POST', 'url': url, 'data': data})
     }
 
@@ -105,10 +103,7 @@ searchHotelsServices.factory('HotelResults', ['$http', '$location',
   function($http, $location){
 
     var get = function(path, params){
-      var protocol = $location.protocol(), 
-          host     = window.location.host;
-          console.log(Hotels.getDomainName())
-      var url =  protocol + '://hotels.' + Hotels.getDomainName() + path;
+      var url =  $location.protocol() + '://hotels.' + Hotels.getDomainName() + path;
       return $http({'method': 'GET', 'url': url, 'headers':{'Accept':"application/json"}, 'params': params})
     }
 
