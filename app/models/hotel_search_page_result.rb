@@ -28,6 +28,10 @@ class HotelSearchPageResult
     (price.to_f / nearest).floor * nearest
   end
 
+  def price_values
+    @price_values = hotels.map {|h| round_up(hotel.offer[:min_price]))}.uniq
+  end
+
   def sort(key)
     @sort_key = key
     case key.to_sym
@@ -159,7 +163,8 @@ class HotelSearchPageResult
         json.min_price        @min_price 
         json.max_price        @max_price  
         json.min_price_filter user_filters[:min_price] if user_filters
-        json.max_price_filter user_filters[:max_price] if user_filters          
+        json.max_price_filter user_filters[:max_price] if user_filters  
+        # json.prices_values    price_values      
         json.star_ratings     user_filters[:star_ratings] if user_filters
         json.amenities        user_filters[:amenities] if user_filters
         json.longitude        location.longitude

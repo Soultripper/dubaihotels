@@ -108,7 +108,7 @@ searchHotelsServices.factory('HotelResults', ['$http', '$location',
     var get = function(path, params){
       var protocol = $location.protocol(), 
           host     = $location.host();
-
+          console.log(host)
       var url =  protocol + '://hotels.' + Hotels.getDomainName(host) + path;
       return $http({'method': 'GET', 'url': url, 'headers':{'Accept':"application/json"}, 'params': params})
     }
