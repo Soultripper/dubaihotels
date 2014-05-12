@@ -164,7 +164,7 @@ class HotelSearchPageResult
         json.max_price        @max_price  
         json.min_price_filter user_filters[:min_price] if user_filters
         json.max_price_filter user_filters[:max_price] if user_filters  
-        # json.prices_values    price_values      
+        json.prices_values    price_values      
         json.star_ratings     user_filters[:star_ratings] if user_filters
         json.amenities        user_filters[:amenities] if user_filters
         json.longitude        location.longitude

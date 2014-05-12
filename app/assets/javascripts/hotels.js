@@ -141,9 +141,8 @@ var Hotels = function(){
     })
   }
 
-  var getDomainName = function(hostName){
-    hostName = hostName || window.location.host;
-    return hostName.replace('wwww.', '');
+  var getDomainName = function(){
+    return window.location.host.replace('www.','');
     // return hostName.substring(hostName.indexOf(".", hostName.indexOf(".") - 1) + 1);
   }
 
