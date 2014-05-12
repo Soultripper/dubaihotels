@@ -1,7 +1,7 @@
 var Hotels = function(){
   
   var searchOptions ={
-    domain: window.location.host,
+    domain: 'hot5.com',
     // domain: 'localhost:5000',
     minQueryLength: 2,
     maxResults:     7    
@@ -143,7 +143,8 @@ var Hotels = function(){
 
   var getDomainName = function(hostName){
     hostName = hostName || window.location.host;
-    return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
+    return hostName.replace('wwww.', '');
+    // return hostName.substring(hostName.indexOf(".", hostName.indexOf(".") - 1) + 1);
   }
 
   return {
