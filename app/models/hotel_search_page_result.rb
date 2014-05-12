@@ -29,7 +29,7 @@ class HotelSearchPageResult
   end
 
   def price_values
-    @price_values = hotels.map {|h| round_up(hotel.offer[:min_price]))}.uniq
+    @price_values = hotels.map {|hotel| round_up(hotel.offer[:min_price])}.uniq
   end
 
   def sort(key)
