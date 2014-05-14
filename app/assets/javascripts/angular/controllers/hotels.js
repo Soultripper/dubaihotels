@@ -144,6 +144,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       if(initData.state!="invalid")
         Hotels.Map.createFixedMap('location-map', initData.info.latitude, initData.info.longitude, {zoom: initData.info.zoom, draggable: false});
 
+
       $scope.setupPage(initData)
     };
 
@@ -167,6 +168,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       $routeParams.count = response.info.page_size;
 
+      updateSlider(response.info);
       if(($scope.pageState==='new_search' && !response.hotels) || $scope.pageState==='invalid')
         return;
 
@@ -183,7 +185,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       Hot5.Connections.Pusher.changeChannel($rootScope.channel);
 
-      updateSlider(response.info);
+      
 
       toggleShowMore(false);
 
@@ -245,14 +247,17 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $scope.loadMore = function(response){
       delete $routeParams.load_more
-      if(response.hotels && response.hotels.length > 0)
+      var hotels = response.hotels;
+
+      if(hotels && hotels.length > 0)
       {
-        $scope.search_results.hotels = response.hotels;
+        $scope.search_results.hotels = hotels;
         toggleShowMore(false);
-        if((response.hotels.length >= response.info.available_hotels) || (response.hotels.length > 100))
-        {
+        if((hotels.length >= response.info.available_hotels))
           $("#loadmore").hide();    
-          $("#nomore").show();    
+        if(hotels.length > 100){
+          $("#loadmore").hide();  
+          $("#nomore").hide();      
         }
       }
       else
@@ -290,12 +295,20 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var slider = angular.element('#priceSlider')
       if(slider)
       {
-        slider.ionRangeSlider("update", {
-            min:  Math.round(25),
-            max:  Math.round(info.max_price || 300),
-            from: Math.round(info.min_price_filter || 25),               // change default FROM setting
-            to:   Math.round(info.max_price_filter || (info.max_price || 300)),   // change default TO setting
-        });
+        console.log(info.price_values)
+        slider.ionRangeSlider("update",{
+          values: info.price_values
+        })
+
+
+        // console.log(info.price_values)
+        // slider.ionRangeSlider("update", {
+        //     // min:  Math.round(25),
+        //     // max:  Math.round(info.max_price || 300),
+        //     // from: Math.round(info.min_price_filter || 25),               // change default FROM setting
+        //     // to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
+        //     values: info.price_values  
+        // });
       } 
     };
 
@@ -365,8 +378,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.changePrice = function(min_price, max_price){
 
-      $routeParams.min_price = min_price;
-      $routeParams.max_price = max_price;
+      $routeParams.min_price = Page.info.price_values[min_price];
+      $routeParams.max_price = Page.info.price_values[max_price];
 
       if(min_price<=10)
         delete $routeParams.min_price
@@ -526,12 +539,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     slider.ionRangeSlider({
       type: 'double', 
       prefix: '£',
-      hideMinMax: true,
+      hideMinMax: false,
       hideFromTo: true,
-      min: 25,
-      from: 25,
-      to: 300,
-      step: 5,
+      values: _.range(1,100),
       onFinish: Hotels.priceRange.change
     })
 
