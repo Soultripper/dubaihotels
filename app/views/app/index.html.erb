@@ -1,216 +1,211 @@
 
-  <div id="wrapper">
-      <header class="container">
-          <div class="row">
-              <div class="col-md-2 col-sm-12 masthead">
-                  <a id="logo" href="/" target="_self">
-                      Hot5 Hotel Search
-                  </a>
-              </div>
-          </div>
-      </header>
-      <section>
-          <div id="home-search">
-              <div class="container">
-                  <div class="row">
-                      <h1>
-                          5 seconds will save you 50% or more on your hotel reservation.
-                      </h1>
-                      <div class="col-lg-8 col-lg-offset-2">
-                           <form id="search"  ng-controller="SearchCtrl" target="_self">
-                              <div class="row">
-                                <div class="col-xs-12 place">
-                                  <div class="input-group">
-                                    <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input"/>
-                                    <input type="hidden" ng-model="slug" value="{{slug}}" id="location-slug"/>
-                                    <div class="input-group-btn" id="search-geo" style="display: none">
-                                      <button class="btn btn-primary">
-                                         <i class="fa fa-location-arrow"></i>
-                                      </button>
+
+<section>
+    <div id="home-search">
+        <div class="container">
+            <div class="row">
+                <h1>
+                    5 seconds will save you 50% or more on your hotel reservation.
+                </h1>
+                <div class="col-lg-8 col-lg-offset-2">
+                     <form id="search"  ng-controller="SearchCtrl" target="_self">
+                        <div class="row">
+                          <div class="col-xs-12 place">
+                            <div class="input-group">
+                              <input type="text" name="q" class="form-control" placeholder="Find a place..." autocomplete="off" id="search-input"/>
+                              <input type="hidden" ng-model="slug" value="{{slug}}" id="location-slug"/>
+                              <div class="input-group-btn" id="search-geo" style="display: none">
+                                <button class="btn btn-primary">
+                                   <i class="fa fa-location-arrow"></i>
+                                </button>
+                              </div>
+                              <div class="input-group-addon" ng-click="search()" >
+                                  <i class="fa fa-search"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row input-daterange">
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <input type="text" id="start_date" checkin name="start_date" class="form-control" placeholder="Check In..." value="<%=start_date.strftime('%a %d %b')%>"  autocomplete="off" readonly="readonly"/>
+                                    <div class="input-group-addon addon-hidden-sm" onclick="$('#start_date').datepicker('show');">
+                                        <i class="fa fa-calendar"></i>
                                     </div>
-                                    <div class="input-group-addon" ng-click="search()" >
-                                        <i class="fa fa-search"></i>
-                                    </div>
-                                  </div>
                                 </div>
-                              </div>
-                              <div class="row input-daterange">
-                                  <div class="col-xs-6">
-                                      <div class="input-group">
-                                          <input type="text" id="start_date" checkin name="start_date" class="form-control" placeholder="Check In..." value="<%=start_date.strftime('%a %d %b')%>"  autocomplete="off" readonly="readonly"/>
-                                          <div class="input-group-addon addon-hidden-sm" onclick="$('#start_date').datepicker('show');">
-                                              <i class="fa fa-calendar"></i>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-6">
-                                      <div class="input-group">
-                                          <input type="text" id="end_date" checkout name="end_date" class="form-control" placeholder="Check Out..." value="<%=end_date.strftime('%a %d %b')%>" autocomplete="off" readonly="readonly" />
-                                          <div class="input-group-addon addon-hidden-sm" onclick="$('#end_date').datepicker('show');">
-                                              <i class="fa fa-calendar"></i>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="row">
-                                  <div class="col-xs-12">
-                                      <button class="btn btn-primary search" ng-click="search()">
-                                          <i class="fa fa-search"></i>
-                                          Search
-                                      </button>
-                                  </div>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="container">
-              <p class="text-muted text-center">
-                  We compare live prices from all the major online travel sites to ensure you get the best deal.
-              </p>
-              <div class="logos">
-                  <ul>
-                      <li><%= image_tag "logos/booking.gif", width: 135, height: 52, alt: "Booking.com" %></li>
-                      <li><%= image_tag "logos/expedia.gif", width: 96, height: 52, alt: "Expedia.com" %></li>
-                      <li><%= image_tag "logos/agoda.gif", width: 80, height: 52, alt: "Agoda.com" %></li>
-                      <li><%= image_tag "logos/splendia.gif", width: 149, height: 52, alt: "Splendia.com" %></li>
-                      <li><%= image_tag "logos/easy_to_book.gif", width: 135, height: 52, alt: "EasyToBook.com" %></li>
-                  </ul>
-              </div>
-              <h3 class="text-center">Popular Destinations</h3>
-              <div class="popular-destinations row">
-                  <div class="col-md-2 col-xs-6 col-md-offset-1 col-xs-offset-0">
-                      <h5>North America</h5>
-                      <ul>
-                          <li><a href="new-york-hotels" target="_self">New York</a></li>
-                          <li><a href="las-vegas-hotels" target="_self">Las Vegas</a></li>
-                          <li><a href="san-francisco-hotels" target="_self">San Francisco</a></li>
-                          <li><a href="los-angeles-hotels" target="_self">Los Angeles</a></li>
-                          <li><a href="chicago-hotels" target="_self">Chicago</a></li>
-                          <li><a href="san-diego-hotels" target="_self">San Diego</a></li>
-                          <li><a href="washington-hotels" target="_self">Washington</a></li>
-                          <li><a href="orlando-hotels" target="_self">Orlando</a></li>
-                          <li><a href="toronto-hotels" target="_self">Toronto</a></li>
-                          <li><a href="montreal-hotels" target="_self">Montreal</a></li>
-                          <li><a href="houston-hotels" target="_self">Houston</a></li>
-                          <li><a href="new-orleans-hotels" target="_self">New Orleans</a></li>
-                          <li><a href="seattle-hotels" target="_self">Seattle</a></li>
-                          <li><a href="vancouver-hotels" target="_self">Vancouver</a></li>
-                          <li><a href="cancun-hotels" target="_self">Cancun</a></li>
-                          <li><a href="san-antonio-hotels" target="_self">San Antonio</a></li>
-                          <li><a href="miami-hotels" target="_self">Miami</a></li>
-                          <li><a href="mexico-city-hotels" target="_self">Mexico City</a></li>
-                          <li><a href="playa-del-carmen-hotels" target="_self">Playa del Carmen</a></li>
-                          <li><a href="boston-hotels" target="_self">Boston</a></li>
-                      </ul>
-                  </div>
-                  <div class="col-md-2 col-xs-6">
-                      <h5>South America</h5>
-                      <ul>
-                          <li><a href="buenos-aires-hotels" target="_self">Buenos Aires</a></li>
-                          <li><a href="rio-de-janeiro-hotels" target="_self">Rio de Janeiro</a></li>
-                          <li><a href="lima-hotels" target="_self">Lima</a></li>
-                          <li><a href="cusco-hotels" target="_self">Cusco</a></li>
-                          <li><a href="santiago-hotels" target="_self">Santiago</a></li>
-                          <li><a href="bogota-hotels" target="_self">Bogota</a></li>
-                          <li><a href="sao-paulo-hotels" target="_self">Sao Paulo</a></li>
-                          <li><a href="quito-hotels" target="_self">Quito</a></li>
-                          <li><a href="cartagena-hotels" target="_self">Cartagena</a></li>
-                          <li><a href="bariloche-hotels" target="_self">Bariloche</a></li>
-                          <li><a href="buzios-hotels" target="_self">Buzios</a></li>
-                          <li><a href="salvador-hotels" target="_self">Salvador da Bahia</a></li>
-                          <li><a href="arequipa-hotels" target="_self">Arequipa</a></li>
-                          <li><a href="florianopolis-hotels" target="_self">Florianopolis</a></li>
-                          <li><a href="puerto-iguazu-hotels" target="_self">Puerto Iguazu</a></li>
-                          <li><a href="la-paz-hotels" target="_self">La Paz</a></li>
-                          <li><a href="paraty-hotels" target="_self">Paraty</a></li>
-                          <li><a href="medellin-hotels" target="_self">Medellin</a></li>
-                          <li><a href="mendoza-hotels" target="_self">Mendoza</a></li>
-                          <li><a href="porto-seguro-hotels" target="_self">Porto Seguro</a></li>
-                      </ul>
-                  </div>
-                  <div class="col-md-2 col-xs-6">
-                      <h5>Europe</h5>
-                      <ul>
-                          <li><a href="london-hotels" target="_self">London</a></li>
-                          <li><a href="paris-hotels" target="_self">Paris</a></li>
-                          <li><a href="rome-hotels" target="_self">Rome</a></li>
-                          <li><a href="barcelona-hotels" target="_self">Barcelona</a></li>
-                          <li><a href="dublin-hotels" target="_self">Dublin</a></li>
-                          <li><a href="madrid-hotels" target="_self">Madrid</a></li>
-                          <li><a href="amsterdam-hotels" target="_self">Amsterdam</a></li>
-                          <li><a href="prague-hotels" target="_self">Prague</a></li>
-                          <li><a href="moscow-hotels" target="_self">Moscow</a></li>
-                          <li><a href="vienna-hotels" target="_self">Vienna</a></li>
-                          <li><a href="saint-petersburg-hotels" target="_self">St. Petersburg</a></li>
-                          <li><a href="venice-hotels" target="_self">Venice</a></li>
-                          <li><a href="warsaw-hotels" target="_self">Warsaw</a></li>
-                          <li><a href="dubrovnik-hotels" target="_self">Dubrovnik</a></li>
-                          <!-- <li><a href="benidorm" target="_self">Benidorm</a></li> -->
-                          <li><a href="berlin-hotels" target="_self">Berlin</a></li>
-                          <li><a href="budapest-hotels" target="_self">Budapest</a></li>
-                          <li><a href="munich-hotels" target="_self">Munich</a></li>
-                          <li><a href="milan-hotels" target="_self">Milan</a></li>
-                          <li><a href="florence-hotels" target="_self">Florence</a></li>
-                          <li><a href="lisbon-hotels" target="_self">Lisbon</a></li>
-                      </ul>
-                  </div>
-                  <div class="col-md-2 col-xs-6">
-                      <h5>Middle East/Africa</h5>
-                      <ul>
-                          <li><a href="dubai-hotels" target="_self">Dubai</a></li>
-                          <li><a href="jerusalem-hotels" target="_self">Jerusalem</a></li>
-                          <li><a href="tel-aviv-hotels" target="_self">Tel Aviv</a></li>
-                          <li><a href="abu-dhabi-hotels" target="_self">Abu Dhabi</a></li>
-                          <li><a href="beirut-hotels" target="_self">Beirut</a></li>
-                          <li><a href="amman-hotels" target="_self">Amman</a></li>
-                          <li><a href="doha-hotels" target="_self">Doha</a></li>
-                          <li><a href="manama-hotels" target="_self">Manama</a></li>
-                          <li><a href="riyadh-hotels" target="_self">Riyadh</a></li>
-                          <!-- <li><a href="damascus" target="_self">Damascus</a></li> -->
-                          <li><a href="muscat-hotels" target="_self">Muscat</a></li>
-                          <li><a href="marrakech-hotels" target="_self">Marrakech</a></li>
-                          <li><a href="cape-town-hotels" target="_self">Cape Town</a></li>
-                          <li><a href="cairo-hotels" target="_self">Cairo</a></li>
-                          <li><a href="johannesburg-hotels" target="_self">Johannesburg</a></li>
-                          <li><a href="sharm-el-sheikh-hotels" target="_self">Sharm El Sheikh</a></li>
-                          <li><a href="fes-hotels" target="_self">Fez</a></li>
-                          <li><a href="luxor-hotels" target="_self">Luxor</a></li>
-                          <li><a href="hurghada-hotels" target="_self">Hurghada</a></li>
-                          <li><a href="nairobi-hotels" target="_self">Nairobi</a></li>
-                      </ul>
-                  </div>
-                  <div class="col-md-2 col-xs-6">
-                      <h5>Asia/Pacific</h5>
-                      <ul>
-                          <li><a href="hong-kong-hotels" target="_self">Hong Kong</a></li>
-                          <li><a href="tokyo-hotels" target="_self">Tokyo</a></li>
-                          <li><a href="melbourne-hotels" target="_self">Melbourne</a></li>
-                          <li><a href="bangkok-hotels" target="_self">Bangkok</a></li>
-                          <li><a href="singapore-hotels" target="_self">Singapore</a></li>
-                          <li><a href="bali-hotels" target="_self">Bali</a></li>                          
-                          <li><a href="beijing-hotels" target="_self">Beijing</a></li>
-                          <li><a href="sydney-hotels" target="_self">Sydney</a></li>
-                          <li><a href="shanghai-hotels" target="_self">Shanghai</a></li>
-                          <li><a href="phuket-town-hotels" target="_self">Phuket</a></li>
-                          <li><a href="kuala-lumpur-hotels" target="_self">Kuala Lumpur</a></li>
-                          <li><a href="new-delhi-hotels" target="_self">New Delhi</a></li>
-                          
-                          <li><a href="hanoi-hotels" target="_self">Hanoi</a></li>
-                          <li><a href="ho-chi-minh-city-hotels" target="_self">Ho Chi Minh City</a></li>
-                          <li><a href="siem-reap-hotels" target="_self">Siem Reap</a></li>
-                          <li><a href="chiang-mai-hotels" target="_self">Chiang Mai</a></li>
-                          <li><a href="seoul-hotels" target="_self">Seoul</a></li>
-                          <li><a href="guangzhou-hotels" target="_self">Guangzhou</a></li>
-                          <!-- <li><a href="" target="_self">Koh Samui</a></li> -->                          
-                          <li><a href="pattaya-hotels" target="_self">Pattaya</a></li>                         
-                          
-                      </ul>
-                  </div>
-              </div>
-          </div>
-      </section>
-  <!-- Footer --> 
-  <%= render 'layouts/footer' %>
-  </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <input type="text" id="end_date" checkout name="end_date" class="form-control" placeholder="Check Out..." value="<%=end_date.strftime('%a %d %b')%>" autocomplete="off" readonly="readonly" />
+                                    <div class="input-group-addon addon-hidden-sm" onclick="$('#end_date').datepicker('show');">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary search" ng-click="search()">
+                                    <i class="fa fa-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <p class="text-muted text-center">
+            We compare live prices from all the major online travel sites to ensure you get the best deal.
+        </p>
+        <div class="logos">
+            <ul>
+                <li><%= image_tag "logos/booking.gif", width: 135, height: 52, alt: "Booking.com" %></li>
+                <li><%= image_tag "logos/expedia.gif", width: 96, height: 52, alt: "Expedia.com" %></li>
+                <li><%= image_tag "logos/agoda.gif", width: 80, height: 52, alt: "Agoda.com" %></li>
+                <li><%= image_tag "logos/splendia.gif", width: 149, height: 52, alt: "Splendia.com" %></li>
+                <li><%= image_tag "logos/easy_to_book.gif", width: 135, height: 52, alt: "EasyToBook.com" %></li>
+            </ul>
+        </div>
+        <h3 class="text-center">Popular Destinations</h3>
+        <div class="popular-destinations row">
+            <div class="col-md-2 col-xs-6 col-md-offset-1 col-xs-offset-0">
+                <h5>North America</h5>
+                <ul>
+                    <li><a href="new-york-hotels" target="_self">New York</a></li>
+                    <li><a href="las-vegas-hotels" target="_self">Las Vegas</a></li>
+                    <li><a href="san-francisco-hotels" target="_self">San Francisco</a></li>
+                    <li><a href="los-angeles-hotels" target="_self">Los Angeles</a></li>
+                    <li><a href="chicago-hotels" target="_self">Chicago</a></li>
+                    <li><a href="san-diego-hotels" target="_self">San Diego</a></li>
+                    <li><a href="washington-hotels" target="_self">Washington</a></li>
+                    <li><a href="orlando-hotels" target="_self">Orlando</a></li>
+                    <li><a href="toronto-hotels" target="_self">Toronto</a></li>
+                    <li><a href="montreal-hotels" target="_self">Montreal</a></li>
+                    <li><a href="houston-hotels" target="_self">Houston</a></li>
+                    <li><a href="new-orleans-hotels" target="_self">New Orleans</a></li>
+                    <li><a href="seattle-hotels" target="_self">Seattle</a></li>
+                    <li><a href="vancouver-hotels" target="_self">Vancouver</a></li>
+                    <li><a href="cancun-hotels" target="_self">Cancun</a></li>
+                    <li><a href="san-antonio-hotels" target="_self">San Antonio</a></li>
+                    <li><a href="miami-hotels" target="_self">Miami</a></li>
+                    <li><a href="mexico-city-hotels" target="_self">Mexico City</a></li>
+                    <li><a href="playa-del-carmen-hotels" target="_self">Playa del Carmen</a></li>
+                    <li><a href="boston-hotels" target="_self">Boston</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <h5>South America</h5>
+                <ul>
+                    <li><a href="buenos-aires-hotels" target="_self">Buenos Aires</a></li>
+                    <li><a href="rio-de-janeiro-hotels" target="_self">Rio de Janeiro</a></li>
+                    <li><a href="lima-hotels" target="_self">Lima</a></li>
+                    <li><a href="cusco-hotels" target="_self">Cusco</a></li>
+                    <li><a href="santiago-hotels" target="_self">Santiago</a></li>
+                    <li><a href="bogota-hotels" target="_self">Bogota</a></li>
+                    <li><a href="sao-paulo-hotels" target="_self">Sao Paulo</a></li>
+                    <li><a href="quito-hotels" target="_self">Quito</a></li>
+                    <li><a href="cartagena-hotels" target="_self">Cartagena</a></li>
+                    <li><a href="bariloche-hotels" target="_self">Bariloche</a></li>
+                    <li><a href="buzios-hotels" target="_self">Buzios</a></li>
+                    <li><a href="salvador-hotels" target="_self">Salvador da Bahia</a></li>
+                    <li><a href="arequipa-hotels" target="_self">Arequipa</a></li>
+                    <li><a href="florianopolis-hotels" target="_self">Florianopolis</a></li>
+                    <li><a href="puerto-iguazu-hotels" target="_self">Puerto Iguazu</a></li>
+                    <li><a href="la-paz-hotels" target="_self">La Paz</a></li>
+                    <li><a href="paraty-hotels" target="_self">Paraty</a></li>
+                    <li><a href="medellin-hotels" target="_self">Medellin</a></li>
+                    <li><a href="mendoza-hotels" target="_self">Mendoza</a></li>
+                    <li><a href="porto-seguro-hotels" target="_self">Porto Seguro</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <h5>Europe</h5>
+                <ul>
+                    <li><a href="london-hotels" target="_self">London</a></li>
+                    <li><a href="paris-hotels" target="_self">Paris</a></li>
+                    <li><a href="rome-hotels" target="_self">Rome</a></li>
+                    <li><a href="barcelona-hotels" target="_self">Barcelona</a></li>
+                    <li><a href="dublin-hotels" target="_self">Dublin</a></li>
+                    <li><a href="madrid-hotels" target="_self">Madrid</a></li>
+                    <li><a href="amsterdam-hotels" target="_self">Amsterdam</a></li>
+                    <li><a href="prague-hotels" target="_self">Prague</a></li>
+                    <li><a href="moscow-hotels" target="_self">Moscow</a></li>
+                    <li><a href="vienna-hotels" target="_self">Vienna</a></li>
+                    <li><a href="saint-petersburg-hotels" target="_self">St. Petersburg</a></li>
+                    <li><a href="venice-hotels" target="_self">Venice</a></li>
+                    <li><a href="warsaw-hotels" target="_self">Warsaw</a></li>
+                    <li><a href="dubrovnik-hotels" target="_self">Dubrovnik</a></li>
+                    <!-- <li><a href="benidorm" target="_self">Benidorm</a></li> -->
+                    <li><a href="berlin-hotels" target="_self">Berlin</a></li>
+                    <li><a href="budapest-hotels" target="_self">Budapest</a></li>
+                    <li><a href="munich-hotels" target="_self">Munich</a></li>
+                    <li><a href="milan-hotels" target="_self">Milan</a></li>
+                    <li><a href="florence-hotels" target="_self">Florence</a></li>
+                    <li><a href="lisbon-hotels" target="_self">Lisbon</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <h5>Middle East/Africa</h5>
+                <ul>
+                    <li><a href="dubai-hotels" target="_self">Dubai</a></li>
+                    <li><a href="jerusalem-hotels" target="_self">Jerusalem</a></li>
+                    <li><a href="tel-aviv-hotels" target="_self">Tel Aviv</a></li>
+                    <li><a href="abu-dhabi-hotels" target="_self">Abu Dhabi</a></li>
+                    <li><a href="beirut-hotels" target="_self">Beirut</a></li>
+                    <li><a href="amman-hotels" target="_self">Amman</a></li>
+                    <li><a href="doha-hotels" target="_self">Doha</a></li>
+                    <li><a href="manama-hotels" target="_self">Manama</a></li>
+                    <li><a href="riyadh-hotels" target="_self">Riyadh</a></li>
+                    <!-- <li><a href="damascus" target="_self">Damascus</a></li> -->
+                    <li><a href="muscat-hotels" target="_self">Muscat</a></li>
+                    <li><a href="marrakech-hotels" target="_self">Marrakech</a></li>
+                    <li><a href="cape-town-hotels" target="_self">Cape Town</a></li>
+                    <li><a href="cairo-hotels" target="_self">Cairo</a></li>
+                    <li><a href="johannesburg-hotels" target="_self">Johannesburg</a></li>
+                    <li><a href="sharm-el-sheikh-hotels" target="_self">Sharm El Sheikh</a></li>
+                    <li><a href="fes-hotels" target="_self">Fez</a></li>
+                    <li><a href="luxor-hotels" target="_self">Luxor</a></li>
+                    <li><a href="hurghada-hotels" target="_self">Hurghada</a></li>
+                    <li><a href="nairobi-hotels" target="_self">Nairobi</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2 col-xs-6">
+                <h5>Asia/Pacific</h5>
+                <ul>
+                    <li><a href="hong-kong-hotels" target="_self">Hong Kong</a></li>
+                    <li><a href="tokyo-hotels" target="_self">Tokyo</a></li>
+                    <li><a href="melbourne-hotels" target="_self">Melbourne</a></li>
+                    <li><a href="bangkok-hotels" target="_self">Bangkok</a></li>
+                    <li><a href="singapore-hotels" target="_self">Singapore</a></li>
+                    <li><a href="bali-hotels" target="_self">Bali</a></li>                          
+                    <li><a href="beijing-hotels" target="_self">Beijing</a></li>
+                    <li><a href="sydney-hotels" target="_self">Sydney</a></li>
+                    <li><a href="shanghai-hotels" target="_self">Shanghai</a></li>
+                    <li><a href="phuket-town-hotels" target="_self">Phuket</a></li>
+                    <li><a href="kuala-lumpur-hotels" target="_self">Kuala Lumpur</a></li>
+                    <li><a href="new-delhi-hotels" target="_self">New Delhi</a></li>
+                    
+                    <li><a href="hanoi-hotels" target="_self">Hanoi</a></li>
+                    <li><a href="ho-chi-minh-city-hotels" target="_self">Ho Chi Minh City</a></li>
+                    <li><a href="siem-reap-hotels" target="_self">Siem Reap</a></li>
+                    <li><a href="chiang-mai-hotels" target="_self">Chiang Mai</a></li>
+                    <li><a href="seoul-hotels" target="_self">Seoul</a></li>
+                    <li><a href="guangzhou-hotels" target="_self">Guangzhou</a></li>
+                    <!-- <li><a href="" target="_self">Koh Samui</a></li> -->                          
+                    <li><a href="pattaya-hotels" target="_self">Pattaya</a></li>                         
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+  // Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @user_channel || "open"%>')
+  $(function(){
+    Hotels.setDatesToToday();
+  })
+</script>
+

@@ -4,6 +4,9 @@ class AppController < ApplicationController
     
   end
 
+  def privacy_policy
+  end
+
   def not_found
     render layout: 'error'
   end

@@ -65,8 +65,6 @@ WHERE p.provider_id = 'venere' AND p.provider_hotel_id = T1.venere_hotel_id;
 --SELECT COUNT(*) FROM provider_hotels WHERE hotel_id IS NULL
 --SELECT * FROM provider_hotels WHERE hotel_id IS NULL LIMIT 100
 
-ALTER TABLE provider_hotels ADD COLUMN name_normal character varying(255);
-
 
  UPDATE provider_hotels SET name_normal = LOWER(name)
 UPDATE provider_hotels SET name_normal = REGEXP_REPLACE(name_normal, '\([^)]*\)', '') WHERE name_normal ~ '\([^)]*\)' 

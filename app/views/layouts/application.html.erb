@@ -17,17 +17,23 @@
     <%= jquery_include_tag :google %>
     <%= javascript_include_tag "application" %>
     
-    <script>
-      Hot5.Connections.Pusher.init('<%= Pusher.key %>').subscribe('<%= @user_channel || "open"%>')
-      $(function(){
-        Hotels.setDatesToToday();
-      })
-    </script>
-
 </head>
 <body >
   <%= render partial:'shared/google_tag_manager' %>
-   <%= yield %>
+  <div id="wrapper">
+      <header class="container">
+          <div class="row">
+              <div class="col-md-2 col-sm-12 masthead">
+                  <a id="logo" href="/" target="_self">
+                      Hot5 Hotel Search
+                  </a>
+              </div>
+          </div>
+      </header>
+      <%= yield %>
+  <!-- Footer --> 
+  <%= render 'layouts/footer' %>
+  </div>
    <%= render partial:'shared/tracking' %>
 </body>
 </html>

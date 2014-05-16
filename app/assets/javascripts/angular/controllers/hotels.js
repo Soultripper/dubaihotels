@@ -295,20 +295,19 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var slider = angular.element('#priceSlider')
       if(slider)
       {
-        console.log(info.price_values)
-        slider.ionRangeSlider("update",{
-          values: info.price_values
-        })
-
-
         // console.log(info.price_values)
-        // slider.ionRangeSlider("update", {
-        //     // min:  Math.round(25),
-        //     // max:  Math.round(info.max_price || 300),
-        //     // from: Math.round(info.min_price_filter || 25),               // change default FROM setting
-        //     // to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
-        //     values: info.price_values  
-        // });
+        // slider.ionRangeSlider("update",{
+        //   values: info.price_values
+        // })
+
+
+        slider.ionRangeSlider("update", {
+            min:  Math.round(25),
+            max:  Math.round(info.max_price || 300),
+            from: Math.round(info.min_price_filter || 25),               // change default FROM setting
+            to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
+           // values: info.price_values  
+        });
       } 
     };
 
@@ -367,7 +366,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.headerImage = function(hotel){
-      return hotel.main_image ? hotel.main_image.url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+      return (hotel.main_image && hotel.main_image.url) ? hotel.main_image.url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+
+      //return (hotel.main_image && hotel.main_image.image_url) ? hotel.main_image.image_url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
     };
 
     $scope.providerImage = function(provider){
@@ -378,8 +379,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     $rootScope.changePrice = function(min_price, max_price){
 
-      $routeParams.min_price = Page.info.price_values[min_price];
-      $routeParams.max_price = Page.info.price_values[max_price];
+      $routeParams.min_price = min_price; //Page.info.price_values[min_price];
+      $routeParams.max_price = max_price; ///Page.info.price_values[max_price];
 
       if(min_price<=10)
         delete $routeParams.min_price
@@ -540,8 +541,13 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       type: 'double', 
       prefix: '£',
       hideMinMax: false,
-      hideFromTo: true,
-      values: _.range(1,100),
+      hideFromTo: false,
+      min: 25,
+      max: 300,
+      from: 25,
+      to: 300,
+      step: 5,
+      // values: _.range(1,100),
       onFinish: Hotels.priceRange.change
     })
 

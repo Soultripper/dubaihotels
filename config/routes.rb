@@ -23,7 +23,7 @@ Hotels::Application.routes.draw do
   match "/" => "search#index", :constraints => PPCConstraint
 
   root :to => 'app#index'
-
+  get 'privacy_policy', to: 'app#privacy_policy'
   match '/' => 'results#hotel_rooms', constraints: { :subdomain => 'results' }
   
   match "/404", :to => "app#not_found"
