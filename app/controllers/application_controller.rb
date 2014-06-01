@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
 
 
   def find_currency_code
-    currency_code = Currency.codes[user_location_code.to_sym] || Currency.codes.first[1]
+    currency_code = Currency.codes[user_location_code.to_sym] || Currency.codes[:GB]
     currency_code[0]
   end
 
