@@ -77,7 +77,7 @@ module Venere
         min_price: min_price.to_f / search_criteria.total_nights,
         max_price: max_price.to_f / search_criteria.total_nights,        
         ranking: ranking,
-        rooms: nil,
+        rooms: rooms.map {|room| room.commonize(search_criteria)},
         link: search_criteria.venere_link(hotel_id)
       }
     rescue Exception => msg  

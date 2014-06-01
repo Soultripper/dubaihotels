@@ -82,11 +82,12 @@
         var qsParams = [];
         qsParams.push('start_date=' + startDate);
         qsParams.push('end_date=' + endDate);
-        // qsParams.push('page_no=1');
         qsParams.push('coordinates=' + position.coords.latitude + ',' + position.coords.longitude);
         
         var scope = angular.element("#search").scope();
         scope.$apply(function(){
+          if(scope.currency)
+            qsParams.push('currency=' + scope.currency);
           scope.slug = 'my-location'
         })
 
@@ -162,7 +163,6 @@
     },
 
     _loadGallery: function (container) {
-      console.log(container)
         if ($("li.active", container).length == 0)
             $("li:first a", container).trigger("click");
     },

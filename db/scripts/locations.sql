@@ -62,6 +62,12 @@ left join locations l on l.city_id = c.id
 where l.id is null and cn.language_code = 'en'
 group by c.name, c.id,  cn.name, cn.country_code, cn.language_code, c.longitude, c.latitude
 
+DELETE FROM locations where location_type = 'Hotel';
+INSERT into locations (name, location_type, description, longitude, latitude, geog, slug, country_code)
+SELECT name, 'Hotel', description ,longitude, latitude, geog, slug, upper(country_code) FROM hotels
+
+
+
 select * from countries limit 1
 select * from locations where city ilike 'Las Vegas'
 

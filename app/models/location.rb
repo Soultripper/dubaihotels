@@ -206,5 +206,11 @@ class Location < ActiveRecord::Base
     }
   end
 
+  # def self.insert_hotels
+  #   where(location_type: 'Hotel').delete_all
+    
+  # end
+
+
 
 end

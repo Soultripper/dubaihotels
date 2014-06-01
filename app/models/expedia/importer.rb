@@ -70,16 +70,37 @@ class Expedia::Importer
     end
 
 
+    # def unzip(filename)
+    #   Zip::File.open(filename) do |zipfile|
+    #     zipfile.each do |file|
+    #       path = Tempfile.new([file.name,'.txt']).path
+    #       Log.info "Unzipped #{filename} to #{path}"
+    #       zipfile.extract(file.name, path) {true}
+    #       yield path if block_given?
+    #     end
+    #   end
+    # end
+
     def unzip(filename)
-      Zip::ZipFile.open(filename) do |zipfile|
-        zipfile.each do |file|
-          path = Tempfile.new([file.name,'.txt']).path
-          Log.info "Unzipped #{filename} to #{path}"
-          zipfile.extract(file.name, path) {true}
-          yield path if block_given?
+
+      Log.debug "Unzipping #{filename}....."
+      path = ''
+      Zip::Archive.open(filename) do |ar|
+        ar.each do |zf|
+          tmp_file = Tempfile.new(zf.name, "#{Rails.root}/tmp")
+          tmp_file.binmode
+          tmp_file.write zf.read
+          tmp_file.close
+          path = tmp_file.path
+          # open(path, 'wb') do |f|
+          #   f << zf.read
+          # end
         end
       end
+      Log.debug "Unzipped #{filename} to #{path}"
+      path
     end
+    
 
     # def import_expedia_file(klass, filename)
     #   sql =  "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' with (FORMAT csv, DELIMITER '|', HEADER true, QUOTE '}')"    

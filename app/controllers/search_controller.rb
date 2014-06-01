@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
 
-  before_filter :publish_search, only: :index
+  # before_filter :publish_search, only: :index
   respond_to :html
 
   layout 'search'

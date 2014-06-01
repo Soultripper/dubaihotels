@@ -107,31 +107,10 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       }
     };
 
-    // $scope.getRooms = function(obj) {
-    //   var hotel = $scope.hotel;
-
-    //   if(hotel.rooms && hotel.rooms.length > 0)
-    //     return hotel.displayRooms = true;
-    //   hotel.displayRooms = false
-    //   roomsQuery(hotel, timeoutId, obj)
-    // };
-
-
-    // var roomsQuery = function(hotel, timeoutId, obj){
-    //   var hotel = $scope.hotel;
-
-    //   Hot5.Connections.Pusher.changeChannel(hotel.channel);
-
-    //   var params = {'key': hotel.key }
-
-    //   HotelResults.get('/hotels/' + hotel.slug + '/rooms', params).success(
-    //     function(response){
-    //       hotel.rooms = response  
-    //       hotel.displayRooms = true;;
-    //     });
-    // };
-
-
+    $scope.changeCurrency = function(currency){
+      $scope.currency = currency;
+      $rootScope.searchCity()
+    };
 
     var roomsQuery = function(timeoutId){
       var hotel = $scope.hotel;
@@ -190,28 +169,17 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
         return;
       }
       
-      // $rootScope.$broadcast("loading-started");
-      // $routeParams.id = $scope.slug;
-      // $location.path($scope.slug);
-      $routeParams.start_date = start_date();
-      $routeParams.end_date = end_date();
+      var params = {};
+      params.start_date = start_date();
+      params.end_date = end_date();
+      params.currency = $scope.currency;
 
       if($scope.selectType=='hotel')
         $scope.slug = 'hotels/' + $scope.slug 
 
-      // $location.path($routeParams.id +'.json?start_date=' + $routeParams.start_date + '&end_date=' + $routeParams.end_date)
-      // $scope.search();
-      // $location.search({start_date: start_date(), end_date: end_date()}).path(Page.info.slug)
-      var url = '/' + $scope.slug + '?';
-      var qs = []
-
-      if($routeParams.start_date!=undefined)
-        qs.push('start_date=' + $routeParams.start_date)
-
-      if($routeParams.end_date!=undefined)
-        qs.push('end_date=' + $routeParams.end_date)
-      
-      window.location.href =  url + qs.join('&');
+      Hotels.removeEmptyKeys(params);
+      var url = '/' + $scope.slug + '?' + $.param(params);
+      window.location.href =  url 
     };
 
    $scope.locationSelect = function (query, slug, type) {

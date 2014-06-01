@@ -6,12 +6,9 @@ class HotelSearch
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
-  PROVIDERS = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
-  # PROVIDERS = [:agoda]
-
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
-    @results_counter = ResultsCounter.new PROVIDERS
+    @results_counter = ResultsCounter.new 
     @location, @search_criteria = location, search_criteria
   end
 

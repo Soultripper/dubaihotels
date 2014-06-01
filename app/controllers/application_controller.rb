@@ -100,33 +100,25 @@ class ApplicationController < ActionController::Base
     (params["id"] || "dubai").gsub('-hotels', '').gsub('-',' ')
   end
 
+  def currency
+     (!params["currency"].blank?) ? params["currency"] : find_currency_code
+   rescue => msg
+    Log.error "Unable to locate country code, msg: #{msg}"
+    CURRENCY_CODE
+  end
+
   # def currency
-  #    (!params["currency"].blank?) ? params["currency"] : locate_currency_code
-  #  rescue => msg
-  #   Log.error "Unable to locate country code, msg: #{msg}"
-  #   CURRENCY_CODE
+  #    (!params["currency"].blank?) ? params["currency"] : CURRENCY_CODE
   # end
 
 
-  def currency
-     (!params["currency"].blank?) ? params["currency"] : CURRENCY_CODE
-  end
-
-  def locate_currency_code
-    located_country_code = locate_country_numcode
-    if located_country_code and numcode = located_country_code.numcode
-      Money::Currency.find_by_iso_numeric(numcode).iso_code
-    else
-      CURRENCY_CODE
-    end
-  end
-
-  def locate_country_numcode
-    @country_code ||= CountryCode.find_by_iso2(user_location_code)
+  def find_currency_code
+    currency_code = Currency.codes[user_location_code.to_sym] || Currency.codes.first
+    currency_code[1][0]
   end
 
   def user_location_code
-    @user_country_code = request.location.country_code
+    @user_country_code ||= request.location.country_code.upcase
   end
 
   def sort

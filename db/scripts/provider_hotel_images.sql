@@ -29,6 +29,7 @@ SELECT * FROM venere_hotels LIMIT 100
 --   OIDS=FALSE
 -- );
 
+
 -- BOOKING
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
 SELECT url_max_300, url_square60, 'booking', booking_hotel_id
@@ -42,10 +43,16 @@ FROM agoda_hotel_images
 GROUP BY image_url, agoda_hotel_id;
 
 -- EXPEDIA
+-- 	update ean_hotel_images set default_image = true where caption = 'Exterior'
+
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image, width, height)
-SELECT url, thumbnail_url, 'expedia', ean_hotel_id,default_image, width, height
+SELECT url, thumbnail_url, 'expedia', ean_hotel_id, default_image, width, height
 FROM ean_hotel_images
 GROUP BY url, thumbnail_url, ean_hotel_id,default_image, width, height;
+
+-- 	update provider_hotel_images phi set default_image = true 
+-- 	from (select *  from ean_hotel_images where default_image = true) as t1
+-- 	where phi.provider = 'expedia' and phi.provider_id = t1.ean_hotel_id and phi.url = t1.url
 
 -- EasyToBook
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
@@ -91,7 +98,7 @@ WHERE t1.id = p.id AND t1.row_number = 1 AND default_image IS NULL
 -- expedia 
 UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'expedia') AS t1
-WHERE ean_hotel_id = t1.provider_id;
+WHERE ean_hotel_id = t1.provider_id AND image_url IS NULL;;
 
 -- agoda
 UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
@@ -122,3 +129,6 @@ WHERE splendia_hotel_id = t1.provider_id AND image_url IS NULL;
 UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'booking') AS t1
 WHERE booking_hotel_id = t1.provider_id AND image_url IS NULL;
+
+
+

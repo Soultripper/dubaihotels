@@ -21,16 +21,17 @@
 <body >
   <%= render partial:'shared/google_tag_manager' %>
   <div id="wrapper">
-      <header class="container">
-          <div class="row">
-              <div class="col-md-2 col-sm-12 masthead">
-                  <a id="logo" href="/" target="_self">
-                      Hot5 Hotel Search
-                  </a>
-              </div>
-          </div>
-      </header>
-      <%= yield %>
+    <%#= render partial: 'shared/navbar' %>
+    <header class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12 masthead">
+                <a id="logo" href="/" target="_self">
+                    Hot5 Hotel Search
+                </a>
+            </div>
+        </div>
+    </header>
+    <%= yield %>
   <!-- Footer --> 
   <%= render 'layouts/footer' %>
   </div>

@@ -12,7 +12,7 @@ module HotelsConfig
 
   class << self
 
-    attr_accessor :page_size, :max_page_size, :min_page_size, :max_price, :cache_expiry
+    attr_accessor :page_size, :max_page_size, :min_page_size, :max_price, :cache_expiry, :providers
 
     def setup
       yield self

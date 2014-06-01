@@ -5,6 +5,12 @@ Rails.application.config.to_prepare do
     config.min_page_size = 1    
     config.max_price = 100,
     config.cache_expiry = 20.minutes
+
+    if Rails.env == "production"
+      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+    else
+      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+    end
   end
 
   Geocoder.configure(cache: Redis.new(url: ENV["REDISCLOUD_URL"]))

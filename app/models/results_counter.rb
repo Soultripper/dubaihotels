@@ -2,8 +2,8 @@ class ResultsCounter
 
   attr_reader :counter, :providers
 
-  def initialize(providers)
-    @counter, @providers = {}, providers
+  def initialize
+    @counter, @providers = {}, HotelsConfig.providers
     providers.each {|p| reset p}
   end
 

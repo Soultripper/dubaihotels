@@ -46,7 +46,7 @@ module Venere
         provider: :venere,
         description: description,
         price: price,
-        link: "http://www.venere.com/hotel/?htid=#{hotel_id}&lg=en&ref=#{Venere::Client.AFFID}"
+        link: search_criteria.venere_link(hotel_id)      
       }
     end
 

@@ -1,0 +1,19 @@
+<nav id="preferences">
+  <div class="container">
+    <div class="dropdown pull-right">
+      <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+        <%= currency_flag_icon_by Currency.find_by_currency(currency) %>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" id="currency_list" change-currency>
+        <% Currency.codes.each do |code| %>
+          <li>
+            <%= link_to '#', data: {currency: code[1][0]} do %>
+              <%= currency_flag_icon_by code %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

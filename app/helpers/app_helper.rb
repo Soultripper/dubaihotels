@@ -1,3 +1,5 @@
+#!/bin/env ruby
+# encoding: utf-8
 module AppHelper
 
   def city_link(city)
@@ -23,6 +25,15 @@ module AppHelper
 
   def hotel_image_src(hotel_image)
     hotel_image  ? hotel_image.url : 'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+  end
+
+  def currency_flag_icon_by(currency_code)
+    country_code = currency_code[0]
+    values = currency_code[1]
+    currency = values[0]
+    currency_symbol = values[1]
+
+    image_tag("icons/flags/#{country_code.downcase}.png", alt: country_code) << " #{currency} (#{currency_symbol})"
   end
 
 

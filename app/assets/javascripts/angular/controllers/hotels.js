@@ -200,10 +200,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         callback = $scope.setupPage;
 
       var params = $scope.buildParams();
-
       HotelResults.get($location.path(), params).success(callback)
     };
 
+
+    $scope.changeCurrency = function(currency){
+      Page.criteria.currency_code = currency;
+      $scope.currency = currency;
+      $rootScope.searchCity()
+    };
 
     $scope.getRooms = function(obj, hotel) {
       app.tabSelect(obj.target, 'rooms');

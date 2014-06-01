@@ -30,6 +30,11 @@ app.controller('SearchCtrl', ['$scope', '$http', '$location', '$window', '$filte
 
     $scope.analytics = function() {return Analytics;};
 
+
+    // $scope.changeCurrency = function(currency){
+    //   $location.search('currency', currency);
+    // };
+
     $scope.search = function(){
 
       var routes = {
