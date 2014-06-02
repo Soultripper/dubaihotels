@@ -79,7 +79,7 @@ module Currency
         PE: [:PEN, 'PEN'], # peru
         PL: [:PLN, 'zł'],
         RO: [:RON, 'RON'],
-        RS: [:RSD, 'РСД'],
+        RS: [:RSD, 'RSD'],
         RU: [:RUB, 'py6'],
         SA: [:SAR, 'SR'],
         SE: [:SEK, 'kr'],
