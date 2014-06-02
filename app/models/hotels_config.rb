@@ -10,6 +10,16 @@ module HotelsConfig
     venere: :venere_hotel_id
   }
 
+  # OVERRIDEN_CURRENCY_SYMOBLS = {
+  #   AED: 'AED',
+  #   AUD: 'AU$',
+  #   CHF: 'CHF',
+  #   EGP: 'EGP',
+  #   INR: 'Rs.',
+  #   MAD: 'MAD',
+  #   PEN: 'PEN'
+  # }
+
   class << self
 
     attr_accessor :page_size, :max_page_size, :min_page_size, :max_price, :cache_expiry, :providers

@@ -16,11 +16,11 @@ class SearchCriteria
 
 
   def currency_symbol
-    currency.symbol
+    currency[1][1]
   end
 
   def currency
-    @currency ||= Money::Currency.new currency_code
+    @currency ||= Currency.find_by_currency currency_code
   end
 
   def all_stars?

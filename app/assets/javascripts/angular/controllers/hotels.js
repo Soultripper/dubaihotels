@@ -168,12 +168,15 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       $routeParams.count = response.info.page_size;
 
-      updateSlider(response.info);
-      if(($scope.pageState==='new_search' && !response.hotels) || $scope.pageState==='invalid')
-        return;
-
       Page.criteria = response.criteria;
       Page.info = response.info;
+
+      $rootScope.currency_symbol = Page.criteria.currency_symbol;
+
+      updateSlider(response.info);
+
+      if(($scope.pageState==='new_search' && !response.hotels) || $scope.pageState==='invalid')
+        return;
 
       $scope.zoom = response.info.zoom;
       $scope.search_results = response
@@ -181,7 +184,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       $scope.slug = Page.info.slug
 
       $rootScope.channel = Page.info.channel
-      $rootScope.currency_symbol = Page.criteria.currency_symbol;
 
       Hot5.Connections.Pusher.changeChannel($rootScope.channel);
 
@@ -311,6 +313,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
             max:  Math.round(info.max_price || 300),
             from: Math.round(info.min_price_filter || 25),               // change default FROM setting
             to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
+            prefix: $rootScope.currency_symbol
            // values: info.price_values  
         });
       } 
