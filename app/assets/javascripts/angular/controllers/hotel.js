@@ -107,6 +107,10 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       }
     };
 
+    $scope.formatPrice = function(price){
+      return accounting.formatNumber(price,0);
+    };
+    
     $scope.changeCurrency = function(currency){
       $scope.currency = currency;
       $rootScope.searchCity()

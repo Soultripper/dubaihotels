@@ -66,8 +66,8 @@
                   <span class="name">
                     {{hotelProvider.getDescription(provider)}}
                   </span>
-                  <div class="price">
-                    {{provider.min_price | price:currency_symbol:0 }}
+                  <div class="price price-label">
+                    <small>{{currency_symbol}}</small>{{formatPrice(provider.min_price)}}
                   </div>
                 </a>
                 <span ng-show="{{!provider.link}}">
@@ -75,7 +75,7 @@
                     {{hotelProvider.getDescription(provider)}}
                   </span>
                   <div class="price">
-                    {{provider.min_price | price:currency_symbol:0 }}
+                    N/A
                   </div>
                 </span>
               </li>    
@@ -86,30 +86,24 @@
               </li>
           </ul>
           <ul class="tabs">
-              <li class="tab-details"> 
-                  <a href="#" onclick="return app.tabSelect(this, 'details')">
-                      <i class="fa fa-info-circle"></i>
-                      Details
-                  </a>
-              </li>
-              <li class="tab-map" >
-                  <a href="#" onclick="return app.tabSelect(this, 'map')">
-                      <i class="fa fa-map-marker"></i>
-                      Map
-                  </a>
-              </li>
-              <li class="tab-rooms">
-                  <a href="#" ng-click="getRooms($event, hotel)">
-                      <i class="fa fa-building-o"></i>
-                      Rooms
-                  </a>
-              </li>
-    <!--           <li class="tab-best-rooms">
-                  <a href="#" onclick="return app.tabSelect(this, 'best-rooms')">
-                      <i class="fa fa-star"></i>
-                      Best Rooms
-                  </a>
-              </li> -->
+            <li class="tab-details"> 
+              <a href="#" onclick="return app.tabSelect(this, 'details')">
+                  <i class="fa fa-info-circle"></i>
+                  Details
+              </a>
+            </li>
+            <li class="tab-map" >
+              <a href="#" onclick="return app.tabSelect(this, 'map')">
+                  <i class="fa fa-map-marker"></i>
+                  Map
+              </a>
+            </li>
+            <li class="tab-rooms">
+              <a href="#" ng-click="getRooms($event, hotel)">
+                  <i class="fa fa-building-o"></i>
+                  Rooms
+              </a>
+            </li>
           </ul>
       </div>
       <div class="best-deal">
@@ -117,11 +111,11 @@
             <img ng-src='{{providerImage(hotel.offer.provider)}}' alt="{{hotel.offer.provider}}" ng-show="hotel.offer.provider" />
         </div>
         <div class="high-price" >
-          <span ng-show="hotel.offer.provider">{{hotel.offer.max_price | price:currency_symbol:0 }}</span>
+          <span ng-show="hotel.offer.provider" class="hero-price"> <small>{{currency_symbol}}</small>{{formatPrice(hotel.offer.max_price)}}</span>
         </div>
         <div class="price">
           <i class="fa fa-gear fa-spin" ng-show="!hotel.offer.provider"></i>
-          <span ng-show="hotel.offer.provider">{{hotel.offer.min_price | price:currency_symbol:0 }}</span>
+          <span ng-show="hotel.offer.provider" class="hero-price"> <small>{{currency_symbol}}</small>{{formatPrice(hotel.offer.min_price)}}</span>
         </div>
         <div class="btn btn-success" get-deal="{{hotel.offer.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{hotel.offer.provider}}" data-price="{{hotel.offer.min_price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}">
           <span ng-show="hotel.offer.provider">See Deal</span>

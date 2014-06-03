@@ -379,6 +379,10 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       return (hotel.main_image && hotel.main_image.image_url) ? hotel.main_image.image_url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
     };
 
+    $scope.formatPrice = function(price){
+      return accounting.formatNumber(price,0);
+    };
+
     $scope.providerImage = function(provider){
       if(provider)
         return '/assets/logos/' + provider + '.gif'

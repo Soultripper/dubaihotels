@@ -49,7 +49,15 @@
   margin-bottom: 10px;
   cursor: pointer;
 }
-
+.rooms .price small{
+  font-size: 12px;
+}
+.price small{
+  padding-right: 2px;
+}
+/*.price small{
+  font-size: 0.7em;
+}*/
 @media (max-width: 992px) {
   #results #nomore 
   {
