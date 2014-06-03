@@ -55,8 +55,9 @@ GROUP BY url, thumbnail_url, ean_hotel_id,default_image, width, height;
 -- 	where phi.provider = 'expedia' and phi.provider_id = t1.ean_hotel_id and phi.url = t1.url
 
 -- EasyToBook
-INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
-SELECT image, image, 'etb', etb_hotel_id
+delete from provider_hotel_images where provider = 'etb'
+INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
+SELECT image, image, 'etb', etb_hotel_id, true
 FROM etb_hotel_images
 WHERE size = 'hotel'
 GROUP BY image, etb_hotel_id;
@@ -68,6 +69,7 @@ FROM late_rooms_hotel_images
 GROUP BY image_url, laterooms_hotel_id, default_image;
 
 -- Splendia
+delete from provider_hotel_images where provider = 'splendia'
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT big_image, small_image, 'splendia', id, true
 FROM splendia_hotels

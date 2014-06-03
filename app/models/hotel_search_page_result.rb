@@ -88,8 +88,8 @@ class HotelSearchPageResult
             :star_rating, :description, :amenities, :slug)
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
-          # json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
-          json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
+          json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
+          # json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
           json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
           json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
         end
@@ -110,8 +110,8 @@ class HotelSearchPageResult
           hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :latitude, :longitude, :star_rating,  :slug)
           json.offer          hotel_comparison.offer
-          # json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
-          json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
+          json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
+          # json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
         end
       end
     end
