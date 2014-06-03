@@ -29,7 +29,7 @@
   overflow-y: auto !important;
 }*/
 
-.tabs-content .tab-rooms, .tab-details{
+.tabs-content .tab-rooms, .tabs-content .tab-details{
   overflow-y: auto !important;
 }
 
