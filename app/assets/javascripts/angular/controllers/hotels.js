@@ -374,9 +374,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.headerImage = function(hotel){
-      return (hotel.main_image && hotel.main_image.url) ? hotel.main_image.url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+      //return (hotel.main_image && hotel.main_image.url) ? hotel.main_image.url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
 
-      //return (hotel.main_image && hotel.main_image.image_url) ? hotel.main_image.image_url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
+      return (hotel.main_image && hotel.main_image.image_url) ? hotel.main_image.image_url :  'http://d1pa4et5htdsls.cloudfront.net/images/61/2025/68208/68208-rev1-img1-400.jpg'
     };
 
     $scope.providerImage = function(provider){
