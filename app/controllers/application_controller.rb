@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_location_code
-    @user_country_code ||= request.location.country_code.upcase
+    @user_country_code ||= geo_location.country_code.upcase
   end
 
   def sort
