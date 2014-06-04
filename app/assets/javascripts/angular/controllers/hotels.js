@@ -563,9 +563,9 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       onFinish: Hotels.priceRange.change
     })
 
-    initTimeoutId = $timeout(function() {
-      $scope.search()                 
-    }, 4000);
+    // initTimeoutId = $timeout(function() {
+    //   $scope.search()                 
+    // }, 3000);
 
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);

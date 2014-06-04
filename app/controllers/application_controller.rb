@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   MIN_PRICE = 25
   START_DATE = Date.tomorrow
   END_DATE = 2.days.from_now
-  CURRENCY_CODE = 'GBP'
+  CURRENCY_CODE = :GBP
   
   protected  
 
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
   
   def search_criteria
-    @search = SearchCriteria.new start_date, end_date, {star_ratings: star_ratings, currency_code: currency, sort: sort, min_price: min_price, max_price: max_price}
+    @search = SearchCriteria.new start_date, end_date, {star_ratings: star_ratings, currency_code: currency.to_sym, sort: sort, min_price: min_price, max_price: max_price}
   end
 
   def min_price

@@ -10,8 +10,8 @@ class SearchCriteria
     @no_of_rooms    = args[:no_of_rooms]    || 1
     @no_of_adults   = args[:no_of_adults]   || 2
     @star_ratings   = args[:star_ratings]   || []
-    @currency_code  = args[:currency_code]  || 'GBP'
-    @country_code   = args[:country_code]   || 'GB'
+    @currency_code  = args[:currency_code]  || :GBP
+    @country_code   = args[:country_code]   || :GB
   end
 
 
