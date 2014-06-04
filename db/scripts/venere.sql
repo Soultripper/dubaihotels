@@ -7,7 +7,7 @@ UPDATE hotels SET venere_hotel_id = NULL WHERE venere_hotel_id IS NOT NULL;
 ALTER TABLE venere_hotels ADD COLUMN geog geography(Point,4326);
 
 --Update Geography
-UPDATE venere_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography);
+UPDATE venere_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) As geography) WHERE geog is NULL;
 
 --Index Geography
 CREATE INDEX venere_hotels_geog_idx

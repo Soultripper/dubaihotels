@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def geo_location
-    @geo_location ||= request.location
+    @geo_location ||= Geocoder.search(request.remote_ip).first
   end
 
   def user_channel
