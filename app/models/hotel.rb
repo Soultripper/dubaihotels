@@ -1,5 +1,6 @@
 class Hotel < ActiveRecord::Base
   include HotelScopes
+  self.primary_key = :id 
   after_save :add_to_soulmate
   before_destroy :remove_from_soulmate
 
