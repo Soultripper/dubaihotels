@@ -14,8 +14,8 @@ CREATE TABLE provider_hotels
 (
   id serial NOT NULL,
   hotel_id integer,
-  provider_id character varying(255),
-  provider_hotel_id integer,
+  provider character varying(255),
+  provider_id integer,
   name character varying(255),
   address text,
   city character varying(255),
@@ -50,10 +50,10 @@ WITH (
 -- EAN
 --SELECT * FROM ean_hotels LIMIT 1
  -- EAN hotels have no user score
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'expedia' AS provider_id,
+	'expedia' AS provider,
 	h.id,
 	h.name, 
 	COALESCE(h.address1,'') || COALESCE(COALESCE(', ' || h.address2, '') || COALESCE(', ' || h.state_province),'') AS address, 
@@ -77,10 +77,10 @@ LEFT JOIN ean_hotel_descriptions d ON d.ean_hotel_id = h.id;
 -- BOOKING
 --SELECT * FROM booking_hotels LIMIT 1
 -- Booking is out of 10
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'booking' AS provider_id,
+	'booking' AS provider,
 	h.id,
 	h.name, 
 	h.address, 
@@ -104,10 +104,10 @@ LEFT JOIN booking_hotel_descriptions d ON d.booking_hotel_id = h.id;
 -- AGODA
 --SELECT * FROM agoda_hotels LIMIT 1
 -- Agoda is out of 10
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'agoda' AS provider_id,
+	'agoda' AS provider,
 	h.id,
 	h.hotel_name AS name, 
 	COALESCE(h.addressline1,'') || COALESCE(COALESCE(', ' || h.addressline2, '')) AS address , 
@@ -130,10 +130,10 @@ FROM agoda_hotels h;
 -- Laterooms
 --SELECT * FROM late_rooms_hotels LIMIT 1
 -- laterooms is out of 6
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'laterooms' AS provider_id,
+	'laterooms' AS provider,
 	h.id,
 	h.name AS name, 
 	h.address1 AS address, 
@@ -161,10 +161,10 @@ FROM late_rooms_hotels h;
 --easy_to_book
 --SELECT * FROM etb_hotels LIMIT 1
 -- EasyToBook is out of 5
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'easy_to_book' AS provider_id,
+	'easy_to_book' AS provider,
 	h.id,
 	h.name AS name, 
 	h.address AS address , 
@@ -190,10 +190,10 @@ LEFT JOIN etb_hotel_descriptions d on d.etb_hotel_id = h.id;
 -- SPLENDIA
 --SELECT * FROM splendia_hotels LIMIT 100
 -- Splendia is out of 100%
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'splendia' AS provider_id,
+	'splendia' AS provider,
 	h.id,
 	h.name AS name, 
 	h.street AS address , 
@@ -217,10 +217,10 @@ LEFT JOIN ean_countries countries on countries.country_name = h.country;
 -- VENERE
 --SELECT * FROM venere_hotels LIMIT 100
 -- user_rating out of 10
-INSERT INTO provider_hotels (hotel_id, provider_id, provider_hotel_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
+INSERT INTO provider_hotels (hotel_id, provider, provider_id, name, address, city, state_province, postal_code, country_code, latitude, longitude, description, star_rating, user_rating, hotel_link, created_at, updated_at, user_rating_normal, ranking)
 SELECT 
 	null AS hotel_id,
-	'venere' AS provider_id,
+	'venere' AS provider,
 	h.id,
 	h.name AS name, 
 	h.address AS address, 

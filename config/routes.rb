@@ -17,6 +17,13 @@ Hotels::Application.routes.draw do
     match '/*path', :to => redirect {|params, request| "http://www.hot5.com/#{params[:path]}"}
   end
 
+  constraints( subdomain: /^hotels\b/, format: 'json' ) do
+    get '/hotels/:id/rooms',            to: 'hotel_results#hotel_rooms'
+    get '/hotels/:id',                  to: 'hotel_results#hotel_details'
+    get '/map/:id',                     to: 'hotel_results#map_search'
+    get '/:id',                         to: 'hotel_results#search'
+    get '/',                            to: 'hotel_results#search', :constraints => PPCConstraint
+  end
 
 
 
@@ -32,12 +39,6 @@ Hotels::Application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
   mount Soulmate::Server, :at => '/sm'
 
-  constraints( subdomain: /^hotels\b/, format: 'json' ) do
-    get '/hotels/:id/rooms',            to: 'hotel_results#hotel_rooms'
-    get '/hotels/:id',                  to: 'hotel_results#hotel_details'
-    get '/map/:id',                     to: 'hotel_results#map_search'
-    get '/:id',                         to: 'hotel_results#search'
-  end
 
   get '/offer/:provider',           to: 'offer#index'
   match '/geolocate_error',         to: 'analytics#geolocate_error', constraints: { subdomain: /^analytics\b/ }

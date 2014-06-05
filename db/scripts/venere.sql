@@ -214,38 +214,84 @@ FROM (SELECT id, url FROM venere_hotels lr) as t1
 WHERE hotels.venere_hotel_id = t1.id
 
 -- AMENITIES
-TRUNCATE TABLE late_rooms_amenities
-INSERT INTO late_rooms_amenities (venere_hotel_id,amenity)
- SELECT id, regexp_split_to_table(facilities, E';') 
- FROM venere_hotels; 
 
- CREATE TABLE late_rooms_facilities
+DROP TABLE venere_hotel_amenities;
+CREATE TABLE venere_hotel_amenities
 (
   id serial NOT NULL,
-  description text,
-  flag integer,
-  CONSTRAINT late_rooms_facilities_pkey PRIMARY KEY (id)
+  venere_hotel_id integer,
+  venere_amenity_id integer,
+  CONSTRAINT venere_hotel_amenities_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
 
-INSERT INTO late_rooms_facilities (description)
- select distinct amenity from late_rooms_amenities
+TRUNCATE TABLE venere_hotel_amenities;
+INSERT INTO venere_hotel_amenities (venere_hotel_id,venere_amenity_id)
+select id, CAST(regexp_split_to_table(replace(regexp_replace(concat_ws(';',hotel_amenities, room_amenities), '(\d*-)', '','ig'),';',','), E',') AS INTEGER) from venere_hotels 
 
- 
-UPDATE late_rooms_facilities SET flag = 1 WHERE lower(description) like '%wi-fi%'
-UPDATE late_rooms_facilities SET flag = 4 WHERE description = 'Childrens Facilities - Outdoor' OR description = 'Babysitting services' OR description = 'Cots available' OR description = 'Childrens Facilities - Indoor'
-UPDATE late_rooms_facilities SET flag = 8 WHERE lower(description) like '%parking%';
-UPDATE late_rooms_facilities SET flag = 16 WHERE description = 'Gymnasium' OR description = 'Fitness Centre' OR description = 'Aerobics Studio' 
-UPDATE late_rooms_facilities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas'
-UPDATE late_rooms_facilities SET flag =128 WHERE description = 'Pets Allowed'
-UPDATE late_rooms_facilities SET flag = 256 WHERE lower(description) like '%pool%' 
-UPDATE late_rooms_facilities SET flag = 512 WHERE lower(description) like '%restaurant%';
+DROP TABLE venere_amenities;
+ CREATE TABLE venere_amenities
+(
+  id INTEGER NOT NULL,
+  description text,
+  flag integer,
+  CONSTRAINT venere_amenities_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
+-- 1 1|'Wifi'
+-- 2 2|'Central Location'
+-- 4 3|'Family Friendly'
+-- 8 4|'Parking'
+-- 16 5|'Gym'
+-- 32 6|'Boutique'
+-- 64 7|'Non-smoking rooms'
+-- 128 8|'Pet Friendly'
+-- 256 9|'Pool'
+-- 512 10|'Restaurant'
+-- 1024 11|'Spa'
+select * from venere_amenities
+UPDATE venere_amenities SET flag = 1     WHERE id in (205,208);
+UPDATE venere_amenities SET flag = 4     WHERE id in (32,33,34,35,46);
+UPDATE venere_amenities SET flag = 8     WHERE id in (14, 16, 17, 19, 20, 21);
+UPDATE venere_amenities SET flag = 16    WHERE id IN (122, 123, 124, 125, 126);
+UPDATE venere_amenities SET flag = 64    WHERE id in (169, 170);
+UPDATE venere_amenities SET flag =128    WHERE id in (9, 10);
+UPDATE venere_amenities SET flag = 256   WHERE id in (102, 103, 104, 105, 106);
+UPDATE venere_amenities SET flag = 512   WHERE id in (58, 59, 60);
+UPDATE venere_amenities SET flag = 1024 WHERE id in (134, 141, 146);
 
-UPDATE hotels 
-SET venere_user_rating = CAST(T1.user_rating AS DOUBLE PRECISION) 
+UPDATE provider_hotels
+SET amenities = T2.bitmask
+FROM (
+	SELECT T1.provider_id, SUM(T1.flag) AS bitmask
+	FROM
+	(
+		SELECT DISTINCT 
+			venere_hotel_id AS provider_id, 
+			flag  AS flag
+		FROM venere_amenities a
+		JOIN venere_hotel_amenities ha on ha.venere_amenity_id = a.id
+		WHERE a.flag IS NOT NULL
+		GROUP BY venere_hotel_id, flag
+		ORDER BY 1
+	) AS T1
+	GROUP BY T1.provider_id
+) AS T2
+WHERE provider_hotels.provider_id = T2.provider_id AND provider_hotels.amenities IS NULL AND provider_hotels.provider = 'venere'
+
+UPDATE hotels h
+SET star_rating = CASE WHEN COALESCE(h.star_rating, 0) = 0                                
+                               then  t1.star_rating 
+                               else h.star_rating
+                               END,
+       venere_user_rating = t1.user_rating_normal, 
+       amenities = (COALESCE(h.amenities,0) | t1.amenities)
 FROM
- (SELECT id, user_rating FROM venere_hotels WHERE CAST(user_rating AS DOUBLE PRECISION) > 0) AS t1
- WHERE hotels.venere_hotel_id = T1.id
+ (SELECT * FROM provider_hotels where provider = 'venere' ) AS t1
+ WHERE h.venere_hotel_id = T1.provider_id
+

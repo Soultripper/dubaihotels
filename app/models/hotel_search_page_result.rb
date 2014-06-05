@@ -15,7 +15,7 @@ class HotelSearchPageResult
   end
 
   def filter(filters={})   
-    primary_hotel = find_primary_hotel
+    primary_hotel = delete_primary_hotel
 
     if hotel_organiser.filter(filters)
       hotels.insert(0, primary_hotel) if primary_hotel
@@ -24,8 +24,8 @@ class HotelSearchPageResult
     self 
   end
 
-  def find_primary_hotel    
-    hotels.find {|h| h.slug == location.slug} if location.hotel?
+  def delete_primary_hotel    
+    hotels.delete(hotels.find {|h| h.slug == location.slug}) if location.hotel?
   end
 
   def paginate(page_no, page_size)

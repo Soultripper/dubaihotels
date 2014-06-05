@@ -10,8 +10,14 @@ class Reporter
 
   def self.hotels_by_location(location, order)
     hotels = Hotel.by_location(location).reorder order_clause(order)
-    headers = %w[name star_rating score ranking user_rating matches url]
-    CSV.generate(force_quotes:true, write_headers: true, headers: headers) {|csv| hotels.each {|hotel| csv << [hotel.name, hotel.star_rating, hotel.score, hotel.ranking, hotel.user_rating, hotel.matches, "http://www.hot5.com?hotel=#{hotel.slug}"]}}
+    headers = %w[name star_rating score ranking user_rating matches url ppc_url]
+    CSV.generate(force_quotes:true, write_headers: true, headers: headers) do |csv| 
+      hotels.each do |hotel| 
+        url = "http://www.hot5.com?hotel=#{hotel.slug}"
+        ppc_url = "http://www.hot5.com/?hotel=#{hotel.slug}"
+        csv << [hotel.name, hotel.star_rating, hotel.score, hotel.ranking, hotel.user_rating, hotel.matches, url, ppc_url]
+      end
+    end
   end
 
 

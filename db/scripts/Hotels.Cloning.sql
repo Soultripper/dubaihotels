@@ -2,7 +2,7 @@
 -- INIT temp table
 CREATE TABLE hotels_temp AS SELECT * FROM hotels;
 
-
+-- do your work prior to creating indexes
 CREATE INDEX hotels_city_country_code_idx_temp  ON hotels_temp USING btree (city COLLATE pg_catalog."default", country_code COLLATE pg_catalog."default");
   ALTER TABLE hotels_temp CLUSTER ON hotels_city_country_code_idx_temp;
 CREATE INDEX hotels_geog_idx_temp                ON hotels_temp USING gist (geog);

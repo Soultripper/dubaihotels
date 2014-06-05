@@ -9,25 +9,25 @@ SELECT * FROM venere_hotels LIMIT 100
 
 -- DROP TABLE provider_hotel_images;
 
--- CREATE TABLE provider_hotel_images
--- (
---   id serial NOT NULL,
---   hotel_id integer,
---   url character varying(255),
---   width integer,
---   height integer,
---   byte_size integer,
---   thumbnail_url character varying(255),
---   default_image boolean,
---   remote_url character varying(255),
---   cdn character varying(255),
---   provider character varying(255),
---   provider_id integer,
---   CONSTRAINT provider_hotel_images_pkey PRIMARY KEY (id)
--- )
--- WITH (
---   OIDS=FALSE
--- );
+CREATE TABLE provider_hotel_images
+(
+  id serial NOT NULL,
+  hotel_id integer,
+  url character varying(255),
+  width integer,
+  height integer,
+  byte_size integer,
+  thumbnail_url character varying(255),
+  default_image boolean,
+  remote_url character varying(255),
+  cdn character varying(255),
+  provider character varying(255),
+  provider_id integer,
+  CONSTRAINT provider_hotel_images_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
 
 -- BOOKING
@@ -69,17 +69,19 @@ FROM late_rooms_hotel_images
 GROUP BY image_url, laterooms_hotel_id, default_image;
 
 -- Splendia
-delete from provider_hotel_images where provider = 'splendia'
+delete from provider_hotel_images where provider = 'splendia';
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT big_image, small_image, 'splendia', id, true
 FROM splendia_hotels
 GROUP BY big_image, small_image,  id;
 
 -- Venere
--- INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
--- SELECT hotel_image_url, hotel_thumb_url, 'venere', id, true
--- FROM venere_hotels
--- GROUP BY hotel_image_url, hotel_thumb_url, id
+delete from provider_hotel_images where provider = 'venere';
+
+INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
+SELECT hotel_image_url, hotel_thumb_url, 'venere', id, true
+FROM venere_hotels
+GROUP BY hotel_image_url, hotel_thumb_url, id
 
 
 
@@ -98,37 +100,37 @@ WHERE t1.id = p.id AND t1.row_number = 1 AND default_image IS NULL
 -----------
 
 -- expedia 
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'expedia') AS t1
 WHERE ean_hotel_id = t1.provider_id AND image_url IS NULL;;
 
 -- agoda
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'agoda') AS t1
 WHERE agoda_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- laterooms
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'laterooms') AS t1
 WHERE laterooms_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- etb
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'etb') AS t1
 WHERE etb_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- splendia
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'splendia') AS t1
 WHERE splendia_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- venere
--- UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
--- FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'venere') AS t1
--- WHERE venere_hotel_id = t1.provider_id AND image_url IS NULL;
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'venere') AS t1
+WHERE venere_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- booking
-UPDATE hotels SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
+UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'booking') AS t1
 WHERE booking_hotel_id = t1.provider_id AND image_url IS NULL;
 
