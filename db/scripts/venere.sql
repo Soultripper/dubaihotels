@@ -124,7 +124,7 @@ WHERE
 	AND ST_DWithin(HP.geog, H.geog, 10000) 
 	AND SIMILARITY(H.name, HP.name) >0.8;
 
-
+select count(*) from hotels WHERE hotel_provider =  'venere';
 DELETE FROM  hotels WHERE hotel_provider =  'venere';
 -- PHASE 8 - INSERT all non-matched EAN hotels
 -- 10714
@@ -148,78 +148,59 @@ venere_hotel_id,
 venere_user_rating, 
 hotel_provider)
 SELECT 
-	HP.name as name, 
-	HP.address1  as address, 
-	HP.city as city, 
-	county as state_province, 
-	zip as postal_code, 
-	NULL as country_code,
+  vh.name as name, 
+	vh.address  as address, 
+	vh.city as city, 
+	vh.state as state_province, 
+	vh.zip as postal_code, 
+	vh.country_iso_code as country_code,
 	--lower(countryisocode) as country_code, 
-	HP.longitude, 
-	HP.latitude, 
-	CASE left(HP.star_rating, 1) 
-		WHEN 'N' THEN null 
-		WHEN 'A' THEN null 
-		WHEN 'B' THEN null 
-		WHEN 'T' THEN null 
-		ELSE CAST(left(HP.star_rating, 1) AS DOUBLE PRECISION) 
-	END AS star_rating,
-	HP.check_in_time, 
-	HP.check_out_time, 
-	CAST(price_from as double precision) as low_rate, 
-	currency_code as property_currency, 
-	HP.geog, 
-	HP.description as description, 
-	HP.id as venere_hotel_id,
-	CAST(user_rating AS DOUBLE PRECISION) as lateroom_user_rating,
+	vh.longitude, 
+	vh.latitude, 
+  COALESCE(vh.rating,0) AS star_rating,
+	null, 
+	null, 
+	CAST(vh.price as double precision) as low_rate, 
+	vh.currency_code as property_currency, 
+	vh.geog, 
+	vh.hotel_overview as description, 
+  vh.id as venere_hotel_id,
+	CAST(vh.user_rating AS DOUBLE PRECISION) as venere_user_rating,
 	'venere' AS hotel_provider
-FROM venere_hotels lr
-LEFT JOIN hotels h1 ON h1.venere_hotel_id = HP.id
+FROM venere_hotels vh
+LEFT JOIN hotels h1 ON h1.venere_hotel_id = vh.id
 WHERE h1.id IS NULL;
 
 
-CREATE  INDEX index_hotels_on_venere_hotel_id
-  ON hotels
-  USING btree
-  (venere_hotel_id);
+CREATE TABLE venere_hotel_images
+(
+  id serial NOT NULL,
+  venere_hotel_id integer,
+  image_url character varying(255),
+  default_image boolean,
+  CONSTRAINT venere_hotel_images_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
 
 
-
--- DROP TABLE late_rooms_hotel_images;
-
--- CREATE TABLE late_rooms_hotel_images
--- (
---   id serial NOT NULL,
---   venere_hotel_id integer,
---   image_url character varying(255),
---   default_image boolean,
---   CONSTRAINT venere_hotel_images_pkey PRIMARY KEY (id)
--- )
--- WITH (
---   OIDS=FALSE
--- );
-
--- 
-TRUNCATE TABLE late_rooms_hotel_images
-INSERT INTO late_rooms_hotel_images (venere_hotel_id, image_url, default_image)
- SELECT id, regexp_split_to_table(images, E';'), false 
+TRUNCATE TABLE venere_hotel_images
+INSERT INTO venere_hotel_images (venere_hotel_id, image_url, default_image)
+ SELECT id, regexp_split_to_table(image_url, E';'), false 
  FROM venere_hotels; 
 
-INSERT INTO late_rooms_hotel_images (venere_hotel_id, image_url, default_image)
- SELECT id, image, true
- FROM venere_hotels; 
- 
+update venere_hotel_images vhi
+set default_image = true
+from (select id, image_url from venere_hotels) as t1
+where vhi.venere_hotel_id = t1.id and vhi.image_url = t1.image_url
 
-CREATE  INDEX index_venere_hotel_id_on_late_rooms_hotel_images
-  ON late_rooms_hotel_images
-  USING btree
-  (venere_hotel_id);
-  
-DELETE FROM hotel_images WHERE caption = 'venereHotel';
+
+DELETE FROM hotel_images WHERE caption = 'venere';
 
 INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url,default_image)
-SELECT t1.id, 'venereHotel', hi.image_url,hi.image_url, default_image
-FROM late_rooms_hotel_images hi
+SELECT t1.id, 'venere', hi.image_url, replace(hi.image_url, '_b.', '_t.'), default_image
+FROM venere_hotel_images hi
 JOIN
 (SELECT h.id, venere_hotel_id FROM hotels h 
 LEFT JOIN hotel_images i ON h.id = i.hotel_id

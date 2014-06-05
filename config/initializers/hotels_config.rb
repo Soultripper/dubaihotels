@@ -9,7 +9,7 @@ Rails.application.config.to_prepare do
     if Rails.env == "production"
       config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
     else
-      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
     end
   end
 
