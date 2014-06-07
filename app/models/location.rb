@@ -129,6 +129,13 @@ class Location < ActiveRecord::Base
     location_type == 'City'
   end
 
+  def country_name
+    return name if country?
+    cc = CountryCode.where(iso2: country_code.upcase).first
+    cc.name if cc
+  end
+
+
   def region?
     location_type == 'Region'
     # ['Region', 'Province (State)'].include? location_type

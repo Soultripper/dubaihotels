@@ -16,7 +16,7 @@ class Venere::Search
 
   def search_params
     @params = DEFAULT_PARAMS
-    @params.merge!({numGuests: search_criteria.no_of_adults})
+    @params.merge!({numGuests: search_criteria.no_of_adults, numRooms: search_criteria.no_of_rooms})
     add_country_code
     add_currency_code
     add_dates

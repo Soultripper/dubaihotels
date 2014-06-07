@@ -22,11 +22,28 @@ module Venere
       new(ids, search_criteria).page_hotels(options, &block)
     end
 
+    def self.by_geo_ids(geo_ids, search_criteria, options={})
+      new([geo_ids], search_criteria).by_geo_ids(options)
+    end
+
+    def self.by_geo_city_zone_ids(city_zone_ids, search_criteria, options={})
+      new([city_zone_ids], search_criteria).by_geo_city_zone_ids(options)
+    end
+
     def search(options={})
       params = search_params.merge(hotel_params)
       create_list_response Venere::Client.hotel_availability(params)
     end
 
+    def by_geo_ids(options={})
+      params = search_params.merge(geo_id_params(options))
+      create_list_response Venere::Client.geo_ids_search(params)
+    end
+
+    def by_geo_city_zone_ids(options={})
+      params = search_params.merge(geo_id_params(options))
+      create_list_response Venere::Client.geo_city_zone_ids_search(params)
+    end
 
     def page_hotels(options={}, &block)
 
@@ -59,7 +76,15 @@ module Venere
 
     def hotel_params(custom_ids=nil)
       {
-        hotel_ids: (custom_ids || ids).take(500).join(' ')
+        hotel_ids: (custom_ids || ids).join(' ')
+      }
+    end
+
+    def geo_id_params(options=nil)
+      {
+        geo_ids: ids.join(' '),
+        typology: options[:typology],
+        category: options[:category]
       }
     end
 

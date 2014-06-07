@@ -66,13 +66,13 @@ gem 'useragent'
 gem 'rack-cors'
 
 gem 'descriptive-statistics'
-gem 'iso_country_codes'
+#gem 'iso_country_codes'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
 
   # gem 'therubyracer', '~> 0.10.2'
-  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+  #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
   gem "twitter-bootstrap-rails"
 
   # gem 'jquery-ui-rails'

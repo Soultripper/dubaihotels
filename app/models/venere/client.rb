@@ -40,33 +40,34 @@ class Venere::Client
 
     def hotel_availability(params={})
       return unless params[:hotel_ids]
-      soap = soap_envelope(params)
+      soap = soap_envelope(params) {by_property(params)}
       create_response(http.post(url + 'XHI_HotelAvail.soap', soap))
     end
 
-    # def hotel_availability(params={})
-    #   return unless params[:hotel_ids]
-    #   attributes = create_hotels_request params
-    #   message = create_hotels_message params
-    #   @hotel_client ||= client('XHI_HotelAvail.soap')
-    #   results = @hotel_client.call(:xhi_hotel_avail_request, 
-    #     message_tag: :XHI_HotelAvailRQ, 
-    #     attributes: attributes, 
-    #     message: message)
-    #   create_response results
-    # end
- 
+    def geo_ids_search(params={})
+      return unless params[:geo_ids]
+      soap = soap_envelope(params) {by_geo_typology_category(params)}
+      create_response(http.post(url + 'XHI_HotelAvail.soap', soap))
+    end
 
-    # def create_hotels_message(params)
-    #   {
-    #     'xhi:AvailQueryByProperty/' => "",
-    #     :attributes! => {
-    #       "xhi:AvailQueryByProperty/" => {
-    #         "propertyIDs" => params[:hotel_ids]
-    #       }
-    #     }
-    #   }
-    # end
+    def geo_name_search(params={})
+      return unless params[:country] and params[:city]
+      soap = soap_envelope(params) {by_location(params)}
+      create_response(http.post(url + 'XHI_HotelAvail.soap', soap))
+    end
+
+    def geo_city_zone_ids_search(params={})
+      return unless params[:geo_ids]
+      soap = soap_envelope(params) {by_geo_city_zone(params)}
+      create_response(http.post(url + 'XHI_HotelAvail.soap', soap))
+    end
+
+    def circle_area(params={})
+      return unless params[:latitude] and params[:longitude]
+      soap = soap_envelope(params) {by_circle_area(params)}
+      create_response(http.post(url + 'XHI_HotelAvail.soap', soap))
+    end
+
 
 
     def http
@@ -100,7 +101,7 @@ class Venere::Client
       }
     end
 
-    def soap_envelope(params)
+    def soap_envelope(params, &block)
     xml = %Q[
       <soapenv:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhi="http://www.venere.com/XHI" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <soapenv:Header>
@@ -112,7 +113,7 @@ class Venere::Client
         </soapenv:Header>
         <soapenv:Body>
           <xhi:XHI_HotelAvailRQ msgVersion="#{MSG_VERSION}" start="#{params[:start_date]}" end="#{params[:end_date]}" numGuests="#{params[:numGuests]}" numRooms="#{params[:numRooms]}" guestCountryCode="#{params[:country_code]}" preferredPaymentCurrency="#{params[:currency_code]}">
-            <xhi:AvailQueryByProperty propertyIDs="#{params[:hotel_ids]}"/>
+            #{yield block}
           </xhi:XHI_HotelAvailRQ>
         </soapenv:Body>
       </soapenv:Envelope>
@@ -120,6 +121,38 @@ class Venere::Client
       Nokogiri::XML(xml).to_xml
     end
 
+    protected
+
+    def by_property(params)
+      %Q[<xhi:AvailQueryByProperty propertyIDs="#{params[:hotel_ids]}"/>]
+    end
+
+    def by_geo_typology_category(params)
+      typology = "typology='#{params[:typology]}'" if params[:typology]
+      category = "category='#{params[:category]}'" if params[:category]
+
+      %Q[<xhi:AvailQueryByGeo geoIDs="#{params[:geo_ids]}" #{typology} #{category}/>]
+    end
+
+    def by_location(params)
+      %Q[<xhi:AvailQueryByLocation countryName="#{params[:country]}" cityName="#{params[:city]}"/>]
+    end
+
+    def by_geo_city_zone(params)
+      typology = "typology='#{params[:typology]}'" if params[:typology]
+      category = "category='#{params[:category]}'" if params[:category]
+
+      %Q[<xhi:AvailQueryByLocation cityZoneGeoIDs="#{params[:geo_ids]}" #{typology} #{category}/>]
+    end
+
+    def by_circle_area(params)
+      radius = params[:radius] || 1
+      %Q[
+        <xhi:AvailQueryByCoordinatesCircle radius="#{radius}"> 
+          <xhi:Coordinates lat="#{params[:latitude]}" long="#{params[:longitude]}" />
+        </xhi:AvailQueryByCoordinatesCircle>
+        ]
+    end
 
   end
 end
