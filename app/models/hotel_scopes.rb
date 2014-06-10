@@ -25,7 +25,7 @@ module HotelScopes
         query = query.where("country_code = ?", location.country_code.upcase)
       end
 
-      query.order('matches DESC, COALESCE(ranking,0) DESC')
+      query.order('COALESCE(ranking,0) DESC, matches * user_rating DESC')
     end
 
     def ids_within_distance_of(location, provider_key, limit=4000)

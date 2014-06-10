@@ -265,6 +265,7 @@ UPDATE venere_amenities SET flag = 256   WHERE id in (102, 103, 104, 105, 106);
 UPDATE venere_amenities SET flag = 512   WHERE id in (58, 59, 60);
 UPDATE venere_amenities SET flag = 1024 WHERE id in (134, 141, 146);
 
+
 UPDATE provider_hotels
 SET amenities = T2.bitmask
 FROM (
@@ -275,7 +276,7 @@ FROM (
 			venere_hotel_id AS provider_id, 
 			flag  AS flag
 		FROM venere_amenities a
-		JOIN venere_hotel_amenities ha on ha.venere_amenity_id = a.id
+		JOIN venere_hotel_amenities ha on ha.amenity_id = a.id
 		WHERE a.flag IS NOT NULL
 		GROUP BY venere_hotel_id, flag
 		ORDER BY 1
@@ -293,5 +294,5 @@ SET star_rating = CASE WHEN COALESCE(h.star_rating, 0) = 0
        amenities = (COALESCE(h.amenities,0) | t1.amenities)
 FROM
  (SELECT * FROM provider_hotels where provider = 'venere' ) AS t1
- WHERE h.venere_hotel_id = T1.provider_id
+ WHERE h.venere_hotel_id = T1.id
 

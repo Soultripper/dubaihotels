@@ -102,7 +102,7 @@ WHERE t1.id = p.id AND t1.row_number = 1 AND default_image IS NULL
 -- expedia 
 UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url
 FROM( SELECT * FROM provider_hotel_images WHERE default_image = true AND provider = 'expedia') AS t1
-WHERE ean_hotel_id = t1.provider_id AND image_url IS NULL;;
+WHERE ean_hotel_id = t1.provider_id AND image_url IS NULL;
 
 -- agoda
 UPDATE hotels_temp SET image_url = t1.url, thumbnail_url = t1.thumbnail_url

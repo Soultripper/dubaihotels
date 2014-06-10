@@ -6,13 +6,13 @@ class LateRooms::Importer
     end
 
     def hotels
-      import LateRoomsHotel, 'hotels'
+      import LateRoomsHotel
       #TODO: Update geography / nameaddress
     end
 
-    def import(klass, file)
+    def import(klass)
 
-      filename = get_and_store file
+      filename = get_and_store
 
       if klass.respond_to? :cols
         sql = "copy #{klass.table_name} (#{klass.cols}) from '#{filename}' delimiter ',' CSV HEADER;"
@@ -20,6 +20,7 @@ class LateRooms::Importer
         sql = "copy #{klass.table_name} from '#{filename}' delimiter ',' CSV HEADER;"
       end
 
+      Log.info "Delete records for #{LateRoomsHotel}"
       klass.delete_all
       Log.info sql
       ActiveRecord::Base.connection.execute sql

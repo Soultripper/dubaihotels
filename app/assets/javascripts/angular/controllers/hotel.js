@@ -64,7 +64,8 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
     $scope.setupHeader = function(criteria){
       Page.criteria = criteria;
 
-      $rootScope.currency_symbol = criteria.currency_symbol;
+      $scope.currency_symbol = criteria.currency_symbol;
+
       $scope.start_date = criteria.start_date;
       $scope.end_date = criteria.end_date;   
 
@@ -198,6 +199,7 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       params.price = clickDetails.price;
       params.hotel_id = clickDetails.hotel_id;
       params.target_url = clickDetails.url;
+      params.currency = Page.criteria.currency_code;
       Hotels.removeEmptyKeys(params)
       var result = decodeURIComponent($.param(params));
       window.open(url + result);

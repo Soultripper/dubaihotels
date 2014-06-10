@@ -53,7 +53,7 @@ class HotelOrganiser
       when :distance_reverse; do_sort {|h1| h1.distance_from_location.to_f}.reverse!
       when :saving; do_sort {|h1| h1.offer[:saving].to_f}.reverse!
       # else do_sort { |h1| (h1.star_rating.to_f * 16) + (h1.offer[:saving].to_f) - ((price_mean - h1.offer[:min_price].to_f) / 10).abs}.reverse!
-      else do_sort {|h1|  [h1.ranking.to_f, h1.user_rating.to_f * h1.matches.to_i]}.reverse!
+     # else do_sort {|h1|  [h1.ranking.to_f, h1.user_rating.to_f * h1.matches.to_i]}.reverse!
     end
     self
   end
