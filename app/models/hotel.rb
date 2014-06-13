@@ -80,7 +80,7 @@ class Hotel < ActiveRecord::Base
 
 
   def full_address
-    country =  BookingCountry.lookup(country_code)
+    country =  Providers::Booking::Country.lookup(country_code)
     desc = name
     if city.blank?
       desc = "#{desc}, #{state_province}"
