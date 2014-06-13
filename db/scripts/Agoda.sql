@@ -171,20 +171,20 @@ CREATE INDEX agoda_hotel_id_idx
   
 DELETE FROM agoda_hotel_images
 
-INSERT INTO agoda_hotel_images (agoda_hotel_id, image_url)
+INSERT INTO providers.agoda_hotel_images (agoda_hotel_id, image_url)
 SELECT
    unnest(array[id]) as agoda_hotel_id,
    unnest(array[photo1, photo2, photo3, photo4, photo5]) AS "image_url"
-FROM agoda_hotels
+FROM providers.agoda_hotels
 
-DELETE FROM hotel_images WHERE caption = 'AgodaHotel'
+DELETE FROM providers.hotel_images WHERE caption = 'AgodaHotel'
 
-INSERT INTO hotel_images (hotel_id, caption, url, thumbnail_url)
+INSERT INTO providers.hotel_images (hotel_id, caption, url, thumbnail_url)
 SELECT t1.id, 'AgodaHotel', hi.image_url ,hi.image_url 
-FROM agoda_hotel_images hi
+FROM providers.agoda_hotel_images hi
 JOIN
 (SELECT h.id, agoda_hotel_id FROM hotels h 
-LEFT JOIN hotel_images i ON h.id = i.hotel_id
+LEFT JOIN providers.hotel_images i ON h.id = i.hotel_id
 WHERE  i.id IS NULL AND  h.agoda_hotel_id IS NOT NULL) as t1
 ON t1.agoda_hotel_id = hi.agoda_hotel_id 
 
@@ -216,7 +216,7 @@ WITH (
 
 INSERT INTO agoda_amenities (id, description) 
 SELECT DISTINCT property_id, name 
-FROM agoda_hotel_facilities
+FROM agoda_hotel_amenities
 ORDER BY 1 ASC
 
 UPDATE agoda_amenities SET flag = 1 WHERE lower(description) like '%wireless%';

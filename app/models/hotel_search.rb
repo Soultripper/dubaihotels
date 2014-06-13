@@ -94,11 +94,6 @@ class HotelSearch
 
         matches += 1 if add_to_list(hotel, common_provider_hotel)
 
-        # if(key==:ean_hotel_id)
-        #   hotels_com = provider_hotel.commonize_to_hotels_dot_com(search_criteria, location)
-        #   add_to_list(hotel, hotels_com)
-        # end
-
       end    
     end
     persist

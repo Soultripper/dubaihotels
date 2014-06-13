@@ -17,12 +17,6 @@ class HotelComparisons
 
   def initialize(hotel_details)
     @hotel            = hotel_details
-    # @hotel_id       = hotel_details[:id]
-    # @stars          = hotel_details[:star_rating].to_f
-    # @longitude      = hotel_details[:longitude]
-    # @latitude       = hotel_details[:latitude]
-    # @user_rating    = hotel_details[:user_rating].to_f
-    # @ranking        = hotel_details[:ranking].to_f 
     @provider_deals   = providers_init
   end
 

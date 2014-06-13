@@ -1,5 +1,5 @@
 -- SET geog (may not be necssary as populated in main imports per provider)
-UPDATE provider_hotels SET geog = CAST(ST_SetSRID(ST_Point(longitude, latitude),4326) WHERE geog IS NULL
+UPDATE provider_hotels SET geog =   CAST(ST_SetSRID(ST_Point(longitude, latitude), 4326) AS geography) WHERE geog IS NULL
 
 -- UPDATE NORMAL NAME
 TRUNCATE TABLE hotel_names;
@@ -20,9 +20,8 @@ UPDATE hotel_names
 SET normal_name = LOWER(name)
 WHERE COALESCE(normal_name,'') = '';
 
-
 UPDATE provider_hotels
-SET normal_name = T1.normal_name
+SET name_normal = T1.normal_name
 FROM (
   SELECT id, normal_name FROM hotel_names
 ) AS T1

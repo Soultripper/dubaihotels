@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def request_params
+    geo_data = geo_location
     {
       server_time: Time.now,
       host: request.headers['HTTP_HOST'],
@@ -24,12 +25,14 @@ class ApplicationController < ActionController::Base
       is_mobile: user_agent.mobile?,
       referrer: request.referrer,
       uuid: request.uuid,
-      location: geo_location.data.as_json
+      location: geo_data ? geo_data.data.as_json :  nil
     }
   end
 
   def geo_location
     @geo_location ||= Geocoder.search(request.remote_ip).first
+  rescue
+    nil
   end
 
   def user_channel

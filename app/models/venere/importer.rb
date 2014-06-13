@@ -9,7 +9,7 @@ class Venere::Importer
       col_sep: '|',
       quote_char: '{',
       chunk_size: 100,
-      key_mapping: VenereHotel.key_mappings
+      key_mapping: Providers::Venere::Hotel.key_mappings
     }
 
     def all

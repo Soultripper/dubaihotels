@@ -14,7 +14,6 @@ class Hotel < ActiveRecord::Base
   attr_accessor :distance_from_location
 
   has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC, id ASC'
-  has_many :hotel_amenities, :class_name => "HotelsHotelAmenity"
 
   has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
   has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'

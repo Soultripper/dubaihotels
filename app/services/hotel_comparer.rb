@@ -13,7 +13,6 @@ class HotelComparer
   def compare(&block)      
     add_unmatched_hotels     
     search_dictionary &block
-    # compared_hotels
   end
 
   def add_unmatched_hotels
@@ -55,14 +54,8 @@ class HotelComparer
     @dictionary[hash_key].find {|s_hotel| s_hotel[key] == provider_hotel.id} if @dictionary[hash_key]
   end
 
-  # def add_to_list(hotel, provider_hotel)
-  #   hotel.compare_and_add(provider_hotel, search_criteria)
-  #   hotel.distance_from_location = hotel.distance_from(@location) unless hotel.distance_from_location
-  # end
-
   def compared_hotels
     source_hotels.select {|h| h.provider_deals.empty?}
   end
-
 
 end

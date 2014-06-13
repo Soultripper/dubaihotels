@@ -10,11 +10,6 @@ class HotelImage < ActiveRecord::Base
     "hotel_id, caption, url, width, height, byte_size, thumbnail_url, default_image"   
   end  
 
-  # def ean_hotel
-  #   @ean_hotel ||= EanHotel.find_by_ean_hotel_id self.ean_hotel_id
-  # end
-
-
   def self.populate_booking_hotel_images
     hotel_ids = Hotel.booking_only.without_images.select(:booking_hotel_id).pluck(:booking_hotel_id)
 
