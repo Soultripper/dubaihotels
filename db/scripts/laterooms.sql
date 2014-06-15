@@ -207,14 +207,14 @@ CREATE  INDEX index_hotels_on_laterooms_hotel_id
 -- );
 
 -- 
-TRUNCATE TABLE late_rooms_hotel_images
-INSERT INTO late_rooms_hotel_images (laterooms_hotel_id, image_url, default_image)
+TRUNCATE TABLE providers.laterooms_hotel_images;
+INSERT INTO providers.laterooms_hotel_images (laterooms_hotel_id, image_url, default_image)
  SELECT id, regexp_split_to_table(images, E';'), false 
- FROM late_rooms_hotels; 
+ FROM providers.laterooms_hotels; 
 
-INSERT INTO late_rooms_hotel_images (laterooms_hotel_id, image_url, default_image)
+INSERT INTO providers.laterooms_hotel_images (laterooms_hotel_id, image_url, default_image)
  SELECT id, image, true
- FROM late_rooms_hotels; 
+ FROM providers.laterooms_hotels; 
  
 
 CREATE  INDEX index_laterooms_hotel_id_on_late_rooms_hotel_images
@@ -240,10 +240,10 @@ FROM (SELECT id, url FROM late_rooms_hotels lr) as t1
 WHERE hotels.laterooms_hotel_id = t1.id
 
 -- AMENITIES
-TRUNCATE TABLE late_rooms_hotel_amenities
-INSERT INTO late_rooms_hotel_amenities (laterooms_hotel_id,amenity)
+TRUNCATE TABLE providers.laterooms_hotel_amenities;
+INSERT INTO providers.laterooms_hotel_amenities (laterooms_hotel_id,amenity)
  SELECT id, regexp_split_to_table(facilities, E';') 
- FROM late_rooms_hotels; 
+ FROM providers.laterooms_hotels; 
 
  CREATE TABLE late_rooms_amenities
 (
@@ -256,18 +256,18 @@ WITH (
   OIDS=FALSE
 );
 
-INSERT INTO late_rooms_amenities (description)
- select distinct amenity from late_rooms_hotel_amenities
+INSERT INTO providers.laterooms_amenities (description)
+ select distinct amenity from providers.laterooms_hotel_amenities
 
  
-UPDATE late_rooms_amenities SET flag = 1 WHERE lower(description) like '%wi-fi%'
-UPDATE late_rooms_amenities SET flag = 4 WHERE description = 'Childrens Facilities - Outdoor' OR description = 'Babysitting services' OR description = 'Cots available' OR description = 'Childrens Facilities - Indoor'
-UPDATE late_rooms_amenities SET flag = 8 WHERE lower(description) like '%parking%';
-UPDATE late_rooms_amenities SET flag = 16 WHERE description = 'Gymnasium' OR description = 'Fitness Centre' OR description = 'Aerobics Studio' 
-UPDATE late_rooms_amenities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas'
-UPDATE late_rooms_amenities SET flag =128 WHERE description = 'Pets Allowed'
-UPDATE late_rooms_amenities SET flag = 256 WHERE lower(description) like '%pool%' 
-UPDATE late_rooms_amenities SET flag = 512 WHERE lower(description) like '%restaurant%';
+UPDATE providers.laterooms_amenities SET flag = 1 WHERE lower(description) like '%wi-fi%';
+UPDATE providers.laterooms_amenities SET flag = 4 WHERE description = 'Childrens Facilities - Outdoor' OR description = 'Babysitting services' OR description = 'Cots available' OR description = 'Childrens Facilities - Indoor';
+UPDATE providers.laterooms_amenities SET flag = 8 WHERE lower(description) like '%parking%';
+UPDATE providers.laterooms_amenities SET flag = 16 WHERE description = 'Gymnasium' OR description = 'Fitness Centre' OR description = 'Aerobics Studio' ;
+UPDATE providers.laterooms_amenities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas';
+UPDATE providers.laterooms_amenities SET flag =128 WHERE description = 'Pets Allowed';
+UPDATE providers.laterooms_amenities SET flag = 256 WHERE lower(description) like '%pool%' ;
+UPDATE providers.laterooms_amenities SET flag = 512 WHERE lower(description) like '%restaurant%';
 
 
 UPDATE hotels 

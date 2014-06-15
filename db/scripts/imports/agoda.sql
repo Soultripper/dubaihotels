@@ -27,7 +27,7 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                               AS geog
-FROM agoda_hotels h;
+FROM providers.agoda_hotels h;
 
 -- UPDATE AMENITIES
 UPDATE provider_hotels
@@ -38,8 +38,8 @@ FROM (
     SELECT DISTINCT 
       ha.agoda_hotel_id, 
       a.flag
-    FROM agoda_hotel_amenities ha
-    INNER JOIN agoda_amenities a on a.description = ha.name
+    FROM providers.agoda_hotel_amenities ha
+    INNER JOIN providers.agoda_amenities a on a.description = ha.name
     WHERE a.flag IS NOT NULL
     GROUP BY ha.agoda_hotel_id, a.flag
     ORDER BY 1
@@ -55,7 +55,7 @@ DELETE FROM provider_hotel_images where provider = 'agoda';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
 SELECT image_url, image_url, 'agoda', agoda_hotel_id
-FROM agoda_hotel_images
+FROM providers.agoda_hotel_images
 GROUP BY image_url, agoda_hotel_id;
 
 UPDATE provider_hotel_images p

@@ -23,7 +23,7 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                           AS geog
-FROM venere_hotels h;
+FROM providers.venere_hotels h;
 
 -- AMENITIES
 UPDATE provider_hotels
@@ -35,8 +35,8 @@ FROM (
     SELECT DISTINCT 
       ha.venere_hotel_id AS provider_id, 
       a.flag             AS flag
-    FROM venere_amenities a
-    INNER JOIN venere_hotel_amenities ha ON ha.amenity_id = a.id
+    FROM providers.venere_amenities a
+    INNER JOIN providers.venere_hotel_amenities ha ON ha.amenity_id = a.id
     WHERE a.flag IS NOT NULL
     GROUP BY venere_hotel_id, flag
     ORDER BY 1
@@ -52,5 +52,5 @@ DELETE FROM provider_hotel_images WHERE provider = 'venere';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT hotel_image_url, hotel_thumb_url, 'venere', id, true
-FROM venere_hotels
+FROM providers.venere_hotels
 GROUP BY hotel_image_url, hotel_thumb_url, id

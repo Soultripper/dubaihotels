@@ -71,8 +71,8 @@ SELECT
 	now() AS updated_at,
 	0, 
 	sequence_number
-FROM ean_hotels h
-LEFT JOIN ean_hotel_descriptions d ON d.ean_hotel_id = h.id;
+FROM providers.ean_hotels h
+LEFT JOIN providers.ean_hotel_descriptions d ON d.ean_hotel_id = h.id;
 
 -- BOOKING
 --SELECT * FROM booking_hotels LIMIT 1

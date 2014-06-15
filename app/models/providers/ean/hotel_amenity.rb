@@ -1,4 +1,4 @@
-class Providers::Ean::HotelAttributeLink < Providers::Base
+class Providers::Ean::HotelAmenity < Providers::Base
   attr_accessible :append_text, :attribute_id, :ean_hotel_id, :language_code
 
   def self.cols

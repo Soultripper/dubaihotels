@@ -197,23 +197,23 @@ WITH (
   OIDS=FALSE
 );
 
-TRUNCATE TABLE splendia_hotel_amenities
-INSERT INTO splendia_hotel_amenities (splendia_hotel_id,amenity)
+TRUNCATE TABLE providers.splendia_hotel_amenities;
+INSERT INTO providers.splendia_hotel_amenities (splendia_hotel_id,amenity)
  SELECT id, regexp_split_to_table(other_services, E',') 
- FROM splendia_hotels; 
+ FROM providers.splendia_hotels; 
 
-INSERT INTO splendia_amenities (description)
-SELECT DISTINCT amenity from splendia_amenities
+INSERT INTO providers.splendia_amenities (description)
+SELECT DISTINCT amenity from providers.splendia_hotel_amenities;
 
-UPDATE splendia_amenities SET flag = 1 WHERE lower(description) like '%wifi%';
-UPDATE splendia_amenities SET flag = 4 WHERE description = 'Activities for children' OR description = 'Babysitting service';
-UPDATE splendia_amenities SET flag = 8 WHERE lower(description) like '%parking%';
-UPDATE splendia_amenities SET flag = 16 WHERE lower(description) like '%gym%' OR description = 'Fitness Centre';
-UPDATE splendia_amenities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas';
-UPDATE splendia_amenities SET flag =128 WHERE description = 'Pets allowed';
-UPDATE splendia_amenities SET flag = 256 WHERE lower(description) like '%pool%' ;
-UPDATE splendia_amenities SET flag = 512 WHERE lower(description) like '%restaurant%' and description != 'Restaurant Voucher';
-UPDATE splendia_amenities SET flag = 1024 WHERE lower(description) like '%spa%' and description != 'Spa voucher';
+UPDATE providers.splendia_amenities SET flag = 1 WHERE lower(description) like '%wifi%';
+UPDATE providers.splendia_amenities SET flag = 4 WHERE description = 'Activities for children' OR description = 'Babysitting service';
+UPDATE providers.splendia_amenities SET flag = 8 WHERE lower(description) like '%parking%';
+UPDATE providers.splendia_amenities SET flag = 16 WHERE lower(description) like '%gym%' OR description = 'Fitness Centre';
+UPDATE providers.splendia_amenities SET flag = 64 WHERE description = 'Hotel Non-Smoking Throughout' OR description = 'Smoking allowed in public areas';
+UPDATE providers.splendia_amenities SET flag =128 WHERE description = 'Pets allowed';
+UPDATE providers.splendia_amenities SET flag = 256 WHERE lower(description) like '%pool%' ;
+UPDATE providers.splendia_amenities SET flag = 512 WHERE lower(description) like '%restaurant%' and description != 'Restaurant Voucher';
+UPDATE providers.splendia_amenities SET flag = 1024 WHERE lower(description) like '%spa%' and description != 'Spa voucher';
 
 UPDATE hotels
 SET amenities = T2.bitmask

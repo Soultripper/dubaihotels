@@ -235,7 +235,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $scope.getImages = function(obj, hotel) {
-
       app.tabSelect(obj.target, 'gallery');
       if(hotel.images && hotel.images.length > 0)
         return;

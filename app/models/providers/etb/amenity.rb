@@ -1,4 +1,4 @@
-class Providers::Etb::Facility < Providers::Base
+class Providers::Etb::Amenity < Providers::Base
   attr_accessible :description, :flag
 
 

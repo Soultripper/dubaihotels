@@ -9,7 +9,7 @@ SELECT
   h.city, 
   h.county,
   h.postcode                                AS postal_code, 
-  LOWER(h.country_iso)                      AS country_code,
+  LOWER(COALESCE(c.iso2, h.country_iso))                      AS country_code,
   h.latitude, 
   h.longitude,  
   h.description                             AS description, 
@@ -31,7 +31,8 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                             AS geog
-FROM late_rooms_hotels h;
+FROM providers.laterooms_hotels h
+LEFT JOIN country_codes c on UPPER(c.iso3) = UPPER(h.country_iso);
 
 -- AMENITIES
 UPDATE provider_hotels
@@ -42,8 +43,8 @@ FROM (
     SELECT DISTINCT 
       ha.laterooms_hotel_id as provider_id, 
       a.flag
-    FROM late_rooms_hotel_amenities ha
-    INNER JOIN late_rooms_amenities a on a.description = ha.amenity
+    FROM providers.laterooms_hotel_amenities ha
+    INNER JOIN providers.laterooms_amenities a on a.description = ha.amenity
     WHERE a.flag IS NOT NULL
     GROUP BY ha.laterooms_hotel_id, a.flag
     ORDER BY 1
@@ -59,5 +60,5 @@ DELETE FROM provider_hotel_images where provider = 'laterooms';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT image_url, image_url, 'laterooms', laterooms_hotel_id, default_image
-FROM late_rooms_hotel_images
+FROM providers.laterooms_hotel_images
 GROUP BY image_url, laterooms_hotel_id, default_image;

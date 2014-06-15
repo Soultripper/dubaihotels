@@ -75,10 +75,9 @@ class Providers::Booking::Hotel < Providers::Base
   # end
 
   def self.without_booking_hotel_images
-      joins('LEFT JOIN booking_hotel_images on booking_hotel_images.booking_hotel_id = booking_hotels.id').
-      where('booking_hotel_images.id IS NULL').
-      select('booking_hotels.id').
-      pluck(:id)
+      joins('LEFT JOIN providers.booking_hotel_images on booking_hotel_images.booking_hotel_id = booking_hotels.id').
+      where('booking_hotel_images.* IS NULL').
+      select('booking_hotels.id')
   end
 
   def self.without_descriptions

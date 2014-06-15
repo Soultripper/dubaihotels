@@ -27,8 +27,8 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                            AS geog
-FROM booking_hotels h
-LEFT JOIN booking_hotel_descriptions d ON d.booking_hotel_id = h.id;
+FROM providers.booking_hotels h
+LEFT JOIN providers.booking_hotel_descriptions d ON d.booking_hotel_id = h.id;
 
 -- UPDATE AMENITIES
 
@@ -50,8 +50,8 @@ FROM (
     SELECT DISTINCT 
       bha.booking_hotel_id, 
       ba.flag
-    FROM booking_amenities ba
-    INNER JOIN booking_hotel_amenities bha on bha.booking_facility_type_id = ba.id
+    FROM providers.booking_amenities ba
+    INNER JOIN providers.booking_hotel_amenities bha on bha.booking_facility_type_id = ba.id
     WHERE ba.flag IS NOT NULL
     GROUP BY bha.booking_hotel_id, ba.flag
     ORDER BY 1
@@ -67,7 +67,7 @@ DELETE FROM provider_hotel_images where provider = 'booking';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
 SELECT url_max_300, url_square60, 'booking', booking_hotel_id
-FROM booking_hotel_images
+FROM providers.booking_hotel_images
 GROUP BY url_max_300, url_square60, booking_hotel_id;
 
 UPDATE provider_hotel_images p

@@ -26,8 +26,8 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                                     AS geog
-FROM splendia_hotels h
-LEFT JOIN ean_countries countries ON countries.country_name = h.country;
+FROM providers.splendia_hotels h
+LEFT JOIN providers.ean_countries countries ON countries.country_name = h.country;
 
 -- AMENITIES
 UPDATE provider_hotels
@@ -38,8 +38,8 @@ FROM (
     SELECT DISTINCT 
       ha.splendia_hotel_id      AS provider_id, 
       a.flag                    AS flag
-    FROM splendia_hotel_amenities ha
-    INNER JOIN splendia_amenities a on a.description = ha.amenity
+    FROM providers.splendia_hotel_amenities ha
+    INNER JOIN providers.splendia_amenities a on a.description = ha.amenity
     WHERE a.flag IS NOT NULL
     GROUP BY splendia_hotel_id, flag
     ORDER BY 1
@@ -55,5 +55,5 @@ DELETE FROM provider_hotel_images WHERE provider = 'splendia';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT big_image, small_image, 'splendia', id, true
-FROM splendia_hotels
+FROM providers.splendia_hotels
 GROUP BY big_image, small_image,  id;

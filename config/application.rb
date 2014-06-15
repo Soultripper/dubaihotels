@@ -74,7 +74,7 @@ module Hotels
 
     config.middleware.use Rack::Cors do
       allow do
-        origins 'localhost:5000', '127.0.0.1:5000', 'hotels.dev', 'staging.hot5.com', 'hot5.com', 'hotels.staging.hot5.com', 'hotels.hot5.com', 'analytics.hot5.com', 'analytics.staging.hot5.com'
+        origins 'localhost:5000', '127.0.0.1:5000', 'hotels.dev', 'staging.hot5.com', 'hot5.com', 'hotels.staging.hot5.com', 'hotels.hot5.com', 'analytics.hot5.com', 'analytics.staging.hot5.com', 'hot5.preview.pagekite.me'
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end

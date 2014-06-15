@@ -22,17 +22,17 @@ SELECT
   CAST(ST_SetSRID(ST_Point(
     h.longitude, h.latitude), 4326) AS geography)
                                               AS geog
-FROM etb_hotels h
-LEFT JOIN etb_cities c ON c.id = h.city_id
-LEFT JOIN etb_countries countries on countries.id = c.country_id
-LEFT JOIN etb_hotel_descriptions d on d.etb_hotel_id = h.id;
+FROM providers.etb_hotels h
+LEFT JOIN providers.etb_cities c ON c.id = h.city_id
+LEFT JOIN providers.etb_countries countries on countries.id = c.country_id
+LEFT JOIN providers.etb_hotel_descriptions d on d.etb_hotel_id = h.id;
 
 -- AMENITIES
 UPDATE provider_hotels 
 SET amenities = T1.bitmask
 FROM (
   SELECT ha.id AS provider_id, ha.flag AS bitmask
-  FROM etb_hotel_facilities ha
+  FROM providers.etb_hotel_amenities ha
   WHERE flag IS NOT NULL
 ) AS T1
 WHERE 
@@ -44,6 +44,6 @@ DELETE FROM provider_hotel_images WHERE provider = 'easy_to_book';
 
 INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
 SELECT image, image, 'etb', etb_hotel_id, TRUE
-FROM etb_hotel_images
+FROM providers.etb_hotel_images
 WHERE size = 'hotel'
 GROUP BY image, etb_hotel_id;
