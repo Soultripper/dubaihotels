@@ -5,6 +5,10 @@ Hotels::Application.configure do
   config.cache_classes = true
 
   # config.action_controller.asset_host = "cdn.hot5.com"
+  # config.action_controller.asset_host = "d38x1t5f5ae2b4.cloudfront.net" #"cdn.staging.hot5.com"
+  # config.action_controller.asset_host = "hot5.s3-website-eu-west-1.amazonaws.com"
+  config.action_controller.asset_host = "d2xu03gcpx4g7w.cloudfront.net" #"cdn.staging.hot5.com"
+
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
