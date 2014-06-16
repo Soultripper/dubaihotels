@@ -41,22 +41,22 @@ gem 'geokit-rails'
 gem 'geoip'
 gem 'geo-distance'
 gem 'geocoder' # for postcode lookup
-gem 'rubyzip'
+gem 'rubyzip', require: false
 
 gem 'figaro'
 gem 'savon', '~> 2.3.0' # used for SOAP messaging
-gem 'zipruby'
+gem 'zipruby', require: false
 
 gem 'newrelic_rpm'
 gem "oink" #Rails AR profiler
 gem 'jquery-rails-cdn'
 
 gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
-gem 'smarter_csv'
+gem 'smarter_csv', require: false
 gem 'carrierwave'
 gem "fog"
 
-gem 'ruby-prof'
+gem 'ruby-prof', require: false
 gem 'meta-tags', :require => 'meta_tags'
 gem  'certified'
 gem 'hirefire-resource'
@@ -71,6 +71,7 @@ gem 'descriptive-statistics'
 # in production environments by default.
 group :assets do
 
+ 
   # gem 'therubyracer', '~> 0.10.2'
   #gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
   gem "twitter-bootstrap-rails"
@@ -93,6 +94,8 @@ group :assets do
   gem 'underscore-rails'
   gem 'accountingjs-rails'
   gem 'angular-ui-bootstrap-rails'
+  gem "asset_sync"
+  gem 'turbo-sprockets-rails3'
 end
 
 group :development do

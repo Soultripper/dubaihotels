@@ -4,7 +4,7 @@ Hotels::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
-  # config.action_controller.asset_host = "cdn.staging.hot5.com"
+  config.action_controller.asset_host = "d38x1t5f5ae2b4.cloudfront.net" #"cdn.staging.hot5.com"
 
 
   # Full error reports are disabled and caching is turned on
