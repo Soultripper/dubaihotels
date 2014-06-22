@@ -49,6 +49,12 @@ class HotelComparisons
     provider_deals.find {|deal| deal[:provider] == name}
   end
 
+  def has_rooms_for_provider(name)
+    deal = find_provider_deal name
+    deal[:rooms]
+  end
+
+
   def providers_init
     providers = []
     HotelsConfig::PROVIDER_IDS.each do |provider_key, provider_id|
@@ -110,18 +116,31 @@ class HotelComparisons
     distance < 3000 and distance > 0  
   end
 
-  def compare_and_add(provider_hotel)
+  def compare_and_add(provider_hotel, override=false)
     return unless provider_hotel
-    add_provider_deal provider_hotel
+    add_provider_deal provider_hotel, override
     sort_by_price
     randomize_best_offer   
   end
 
-  def add_provider_deal(data)
+  def add_provider_deal(data, override)
     data[:loaded] = true
     idx = provider_deals.index {|deal| deal[:provider] == data[:provider]}
-    idx ? provider_deals[idx] = data : provider_deals << data
+    if idx 
+      # debug_deal(provider_deals[idx], data)
+      data[:rooms] = provider_deals[idx][:rooms] if data[:rooms].empty?
+      provider_deals[idx] = data 
+    else
+      provider_deals << data
+    end
   end  
+
+  def debug_deal(loaded, new_deal)
+    return unless loaded[:provider] == :booking
+    Log.info loaded
+    Log.info new_deal
+  end
+
 
   def sort_by_price
     provider_deals.sort_by! {|deal| Utilities.nil_round(deal[:min_price], 999999)}

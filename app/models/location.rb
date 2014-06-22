@@ -4,6 +4,8 @@ class Location < ActiveRecord::Base
                    
   attr_accessible :name, :location_type, :description, :longitude, :latitude, :slug, :country_code, :score, :geog
 
+  attr_accessor :radius
+
   attr_accessor :hotel_limit
 
   # after_save :add_to_soulmate

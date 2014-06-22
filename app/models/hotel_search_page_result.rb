@@ -56,6 +56,8 @@ class HotelSearchPageResult
     matched_hotels = load_hotel_information(options[:hotels]) 
     user_filters = hotel_organiser.user_filters
 
+    # get_rooms matched_hotels
+
     Jbuilder.encode do |json|
       json.info do
         json.query            location.title
@@ -96,6 +98,12 @@ class HotelSearchPageResult
       end
     end
   end
+
+
+  def get_rooms(hotels)
+    HotelRoomWorker.perform_async(hotels.map(&:id), search_options[:cache_key])
+  end
+
 
 
   def as_map_json(options={})

@@ -229,7 +229,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
           hotel.rooms = response           
           $timeout(function(){
             hotel.loadingRooms = false;
-            }, 750) 
+            }, 50) 
          
         });
     };

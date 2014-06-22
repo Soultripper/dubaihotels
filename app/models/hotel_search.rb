@@ -54,11 +54,14 @@ class HotelSearch
       state: @state,
       cache_key: cache_key.to_s
     }
-    cur_hotels = loaded_hotels
-    cur_hotels = (cur_hotels.length > 0 or state == :finished) ? cur_hotels : all_hotels
-    HotelSearchPageResult.new cur_hotels.clone, results
+
+    HotelSearchPageResult.new current_hotels.clone, results
   end
 
+  def current_hotels
+    cur_hotels = loaded_hotels
+    cur_hotels = (cur_hotels.length > 0 or state == :finished) ? cur_hotels : all_hotels
+  end
 
   def hotels
     @hotels ||= compared_hotels

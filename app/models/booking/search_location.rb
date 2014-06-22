@@ -56,9 +56,10 @@ module Booking
 
     def location_params
       {
+        order_by: :popularity,
         latitude: location.latitude, 
         longitude: location.longitude, 
-        radius: 20}
+        radius: location.radius || 20}
     end
 
 

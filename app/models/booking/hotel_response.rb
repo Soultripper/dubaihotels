@@ -25,13 +25,13 @@ module Booking
     end
 
     def min_price
-      #use min_total_price to total
-      rooms[0].total
+      return rooms[0].total if block_response?
+      other_currency? ? price_in_currency['min_price'] : self['min_price']
     end
 
     def max_price
-      #use max_total_price for total
-      rooms[-1].total
+      return rooms[-1].total if block_response?
+      other_currency? ? price_in_currency['max_price'] : self['max_price']
     end
 
     def local_min_price
@@ -55,7 +55,7 @@ module Booking
     end
 
     def rooms
-      return nil unless block_response?
+      return [] unless block_response?
       @rooms ||= blocks.
         map {|block| Booking::Room.new block}.
         sort_by {|room| room.total}
@@ -77,7 +77,7 @@ module Booking
       @hotel||=Hotel.find_by_booking_hotel_id id
     end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria, location=nil)
       {
         provider: :booking,
         provider_hotel_id: id,
@@ -96,7 +96,7 @@ module Booking
     # end
 
     def avg_price(price, nights)
-      price / nights
+      block_response? ? (price.to_f / nights) : price.to_f
     end
 
 

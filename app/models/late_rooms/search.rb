@@ -2,7 +2,11 @@ class LateRooms::Search
 
   attr_reader :search_criteria, :response 
 
-  DEFAULT_PARAMS =  {}
+  DEFAULT_PARAMS =  {
+    detailsearch: true,
+    atype: true,
+    compressed: true 
+  }
 
   def initialize(search_criteria)
     @search_criteria = search_criteria

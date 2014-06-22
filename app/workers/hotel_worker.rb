@@ -43,8 +43,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
-  rescue Exception => msg  
-    error :booking, msg    
+  # rescue Exception => msg  
+  #   error :booking, msg    
   end 
 
   def request_expedia_hotels
@@ -55,8 +55,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
-  rescue Exception => msg  
-    error :expedia, msg
+  # rescue Exception => msg  
+  #   error :expedia, msg
   end
 
   def request_easy_to_book_hotels
@@ -100,8 +100,8 @@ class HotelWorker
         compare_and_persist provider_hotels, key
       end
     end
-  rescue Exception => msg  
-    error :laterooms, msg      
+  # rescue Exception => msg  
+  #   error :laterooms, msg      
   end  
 
   def request_venere_hotels
