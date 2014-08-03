@@ -88,7 +88,7 @@ class HotelOrganiser
     amenities_mask = HotelAmenity.mask(selection)
 
     if amenities_mask & 2 == 2
-      return false unless hotel_comparison.central?(location)
+      return false unless hotel_comparison.central?
       amenities_mask -= 2
     end
 

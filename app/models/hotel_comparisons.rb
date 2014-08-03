@@ -110,10 +110,9 @@ class HotelComparisons
     @distance ||= GeoDistance::Haversine.geo_distance( location.latitude, location.longitude, latitude, longitude).to_meters
   end
 
-  def central?(location)
-    distance = distance_from(location) 
-    return false unless distance
-    distance < 3000 and distance > 0  
+  def central?
+    return false unless distance_from_location
+    distance_from_location < 3000 and distance_from_location > 0  
   end
 
   def compare_and_add(provider_hotel, override=false)
