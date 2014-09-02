@@ -15,10 +15,10 @@ class Hotel < ActiveRecord::Base
 
   has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC, id ASC'
 
-  has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
-  has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
-  has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
-  has_one :venere_hotel, :foreign_key => 'id', :primary_key => 'venere_hotel_id'
+  # has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
+  # has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
+  # has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
+  # has_one :venere_hotel, :foreign_key => 'id', :primary_key => 'venere_hotel_id'
 
   has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id', :primary_key => 'booking_hotel_id'
   has_many :hotel_images

@@ -18,8 +18,8 @@ class HotelResultsController < SearchController
   def hotel_rooms
     render(json:{}) unless cached_search
 
-    if cached_search.is_a?(HotelSearch) and hotel_comparison = cached_search.hotels.find {|h| h.slug== params[:id]}
-      render json: hotel_comparison.rooms
+    if cached_search.is_a?(HotelSearch) 
+      render json: cached_hotel_rooms
     elsif cached_search.is_a?(HotelRoomSearch) and cached_search.hotel.slug == params[:id]
       render json: cached_search.rooms_results
     else
@@ -28,6 +28,12 @@ class HotelResultsController < SearchController
     
   end
  
+  def cached_hotel_rooms
+    hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
+    hotel_rooms = cached_rooms.find_hotel params[:id]
+    hotel_comparison.rooms_merged(hotel_rooms)
+  end
+
   def hotel_details
     render json: HotelView.new(hotel, search_criteria).as_json
   end

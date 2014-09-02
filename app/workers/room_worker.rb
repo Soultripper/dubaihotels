@@ -56,7 +56,7 @@ class RoomWorker
   def request_booking_rooms
     start :booking do 
       hotel_list_response = Booking::SearchHotel.for_availability(booking_hotel_id, search_criteria)
-      return unless hotel_list_response.hotels.length > 0 and booking_hotel = hotel.booking_hotel
+      return unless hotel_list_response.hotels.length > 0# and booking_hotel = hotel.booking_hotel
       hotel_response = hotel_list_response.hotels.first
       hotel_response.rooms.map do |room|
         room.link = search_criteria.booking_link(hotel)

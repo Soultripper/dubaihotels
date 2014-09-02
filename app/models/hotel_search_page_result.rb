@@ -56,7 +56,7 @@ class HotelSearchPageResult
     matched_hotels = load_hotel_information(options[:hotels]) 
     user_filters = hotel_organiser.user_filters
 
-    # get_rooms matched_hotels
+    get_rooms matched_hotels
 
     Jbuilder.encode do |json|
       json.info do
@@ -84,13 +84,15 @@ class HotelSearchPageResult
 
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
-          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
+          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central? and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
             :postal_code,  :latitude, :longitude, 
             :star_rating, :description, :amenities, :slug)
+          json.distance       hotel_comparison.distance_from_location
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
+          # json.score          hotel_comparison.recommended_score
           # json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
           json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
           json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
@@ -115,7 +117,7 @@ class HotelSearchPageResult
       
       if !matched_hotels.empty?
         json.hotels matched_hotels do |hotel_comparison|
-          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central?(location) and hotel_comparison.amenities
+          hotel_comparison.hotel.amenities +=2 if hotel_comparison.central? and hotel_comparison.amenities
           json.(hotel_comparison.hotel, :id, :name, :latitude, :longitude, :star_rating,  :slug)
           json.offer          hotel_comparison.offer
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url

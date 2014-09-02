@@ -27,6 +27,10 @@ class SearchController < ApplicationController
     @cached_search ||= HotelSearch.find params[:key]
   end
 
+  def cached_rooms
+    @cached_rooms ||= RoomsCache.find_or_create_from_cache params[:key]
+  end
+
   def search_results
     hotel_search.results.sort(sort).filter(filters) 
   end

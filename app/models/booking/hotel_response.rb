@@ -4,9 +4,9 @@ module Booking
 
     field :_id, type: Integer, default: ->{ self.hotel_id}
 
-    def hotel
-      @hotel ||= Hotel.find_by_booking_hotel_id hotel_id
-    end
+    # def hotel
+    #   @hotel ||= Hotel.find_by_booking_hotel_id hotel_id
+    # end
 
     def hotel_id
       self['hotel_id']
@@ -73,9 +73,9 @@ module Booking
       rooms[-1]
     end
 
-    def fetch_hotel
-      @hotel||=Hotel.find_by_booking_hotel_id id
-    end
+    # def fetch_hotel
+    #   @hotel||=Hotel.find_by_booking_hotel_id id
+    # end
 
     def commonize(search_criteria, location=nil)
       {

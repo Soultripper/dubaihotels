@@ -100,7 +100,7 @@ class HotelSearch
       end    
     end
     persist
-    Log.info "Matched, persisted, notified and compared #{matches} matches out of #{all_hotels.count} hotels in #{time}s"
+    Log.info "Processed #{matches} matches for #{key.upcase} out of #{all_hotels.count} hotels in #{time}s"
   end
 
   def set_rooms_link(hotel_hash)

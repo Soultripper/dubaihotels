@@ -20,6 +20,7 @@ class HotelsController < ApplicationController
 
   def hotel_view
     key = hotel_room_search.cache_key unless rooms
+
     @hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: rooms, key: key
   end
 
@@ -40,15 +41,28 @@ class HotelsController < ApplicationController
     @cached_search ||= HotelSearch.find params[:key]
   end
 
+  def cached_rooms
+    @cached_rooms ||= RoomsCache.find_or_create_from_cache params[:key]
+  end
+
   def hotel_room_search
     @hotel_room_search ||= HotelRoomSearch.find_or_create(hotel, search_criteria).start
   end
 
   def rooms
-    if cached_search and @hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
-      @hotel_comparison.rooms
+    if cached_search #and @hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
+      cached_hotel_rooms
+      #@hotel_comparison.rooms
     end
   end
+
+  def cached_hotel_rooms
+    hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
+    hotel_rooms = cached_rooms.find_hotel params[:id]
+    # throw hotel_rooms
+    hotel_comparison.rooms_merged(hotel_rooms)
+  end
+
 
   def hotel_id
     params[:id].to_i

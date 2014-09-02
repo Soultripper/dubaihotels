@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+#ruby '1.9.3'
 
 gem 'rails', '3.2.13'
 
@@ -12,6 +12,7 @@ gem 'sidekiq'
 
 gem 'pg'
 gem 'rest-client'
+
 # gem 'thin'
 
 gem 'nokogiri'
@@ -51,7 +52,7 @@ gem 'newrelic_rpm'
 gem "oink" #Rails AR profiler
 gem 'jquery-rails-cdn'
 
-gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
+# gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem 'smarter_csv', require: false
 gem 'carrierwave'
 gem "fog"
