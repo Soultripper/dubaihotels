@@ -34,7 +34,7 @@ module Splendia
       time = Benchmark.realtime do 
         (conn = Splendia::Client.http).in_parallel do 
           ids.each_slice(slice_by) do |sliced_ids|          
-            Log.info "Sending request of #{sliced_ids.count} hotels to Splendia:\n"
+            Log.info "Sending request of #{sliced_ids.count} hotels to Splendia:"
             params = search_params.merge(hotel_params(sliced_ids))
             responses << conn.get( Splendia::Client.url, params)
           end

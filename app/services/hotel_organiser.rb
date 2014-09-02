@@ -65,14 +65,14 @@ class HotelOrganiser
   def filter(filters={})   
     @user_filters = filters
     return false unless apply_filter? filters
-    Log.debug "#{hotels.count} hotels remaining before #{filters} applied"
+    orig_count = hotels.count
     hotels.select! do |hotel|
       filter_min_price(hotel, Utilities.nil_round(filters[:min_price])) and 
       filter_max_price(hotel, Utilities.nil_round(filters[:max_price])) and 
       filter_amenities(hotel, filters[:amenities]) and
       filter_stars(hotel, filters[:star_ratings])
     end
-    Log.debug "#{hotels.count} hotels remaining after #{filters} applied"
+    Log.debug "HotelOrganiser::filter - filtered=#{orig_count - hotels.count}, filters=#{filters}"
   end
 
   def apply_filter?(filters)

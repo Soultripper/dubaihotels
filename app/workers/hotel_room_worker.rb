@@ -8,14 +8,31 @@ class HotelRoomWorker
 
   def perform(hotel_ids, cache_key)
 
-    @search = HotelSearch.find cache_key
-
-    @hotels = @search.hotels.select {|h| hotel_ids.include?(h.id) and h.booking_hotel_id}
-
-    request_booking_rooms
-    
-    @search.persist
+    # using_worker(hotel_ids, cache_key)
+    using_rooms_cache(hotel_ids, cache_key)
   end
+
+  def using_worker(hotel_ids, cache_key)
+
+    @search = HotelSearch.find cache_key
+    @hotels = @search.hotels.select {|h| hotel_ids.include?(h.id) and h.booking_hotel_id}
+    request_booking_rooms    
+    @search.persist
+
+  end
+
+  def using_rooms_cache(hotel_ids, cache_key)
+    RoomsCache.update hotel_ids, cache_key
+  end
+
+  # def find_rooms(hotel_ids, cache_key)
+
+  #   @search = HotelSearch.find cache_key
+  #   rooms_cache = RoomsCache.find_or_create_from_cache cache_key
+  #   hotel_ids_to_process = @rooms_cache.not_found(hotel_ids)
+  #   @hotels = @search.hotels.select {|h| h.booking_hotel_id and hotel_ids_to_process.include?(h.id)}
+  #   rooms_cache.update(hotels)
+  # end
 
   def search_criteria
     search.search_criteria
@@ -23,7 +40,7 @@ class HotelRoomWorker
 
   def booking_hotel_ids
     @booking_hotel_ids ||= hotels.map do |hotel|
-      hotel.booking_hotel_id unless hotel.has_rooms_for_provider :booking
+      hotel.booking_hotel_id unless hotel.has_rooms_for_provider? :booking
     end.compact
   end
 
@@ -41,7 +58,7 @@ class HotelRoomWorker
         provider_deal = cached_hotel.find_provider_deal(:booking)
         common_provider_hotel = hotel.commonize(search_criteria)
         common_provider_hotel[:link] = search_criteria.booking_link(cached_hotel)
-        cached_hotel.compare_and_add common_provider_hotel, true
+        cached_hotel.compare_and_add common_provider_hotel
       end
     }
     Log.info "------ ROOM SEARCH COMPLETED IN #{time} seconds -------- "

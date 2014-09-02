@@ -36,6 +36,9 @@ class HotelComparisons
     provider_deals.find {|deal| deal[:loaded]==true}
   end
 
+  def recommended_score
+    (hotel.ranking || 0)
+  end
   
   def [](key)
     hotel[key]
@@ -46,10 +49,10 @@ class HotelComparisons
   end
 
   def find_provider_deal(name)
-    provider_deals.find {|deal| deal[:provider] == name}
+    provider_deals.find {|deal| deal[:provider] == name} || {}
   end
 
-  def has_rooms_for_provider(name)
+  def has_rooms_for_provider?(name)
     deal = find_provider_deal name
     deal[:rooms]
   end
@@ -86,8 +89,18 @@ class HotelComparisons
 
 
   def rooms
+
     @rooms = loaded_providers.map {|deal| deal[:rooms]}.flatten.compact
     @rooms.sort_by {|room| room[:price].to_f} if @rooms
+  end
+
+  def rooms_merged(other_hotel)
+    return rooms unless other_hotel
+    other_providers = other_hotel.loaded_providers
+    other_providers.each do |other_provider|
+      add_provider_deal(other_provider)
+    end 
+    rooms
   end
 
   def loaded_providers
@@ -115,24 +128,39 @@ class HotelComparisons
     distance_from_location < 3000 and distance_from_location > 0  
   end
 
-  def compare_and_add(provider_hotel, override=false)
+  def compare_and_add(provider_hotel)
     return unless provider_hotel
-    add_provider_deal provider_hotel, override
+    add_provider_deal provider_hotel
     sort_by_price
     randomize_best_offer   
   end
 
-  def add_provider_deal(data, override)
-    data[:loaded] = true
-    idx = provider_deals.index {|deal| deal[:provider] == data[:provider]}
-    if idx 
+  def add_provider_deal(new_provider)
+    new_provider[:loaded] = true
+    idx = provider_deals.index {|deal| deal[:provider] == new_provider[:provider]}
+
+    add_rooms new_provider, provider_deals[idx]
+    # if idx 
       # debug_deal(provider_deals[idx], data)
-      data[:rooms] = provider_deals[idx][:rooms] if data[:rooms].empty?
-      provider_deals[idx] = data 
-    else
-      provider_deals << data
-    end
+    # data[:rooms] = provider_deals[idx][:rooms] if data[:rooms].empty?
+
+    # if data[:rooms]
+    #   data[:rooms].each {|room| room[:link] = provider_deals[idx][:link] if room[:link].blank?}
+    # end
+    provider_deals[idx] = new_provider 
+    # else
+    #   Log.debug "--------------------NO HOTEL FOUND ---------------------"
+    #   provider_deals << data
+    # end
   end  
+
+  def add_rooms(new_provider, current_provider)
+    new_provider[:rooms] = current_provider[:rooms] if new_provider[:rooms].empty?
+
+    if new_provider[:rooms]
+      new_provider[:rooms].each {|room| room[:link] = current_provider[:link] if room[:link].blank?}
+    end
+  end
 
   def debug_deal(loaded, new_deal)
     return unless loaded[:provider] == :booking
