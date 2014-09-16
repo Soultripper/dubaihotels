@@ -8,7 +8,7 @@ module HotelScopes
 
     def by_location(location, proximity_in_metres = 8000)
 
-      limit = location.hotel_limit || 500
+      limit = location.hotel_limit || 1000
 
       query = limit(limit)
 
@@ -16,7 +16,7 @@ module HotelScopes
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (city = ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.upcase)
       elsif location.my_location?
         return query.where("ST_DWithin(hotels.geog, ST_MakePoint(?,?), ?) ", location.longitude, location.latitude, 3000).
-               order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude})), matches DESC, COALESCE(ranking,0) DESC")
+               order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude})), provider_hotel_count DESC, COALESCE(provider_hotel_ranking,0) DESC")
       elsif location.distance_based?
         return query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
       elsif location.region?
@@ -25,7 +25,7 @@ module HotelScopes
         query = query.where("country_code = ?", location.country_code.upcase)
       end
 
-      query.order('COALESCE(ranking,0) DESC, matches * user_rating DESC')
+      query.order('provider_hotel_count DESC, COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC')
     end
 
     def ids_within_distance_of(location, provider_key, limit=4000)
@@ -40,22 +40,6 @@ module HotelScopes
       includes(:images)
     end
     
-    def hotel_select_cols
-      [
-        "id", 
-        "star_rating", 
-        "geog",
-        "user_rating",
-        "ranking",
-        "ean_hotel_id", 
-        "booking_hotel_id", 
-        "etb_hotel_id", 
-        "agoda_hotel_id", 
-        "splendia_hotel_id",
-        "laterooms_hotel_id", 
-        "venere_hotel_id"       
-      ]
-    end
 
     def by_location_slug(slug)
       loc = Location.find_by_slug slug

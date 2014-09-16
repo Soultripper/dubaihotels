@@ -55,7 +55,7 @@ module Venere
             Log.info "Sending request for #{sliced_ids.count} out of #{ids.count} hotels to Venere.com:\n"
 
             params = search_params.merge(hotel_params(sliced_ids))
-            soap_envelope = Venere::Client.soap_envelope(params)
+            soap_envelope = Venere::Client.soap_envelope(params)  {Venere::Client.by_property(params)}
             responses << conn.post( Venere::Client.url + 'XHI_HotelAvail.soap', soap_envelope)
           end
         end

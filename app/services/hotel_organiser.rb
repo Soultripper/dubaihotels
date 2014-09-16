@@ -47,7 +47,7 @@ class HotelOrganiser
       when :price_reverse; do_sort {|h1| h1.offer[:min_price].to_f}.reverse!
       when :rating; do_sort {|h1| h1.star_rating.to_f}.reverse!
       when :rating_reverse; do_sort {|h1| h1.star_rating.to_f}
-      when :user; do_sort {|h1| [h1.user_rating.to_f, h1.matches.to_i]}.reverse!
+      when :user; do_sort {|h1| [h1.user_rating.to_f, h1.provider_hotel_count.to_i]}.reverse!
       when :a_z; do_sort {|h1| h1.name}
       when :distance; do_sort {|h1| h1.distance_from_location.to_f}
       when :distance_reverse; do_sort {|h1| h1.distance_from_location.to_f}.reverse!

@@ -113,7 +113,7 @@ class Venere::Client
         </soapenv:Header>
         <soapenv:Body>
           <xhi:XHI_HotelAvailRQ msgVersion="#{MSG_VERSION}" start="#{params[:start_date]}" end="#{params[:end_date]}" numGuests="#{params[:numGuests]}" numRooms="#{params[:numRooms]}" guestCountryCode="#{params[:country_code]}" preferredPaymentCurrency="#{params[:currency_code]}">
-            #{yield block}
+            #{yield block if block_given?}
             <xhi:AvailResultFormat showDailyRates="false" showPropertyDetails="false" showLowestPriceOnly="false"  />
           </xhi:XHI_HotelAvailRQ>
         </soapenv:Body>
@@ -122,7 +122,7 @@ class Venere::Client
       Nokogiri::XML(xml).to_xml
     end
 
-    protected
+    # protected
 
     def by_property(params)
       %Q[<xhi:AvailQueryByProperty propertyIDs="#{params[:hotel_ids]}"/>]

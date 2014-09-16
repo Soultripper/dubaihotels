@@ -1,13 +1,13 @@
 module HotelsConfig
 
   PROVIDER_IDS = {
-    booking: :booking_hotel_id,  
-    expedia: :ean_hotel_id, 
-    splendia: :splendia_hotel_id, 
-    easy_to_book: :etb_hotel_id, 
-    laterooms: :laterooms_hotel_id, 
-    agoda: :agoda_hotel_id,
-    venere: :venere_hotel_id
+    booking: "Booking",
+    expedia: "Expedia",
+    splendia: "Splendia",
+    easy_to_book: "EasyToBook",
+    laterooms: "LateRooms",
+    agoda: "Agoda",
+    venere: "Venere"
   }
 
   class << self
@@ -16,6 +16,14 @@ module HotelsConfig
 
     def setup
       yield self
+    end
+
+    def provider_keys
+      PROVIDER_IDS.keys
+    end
+
+    def provider_names
+      providers.map {|p| PROVIDER_IDS[p]}
     end
   end
 end

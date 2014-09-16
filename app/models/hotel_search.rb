@@ -30,19 +30,10 @@ class HotelSearch
   def start
     return self if @state or !valid?
     @state = :new_search
-    all_hotels
+    hash_hotels
     Log.debug "Hotel Search: #{total_hotels} hotels to search"
     persist
     search
-  end
-
-  def all_hotels
-    @all_hotels ||= HotelComparisons.by_location(location).to_a 
-  end
-
-
-  def valid?
-    search_criteria.valid? and location
   end
 
   def results
@@ -58,49 +49,62 @@ class HotelSearch
     HotelSearchPageResult.new current_hotels.clone, results
   end
 
+  def provider_ids_for(provider)
+    @hash_hotels.provider_ids_for provider
+  end
+
+
+  def valid?
+    search_criteria.valid? and location
+  end
+
   def current_hotels
-    cur_hotels = loaded_hotels
-    cur_hotels = (cur_hotels.length > 0 or state == :finished) ? cur_hotels : all_hotels
+    (matched_hotels.length > 0 or state == :finished) ? matched_hotels : @hash_hotels.hotel_comparisons
+  end
+
+  def matched_hotels
+    _matched_hotels ||= @hash_hotels.hotels_with_deals(location.hotel? ? location.slug : nil)
   end
 
   def hotels
-    @hotels ||= compared_hotels
-  end
-
-  def loaded_hotels
-    compared_hotels.select {|h| h.has_a_deal? or (location.hotel? and location.slug == h.slug)}
-  end
-
-  def compared_hotels
-    all_hotels.select {|h| !h.provider_deals.empty?}
+    _hotels ||= @hash_hotels.hotel_comparisons
   end
 
   def total_hotels
-    all_hotels.count
+    @hash_hotels.hotels.count
   end
 
-  def compare_and_persist(hotels, key)
+  def compare_and_persist(provider_hotels_found, provider)
     @state = :searching
     matches = 0
     time = Benchmark.realtime do 
-      HotelComparer.compare(all_hotels, hotels, key) do |hotel, provider_hotel|
-
-        common_provider_hotel = provider_hotel.commonize(search_criteria, location)
-
-        if key==:booking_hotel_id
-          common_provider_hotel[:link] = search_criteria.booking_link(hotel)
-          set_rooms_link(common_provider_hotel)
-        elsif key==:laterooms_hotel_id and common_provider_hotel
-          common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
-          set_rooms_link(common_provider_hotel)
-        end
-
-        matches += 1 if add_to_list(hotel, common_provider_hotel)
-
+      provider_hotels_found.each do |provider_hotel|
+        matches += 1 if add_found_hotel(provider_hotel, provider) 
       end    
     end
     persist
-    Log.info "Processed #{matches} matches for #{key.upcase} out of #{all_hotels.count} hotels in #{time}s"
+    Log.info "Processed #{matches} matches for #{provider.upcase} out of #{total_hotels} hotels in #{time}s"
+  end
+
+  def find_hotel_for(provider, provider_hotel_id)
+    @hash_hotels.find_hotel_for(provider, provider_hotel_id)
+  end
+
+  def add_found_hotel(provider_hotel, provider)
+    hotel = find_hotel_for provider, provider_hotel.id
+    return unless hotel and provider_hotel
+
+    common_provider_hotel = provider_hotel.commonize(search_criteria, location)
+
+    if provider==:booking
+      common_provider_hotel[:link] = search_criteria.booking_link(hotel)
+      set_rooms_link(common_provider_hotel)
+    elsif provider==:laterooms
+      common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
+      set_rooms_link(common_provider_hotel)
+    end
+
+    add_to_list(hotel, common_provider_hotel)
   end
 
   def set_rooms_link(hotel_hash)
@@ -118,7 +122,6 @@ class HotelSearch
     finish provider
     @state = finished? ? :finished : @state
     persist
-    Log.debug "#{provider.upcase} Completed: #{hotels.count} hotels compared"
     hotels.count
   end
 
@@ -142,6 +145,11 @@ class HotelSearch
   end
 
   protected
+
+
+  def hash_hotels
+    @hash_hotels = HotelsHash.by_location(location) 
+  end
 
   def search      
     HotelWorker.perform_async cache_key 

@@ -15,6 +15,12 @@ class HotelsController < ApplicationController
     respond_with hotel_view
   end
 
+  def mobile_show
+    publish_hotel_seo
+    key = hotel_room_search.cache_key unless rooms
+    @hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: rooms, key: key, include_providers:true
+    respond_with hotel_view
+  end
 
   protected
 

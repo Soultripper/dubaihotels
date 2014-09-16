@@ -11,7 +11,7 @@ class SearchController < ApplicationController
 
     if(hotel_search.state != :new_search and hotel_search.state != :invalid)
       @results = search_results
-    end
+    end 
 
     @results = @results.select
    

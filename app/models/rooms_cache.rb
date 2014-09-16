@@ -13,29 +13,7 @@ class RoomsCache
   end
 
   def self.update(hotel_ids, cache_key)
-
-
     rooms_cache = find_or_create_from_cache(cache_key).update(hotel_ids)
-  end
-
-  def find_hotel(slug)
-    hotels.find {|hotel| hotel.slug == slug}
-  end
-
-  def current_hotel_ids
-    hotels.map &:id
-  end
-
-  def not_found(ids_to_find)
-    current_set = current_hotel_ids.to_set
-    search_set = ids_to_find.to_set
-    (search_set - current_set).to_a
-  end
-
-  def cached_search_hotels(not_found_hotel_ids)
-    cached_search = HotelSearch.find search_cache_key
-    @search_criteria = cached_search.search_criteria
-    cached_search.hotels.select {|h| not_found_hotel_ids.include?(h.id)}
   end
 
   def update(new_hotel_ids)
@@ -45,8 +23,13 @@ class RoomsCache
     persist
   end
 
+  def hash_hotels(found_hotels)
+    @hash_hotels = HotelsHash.by_location(location) 
+  end
+
   def add_new_hotels(new_hotel_ids) 
     not_found_hotel_ids = not_found(new_hotel_ids)
+    Log.debug "#{not_found_hotel_ids.count}"
     return nil unless not_found_hotel_ids.length > 0
     missing_hotels = cached_search_hotels(not_found_hotel_ids)
     hotels.concat(missing_hotels) 
@@ -54,13 +37,45 @@ class RoomsCache
     Log.debug "Added and persisted #{missing_hotels.count} missing hotels from rooms search"
   end
 
+  def not_found(ids_to_find)
+    current_set = current_hotel_ids.to_set
+    search_set = ids_to_find.to_set
+    (search_set - current_set).to_a
+  end
+
+  def find_hotel(slug)
+    hotels.find {|hotel| hotel.slug == slug}
+  end
+
+  def find_hotel_by(provider, id)
+    hotels.find do |hotel|
+      !hotel.provider_deals.find {|deal| deal[:provider] == provider.to_sym && deal[:provider_id] == id.to_i}.nil?
+    end
+  end
+
+  def current_hotel_ids
+    hotels.map &:id
+  end
+
+  def cached_search_hotels(not_found_hotel_ids)
+    @search_criteria = cached_search.search_criteria
+    cached_search.hotels.select {|h| not_found_hotel_ids.include?(h.id)}
+  end
+
+  def cached_search
+    _cached_search ||= HotelSearch.find search_cache_key
+  end
+
+
+
   def collect_missing_ids
     @provider_ids = {}
-    HotelsConfig::PROVIDER_IDS.each {|provider, provider_key| @provider_ids[provider] = []}
+    HotelsConfig.provider_keys.each {|provider| @provider_ids[provider] = []}
     hotels.each do |hotel_comparison|
-      HotelsConfig::PROVIDER_IDS.each do |provider, provider_key|
-        unless hotel_comparison.has_rooms_for_provider?(provider) and hotel_comparison[provider_key]
-          @provider_ids[provider] << hotel_comparison[provider_key]
+      HotelsConfig.provider_keys.each do |provider|
+        provider_deal = hotel_comparison.find_provider_deal provider                              
+        unless provider_deal[:rooms]
+          @provider_ids[provider] << provider_deal[:provider_id]
           @provider_ids[provider].compact!
         end
       end
@@ -86,30 +101,22 @@ class RoomsCache
   def threaded(provider, &block)
     thread = Thread.new do 
       hotel_list_response = yield
-      add_rooms_to_hotels(hotel_list_response.hotels, HotelsConfig::PROVIDER_IDS[provider]) if hotel_list_response
+      add_rooms_to_hotels(hotel_list_response.hotels, provider) if hotel_list_response
       ActiveRecord::Base.connection.close
     end
     thread
   end
 
-  def add_rooms_to_hotels(provider_hotels, provider_key)
-    return unless provider_hotels and provider_hotels.count > 0 
-    Log.debug "Rooms_Cache: Comparing #{provider_hotels.count} hotels for #{provider_key.upcase}"
-    HotelComparer.compare(hotels, provider_hotels, provider_key) do |comparable_hotel, provider_hotel|
-
+  def add_rooms_to_hotels(provider_hotels_found, provider)
+    return unless provider_hotels_found and provider_hotels_found.count > 0 
+    Log.debug "Rooms_Cache: Comparing #{provider_hotels_found.count} hotels for #{provider.upcase}"
+    provider_hotels_found.each do |provider_hotel|
+      hotel = find_hotel_by provider, provider_hotel.id
       common_provider_hotel = provider_hotel.commonize(search_criteria)
       common_provider_hotel[:rooms_loaded] = true
+      hotel.add_provider_deal(common_provider_hotel)
+    end  
 
-      # if provider_key==:booking_hotel_id
-      #   common_provider_hotel[:link] = search_criteria.booking_link(comparable_hotel)
-      #   # set_rooms_link(common_provider_hotel)
-      # # elsif provider_key==:laterooms_hotel_id and common_provider_hotel
-      # #   common_provider_hotel[:link] = search_criteria.laterooms_link(comparable_hotel)
-      # #   set_rooms_link(common_provider_hotel)
-      # end
-
-      comparable_hotel.add_provider_deal(common_provider_hotel)
-    end
   end
 
 

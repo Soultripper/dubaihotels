@@ -12,18 +12,19 @@ class HotelRoomWorker
     using_rooms_cache(hotel_ids, cache_key)
   end
 
-  def using_worker(hotel_ids, cache_key)
-
-    @search = HotelSearch.find cache_key
-    @hotels = @search.hotels.select {|h| hotel_ids.include?(h.id) and h.booking_hotel_id}
-    request_booking_rooms    
-    @search.persist
-
-  end
-
   def using_rooms_cache(hotel_ids, cache_key)
     RoomsCache.update hotel_ids, cache_key
   end
+
+  # def using_worker(hotel_ids, cache_key)
+
+  #   @search = HotelSearch.find cache_key
+  #   @hotels = @search.hotels.select {|h| hotel_ids.include?(h.id) and h.booking_hotel_id}
+  #   request_booking_rooms    
+  #   @search.persist
+
+  # end
+
 
   # def find_rooms(hotel_ids, cache_key)
 
@@ -34,39 +35,39 @@ class HotelRoomWorker
   #   rooms_cache.update(hotels)
   # end
 
-  def search_criteria
-    search.search_criteria
-  end
+  # def search_criteria
+  #   search.search_criteria
+  # end
 
-  def booking_hotel_ids
-    @booking_hotel_ids ||= hotels.map do |hotel|
-      hotel.booking_hotel_id unless hotel.has_rooms_for_provider? :booking
-    end.compact
-  end
+  # def booking_hotel_ids
+  #   @booking_hotel_ids ||= hotels.map do |hotel|
+  #     hotel.booking_hotel_id unless hotel.has_rooms_for_provider? :booking
+  #   end.compact
+  # end
 
-  def request_booking_rooms    
-    return if booking_hotel_ids.empty?
+  # def request_booking_rooms    
+  #   return if booking_hotel_ids.empty?
 
-    hotel_list_response = Booking::SearchHotel.for_availability(booking_hotel_ids, search_criteria)
+  #   hotel_list_response = Booking::SearchHotel.for_availability(booking_hotel_ids, search_criteria)
 
-    return unless hotel_list_response.hotels.length > 0
+  #   return unless hotel_list_response.hotels.length > 0
 
-    time = Benchmark.realtime{
-      Log.info "Retrieving Booking.com room information for #{booking_hotel_ids.count} hotels"
-      hotel_list_response.hotels.each do |hotel|
-        cached_hotel = hotels.find {|h| h.booking_hotel_id == hotel.id}
-        provider_deal = cached_hotel.find_provider_deal(:booking)
-        common_provider_hotel = hotel.commonize(search_criteria)
-        common_provider_hotel[:link] = search_criteria.booking_link(cached_hotel)
-        cached_hotel.compare_and_add common_provider_hotel
-      end
-    }
-    Log.info "------ ROOM SEARCH COMPLETED IN #{time} seconds -------- "
+  #   time = Benchmark.realtime{
+  #     Log.info "Retrieving Booking.com room information for #{booking_hotel_ids.count} hotels"
+  #     hotel_list_response.hotels.each do |hotel|
+  #       cached_hotel = hotels.find {|h| h.booking_hotel_id == hotel.id}
+  #       provider_deal = cached_hotel.find_provider_deal(:booking)
+  #       common_provider_hotel = hotel.commonize(search_criteria)
+  #       common_provider_hotel[:link] = search_criteria.booking_link(cached_hotel)
+  #       cached_hotel.compare_and_add common_provider_hotel
+  #     end
+  #   }
+  #   Log.info "------ ROOM SEARCH COMPLETED IN #{time} seconds -------- "
 
-  end
+  # end
 
-  def find_booking_hotels(ids)
-  end
+  # def find_booking_hotels(ids)
+  # end
 
 
   # def start(provider, &block)

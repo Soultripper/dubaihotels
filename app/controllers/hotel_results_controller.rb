@@ -10,6 +10,12 @@ class HotelResultsController < SearchController
     render json: search_results.select(count)       
   end
 
+  def mobile_search       
+    return head(400) unless valid_search?
+    publish_more_hotels   
+    render json: search_results.select_with_images(count)       
+  end
+
   def map_search
     location.hotel_limit = 150
     render json: search_results.select_map_view(count)  
@@ -29,7 +35,7 @@ class HotelResultsController < SearchController
   end
  
   def cached_hotel_rooms
-    hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
+    hotel_comparison = cached_search.current_hotels.find {|h| h.slug == params[:id]}
     hotel_rooms = cached_rooms.find_hotel params[:id]
     hotel_comparison.rooms_merged(hotel_rooms)
   end
@@ -37,6 +43,7 @@ class HotelResultsController < SearchController
   def hotel_details
     render json: HotelView.new(hotel, search_criteria).as_json
   end
+
 
   protected
 

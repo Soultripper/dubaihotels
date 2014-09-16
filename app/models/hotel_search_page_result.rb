@@ -56,7 +56,7 @@ class HotelSearchPageResult
     matched_hotels = load_hotel_information(options[:hotels]) 
     user_filters = hotel_organiser.user_filters
 
-    get_rooms matched_hotels
+    # get_rooms matched_hotels
 
     Jbuilder.encode do |json|
       json.info do
@@ -92,6 +92,7 @@ class HotelSearchPageResult
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
+          json.images         hotel_comparison.hotel.images.limit(5).map &:to_json if options[:include_images]
           # json.score          hotel_comparison.recommended_score
           # json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
           json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
@@ -101,12 +102,11 @@ class HotelSearchPageResult
     end
   end
 
-
   def get_rooms(hotels)
-    HotelRoomWorker.perform_async(hotels.map(&:id), search_options[:cache_key])
+    # HotelRoomWorker.perform_async(hotels.map(&:id), search_options[:cache_key])
+        # HotelRoomWorker.new.perform(hotels.map(&:id), search_options[:cache_key])
+
   end
-
-
 
   def as_map_json(options={})
 
@@ -131,6 +131,10 @@ class HotelSearchPageResult
     as_json hotels: hotels.take(count)
   end
 
+  def select_with_images(count = HotelsConfig.page_size)
+    as_json hotels: hotels.take(count), include_images: true
+  end
+
   def select_map_view(count = HotelsConfig.page_size)
     as_map_json hotels: hotels.take(count)
   end
@@ -143,7 +147,7 @@ class HotelSearchPageResult
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id
-    matched_hotels = Hotel.where(id: ids).to_a
+    matched_hotels = Hotel.where(id: ids).includes(:provider_hotels)
     matched_hotels.each do |hotel|
       begin
         hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}

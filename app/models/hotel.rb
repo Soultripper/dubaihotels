@@ -1,31 +1,35 @@
 class Hotel < ActiveRecord::Base
   include HotelScopes
-  self.primary_key = :id 
+  include MultiPluck
+  # self.table_name = "hotels_v2"
+
   after_save :add_to_soulmate
   before_destroy :remove_from_soulmate
 
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-  attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :star_rating, :amenities,
-                  :high_rate, :low_rate, :check_in_time, :check_out_time, :property_currency, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, 
-                  :agoda_hotel_id, :description, :user_rating, :laterooms_hotel_id, :venere_hotel_id, :image_url, :thumbnail_url
+  attr_accessible :id, :name, :address, :city, :state_province, :postal_code, :country_code, :latitude, :longitude, :description, 
+                  :star_rating, :amenities,  :image_url, :thumbnail_url, :user_rating, :score, 
+                  :provider_hotel_id, :provider_hotel_ranking, :provder_hotel_count, :slug
 
   attr_accessor :distance_from_location
 
-  has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC, id ASC'
+  # has_many :images,    :class_name => "HotelImage", :order => 'default_image DESC, id ASC'
+  has_many :provider_hotels
+  has_many :provider_hotel_images
 
-  # has_one :booking_hotel, :foreign_key => 'id', :primary_key => 'booking_hotel_id'
-  # has_one :ean_hotel, :foreign_key => 'id', :primary_key => 'ean_hotel_id'
-  # has_one :etb_hotel, :foreign_key => 'id', :primary_key => 'etb_hotel_id'
-  # has_one :venere_hotel, :foreign_key => 'id', :primary_key => 'venere_hotel_id'
 
-  has_many :booking_hotel_images, :foreign_key => 'booking_hotel_id', :primary_key => 'booking_hotel_id'
-  has_many :hotel_images
-
-  def self.cols
-    "ean_hotel_id, sequence_number,name, address1,address2,city,state_province,postal_code ,country,latitude,longitude,airport_code,property_category,property_currency,star_rating,confidence, supplier_type,location,chain_code_id,region_id,high_rate,low_rate,check_in_time,check_out_time"
+  def images
+    provider_hotel_images.by_ranked_order
   end
+
+  def descriptions
+    provider_hotels.map &:description
+  end
+
+
+
 
   def self.booking_only
     where('
@@ -36,6 +40,10 @@ class Hotel < ActiveRecord::Base
       AND agoda_hotel_id IS NULL
       AND etb_hotel_id IS NULL
       AND venere_hotel_id IS NULL')
+  end
+
+  def self.without_main_image
+    where('image_url IS NULL')
   end
 
   def self.without_images
@@ -71,7 +79,7 @@ class Hotel < ActiveRecord::Base
 
   def soulmate_score
     total = 1
-    [matches, user_rating, star_rating].each do |item|
+    [provider_hotel_count, user_rating, star_rating].each do |item|
       total = total * (item.to_i + 1)
     end
 
@@ -97,16 +105,23 @@ class Hotel < ActiveRecord::Base
     "#{name}, #{city.capitalize}" 
   end
 
+  def providers_to_json
+    provider_hotels.map { |provider_hotel| provider_hotel.to_json }
+  end
+
 
   def ratings
-    {
-      overall:      user_rating.to_i,
-      agoda:        (agoda_user_rating.to_f * 10).to_i,
-      booking:      (booking_user_rating.to_f * 10).to_i,
-      splendia:     splendia_user_rating.to_i,
-      laterooms:    (laterooms_user_rating.to_f * 16.6).to_i,
-      easy_to_book: (etb_user_rating.to_f * 20).to_i
-    }
+
+    rating = {overall:  user_rating.to_i}
+    provider_hotels.each do |provider_hotel|
+      rating[provider_hotel.provider.to_sym] = provider_hotel.user_rating.to_f
+    end
+
+    rating
+  end
+
+  def description_clean
+    CGI::unescapeHTML(description.gsub(/<\/?[^>]*>/,""))
   end
 
   def to_soulmate
@@ -133,13 +148,6 @@ class Hotel < ActiveRecord::Base
       score: score
     }
   end
-  # def self.to_csv(options = {})
-  #   CSV.generate(options) do |csv|
-  #     csv << column_names
-  #     find_each do |hotel|
-  #       csv << product.attributes.values_at(*column_names)
-  #     end
-  #   end
-  # end
+
 
 end

@@ -6,18 +6,15 @@ class HotelComparisons
   attr_accessor :distance_from_location, :hotel
 
   def_delegators  :@hotel, :id, :star_rating, :longitude, :amenities, :latitude, 
-                  :user_rating, :matches, :ranking, :booking_hotel_id, :ean_hotel_id, 
-                  :splendia_hotel_id, :etb_hotel_id, :laterooms_hotel_id, :agoda_hotel_id, 
-                  :agoda_user_rating, :laterooms_user_rating, :etb_user_rating, :splendia_user_rating, :booking_user_rating,
-                  :laterooms_url, :booking_url, :slug, :venere_hotel_id
+                  :user_rating, :provider_hotel_count, :provider_hotel_ranking, :slug,
 
   def self.select_cols
-    'id, star_rating, amenities, longitude, latitude, user_rating, matches, ranking, laterooms_url, booking_url, slug, ' + HotelsConfig::PROVIDER_IDS.map {|k,v| v}.join(', ')
+    'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_count, provider_hotel_ranking, slug'
   end
 
   def initialize(hotel_details)
     @hotel            = hotel_details
-    @provider_deals   = providers_init
+    @provider_deals   = []
   end
 
   def self.by_location(location, proximity_in_metres = 20000)
@@ -28,12 +25,16 @@ class HotelComparisons
     Hotel.where(key => ids.to_a).select(select_cols).map {|hotel| new hotel}  
   end
 
+  def self.by_ids(ids)
+    Hotel.where(id: ids.to_a).select(select_cols).map {|hotel| new hotel}  
+  end
+
   def hotel=(hotel)
     @hotel = hotel
   end
 
   def has_a_deal?
-    provider_deals.find {|deal| deal[:loaded]==true}
+    @has_a_deal
   end
 
   def recommended_score
@@ -58,19 +59,22 @@ class HotelComparisons
   end
 
 
-  def providers_init
-    providers = []
-    HotelsConfig::PROVIDER_IDS.each do |provider_key, provider_id|
-      if hotel[provider_id]  
-        providers << provider_init(provider_key) 
-      end
-    end
-    providers
-  end
+  # def providers_init
+  #   providers = []
+  #   HotelsConfig::PROVIDER_IDS.each do |provider_key, provider_id|
+  #     if hotel[provider_id]  
+  #       providers << provider_init(provider_key) 
+  #     end
+  #   end
+  #   providers
+  # end
 
-  def provider_init(name)
+  def provider_init(provider_hotel)
+    provider_deals <<
     {
-      provider: name,
+      provider: provider_hotel.provider.to_sym,
+      link: provider_hotel.hotel_link,
+      provider_id: provider_hotel.provider_id,
       loaded: false
     }
   end
@@ -87,9 +91,7 @@ class HotelComparisons
     @offer ||= {}
   end
 
-
   def rooms
-
     @rooms = loaded_providers.map {|deal| deal[:rooms]}.flatten.compact
     @rooms.sort_by {|room| room[:price].to_f} if @rooms
   end
@@ -105,17 +107,6 @@ class HotelComparisons
 
   def loaded_providers
     provider_deals.select {|provider| provider[:loaded]===true }
-  end
-
-
-  def booking?
-    deal = find_provider_deal(:booking) 
-    deal and deal[:loaded]
-  end
-
-  def hotels_dot_com?
-    deal = find_provider_deal(:hotels)
-    deal and deal[:loaded]
   end
 
   def distance_from(location)
@@ -136,8 +127,12 @@ class HotelComparisons
   end
 
   def add_provider_deal(new_provider)
+    @has_a_deal = true
     new_provider[:loaded] = true
     idx = provider_deals.index {|deal| deal[:provider] == new_provider[:provider]}
+
+    # if(provider_deals[idx][:link].empty?)
+    # end
 
     add_rooms new_provider, provider_deals[idx]
     # if idx 
@@ -155,8 +150,8 @@ class HotelComparisons
   end  
 
   def add_rooms(new_provider, current_provider)
-    new_provider[:rooms] = current_provider[:rooms] if new_provider[:rooms].empty?
 
+    new_provider[:rooms] = current_provider[:rooms] if new_provider[:rooms].blank?
     if new_provider[:rooms]
       new_provider[:rooms].each {|room| room[:link] = current_provider[:link] if room[:link].blank?}
     end

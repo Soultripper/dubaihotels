@@ -38,8 +38,8 @@ module Booking
         (conn = Booking::Client.http).in_parallel do 
           ids.each_slice((options[:slice] || DEFAULT_SLICE)) do |sliced_ids|
             Log.info "Requesting #{sliced_ids.count} hotels from booking.com"
-            responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge(hotel_params(sliced_ids)))
-            # responses << conn.post( Booking::Client.url + '/bookings.getBlockAvailability', search_params.merge(hotel_params(sliced_ids)))
+            # responses << conn.post( Booking::Client.url + '/bookings.getHotelAvailability', search_params.merge(hotel_params(sliced_ids)))
+            responses << conn.post( Booking::Client.url + '/bookings.getBlockAvailability', search_params.merge(hotel_params(sliced_ids)))
           end
         end
       end

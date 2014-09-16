@@ -21,16 +21,16 @@ class OfferController < ApplicationController
       request_params: request_params
     }
 
-    HotelScorer.score(hotel, :clickthrough) if Analytics.clickthrough(options)
+    # HotelScorer.score(hotel, :clickthrough) if Analytics.clickthrough(options)
   end
 
 
   def hotel
-    @hotel ||= Hotel.find hotel_id
+    @hotel ||= Hotel.joins(:provider_hotels).find hotel_id
   end
 
   def hotel_image
-    @hotel_image ||= hotel.images.first
+    @hotel_image ||= hotel.image_url
   end
 
   def provider
@@ -38,7 +38,7 @@ class OfferController < ApplicationController
   end
 
   def provider_id
-    hotel.send HotelsConfig::PROVIDER_IDS[provider.to_sym]
+    hotel.provider_hotels.find {|p| p.provider==provider}.provider_id
   end
 
 

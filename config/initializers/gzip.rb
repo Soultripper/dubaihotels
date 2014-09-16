@@ -10,11 +10,11 @@ module FaradayMiddleware
         when 'gzip'
           env[:body] = Zlib::GzipReader.new(StringIO.new(env[:body]), encoding: 'ASCII-8BIT').read
           # env[:response_headers].delete('content-encoding')
-          Log.debug "GUnzipped (#{env[:body].length} bytes)" 
+          #Log.debug "GUnzipped (#{env[:body].length} bytes)" 
         when 'deflate'
           env[:body] = Zlib::Inflate.inflate(env[:body])
           # env[:response_headers].delete('content-encoding')
-          Log.debug "Deflated (#{env[:body].length} bytes)"    
+          #Log.debug "Deflated (#{env[:body].length} bytes)"    
       end
     end
  

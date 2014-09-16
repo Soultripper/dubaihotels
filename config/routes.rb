@@ -19,8 +19,11 @@ Hotels::Application.routes.draw do
 
   constraints( subdomain: /^hotels\b/, format: 'json' ) do
     get '/hotels/:id/rooms',            to: 'hotel_results#hotel_rooms'
+    get '/mobile/hotels/:id',           to: 'hotels#mobile_show'
+
     get '/hotels/:id',                  to: 'hotel_results#hotel_details'
     get '/map/:id',                     to: 'hotel_results#map_search'
+    get '/mobile/:id',                  to: 'hotel_results#mobile_search'
     get '/:id',                         to: 'hotel_results#search'
     get '/',                            to: 'hotel_results#search', :constraints => PPCConstraint
   end
@@ -53,6 +56,7 @@ Hotels::Application.routes.draw do
     end
   end
 
+  get '/mobile/:id',                  to: 'mobile#index', constraints: {format: 'json'}
   get '/:id', to: 'search#index'
 
 
