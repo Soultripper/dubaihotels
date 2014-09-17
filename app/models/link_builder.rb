@@ -38,7 +38,7 @@ module LinkBuilder
 
   def booking_link(hotel)
     provider_hotel = hotel.find_provider_deal(:booking)
-    "#{provider_hotel[:link]}?aid=#{booking_aid}&label=hotel-#{provider_hotel[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_hotel[:provider_id]}}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
+    "#{provider_hotel[:link]}?aid=#{booking_aid}&label=hotel-#{provider_hotel[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_hotel[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
 
 
