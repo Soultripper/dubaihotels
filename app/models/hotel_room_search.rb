@@ -58,7 +58,7 @@ class HotelRoomSearch
 
   def add_rooms(rooms)
     @rooms.concat(rooms)
-    Log.debug "#{rooms.count} found"
+    Log.debug "#{rooms.count} rooms found"
     persist
   end
 

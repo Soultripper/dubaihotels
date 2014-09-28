@@ -19,6 +19,8 @@ class Hotel < ActiveRecord::Base
   has_many :provider_hotels
   has_many :provider_hotel_images
 
+  scope :with_providers, includes(:provider_hotels)
+
 
   def images
     provider_hotel_images.by_ranked_order
@@ -28,6 +30,20 @@ class Hotel < ActiveRecord::Base
     provider_hotels.map &:description
   end
 
+
+  def find_provider(provider)
+    provider_hotels.find {|f| f.provider == provider.to_s}
+  end
+
+  def has_provider(provider)
+    provider_hotels.exists? provider: provider
+  end
+
+  def provider_ids
+    ids = {}
+    provider_hotels.each{|provider| ids[provider.provider.to_sym] = provider.provider_id}
+    ids
+  end
 
 
 

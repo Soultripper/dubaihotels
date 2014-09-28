@@ -18,8 +18,8 @@ class HotelsController < ApplicationController
   def mobile_show
     publish_hotel_seo
     key = hotel_room_search.cache_key unless rooms
-    @hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: rooms, key: key, include_providers:true
-    respond_with hotel_view
+    mobile_hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: rooms, key: key, include_providers:true
+    respond_with mobile_hotel_view
   end
 
   protected
@@ -63,6 +63,7 @@ class HotelsController < ApplicationController
   end
 
   def cached_hotel_rooms
+    return unless cached_search.hotels
     hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
     hotel_rooms = cached_rooms.find_hotel params[:id]
     # throw hotel_rooms

@@ -41,12 +41,12 @@ module Expedia
     end
 
     def commonize(search_criteria)
-      return nil unless expedia_id
+      return nil unless expedia_id || property_id
       {
         provider: :expedia,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: search_criteria.expedia_link(expedia_id),
+        link: search_criteria.expedia_link(expedia_id || property_id),
         offer: offer_text
       }
     end

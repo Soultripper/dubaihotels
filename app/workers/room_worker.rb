@@ -4,13 +4,11 @@ class RoomWorker
   
   sidekiq_options retry: false
 
-  attr_accessor :search, :hotel, :finished
-
-  def_delegators :hotel, :ean_hotel_id, :booking_hotel_id, :etb_hotel_id, :agoda_hotel_id, :splendia_hotel_id, :laterooms_hotel_id
+  attr_accessor :search, :hotel, :finished, :provider_ids
 
 
   def perform(hotel_id, cache_key)
-    @hotel = Hotel.find hotel_id
+    @hotel = Hotel.with_providers.find hotel_id
     @search =  Rails.cache.read cache_key
     @finished = false
 
@@ -18,6 +16,8 @@ class RoomWorker
       Log.warn "Unable to find hotel and search to perform availabilty search for hotel #{hotel_id}, cache key #{cache_key} "
       return
     end
+
+    @provider_ids = hotel.provider_ids
 
     time = Benchmark.realtime{
       threads = []
@@ -35,6 +35,29 @@ class RoomWorker
     notify
   end
 
+  def booking_hotel_id
+    provider_ids[:booking]
+  end
+
+  def ean_hotel_id
+    provider_ids[:expedia]
+  end
+
+  def etb_hotel_id
+    provider_ids[:easy_to_book]
+  end
+
+  def agoda_hotel_id
+    provider_ids[:agoda]
+  end
+
+  def splendia_hotel_id
+    provider_ids[:splendia]
+  end
+
+  def laterooms_hotel_id
+    provider_ids[:laterooms]
+  end
 
   def threaded(&block)
     thread = Thread.new do 
@@ -44,11 +67,14 @@ class RoomWorker
     thread
   end
 
+  def find_provider_id_for(provider)
+
+  end
   def request_expedia_rooms
     start :expedia do 
       room_availability_response = Expedia::Search.check_room_availability(ean_hotel_id, search_criteria)
       return unless room_availability_response
-      expedia_rooms = room_availability_response.rooms.map { |room| room.commonize(search_criteria) }.compact
+      room_availability_response.rooms.map { |room| room.commonize(search_criteria) }.compact
       # expedia_rooms.concat(room_availability_response.rooms.map { |room| room.commonize_to_hotels_dot_com(search_criteria, ean_hotel_id) })
     end
   end
@@ -112,12 +138,12 @@ class RoomWorker
     rooms = nil
     time = Benchmark.realtime { rooms = yield }
     rooms.select! {|r| r[:price].to_f >  0}
-    Log.info "Realtime availabilty check for #{provider}, finding #{rooms.count} rooms, took #{time}s" 
+    Log.info "realtimeltime availabilty check for #{provider}, finding #{rooms.count} rooms, took #{time}s" 
     return unless rooms.count > 0
     @search.add_rooms(rooms)
     notify
-  rescue => msg
-    Log.error "Unable to retrieve rooms for provider #{provider}. #{msg}"    
+  # rescue => msg
+  #   Log.error "Unable to retrieve rooms for provider #{provider}. #{msg}"    
   end
 
   def search_criteria

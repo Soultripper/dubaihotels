@@ -24,7 +24,7 @@ module Currency
         HR: [:HRK, 'kn'],
         HU: [:HUF, 'Ft'],
         IN: [:INR, 'Rs.'],
-        JP: [:YEN, '円'],
+        JP: [:YEN, '¥'],
         KR: [:KRW, '₩'],
         MA: [:MAD, 'MAD'],#
         MX: [:MXN, '$'],

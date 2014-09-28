@@ -6,7 +6,7 @@ class HotelComparisons
   attr_accessor :distance_from_location, :hotel
 
   def_delegators  :@hotel, :id, :star_rating, :longitude, :amenities, :latitude, 
-                  :user_rating, :provider_hotel_count, :provider_hotel_ranking, :slug,
+                  :user_rating, :provider_hotel_count, :provider_hotel_ranking, :slug, :find_provider
 
   def self.select_cols
     'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_count, provider_hotel_ranking, slug'
