@@ -35,8 +35,8 @@ class HotelRoomSearch
   end
 
   def check_availability    
-    RoomWorker.perform_async hotel_id, cache_key 
-    # RoomWorker.new.perform hotel_id, cache_key 
+    # RoomWorker.perform_async hotel_id, cache_key 
+    RoomWorker.new.perform hotel_id, cache_key 
     self
   end
 
