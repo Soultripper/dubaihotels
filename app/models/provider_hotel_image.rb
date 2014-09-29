@@ -18,11 +18,12 @@ class ProviderHotelImage < ActiveRecord::Base
     select(" 
       *,
         case 
-        when provider = 'expedia'     then 4 
-        when provider = 'booking'     then 3
-        when provider = 'agoda'       then 2
-        when provider = 'laterooms'   then 1
-        when provider = 'easy_to_book' then 0
+        when provider = 'expedia'     then 100 
+        when provider = 'booking'     then 90
+        when provider = 'venere'      then 85
+        when provider = 'agoda'       then 80
+        when provider = 'laterooms'   then 70
+        when provider = 'easy_to_book' then 60
         else -1
         end as ranking
     ").order('ranking desc, default_image desc')

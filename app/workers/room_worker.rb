@@ -27,6 +27,8 @@ class RoomWorker
       threads << threaded {request_agoda_rooms}         if agoda_hotel_id
       threads << threaded {request_splendia_rooms}      if splendia_hotel_id
       threads << threaded {request_laterooms_rooms}     if laterooms_hotel_id
+      threads << threaded {request_venere_rooms}        if venere_hotel_id
+
       Log.debug "Waiting for room worker threads to finish"
       threads.each &:join
     }
@@ -57,6 +59,11 @@ class RoomWorker
 
   def laterooms_hotel_id
     provider_ids[:laterooms]
+  end
+
+
+  def venere_hotel_id
+    provider_ids[:venere]
   end
 
   def threaded(&block)
@@ -133,6 +140,17 @@ class RoomWorker
       end
     end
   end  
+
+  def request_venere_rooms
+    start :venere do 
+      hotels_list_response = Venere::SearchHotel.for_availability(venere_hotel_id, search_criteria)
+      return unless hotels_list_response.hotels.length > 0
+      hotel_response = hotels_list_response.hotels.first
+      hotel_response.rooms.map do |room|
+        room.commonize(search_criteria)
+      end
+    end
+  end
 
   def start(provider, &block)
     rooms = nil

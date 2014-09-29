@@ -27,7 +27,7 @@ class Agoda::Client
         faraday.headers['Content-Type'] = "application/xml; charset=utf-8"
         faraday.options[:nosignal] = true
         faraday.request  :retry,   1   # times
-        faraday.options[:timeout] = 20 
+        faraday.options[:timeout] = 15 
         faraday.options[:open_timeout] = 2  
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 

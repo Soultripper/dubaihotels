@@ -17,28 +17,9 @@ module LinkBuilder
     2015826
   end
 
-  def booking_link_detailed(booking_hotel)
-
-    # "#{booking_hotel.url}?aid=#{booking_aid}
-    #     &label=hotel-#{booking_hotel.id}
-    #     &utm_source=hot5
-    #     &utm_medium=SPPC
-    #     &utm_content=search
-    #     &utm_campaign=en
-    #     &utm_term=hotel-#{booking_hotel.id}
-    #     &lang=en
-    #     &checkin_monthday=22
-    #     &checkin_year_month=2013-12
-    #     &checkout_monthday=23
-    #     &checkout_year_month=2013-12
-    #     &selected_currency=GBP"
-
-    "#{booking_hotel.url}?aid=#{booking_aid}&label=hotel-#{booking_hotel.id}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{booking_hotel.id}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
-  end
-
   def booking_link(hotel)
     provider_hotel = hotel.find_provider(:booking)
-    "#{provider_hotel[:link]}?aid=#{booking_aid}&label=hotel-#{provider_hotel[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_hotel[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
+    "#{provider_hotel[:hotel_link]}?aid=#{booking_aid}&label=hotel-#{provider_hotel[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_hotel[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
 
 
@@ -63,7 +44,7 @@ module LinkBuilder
   def laterooms_link(hotel)
     provider_hotel = hotel.find_provider(:laterooms) 
     str_start_date = start_date.strftime('%Y%m%d')
-    url = "#{provider_hotel[:link]}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
+    url = "#{provider_hotel[:hotel_link]}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
   end
 
   def venere_link(hotel_id)
