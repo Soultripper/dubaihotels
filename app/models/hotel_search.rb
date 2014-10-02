@@ -1,4 +1,5 @@
 require 'location'
+require 'digest/bubblebabble'
 
 class HotelSearch
   extend Forwardable
@@ -24,7 +25,7 @@ class HotelSearch
     Rails.cache.fetch cache_key, force: !@use_cache do 
       Log.info "Starting new search: #{cache_key}"
       self
-    end       
+    end      
   end
 
   def start
@@ -93,11 +94,12 @@ class HotelSearch
   def add_found_hotel(provider_hotel, provider)
     hotel = find_hotel_for provider, provider_hotel.id
     return unless hotel and provider_hotel
-
     common_provider_hotel = provider_hotel.commonize(search_criteria, location)
 
+    return unless common_provider_hotel
+
     if provider==:booking
-      common_provider_hotel[:link] = search_criteria.booking_link(hotel)
+      common_provider_hotel[:link] = search_criteria.booking_link(provider_hotel)
       set_rooms_link(common_provider_hotel)
     elsif provider==:laterooms
       common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
@@ -115,6 +117,7 @@ class HotelSearch
     return false unless common_provider_hotel
     hotel_comparison.compare_and_add(common_provider_hotel)
     hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) unless hotel_comparison.distance_from_location
+
     true
   end
 

@@ -62,8 +62,8 @@ searchHotelsServices.factory('Page', function() {
 
    var hotelsAvailable = function(){
     var hotelCount = this.info.available_hotels
-    if(hotelCount>=500)
-      return "500+ hotels available";
+    if(hotelCount>=1000)
+      return "1000+ hotels available";
     if(hotelCount>0)
       return hotelCount + " hotels available"
     return " "

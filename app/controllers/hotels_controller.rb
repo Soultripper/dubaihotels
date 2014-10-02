@@ -17,8 +17,14 @@ class HotelsController < ApplicationController
 
   def mobile_show
     publish_hotel_seo
-    key = hotel_room_search.cache_key unless rooms
-    mobile_hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: hotel_room_search.rooms_results, key: key, include_providers:true
+    _rooms = cached_hotel_rooms
+    unless _rooms
+      _rooms = hotel_room_search.rooms_results
+    end
+    # room_search=hotel_room_search
+    # key = hotel_room_search.cache_key unless rooms
+
+    mobile_hotel_view ||= HotelView.new(hotel, search_criteria).as_json rooms: _rooms, key: params[:key], include_providers:true
     respond_with mobile_hotel_view
   end
 
@@ -63,11 +69,13 @@ class HotelsController < ApplicationController
   end
 
   def cached_hotel_rooms
-    return unless cached_search.hotels
+    return unless cached_search and cached_search.hotels
     hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
-    hotel_rooms = cached_rooms.find_hotel params[:id]
+    Log.debug "Found cached search"
+    hotel_comparison.rooms if hotel_comparison
+    # hotel_rooms = cached_rooms.find_hotel params[:id]
     # throw hotel_rooms
-    hotel_comparison.rooms_merged(hotel_rooms)
+    # hotel_comparison.rooms_merged(hotel_rooms)
   end
 
 

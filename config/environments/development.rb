@@ -34,7 +34,7 @@ Hotels::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  config.cache_store = :dalli_store, '127.0.0.1', {compress: true, value_max_bytes: 2097152}
+  config.cache_store = :dalli_store, '127.0.0.1', {compress: true, value_max_bytes: 5242880,  expires_in: 35.minutes}
 
   # Do not compress assets
   config.assets.compress = false

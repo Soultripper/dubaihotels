@@ -47,7 +47,7 @@ Hotels::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store, {compress: true, value_max_bytes: 2097152}
+  config.cache_store = :dalli_store,  {compress: true, value_max_bytes: 5242880,  expires_in: 35.minutes}
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

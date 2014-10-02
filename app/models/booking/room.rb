@@ -11,7 +11,7 @@ module Booking
     end
 
     def total
-      min_price.to_f
+      min_price.to_f if min_price
     end
 
     def price

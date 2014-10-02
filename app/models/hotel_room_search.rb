@@ -1,3 +1,6 @@
+require 'digest/bubblebabble'
+
+
 class HotelRoomSearch
   extend Forwardable
 
