@@ -97,12 +97,12 @@ class HotelSearch
     common_provider_hotel = provider_hotel.commonize(search_criteria, location)
 
     return unless common_provider_hotel
-
+    deal = hotel.find_provider_deal(provider)
     if provider==:booking
-      common_provider_hotel[:link] = search_criteria.booking_link(provider_hotel)
+      common_provider_hotel[:link] = search_criteria.booking_link(deal)
       set_rooms_link(common_provider_hotel)
     elsif provider==:laterooms
-      common_provider_hotel[:link] = search_criteria.laterooms_link(hotel)
+      common_provider_hotel[:link] = search_criteria.laterooms_link(deal)
       set_rooms_link(common_provider_hotel)
     end
 

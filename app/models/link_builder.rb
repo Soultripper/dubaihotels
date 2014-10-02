@@ -17,8 +17,8 @@ module LinkBuilder
     2015826
   end
 
-  def booking_link(provider_hotel)
-    "#{provider_hotel[:hotel_link]}?aid=#{booking_aid}&label=hotel-#{provider_hotel[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_hotel[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
+  def booking_link(provider_deal)
+    "#{provider_deal[:link]}?aid=#{booking_aid}&label=hotel-#{provider_deal[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_deal[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
 
 
@@ -40,9 +40,9 @@ module LinkBuilder
     "http://clkuk.tradedoubler.com/click?p=21874&a=#{tradedoubler_aid}&g=17461688&url=" + url
   end
 
-  def laterooms_link(provider_hotel)
+  def laterooms_link(provider_deal)
     str_start_date = start_date.strftime('%Y%m%d')
-    url = "#{provider_hotel[:hotel_link]}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
+    url = "#{provider_deal[:link]}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
   end
 
   def venere_link(hotel_id)
