@@ -28,7 +28,7 @@ class Agoda::Client
         faraday.options[:nosignal] = true
         faraday.request  :retry,   1   # times
         faraday.options[:timeout] = 15 
-        faraday.options[:open_timeout] = 2  
+        faraday.options[:open_timeout] = 20 
         faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
         faraday.adapter  :my_typhoeus

@@ -8,7 +8,7 @@ SELECT
   h.city                                            AS city, 
   h.state_province_name                             AS state_province,
   h.postal_code                                     AS postal_code, 
-  LOWER(countries.country_code )                    AS country_code,
+  LOWER(countries.iso2 )                    AS country_code,
   h.latitude, 
   h.longitude,  
   h.description                                     AS description, 
@@ -27,7 +27,7 @@ SELECT
     h.longitude, h.latitude), 4326) AS geography)
                                                     AS geog
 FROM providers.splendia_hotels h
-LEFT JOIN providers.ean_countries countries ON countries.country_name = h.country;
+LEFT JOIN providers.country_codes countries ON lower(countries.name) = lower(h.country)
 
 -- AMENITIES
 UPDATE provider_hotels

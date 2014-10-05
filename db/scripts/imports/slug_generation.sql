@@ -1,5 +1,5 @@
 UPDATE hotels h
-SET slug =   REGEXP_REPLACE(REGEXP_REPLACE(REPLACE(REPLACE(REPLACE(lower(UNACCENT(h.name)),'&', 'and'), 'bandb', 'b and b'), ' ', '-'), '[^\w|-]','','ig'), '-{2}','')
+SET slug =   REGEXP_REPLACE(REGEXP_REPLACE(REPLACE(REPLACE(REPLACE(lower(UNACCENT(h.name)),'&', 'and'), 'bandb', 'b and b'), ' ', '-'), '[^\w|-]','','ig'), '-{2}','');
 
 UPDATE hotels
 SET slug = slug || '-' || hotels.id
