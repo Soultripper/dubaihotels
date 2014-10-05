@@ -7,7 +7,7 @@ Rails.application.config.to_prepare do
     config.cache_expiry = 20.minutes
 
     if Rails.env == "production"
-      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms]
+      config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
     else
       config.providers = [:booking, :agoda, :expedia, :easy_to_book, :splendia, :laterooms, :venere]
     end

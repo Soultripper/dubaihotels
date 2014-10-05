@@ -12,6 +12,7 @@ class HotelsController < ApplicationController
 
   def show
     publish_hotel_seo
+    
     respond_with hotel_view
   end
 

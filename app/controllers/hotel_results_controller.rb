@@ -11,9 +11,11 @@ class HotelResultsController < SearchController
   end
 
   def mobile_search       
-    return head(400) unless valid_search?
-    publish_more_hotels   
-    render json: search_results.select_with_images(count)       
+    return head(400) unless valid_search?   
+
+    _filters = filters
+    _filters[:min_price] = nil if hotel_search.state==:new_search
+    render json: hotel_search.results.sort(sort).filter(_filters).select_with_images(count)      
   end
 
   def map_search

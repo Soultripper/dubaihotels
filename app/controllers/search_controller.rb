@@ -76,7 +76,9 @@ class SearchController < ApplicationController
   end
 
   def publish_search
-    Analytics.search publish_options
+    Thread.new do 
+      Analytics.search publish_options
+    end
   end
 
   def publish_more_hotels

@@ -11,13 +11,13 @@ class Analytics
       return false unless valid_user_agent? (data)
       
       return if Rails.env == :development
-      Thread.new do 
+      # Thread.new do 
         user_event_data = user_event(key, data)
 
         Keen.publish_batch key => [data],  user_event: [user_event_data]
 
         Log.debug "Published analytics: #{key}"
-      end
+      # end
       true
     end
 

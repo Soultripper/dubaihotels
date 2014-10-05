@@ -64,6 +64,7 @@ class HotelOrganiser
 
   def filter(filters={})   
     @user_filters = filters
+
     return false unless apply_filter? filters
     orig_count = hotels.count
     hotels.select! do |hotel|
