@@ -51,6 +51,22 @@ module Currency
       codes.select {|k,v| v[0] == code.to_sym}.first
     end
 
+    def to_json
+
+      json = codes.map do |code, currency| 
+        country = CountryCode.cached.find {|c| c.iso2==code.to_s}
+        next unless country
+        {
+          country: country.name,
+          code: currency[0],
+          symbol: currency[1]
+        }
+      end
+
+      json.compact
+
+    end
+
 
 end
 

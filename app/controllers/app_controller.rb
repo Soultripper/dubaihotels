@@ -1,7 +1,12 @@
 class AppController < ApplicationController
 
+  respond_to :json
   def index
     
+  end
+
+  def currencies
+    respond_with Currency.to_json
   end
 
   def privacy_policy
