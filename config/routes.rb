@@ -29,6 +29,7 @@ Hotels::Application.routes.draw do
   end
 
   get '/currencies', to: "app#currencies"
+  get '/userinfo', to: "app#user_info"
 
   match "/" => "search#index", :constraints => PPCConstraint
 

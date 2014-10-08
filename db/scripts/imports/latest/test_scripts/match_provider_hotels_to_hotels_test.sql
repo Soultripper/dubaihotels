@@ -58,18 +58,13 @@ BEGIN
       SET hotel_id = h.id
       FROM 
       (
-        SELECT h.id, p.id AS hotel_provider_id, ROW_NUMBER() OVER(PARTITION BY p.id ORDER BY ST_Distance(p.geog, h.geog) ASC, SIMILARITY(p.name, h.name) DESC) AS Ranking
+        SELECT h.id, p.id AS hotel_provider_id, 
+        ROW_NUMBER() OVER(PARTITION BY p.id ORDER BY ST_Distance(p.geog, h.geog) ASC, SIMILARITY(p.name_normal, h.name_normal) DESC, SIMILARITY(p.address, h.address) DESC) AS Ranking
         FROM hotels_test AS h
         INNER JOIN provider_hotels_test AS p
         --ON p.name_normal = REGEXP_REPLACE(REPLACE(lower(h.name), lower(COALESCE(h.city, '')), ''), '\y(the|hotel|inn|by|apartments|apartment|B&B|and|hostel|villa|de|le|motel|guest|bed|breakfast|suites|spa|")\y|\W', '', 'ig')
-        ON SIMILARITY(p.name_normal, normalise_name(h.name)) > 0.75
+        ON (ST_Distance(p.geog, h.geog) < 300 AND SIMILARITY(p.name_normal, h.name_normal) > 0.35) --AND SIMILARITY(p.address, h.address)
         AND p.hotel_id IS NULL
-        AND 
-        (
-          ST_Distance(p.geog, h.geog) < 10000
-          OR
-          (p.country_code = h.country_code AND p.postal_code = h.postal_code)
-        )
         AND p.provider = provider_name
         INNER JOIN duplicate_provider_hotels AS d
         ON d.id = p.id

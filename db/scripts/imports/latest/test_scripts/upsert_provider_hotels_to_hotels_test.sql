@@ -87,8 +87,8 @@ AND p.provider = provider_name;
 
 WITH InsertCTE AS
 (
-  INSERT INTO hotels_test (name, address, city, state_province, postal_code, country_code,  latitude, longitude, geog, description, star_rating, amenities,  image_url, thumbnail_url, user_rating, provider_hotel_id, provider_hotel_ranking)
-  SELECT name, address, city, state_province, postal_code, country_code,  latitude, longitude, geog, description, star_rating, amenities,null,null,user_rating, id, ranking
+  INSERT INTO hotels_test (name, address, city, state_province, postal_code, country_code,  latitude, longitude, geog, description, star_rating, amenities,  image_url, thumbnail_url, user_rating, provider_hotel_id, provider_hotel_ranking, name_normal)
+  SELECT name, address, city, state_province, postal_code, country_code,  latitude, longitude, geog, description, star_rating, amenities,null,null,user_rating, id, ranking, normalise_name(name)
   FROM provider_hotels_test 
   WHERE provider = provider_name
   AND hotel_id IS NULL

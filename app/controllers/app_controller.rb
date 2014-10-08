@@ -9,6 +9,15 @@ class AppController < ApplicationController
     respond_with Currency.to_json
   end
 
+  def user_info
+    info =  {
+      location:geo_location,
+      currency: currency
+    }
+    respond_with   info
+  end
+
+
   def privacy_policy
   end
 
