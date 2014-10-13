@@ -564,7 +564,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     initTimeoutId = $timeout(function() {
       $scope.search()                 
-    }, 3000);
+    }, 6000);
 
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);

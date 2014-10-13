@@ -62,7 +62,7 @@
           </div>  
           <ul class="deals">
               <li ng-repeat="provider in hotel.providers.slice(0,5)" ng-class="{'no-price':!provider.min_price}">
-                <a href="#" get-deal="{{provider.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{provider.provider}}" data-saving="{{saving(hotel)}}" data-max-price="{{provider.max_price}}" data-price="{{provider.min_price}}" ng-show="{{provider.link.length > 0}}">
+                <a href="#" get-deal="{{provider.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{provider.provider}}" data-saving="{{saving(hotel)}}" data-max-price="{{provider.max_price}}" data-price="{{provider.min_price}}" ng-show="{{provider.min_price}}">
                   <span class="name">
                     {{hotelProvider.getDescription(provider)}}
                   </span>
@@ -70,7 +70,7 @@
                     <small>{{currency_symbol}}</small>{{formatPrice(provider.min_price)}}
                   </div>
                 </a>
-                <span ng-show="{{!provider.link}}">
+                <span ng-show="{{!provider.min_price}}">
                   <span class="name">
                     {{hotelProvider.getDescription(provider)}}
                   </span>

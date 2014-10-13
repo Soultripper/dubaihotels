@@ -59,7 +59,7 @@ module Booking
         end
       end
 
-      list_responses.flat_map &:hotels
+      list_responses.flat_map(&:hotels) if list_responses
     end
 
     def params(options={})
