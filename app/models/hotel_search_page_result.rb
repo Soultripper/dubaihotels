@@ -78,6 +78,7 @@ class HotelSearchPageResult
         json.latitude         location.latitude
         json.zoom             location.default_zoom
         json.page_size        HotelsConfig.page_size
+        json.timestamp        DateTime.now.utc.to_i
       end      
       json.criteria           search_options[:search_criteria]
       json.state              search_options[:state]
