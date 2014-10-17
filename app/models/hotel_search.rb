@@ -3,7 +3,7 @@ require 'digest/bubblebabble'
 
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel
+  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel, :timestamp
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
 
@@ -44,7 +44,8 @@ class HotelSearch
       channel: channel,
       search_criteria: search_criteria,
       state: @state,
-      cache_key: cache_key.to_s
+      cache_key: cache_key.to_s,
+      timestamp: @timestamp
     }
 
     HotelSearchPageResult.new current_hotels.clone, results
@@ -136,6 +137,8 @@ class HotelSearch
 
   def persist
     return unless @use_cache
+    @timestamp = DateTime.now.utc.to_i
+
     Rails.cache.write(cache_key, self, expires_in: HotelsConfig.cache_expiry, race_condition_ttl: 60)
   end
 
