@@ -78,7 +78,7 @@ class HotelSearchPageResult
         json.latitude         location.latitude
         json.zoom             location.default_zoom
         json.page_size        HotelsConfig.page_size
-        json.timestamp        search_options[:timestamp]
+        json.timestamp        (search_options[:timestamp] || DateTime.now.utc).to_f
       end      
       json.criteria           search_options[:search_criteria]
       json.state              search_options[:state]
@@ -89,7 +89,7 @@ class HotelSearchPageResult
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
             :postal_code,  :latitude, :longitude, 
             :star_rating, :description, :amenities, :slug)
-          json.distance       hotel_comparison.distance_from(location)
+          json.distance       hotel_comparison.distance_from_location || hotel_comparison.distance_from(location)
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url

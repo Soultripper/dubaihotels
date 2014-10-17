@@ -117,7 +117,7 @@ class HotelSearch
   def add_to_list(hotel_comparison, common_provider_hotel)
     return false unless common_provider_hotel
     hotel_comparison.compare_and_add(common_provider_hotel)
-    #hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) unless hotel_comparison.distance_from_location
+    hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) unless hotel_comparison.distance_from_location
 
     true
   end
@@ -137,8 +137,7 @@ class HotelSearch
 
   def persist
     return unless @use_cache
-    @timestamp = DateTime.now.utc.to_i
-
+    @timestamp = DateTime.now.utc.to_f
     Rails.cache.write(cache_key, self, expires_in: HotelsConfig.cache_expiry, race_condition_ttl: 60)
   end
 
