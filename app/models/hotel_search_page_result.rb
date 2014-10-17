@@ -89,7 +89,7 @@ class HotelSearchPageResult
           json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
             :postal_code,  :latitude, :longitude, 
             :star_rating, :description, :amenities, :slug)
-          json.distance       hotel_comparison.distance_from_location
+          json.distance       hotel_comparison.distance_from(location)
           json.offer          hotel_comparison.offer
           json.ratings        hotel_comparison.hotel.ratings
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
