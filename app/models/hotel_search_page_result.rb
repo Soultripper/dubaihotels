@@ -94,6 +94,8 @@ class HotelSearchPageResult
           json.ratings        hotel_comparison.hotel.ratings
           json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
           json.images         hotel_comparison.hotel.images.limit(5).map &:to_json if options[:include_images]
+          json.rooms          hotel_comparison.rooms if options[:include_rooms]
+
           # json.score          hotel_comparison.recommended_score
           # json.main_image     hotel_comparison.main_image, :url, :thumbnail_url
           json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
@@ -133,7 +135,7 @@ class HotelSearchPageResult
   end
 
   def select_with_images(count = HotelsConfig.page_size)
-    as_json hotels: hotels.take(count), include_images: true
+    as_json hotels: hotels.take(count), include_images: true, include_rooms:true
   end
 
   def select_map_view(count = HotelsConfig.page_size)

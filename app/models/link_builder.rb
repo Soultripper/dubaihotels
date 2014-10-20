@@ -18,7 +18,8 @@ module LinkBuilder
   end
 
   def booking_link(provider_deal)
-    "#{provider_deal[:link]}?aid=#{booking_aid}&label=hotel-#{provider_deal[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_deal[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
+    link = provider_deal[:link] || provider_deal[:hotel_link]
+    "#{link}?aid=#{booking_aid}&label=hotel-#{provider_deal[:provider_id]}&utm_source=hot5&utm_medium=SPPC&utm_content=search&utm_campaign=en&utm_term=hotel-#{provider_deal[:provider_id]}&lang=en&checkin=#{start_date}&checkout=#{end_date}&selected_currency=#{currency_code}"
   end
 
 
@@ -42,7 +43,9 @@ module LinkBuilder
 
   def laterooms_link(provider_deal)
     str_start_date = start_date.strftime('%Y%m%d')
-    url = "#{provider_deal[:link]}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
+    link = provider_deal[:link] || provider_deal[:hotel_link]
+
+    url = "#{link}?d=#{str_start_date}&n=#{total_nights}&a=#{no_of_adults}".gsub('[[PARTNERID]]', laterooms_aid.to_s)
   end
 
   def venere_link(hotel_id)
