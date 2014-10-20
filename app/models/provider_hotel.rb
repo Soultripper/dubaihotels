@@ -7,7 +7,7 @@ class ProviderHotel < ActiveRecord::Base
   end
 
   def self.for_hotels(ids)
-    includes(:hotel).where(hotel_id: ids)
+    where(hotel_id: ids)
   end
 
   def self.for_comparison(hotel_ids)

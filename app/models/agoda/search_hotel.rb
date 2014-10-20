@@ -39,7 +39,7 @@ module Agoda
         (conn = Agoda::Client.http).in_parallel do 
           ids.each_slice(slice_by) do |sliced_ids|                       
             builder = make_request sliced_ids, options
-            Log.info "Sending request of #{sliced_ids.count} hotels to Agoda:\n #{builder.to_xml}"
+            Log.info "Sending request of #{sliced_ids.count} hotels to Agoda:\n"
             responses << conn.post(Agoda::Client.url, builder.to_xml)      
           end
         end

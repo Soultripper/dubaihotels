@@ -9,7 +9,7 @@ class HotelsHash
 
 
   def self.select_cols
-    'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_count, provider_hotel_ranking, slug'
+    'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_ranking, slug'
   end
 
 
@@ -20,8 +20,11 @@ class HotelsHash
   end
 
   def self.by_location(location)
+    Log.debug "HotelsHash::by_location - BEGIN"
     hotels = Hotel.by_location(location).select(select_cols)
     provider_hotels_list = ProviderHotel.for_comparison(hotels.map(&:id))
+    Log.debug "HotelsHash::by_location - END"
+
     new hotels, provider_hotels_list
   end
 
@@ -60,13 +63,18 @@ class HotelsHash
   protected
 
   def hash_hotels(hotels_list)
+    Log.debug "HotelsHash::hash_hotels - BEGIN"
     @hotels = {}
     hotels_list.each {|hotel| hotels[hotel.id] = HotelComparisons.new(hotel)} 
     hotels_list = nil
+    Log.debug "HotelsHash::hash_hotels - END"
+
     hotels
   end
 
   def hash_provider_hotels(provider_hotels_list)
+    Log.debug "HotelsHash::hash_provider_hotels - BEGIN"
+
     @providers = {}
 
     provider_hotels_list.each do |provider_hotel|
@@ -76,6 +84,8 @@ class HotelsHash
       providers[provider][provider_hotel.provider_id] = hotel_id
       hotels[hotel_id].provider_init(provider_hotel)
     end
+    Log.debug "HotelsHash::hash_provider_hotels - END"
+
     provider_hotels_list = nil
   end
 
