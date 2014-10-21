@@ -9,16 +9,17 @@ module HotelScopes
     def by_location(location, proximity_in_metres = 8000)
 
       limit = location.hotel_limit || 500
-
+      my_location_limit = 100
+      distance_limit = 300
       query = limit(limit)
 
       if location.city?
         query = query.where("ST_DWithin(hotels.geog, ?, ?) or (lower(city)= ? and country_code = ?)", location.point, proximity_in_metres, location.name.downcase, location.country_code.downcase)
       elsif location.my_location?
         return query.where("ST_DWithin(hotels.geog, ST_MakePoint(?,?), ?) ", location.longitude, location.latitude, 3000).
-               order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude})), COALESCE(provider_hotel_ranking,0) DESC")
+               order("ST_Distance(hotels.geog, ST_MakePoint(#{location.longitude}, #{location.latitude})), COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC'").limit(my_location_limit)
       elsif location.distance_based?
-        return query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}')")
+        return query.where("ST_DWithin(hotels.geog, ?, ?) ", location.point, 3000).order("ST_Distance(hotels.geog, '#{location.geog}'), COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC").limit(distance_limit)
       elsif location.region?
         query = query.where("lower(state_province) = ?", location.name.downcase)
       elsif location.country?

@@ -8,7 +8,7 @@ class AnalyticsController < ApplicationController
   layout :none
 
   def geolocate_error    
-    Analytics.publish "geolocate_error", request: request_params
+    #Analytics.publish "geolocate_error", request: request_params
     head 200
   end
 
