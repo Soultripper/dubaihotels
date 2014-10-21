@@ -72,11 +72,6 @@ module Agoda
       end
     end
 
-    def xml_request(hotel_ids, options)
-      request_params = {:Id => hotel_ids.join(',')}.merge(search_params.merge(options)) 
-      Agoda::Client.request_builder(6, request_params)
-    end
-
     def request(hotel_ids=nil, options={}, &success_block)
       xml_builder = xml_request (hotel_ids || ids), options
       headers = {'Content-Type'=> "application/xml; charset=utf-8"}
@@ -90,20 +85,28 @@ module Agoda
           begin
             hotels_list = create_list_response Nokogiri.XML(response.body)
           rescue Exception => msg
-            Log.error "AGODA error response: #{response.body}, #{msg}"
+            Log.error "Agoda error response: #{response.body}, #{msg}"
             nil  
           end
           yield hotels_list.hotels if block_given? and hotels_list          
         elsif response.timed_out?
-          Log.error ("AGODA.com request timed out")
+          Log.error ("Agoda request timed out")
         elsif response.code == 0
           Log.error(response.return_message)
         else
-          Log.error("AGODA.com HTTP request failed: #{response.code}, body=#{response.body}")
+          Log.error("Agoda HTTP request failed: #{response.code}, body=#{response.body}")
         end
       end
       req
     end
+
+
+    def xml_request(hotel_ids, options)
+      request_params = {:Id => hotel_ids.join(',')}.merge(search_params.merge(options)) 
+      Agoda::Client.request_builder(6, request_params)
+    end
+
+
   end
 
 end

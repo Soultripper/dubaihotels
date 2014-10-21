@@ -76,8 +76,6 @@ module Booking
       }
     end
 
-
-
     def page_hotels(options={}, &block)
       requests, search_params = [], params(options)
 
@@ -98,7 +96,7 @@ module Booking
           begin
             hotels_list = Booking::HotelListResponse.new(JSON.parse(response.body), 1)
           rescue Exception => msg
-            Log.error "BOOKING.com error response: #{response.body}, #{msg}"
+            Log.error "Booking.com error response: #{response.body}, #{msg}"
             nil  
           end
           yield hotels_list.hotels if block_given? and hotels_list          
@@ -107,7 +105,7 @@ module Booking
         elsif response.code == 0
           Log.error(response.return_message)
         else
-          Log.error("BOOKING.com HTTP request failed: #{response.code}, body=#{response.body}")
+          Log.error("Booking.com HTTP request failed: #{response.code}, body=#{response.body}")
         end
       end
       req

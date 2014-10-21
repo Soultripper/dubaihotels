@@ -79,7 +79,7 @@ class Venere::Client
         faraday.request  :url_encoded             # form-encode POST params
         faraday.options[:timeout] = 15 
         faraday.options[:open_timeout] = 30  
-        faraday.response :logger                  # log requests to STDOUT
+        #faraday.response :logger                  # log requests to STDOUT
         faraday.response :gzip 
         faraday.adapter  :my_typhoeus
       end

@@ -85,7 +85,7 @@ class HotelSearch
       end    
     end
     persist
-    Log.info "Processed #{matches} matches for #{provider.upcase} out of #{total_hotels} hotels in #{time}s"
+    Log.info "Processed #{matches} matches for #{provider.upcase} out of #{provider_hotels_found.count} hotels in #{time}s"
   end
 
   def find_hotel_for(provider, provider_hotel_id)
