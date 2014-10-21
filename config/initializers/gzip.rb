@@ -19,7 +19,10 @@ module FaradayMiddleware
     end
  
   end
+
+
 end
  
 Faraday::Response.register_middleware :gzip => FaradayMiddleware::Gzip
 Faraday::Adapter.register_middleware :my_typhoeus => MyTyphoeusAdapter
+Ethon.logger = Logger.new(nil)
