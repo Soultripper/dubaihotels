@@ -44,9 +44,10 @@ module Expedia
       return nil unless expedia_id || property_id
       {
         provider: :expedia,
+        provider_id: expedia_id || property_id,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: search_criteria.expedia_link(expedia_id || property_id),
+        #link: search_criteria.expedia_link(expedia_id || property_id),
         offer: offer_text
       }
     end
@@ -54,9 +55,11 @@ module Expedia
     def commonize_to_hotels_dot_com(search_criteria, hotel_id)
       {
         provider: :hotels,
+        provider_id: property_id,
+
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: search_criteria.hotels_link(hotel_id),
+        #link: search_criteria.hotels_link(hotel_id),
         offer: offer_text
       }
     end    

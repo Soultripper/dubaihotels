@@ -24,11 +24,13 @@ class EasyToBook::Search
     EasyToBook::Client.get_availability(params)
   end
 
-  protected
 
   def create_list_response(response)
     EasyToBook::HotelListResponse.new(response) if response
   end
+  
+  protected
+
 
   def create_hotel_response(response)
     EasyToBook::HotelResponse.from_response(response) if response

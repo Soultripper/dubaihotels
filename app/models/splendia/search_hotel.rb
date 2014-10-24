@@ -60,5 +60,50 @@ module Splendia
       }
     end
 
+
+    def page_hotels(options={}, &block)
+      requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
+
+      HydraConnection.in_parallel do
+        ids.each_slice(slice_by) do |hotel_ids| 
+          requests << request(hotel_ids, options, &block) 
+        end
+        requests
+      end
+    end
+
+    def request(hotel_ids=nil, options={}, &success_block)
+      req = HydraConnection.get Splendia::Client.url, :params=> search_params.merge(hotel_params(hotel_ids))
+
+      req.on_complete do |response|
+        Log.debug "Splendia response complete: uri=#{response.request.base_url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
+        if response.success?
+          #Log.debug response.body
+          begin
+            hotels_list = create_list_response Nokogiri.XML(response.body)
+          rescue Exception => msg
+            Log.error "Splendia error response: #{response.body}, #{msg}"
+            nil  
+          end
+          if hotels_list
+            block_given? ? (yield hotels_list.hotels) : hotels_list
+          else
+            nil
+          end         
+        elsif response.timed_out?
+          Log.error ("Splendia request timed out")
+        elsif response.code == 0
+          Log.error(response.return_message)
+        else
+          Log.error("Splendia HTTP request failed: #{response.code}, body=#{response.body}")
+        end
+      end
+      req
+    end
+
+    def fetch_hotels(hotel_ids=nil)
+      request(hotel_ids).run.handled_response
+    end
+
   end
 end

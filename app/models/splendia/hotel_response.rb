@@ -62,13 +62,13 @@ module Splendia
     def commonize(search_criteria, location)
       {
         provider: :splendia,
-        provider_hotel_id: hotel_id,
+        provider_id: hotel_id,
         room_count: rooms_count,
         min_price: min_price.to_f,
         max_price: max_price.to_f,        
         ranking: ranking,
-        rooms: rooms.map{|r| r.commonize(search_criteria, link)},
-        link: link
+        rooms: rooms.map{|r| r.commonize(search_criteria)},
+        #link: link
       }
     rescue Exception => msg  
       Log.error "Splendia Hotel #{id} failed to convert: #{msg}"

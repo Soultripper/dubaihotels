@@ -46,7 +46,7 @@ module Venere
         provider: :venere,
         description: description,
         price: price,
-        link: search_criteria.venere_link(hotel_id)      
+        #link: search_criteria.venere_link(hotel_id)      
       }
     end
 

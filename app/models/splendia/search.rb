@@ -9,11 +9,12 @@ class Splendia::Search
   end
 
 
-  protected
-
   def create_list_response(response)
     Splendia::HotelListResponse.new(response)
   end
+
+  protected
+
 
 
   def search_params

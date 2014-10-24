@@ -54,7 +54,7 @@ module Booking
         provider: :booking,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        link: link,
+        #link: link,
         breakfast: breakfast?,
         wifi: wifi?
       }

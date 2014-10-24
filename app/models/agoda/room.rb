@@ -41,7 +41,7 @@ module Agoda
         provider: :agoda,
         description: description,
         price: avg_price(search_criteria.total_nights),
-        link: link,
+        #link: link,
         wifi: wifi?,
         cancellation: cancellation?,
         pay_later: pay_later?

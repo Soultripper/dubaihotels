@@ -80,7 +80,7 @@ module Booking
     def commonize(search_criteria, location=nil)
       {
         provider: :booking,
-        provider_hotel_id: id,
+        provider_id: id,
         room_count: rooms.count,
         min_price: avg_price(min_price, search_criteria.total_nights),
         max_price: avg_price(max_price, search_criteria.total_nights),

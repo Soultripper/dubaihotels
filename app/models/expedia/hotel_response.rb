@@ -72,12 +72,12 @@ module Expedia
       return nil unless expedia_id
       {
         provider: :expedia,
-        provider_hotel_id: expedia_id,
+        provider_id: expedia_id,
         room_count: rooms_count,
         min_price: avg_price(room_rates[0], search_criteria.total_nights),
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
-        link: search_criteria.expedia_link(expedia_id),
+        #link: search_criteria.expedia_link(expedia_id),
         rooms: rooms.map{|r| r.commonize(search_criteria)}
       }
     rescue Exception => msg  
@@ -89,12 +89,12 @@ module Expedia
       # return nil if rooms.empty?
       {
         provider: :hotels,
-        provider_hotel_id: id,
+        provider_id: id,
         room_count: rooms_count,
         min_price: avg_price(room_rates[0], search_criteria.total_nights),
         max_price: avg_price(room_rates[-1], search_criteria.total_nights),
         ranking: ranking,
-        link: search_criteria.hotels_link(id),
+        #link: search_criteria.hotels_link(id),
         rooms: rooms.map{|r| r.commonize_to_hotels_dot_com(search_criteria, id)}
       }
     rescue Exception => msg  

@@ -65,7 +65,7 @@ module Hotels
     config.assets.enabled = true
     config.assets.initialize_on_precompile = false
     config.assets.precompile += ['jquery.js']
-    config.assets.precompile += %w( jquery.js search_manifest.css offer_manifest.css hotel_manifest.css)
+    # config.assets.precompile += %w( jquery.js search_manifest.css offer_manifest.css hotel_manifest.css)
 
     Mongoid.raise_not_found_error = false
     Mongoid.protect_sensitive_fields = false

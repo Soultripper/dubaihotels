@@ -13,11 +13,12 @@ class LateRooms::Search
   end
 
 
-  protected
-
   def create_list_response(response)
     LateRooms::HotelListResponse.new(response)
   end
+
+
+  protected
 
 
   def search_params

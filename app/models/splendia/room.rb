@@ -32,12 +32,12 @@ module Splendia
     end
 
 
-    def commonize(search_criteria, link)
+    def commonize(search_criteria)
       {
         provider: :splendia,
         description: description,
         price: avg_price(search_criteria.total_nights),
-        link: link,
+        #link: link,
         breakfast: breakfast?,
         cancellation: cancellation?
       }

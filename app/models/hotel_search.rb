@@ -88,8 +88,8 @@ class HotelSearch
     Log.info "Processed #{matches} matches for #{provider.upcase} out of #{provider_hotels_found.count} hotels in #{time}s"
   end
 
-  def find_hotel_for(provider, provider_hotel_id)
-    @hash_hotels.find_hotel_for(provider, provider_hotel_id)
+  def find_hotel_for(provider, provider_id)
+    @hash_hotels.find_hotel_for(provider, provider_id)
   end
 
   def add_found_hotel(provider_hotel, provider)
@@ -99,20 +99,20 @@ class HotelSearch
 
     return unless common_provider_hotel
     deal = hotel.find_provider_deal(provider)
-    if provider==:booking
-      common_provider_hotel[:link] = search_criteria.booking_link(deal)
-      set_rooms_link(common_provider_hotel)
-    elsif provider==:laterooms
-      common_provider_hotel[:link] = search_criteria.laterooms_link(deal)
-      set_rooms_link(common_provider_hotel)
-    end
+    # if provider==:booking
+    #   common_provider_hotel[:link] = search_criteria.booking_link(deal)
+    #   set_rooms_link(common_provider_hotel)
+    # elsif provider==:laterooms
+    #   common_provider_hotel[:link] = search_criteria.laterooms_link(deal)
+    #   set_rooms_link(common_provider_hotel)
+    # end
 
     add_to_list(hotel, common_provider_hotel)
   end
 
-  def set_rooms_link(hotel_hash)
-    hotel_hash[:rooms].each {|room| room[:link] = hotel_hash[:link]}
-  end
+  # def set_rooms_link(hotel_hash)
+  #   hotel_hash[:rooms].each {|room| room[:link] = hotel_hash[:link]}
+  # end
 
   def add_to_list(hotel_comparison, common_provider_hotel)
     return false unless common_provider_hotel

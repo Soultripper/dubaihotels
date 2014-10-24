@@ -88,7 +88,11 @@ module Agoda
             Log.error "Agoda error response: #{response.body}, #{msg}"
             nil  
           end
-          yield hotels_list.hotels if block_given? and hotels_list          
+          if hotels_list
+            block_given? ? (yield hotels_list.hotels) : hotels_list
+          else
+            nil
+          end 
         elsif response.timed_out?
           Log.error ("Agoda request timed out")
         elsif response.code == 0
@@ -106,6 +110,9 @@ module Agoda
       Agoda::Client.request_builder(6, request_params)
     end
 
+    def fetch_hotels(hotel_ids=nil)
+      request(hotel_ids).run.handled_response
+    end
 
   end
 

@@ -198,8 +198,12 @@ app.controller('HotelCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$
       var url = '/offer/' + clickDetails.provider + '?';
       params.price = clickDetails.price;
       params.hotel_id = clickDetails.hotel_id;
-      params.target_url = clickDetails.url;
+      params.max_price = clickDetails.max_price;
+      params.saving = clickDetails.saving;
       params.currency = Page.criteria.currency_code;
+      params.provider_id = clickDetails.provider_id;
+      //params.target_url = clickDetails.url;
+
       Hotels.removeEmptyKeys(params)
       var result = decodeURIComponent($.param(params));
       window.open(url + result);

@@ -84,7 +84,7 @@
               </div>
               <div class="col-lg-6 col-sm-12 best-deal" ng-show="hotel.rooms">
                 Best deal <span class="price"><small>{{currency_symbol}}</small>{{formatPrice(hotel.rooms[0].price)}} </span>
-                <a class="btn  btn-lg  btn-success" get-deal="{{hotel.rooms[0].link}}" data-hotel-id="{{hotel.id}}" data-provider="{{hotel.rooms[0].provider}}" data-price="{{hotels.room[0].price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}"  target="_blank">
+                <a class="btn  btn-lg  btn-success" get-deal data-hotel-id="{{hotel.id}}" data-provider="{{hotel.rooms[0].provider}}" data-provider-id="{{hotel.rooms[0].provider_id}}" data-price="{{hotel.rooms[0].price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}"  target="_blank">
                   See Deal
                 </a>
               </div>

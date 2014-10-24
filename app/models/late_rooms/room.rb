@@ -83,14 +83,14 @@ module LateRooms
     #   }
     # end
 
-    def commonize(search_criteria, link = nil)
+    def commonize(search_criteria)
       return nil unless total_price
       {
         provider: :laterooms,
         description: description,
         price: price,
         total_price: total_price,
-        link: link,
+        #link: link,
         id: room_id,
         breakfast: breakfast?,
         dinner: dinner?,

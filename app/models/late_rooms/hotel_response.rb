@@ -63,7 +63,7 @@ module LateRooms
       return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
       {
         provider: :laterooms,
-        provider_hotel_id: hotel_id,
+        provider_id: hotel_id,
         room_count: rooms_count,
         min_price: min_price.to_f,
         max_price: max_price.to_f,        

@@ -62,13 +62,13 @@ module EasyToBook
     def commonize(search_criteria, location)
       {
         provider: :easy_to_book,
-        provider_hotel_id: hotel_id,
+        provider_id: hotel_id,
         room_count: rooms_count,
         min_price: avg_price(min_price(search_criteria.currency_code), search_criteria.total_nights),
         max_price: avg_price(max_price(search_criteria.currency_code), search_criteria.total_nights),        
         ranking: ranking,
         rooms: rooms.map{|r| r.commonize(search_criteria)},
-        link: link
+        #link: link
       }
     rescue Exception => msg  
       Log.error "Hotel #{id} failed to convert: #{msg}"

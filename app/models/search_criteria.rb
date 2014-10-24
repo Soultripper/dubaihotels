@@ -1,5 +1,5 @@
 class SearchCriteria
-  include LinkBuilder
+  #include LinkBuilder
   
   attr_reader :start_date, :end_date, :no_of_rooms, :no_of_adults, :currency_code, :country_code
 
@@ -12,8 +12,13 @@ class SearchCriteria
     @star_ratings   = args[:star_ratings]   || []
     @currency_code  = args[:currency_code]  || :GBP
     @country_code   = args[:country_code]   || :GB
+    @children       = args[:children]       || []
   end
 
+
+  def self.from_tomorrow(args={})
+    new(DateTime.now.utc.tomorrow, DateTime.now.utc.tomorrow + 1.day, args)
+  end
 
   def currency_symbol
     currency[1][1]

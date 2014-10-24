@@ -5,9 +5,7 @@ class OfferController < ApplicationController
   before_filter :index, :publish_clickthrough
 
   def index    
-
   end
-
 
   protected
 
@@ -37,13 +35,21 @@ class OfferController < ApplicationController
     params[:provider]
   end
 
+  def provider_hotel
+    hotel.provider_hotels.find {|p| p.provider==provider}
+  end
+
+
   def provider_id
-    hotel.provider_hotels.find {|p| p.provider==provider}.provider_id
+    params[:provider_id] || provider_hotel.provider_id
   end
 
 
   def target_url
-    @target_url ||= params[:target_url]
+    provider_hotel.provider_id = provider_id
+    @target_url ||= LinkBuilder.new(search_criteria, hotel, provider_hotel).create_link
+
+    #@target_url ||= params[:target_url]
   end
 
   # def unescaped_url

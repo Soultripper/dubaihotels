@@ -1,5 +1,5 @@
 class ProviderHotel < ActiveRecord::Base
-  attr_accessible :address, :amenities, :city, :country_code, :description, :hotel_id, :hotel_link, :latitude, :longitude, :name, :postal_code, :provider_hotel_id, :provider_id, :star_rating, :state_province, :user_rating
+  attr_accessible :address, :amenities, :city, :country_code, :description, :hotel_id, :hotel_link, :latitude, :longitude, :name, :postal_code, :provider_id, :star_rating, :state_province, :user_rating
 
   belongs_to :hotel
   def self.find_by(provider, provider_id)
@@ -11,7 +11,7 @@ class ProviderHotel < ActiveRecord::Base
   end
 
   def self.for_comparison(hotel_ids)
-    for_hotels(hotel_ids).select([:hotel_id, :provider, :provider_id, :hotel_link])
+    for_hotels(hotel_ids).select([:hotel_id, :provider, :provider_id])
   end
 
   def to_json

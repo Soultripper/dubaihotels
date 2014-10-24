@@ -7,7 +7,7 @@
       <td>{{room.description}}</td>
       <td class="price"><small>{{currency_symbol}}</small>{{formatPrice(room.price)}}</td>
       <td class="cta">
-        <a class="btn btn-success" get-deal="{{room.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{room.provider}}" data-price="{{room.price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}" data-currency="{{Page.criteria.currency}}" target="_blank">
+        <a class="btn btn-success" get-deal="{{room.link}}" data-hotel-id="{{hotel.id}}" data-provider="{{room.provider}}" data-provider-id="{{room.provider_id}}" data-price="{{room.price}}" data-saving="{{saving(hotel)}}" data-max-price="{{hotel.offer.max_price}}" data-currency="{{Page.criteria.currency}}" target="_blank">
           See Deal
           <i class="fa fa-caret-right"></i>
         </a>

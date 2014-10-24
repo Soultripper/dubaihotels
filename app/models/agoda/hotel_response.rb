@@ -62,13 +62,13 @@ module Agoda
     def commonize(search_criteria, location)
       {
         provider: :agoda,
-        provider_hotel_id: hotel_id,
+        provider_id: hotel_id,
         room_count: rooms_count,
         min_price: avg_price(min_price, search_criteria.total_nights),
         max_price: avg_price(max_price, search_criteria.total_nights),        
         ranking: ranking,
         rooms: rooms.map {|r| r.commonize(search_criteria)},
-        link: link
+        #link: link
       }
     rescue Exception => msg  
       Log.error "Agoda Hotel #{id} failed to convert: #{msg}"

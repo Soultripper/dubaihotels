@@ -92,7 +92,7 @@ class RoomWorker
       return unless hotel_list_response.hotels.length > 0# and booking_hotel = hotel.booking_hotel
       hotel_response = hotel_list_response.hotels.first
       hotel_response.rooms.map do |room|
-        room.link = search_criteria.booking_link(hotel.find_provider(:booking))
+        #room.link = search_criteria.booking_link(hotel.find_provider(:booking))
         room.commonize(search_criteria)
       end
     end
@@ -124,7 +124,7 @@ class RoomWorker
       return unless hotels_list_response.hotels.length > 0
       hotel_response = hotels_list_response.hotels.first
       hotel_response.rooms.map do |room|
-        room.commonize(search_criteria,  hotel_response.link)
+        room.commonize(search_criteria)
       end
     end
   end
@@ -135,8 +135,8 @@ class RoomWorker
       return unless hotels_list_response.hotels.length > 0
       hotel_response = hotels_list_response.hotels.first
       hotel_response.rooms.map do |room|
-        link = search_criteria.laterooms_link(hotel.find_provider(:laterooms))
-        room.commonize(search_criteria, link)
+        #link = search_criteria.laterooms_link(hotel.find_provider(:laterooms))
+        room.commonize(search_criteria)
       end
     end
   end  

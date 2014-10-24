@@ -83,7 +83,11 @@ module LateRooms
             Log.error "Laterooms.com error response: #{response.body}, #{msg}"
             nil  
           end
-          yield hotels_list.hotels if block_given? and hotels_list          
+          if hotels_list
+            block_given? ? (yield hotels_list.hotels) : hotels_list
+          else
+            nil
+          end
         elsif response.timed_out?
           Log.error ("Laterooms.com request timed out")
         elsif response.code == 0
@@ -95,6 +99,11 @@ module LateRooms
       req
     end
 
+    def fetch_hotels(hotel_ids=nil, &success_block)
+      req = request(hotel_ids, &success_block)
+      response = req.run
+      create_list_response Nokogiri.XML(response.body)
+    end
 
   end
 end

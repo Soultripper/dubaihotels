@@ -72,13 +72,13 @@ module Venere
       return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
       {
         provider: :venere,
-        provider_hotel_id: hotel_id,
+        provider_id: hotel_id,
         room_count: rooms_count,
         min_price: min_price.to_f / search_criteria.total_nights,
         max_price: max_price.to_f / search_criteria.total_nights,        
         ranking: ranking,
         rooms: rooms.map {|room| room.commonize(search_criteria)},
-        link: search_criteria.venere_link(hotel_id)
+        #link: search_criteria.venere_link(hotel_id)
       }
     rescue Exception => msg  
       Log.error "Venere Hotel #{id} failed to convert: #{msg}"

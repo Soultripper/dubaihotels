@@ -30,8 +30,10 @@ class HotelResultsController < SearchController
     render(json:{}) unless cached_search
 
     if cached_search.is_a?(HotelSearch) 
+      Log.debug 'HotelRooms using hotel search cache'
       render json: cached_hotel_rooms
     elsif cached_search.is_a?(HotelRoomSearch) and cached_search.hotel.slug == params[:id]
+      Log.debug 'HotelRooms using hotel room search cache'
       render json: cached_search.rooms_results
     else
       render json: {}

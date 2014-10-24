@@ -37,7 +37,7 @@ module EasyToBook
         provider: :easy_to_book,
         description: description,
         price: avg_price(price(search_criteria.currency_code), search_criteria.total_nights),
-        link: link,
+        #link: link,
         id: room_id,
         breakfast: breakfast?,
         offer: offer_text
