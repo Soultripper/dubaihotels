@@ -546,7 +546,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var url     = '/map/my-location',
           params  = $scope.buildParams();
 
-      params.count = 101;
+      params.count = 51;
       params.coordinates = mapCenter.lat() + ',' + mapCenter.lng();
 
       HotelResults.get(url,params).success(callback)

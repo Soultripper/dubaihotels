@@ -99,7 +99,7 @@ class HotelOrganiser
 
   def filter_min_price(hotel, price)
     return true if price == 0
-    Utilities.nil_round(hotel.offer[:min_price] || price) > price-1
+    Utilities.nil_round(hotel.offer[:min_price]) > price-1
   end
 
   def filter_max_price(hotel, price)
