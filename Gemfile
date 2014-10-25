@@ -36,8 +36,8 @@ gem "mongoid"
 
 gem "jbuilder"
 gem 'money'
-gem 'kaminari' #for pagination
-gem 'activerecord-import', '~> 0.3.1'
+gem 'kaminari', require: false #for pagination
+gem 'activerecord-import', '~> 0.3.1', require: false
 gem 'geokit-rails'
 gem 'geoip'
 gem 'geo-distance'
@@ -55,7 +55,7 @@ gem 'jquery-rails-cdn'
 # gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
 gem 'smarter_csv', require: false
 gem 'carrierwave'
-gem "fog"
+gem "fog", require: false
 
 gem 'ruby-prof', require: false
 gem 'meta-tags', :require => 'meta_tags'

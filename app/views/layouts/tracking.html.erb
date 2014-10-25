@@ -9,12 +9,25 @@
     <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/9a61c6c9-8114-405c-9358-29dcb0b2c617.css"/>
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
 
+
+    <% set_meta_tags :og => {
+      title: hotel.name,
+      type: 'website',
+      url: target_url.html_safe,
+      image: hotel.image_url,
+      description: truncate(hotel.description, separator:'.', escape: false, length: 500, omission:'.'),
+      site_name: 'Hot5.com'
+      } %>
+
     <%= display_meta_tags %>
     <%= stylesheet_link_tag    "offer_manifest" %>  
     <%= csrf_meta_tags %>  
 
     <%= jquery_include_tag :google %>
     <%= render partial:'shared/facebook_tag' %>
+
+
+
 </head>
 <body >
   <%= render partial:'shared/google_tag_manager' %>
