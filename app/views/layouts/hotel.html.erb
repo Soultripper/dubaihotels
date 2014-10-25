@@ -13,16 +13,17 @@
     <% set_meta_tags :og => {
       type: 'website',
       title: hotel.name,
-
       url: request.original_url,
       image: hotel.image_url,
       description: truncate(hotel.description, separator:'.', escape: false, length: 500, omission:'.'),
       site_name: 'Hot5.com'
       } %>
 
+    <%= display_meta_tags %>
+
+
     <%= stylesheet_link_tag    "hotel_manifest" %>  
     <%= csrf_meta_tags %>
-    <%= display_meta_tags %>
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
