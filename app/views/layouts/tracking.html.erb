@@ -13,8 +13,7 @@
     <% set_meta_tags :og => {
       type: 'website',
       title: hotel.name,
-
-      url: target_url.html_safe,
+      url: request.original_url,
       image: hotel.image_url,
       description: truncate(hotel.description, separator:'.', escape: false, length: 500, omission:'.'),
       site_name: 'Hot5.com'
