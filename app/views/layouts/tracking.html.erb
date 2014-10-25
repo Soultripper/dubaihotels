@@ -11,8 +11,9 @@
 
 
     <% set_meta_tags :og => {
-      title: hotel.name,
       type: 'website',
+      title: hotel.name,
+
       url: target_url.html_safe,
       image: hotel.image_url,
       description: truncate(hotel.description, separator:'.', escape: false, length: 500, omission:'.'),
