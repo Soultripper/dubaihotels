@@ -129,7 +129,7 @@ class HotelSearchPageResult
     json.hotels hotels do |hotel_comparison|
       hotel_comparison.hotel.amenities +=2 if hotel_comparison.central? and hotel_comparison.amenities
       json.(hotel_comparison.hotel, :id, :name, :address, :city, :state_province, 
-        :postal_code,  :latitude, :longitude, 
+        :postal_code,  :latitude, :longitude, :description,
         :star_rating,  :amenities, :slug)
       json.main_image     hotel_comparison.hotel, :image_url, :thumbnail_url
       json.distance       hotel_comparison.distance_from_location || hotel_comparison.distance_from(location)

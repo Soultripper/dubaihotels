@@ -70,3 +70,6 @@ FROM
 SELECT image_url, 'agoda', agoda_hotel_id, ROW_NUMBER() OVER(PARTITION BY agoda_hotel_id ORDER BY id ASC) AS row_number
 FROM providers.agoda_hotel_images
 ) AS t1
+
+UPDATE hotels SET image_url = NULL, thumbnail_url = NULL
+WHERE POSITION('.agoda.' in image_url) > 0
