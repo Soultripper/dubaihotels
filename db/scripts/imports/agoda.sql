@@ -50,20 +50,23 @@ WHERE
   provider_hotels.provider_id = T2.agoda_hotel_id 
   AND provider_hotels.provider = 'agoda'; 
 
+TRUNCATE TABLE providers.agoda_hotel_images
+
+INSERT INTO providers.agoda_hotel_images (agoda_hotel_id, image_url)
+SELECT
+   id as agoda_hotel_id,
+   unnest(array[photo1, photo2, photo3, photo4, photo5]) AS "image_url"
+FROM providers.agoda_hotels
+
+
 -- IMAGES
 DELETE FROM provider_hotel_images where provider = 'agoda';
 
-INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id)
-SELECT image_url, image_url, 'agoda', agoda_hotel_id
-FROM providers.agoda_hotel_images
-GROUP BY image_url, agoda_hotel_id;
-
-UPDATE provider_hotel_images p
-SET default_image = true
+INSERT INTO provider_hotel_images (url, thumbnail_url, provider, provider_id, default_image)
+SELECT t1.image_url, t1.image_url, 'agoda', agoda_hotel_id, 
+  CASE WHEN row_number = 1 THEN TRUE ELSE FALSE END
 FROM
 (
-  SELECT id, ROW_NUMBER() OVER(PARTITION BY provider_id ORDER BY default_image DESC, id ASC) AS row_number
-  FROM provider_hotel_images
-  WHERE provider = 'agoda'
-) AS T1
-WHERE T1.id = p.id AND T1.row_number = 1;
+SELECT image_url, 'agoda', agoda_hotel_id, ROW_NUMBER() OVER(PARTITION BY agoda_hotel_id ORDER BY id ASC) AS row_number
+FROM providers.agoda_hotel_images
+) AS t1

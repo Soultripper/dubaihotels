@@ -5,7 +5,7 @@ class MobileController < ApplicationController
 
 
   def index        
-    render json: hotel_search.results.select_with_images(count)     
+    render json: hotel_search.results.select_for_mobile(count)     
   end
 
 

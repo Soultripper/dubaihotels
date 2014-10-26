@@ -16,7 +16,8 @@ class ProviderHotelImage < ActiveRecord::Base
 
   def self.by_ranked_order
     select(" 
-      *,
+        url,
+        thumbnail_url,
         case 
         when provider = 'expedia'     then 100 
         when provider = 'booking'     then 90
@@ -26,7 +27,7 @@ class ProviderHotelImage < ActiveRecord::Base
         when provider = 'easy_to_book' then 60
         else -1
         end as ranking
-    ").order('ranking desc, default_image desc')
+    ").order('ranking desc, COALESCE(default_image, FALSE) DESC')
   end
 
 
