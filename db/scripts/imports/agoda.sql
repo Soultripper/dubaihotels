@@ -71,5 +71,15 @@ SELECT image_url, 'agoda', agoda_hotel_id, ROW_NUMBER() OVER(PARTITION BY agoda_
 FROM providers.agoda_hotel_images
 ) AS t1
 
+UPDATE provider_hotel_images phi
+SET hotel_id = T1.hotel_id
+FROM 
+(
+  SELECT hotel_id, provider_id FROM provider_hotels where provider = 'agoda'
+) AS T1
+WHERE 'agoda' = phi.provider AND T1.provider_id = phi.provider_id;
+
+
+
 UPDATE hotels SET image_url = NULL, thumbnail_url = NULL
 WHERE POSITION('.agoda.' in image_url) > 0

@@ -73,7 +73,7 @@ module LateRooms
     def request(hotel_ids=nil, &success_block)
       req =  HydraConnection.get LateRooms::Client.url, :params=> search_params.merge(hotel_params(hotel_ids))
       req.on_complete do |response|
-        Log.debug "Laterooms.com response complete: uri=#{response.request.base_url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
+        Log.debug "Laterooms.com response complete: uri=#{response.request.url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
 
         if response.success?
           #Log.debug response.body
