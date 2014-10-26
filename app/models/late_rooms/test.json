@@ -1,0 +1,605 @@
+{
+  "info": {
+    "query": "Dubai",
+    "slug": "dubai-hotels",
+    "channel": "hot5-com-2014-10-26-2014-10-27-gbp-dubai-hotels",
+    "key": "72fcf29204ec343e6dfd047e47f2d91e",
+    "sort": "recommended",
+    "total_hotels": 392,
+    "available_hotels": 180,
+    "min_price": 25,
+    "max_price": 1935,
+    "min_price_filter": 25,
+    "max_price_filter": null,
+    "price_values": [
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95,
+      100,
+      105,
+      110,
+      115,
+      120,
+      125,
+      130,
+      135,
+      140,
+      145,
+      150,
+      155,
+      165,
+      170,
+      175,
+      180,
+      185,
+      190,
+      195,
+      200,
+      205,
+      215,
+      220,
+      235,
+      250,
+      255,
+      260,
+      265,
+      275,
+      280,
+      290,
+      295,
+      310,
+      325,
+      340,
+      350,
+      410,
+      450,
+      470,
+      505,
+      550,
+      595,
+      755,
+      1935
+    ],
+    "star_ratings": null,
+    "amenities": null,
+    "longitude": 55.30037,
+    "latitude": 25.27063,
+    "zoom": 10,
+    "page_size": 15,
+    "timestamp": 1414339235.9381
+  },
+  "criteria": {
+    "start_date": "2014-10-26",
+    "end_date": "2014-10-27",
+    "total_nights": 1,
+    "currency_code": "GBP",
+    "currency_symbol": "\u00a3",
+    "country_code": "GB"
+  },
+  "state": "finished",
+  "hotels": [
+    {
+      "id": 7521788,
+      "name": "Chelsea Tower Suites & Apartments",
+      "address": "Sheikh Zayed Road",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "118049",
+      "latitude": 25.211248338949,
+      "longitude": 55.274298191071,
+      "description": "Centrally located on Sheikh Zayed Road, Chelsea Tower offers spacious suites with a well-equipped kitchen and a 37-inch flat-screen TV. It features a spa and an outdoor pool.\n\nA separate seating area with a cable TV and entertainment system are in Chelsea\u2019s self-catering suites. Each comes with a washing machine and ironing facilities. Some rooms offer panoramic views of Dubai.\n\nRelaxing massage treatments are offered at Tower Suites\u2019 spa. Guests can sunbathe on a lounger or swim in the 25-metre lap pool.\n\nFeaturing a terrace, The Chelsea Garden Restaurant & Caf\u00e9 serves a variety of international dishes. Chelsea's 24-hour staff provide room service. They can also arrange reservations at one of the restaurants on Sheikh Zayed Road.\n\nChelsea Tower Suites & Apartments is a 2-minute walk from Financial Centre Station. The Dubai mall and Marine & Waterpark Dolphin Bay are just a 30-minute bus ride away.",
+      "star_rating": 4,
+      "amenities": 1820,
+      "slug": "chelsea-tower-suites-and-apartments",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_86_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_86_t.jpg"
+      },
+      "distance": 7107.1212459972,
+      "offer": {
+        "provider": "laterooms",
+        "provider_id": 158514,
+        "min_price": 152.28,
+        "max_price": 152.28,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 81,
+        "booking": 81,
+        "expedia": 0,
+        "agoda": 80,
+        "venere": 0,
+        "easy_to_book": 80,
+        "laterooms": 83.33
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_86_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_86_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_102_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_102_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_101_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_101_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_103_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_103_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_100_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1230000\/1227500\/1227459\/1227459_100_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7521788"
+    },
+    {
+      "id": 7330477,
+      "name": "JW Marriott Marquis Dubai",
+      "address": "Sheikh Zayed Road, Business Bay",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "121000",
+      "latitude": 25.185631709223,
+      "longitude": 55.257529020309,
+      "description": "Just a 10-minute drive from Dubai Mall, JW Marriott Marquis Dubai offers luxury accommodation. Only 20 minutes by car from Marina Walk, this 5-star hotel boasts a spa, a bar and an outdoor swimming pool.\n\nAll accommodation at JW Marriott Marquis Dubai are elegantly designed and feature a contemporary d\u00e9cor. Each of its spacious rooms is furnished with lush carpeting and includes a marble-floor bathroom.\n\nFine dining and international cuisine are available at any of JW Marriott Marquis\u2019 14 restaurants.\n\nGuests can enjoy a dip in the outdoor swimming pool or a relaxing sauna at the hotel\u2019s spa. Local excursions can be arranged by the hotel\u2019s tour desk. Wi-Fi is available upon request.\n\nJW Marriott Marquis is a 25-minute drive from Dubai International Airport. It offers free valet parking. Atlantis Waterpark is only 25 minutes away by car.",
+      "star_rating": 5,
+      "amenities": 1281,
+      "slug": "jw-marriott-marquis-dubai",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_74_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_74_t.jpg"
+      },
+      "distance": 10391.153886022,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 446346,
+        "min_price": 345.55,
+        "max_price": 345.55,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 86,
+        "booking": 86,
+        "expedia": 0,
+        "agoda": 86,
+        "venere": 0,
+        "easy_to_book": 90
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_52_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_52_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_74_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_74_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_59_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_59_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_60_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_60_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_61_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/6000000\/5400000\/5399400\/5399338\/5399338_61_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7330477"
+    },
+    {
+      "id": 7418336,
+      "name": "Grosvenor House, Dubai",
+      "address": "Al Sofouh Road",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": null,
+      "latitude": 25.085482294896,
+      "longitude": 55.144275426865,
+      "description": "Next to Dubai Marina, this 5-star hotel offers modern rooms include 42-inch flat-screen TVs and free Wi-Fi. It provides a 24-hour butler service.\n\nGrosvenor House's dining options include a weekly seafood buffet at Sloane\u2019s, and the lively Buddha Bar & Restaurant which serves Japanese cuisine and inventive cocktails.  Bar 44 offers top-floor views of the Dubai Marina.\n\nFloor-to-ceiling windows and a marble bathroom with Bvlgari amenities, a soaking tub and rain shower are standard in each of the Grosvenor\u2019s rooms. Some rooms offer a balcony and Club Lounge access.\n\nGuests have full access to the beach, pool and leisure facilities at Grosvenor's sister hotel, Le Royal Meridien Beach Resort & Spa. A free shuttle service to Le Royal is offered. The Retreat Health & Spa offers a variety of treatments including massages.\n\nDubai Marina Train Station is 10 minutes\u2019 walk, and Emirates Golf Club is a 5-minute drive. Dubai International Airport is a 20-minute drive away.",
+      "star_rating": 5,
+      "amenities": 1293,
+      "slug": "grosvenor-house-dubai",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_102_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_102_t.jpg"
+      },
+      "distance": 25904.834418121,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 385595,
+        "min_price": 293.19,
+        "max_price": 293.19,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 91,
+        "booking": 91,
+        "expedia": 0,
+        "venere": 0,
+        "easy_to_book": 100
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_102_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_102_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_305_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_305_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_306_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_306_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_304_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_304_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_307_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1310000\/1305600\/1305504\/1305504_307_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7418336"
+    },
+    {
+      "id": 7542607,
+      "name": "Nuran Marina Serviced Residences",
+      "address": "Al Majara 4",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "121600",
+      "latitude": 25.074637807667,
+      "longitude": 55.136979818344,
+      "description": "Just 300 metres away from Dubai's beach and adjacent to Marina Yacht Club, these studios and apartments feature well-equipped kitchens and laundry facilities.\n\nNuran Marina Serviced Residences offers panoramic views of the Dubai Marina. They also include a dining space, flat-screen TV and DVD player. Free broadband internet access is also available.\n\nGuests can enjoy the swimming pool and gym or relax in the sauna and the hot tub. The waterfront of the marina with its many bars and caf\u00e9s offers a pleasant setting for an afternoon walk.\n\nThe Dubai Marina Mall is just a 2-minute walk away and there are plenty of dining options. Guests can reach the city centre in a 20-minute drive.",
+      "star_rating": 4,
+      "amenities": 1804,
+      "slug": "nuran-marina-serviced-residences",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_26_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_26_t.jpg"
+      },
+      "distance": 27310.181281174,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 338445,
+        "min_price": 183.24,
+        "max_price": 183.24,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 86,
+        "booking": 86,
+        "expedia": 0,
+        "agoda": 86,
+        "venere": 74,
+        "easy_to_book": 90
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_26_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_26_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_16_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_16_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_15_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_15_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_17_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_17_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_12_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1730000\/1723800\/1723703\/1723703_12_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7542607"
+    },
+    {
+      "id": 7281533,
+      "name": "The Westin Dubai Mina Seyahi Beach Resort & Marina",
+      "address": "Al Sufouh, Jumeirah",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "213084",
+      "latitude": 25.092555958758,
+      "longitude": 55.149157047272,
+      "description": "Occupying a prime location on Jumeirah Beach, the Westin Dubai is a 5-star beach resort. It features spectacular 5 resort pools, a 1200-metre private beach, luxurious rooms and 8 restaurants.\n\nPanoramic views over the Arabian Gulf and the Palm Jumeira can be enjoyed from most rooms and parts of the Westin Dubai Mina Seyahi Beach Resort.\n\nRooms and suites include free Wi-Fi, a Nespresso machine, spacious seating area, and a marble bathroom with luxury bath amenities. Modern and classical design with high ceilings and grand mirrors are also featured in each unit.\n\nGuests can relax at the Heavenly Spa by Westin. There are also tennis courts, a fitness centre, and a water sports centre. At the Westin Mina Seyahi children can enjoy a kids pool, daily beach games, kids club and a Wild Wadi Waterpark nearby.\n\nThai, Italian, Spanish, and international cuisine are just some of the choices on offer, served formally or informally. Special menus for children are served in the restaurants.\n\nWestin Dubai is 5 minutes by car from Jumeirah Beach Walk and 20 minutes away from Burj Khalifa and Dubai Mall.",
+      "star_rating": 5,
+      "amenities": 1821,
+      "slug": "the-westin-dubai-mina-seyahi-beach-resort-and-marina",
+      "main_image": {
+        "image_url": "http:\/\/static.laterooms.com\/hotelphotos\/laterooms\/230038\/detail\/the-westin-dubai-mina-seyahi-beach-resort-marina-dubai_200220111247311615.jpg",
+        "thumbnail_url": "http:\/\/static.laterooms.com\/hotelphotos\/laterooms\/230038\/detail\/the-westin-dubai-mina-seyahi-beach-resort-marina-dubai_200220111247311615.jpg"
+      },
+      "distance": 24981.081164609,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 368463,
+        "min_price": 407,
+        "max_price": 676.64,
+        "saving": 39.849846299362
+      },
+      "ratings": {
+        "overall": 90,
+        "booking": 90,
+        "venere": 0,
+        "expedia": 0,
+        "easy_to_book": 90,
+        "laterooms": 83.33
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_172_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_172_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_87_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_87_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_155_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_155_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_225_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_225_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_224_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1940000\/1938700\/1938669\/1938669_224_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7281533"
+    },
+    {
+      "id": 7343379,
+      "name": "Al Ghurair Arjaan by Rotana",
+      "address": " Omar Bin  Al Khattab Street,next to Al Ghurair Centre P.O",
+      "city": "Dubai",
+      "state_province": "Dubai",
+      "postal_code": "185060",
+      "latitude": 25.269114052231,
+      "longitude": 55.316553711891,
+      "description": "Located in the bustling district of Deira, Al Ghurair Arjaan by Rotana is an alcohol-free hotel set within 5 minutes\u2019 walk from Union Metro Station. Featuring Arabic architecture, this deluxe hotel boasts a swimming pool.\n\nAll air-conditioned accommodation at Al Ghurair Arjaan is elegantly designed and includes a balcony. Each apartment has a fully equipped kitchenette, a dining area and 2 private bathrooms. The living room offers a satellite flat-screen TV.\n\nThere is an All-Day Dining Restaurant and Terrace in addition to a restaurant that serves Persian cuisine. You can also dine at the Deli Caf\u00e9 or the Lobby Lounge. Al Ghurair Arjaan provides a 24-hour room service.\n\nThe hotel has a gym, an outdoor swimming pool and a separate kids\u2019 pool. For a fee, you can enjoy a massage or relax in the spa\u2019s hot tub or sauna.\n\nDubai Creek is a 5-minute drive from Al Ghurair Arjaan, and the apartment is situated besides Al Ghurair Shopping Centre. Upon request, the hotel offers a shuttle to Dubai International Airport, which is 15 minutes\u2019 drive away.",
+      "star_rating": 5,
+      "amenities": 863,
+      "slug": "al-ghurair-arjaan-by-rotana",
+      "main_image": {
+        "image_url": "http:\/\/static.laterooms.com\/hotelphotos\/laterooms\/270050\/detail\/al-ghurair-arjaan-by-rotana-deira_290420141122270664.jpg",
+        "thumbnail_url": "http:\/\/static.laterooms.com\/hotelphotos\/laterooms\/270050\/detail\/al-ghurair-arjaan-by-rotana-deira_290420141122270664.jpg"
+      },
+      "distance": 1636.6352176111,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 439183,
+        "min_price": 165.93,
+        "max_price": 165.93,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 85,
+        "booking": 85,
+        "easy_to_book": 90,
+        "expedia": 0,
+        "agoda": 85,
+        "venere": 100,
+        "laterooms": 83.33
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_14_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_14_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_13_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_13_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_15_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_15_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_16_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_16_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_18_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/5000000\/4630000\/4623500\/4623412\/4623412_18_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7343379"
+    },
+    {
+      "id": 7527591,
+      "name": "Al Murooj Rotana \u2013 Dubai",
+      "address": "Financial Street, Off Sheikh Zayed Road Opp. Dubai Mall \/ Burj Khalifa",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "117546",
+      "latitude": 25.202715723901,
+      "longitude": 55.277996957302,
+      "description": "Five-star Al Murooj Rotana is situated across from Dubai Mall and the famous Burj Khalifa Tower. It offers 5 restaurants and an outdoor swimming pool.\n\nSome of its luxurious rooms and suites feature balconies, and some overlook Dubai\u2019s skyline. Guests can also enjoy satellite TV and free daily newspaper. Twenty-four hour in-room dining service is available to Al Murooj\u2019s guests.\n\nThe hotel\u2019s dining options include the Lebanese Mawal Restaurant, the award-winning Double Decker Pub and the Zaika Restaurant and Pergolas.\n\nGuests can work out in the fitness centre, play tennis or relax in the hot tub and sauna. The complex also benefits from an on-site beauty salon and babysitting services.\n\nAl Murooj Rotana is 3 minutes\u2019 drive from the Convention Centre and 10 minutes's drive from Dubai International Airport. Free valet parking is possible on site.",
+      "star_rating": 5,
+      "amenities": 1293,
+      "slug": "al-murooj-rotanadubai",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_75_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_75_t.jpg"
+      },
+      "distance": 7882.6965555925,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 236722,
+        "min_price": 234.27,
+        "max_price": 234.27,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 85,
+        "booking": 85,
+        "expedia": 0,
+        "venere": 89,
+        "easy_to_book": 90
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_75_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_75_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_114_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_114_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_113_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_113_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_115_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_115_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_117_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1240000\/1234600\/1234599\/1234599_117_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7527591"
+    },
+    {
+      "id": 7311638,
+      "name": "Radisson Royal Hotel Dubai",
+      "address": "Sheikh Zayed Road",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "9940",
+      "latitude": 25.223325480338,
+      "longitude": 55.282623767853,
+      "description": "With a premium location on Sheikh Zayed Road, facing the Dubai International Convention Centre, this 5-star, 51-story tower features 3 restaurants, an outdoor pool and a spa and fitness centre.\n\nAll guest rooms at Radisson Royal Hotel Dubai have an LCD satellite TV, a safety deposit box and Wi-Fi access. In addition, every room has a spacious bathroom with luxury amenities.\n\nThe Radisson Royal Hotel Dubai offers a wide range of dining establishments such as Icho Japanese Restaurant. There is a nightclub with 2 bars and a VIP area, and also a pool-side rooftop bar.\n\nGuests can enjoy state-of-the-art recreation facilities, including a modern gymnasium and a luxury spa and wellness centre. The challenging Dubai Creek Golf Club is 7 km from the hotel.\n\nThe Burj Khalifa, Dubai Mall and Jumeirah Beach are 5 minutes\u2019 drive away. The hotel is 15 minutes from Dubai International Airport and walking distance from the World Trade Centre Metro Station.",
+      "star_rating": 5,
+      "amenities": 1293,
+      "slug": "radisson-royal-hotel-dubai",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_97_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_97_t.jpg"
+      },
+      "distance": 5556.565502228,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 392957,
+        "min_price": 503.91,
+        "max_price": 503.91,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 83,
+        "booking": 83,
+        "expedia": 0,
+        "venere": 0,
+        "easy_to_book": 80
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_97_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_97_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_18_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_18_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_19_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_19_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_17_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_17_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_21_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/4000000\/4000000\/3990100\/3990073\/3990073_21_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7311638"
+    },
+    {
+      "id": 7260546,
+      "name": "Dubai Marriott Harbour Hotel And Suites",
+      "address": "Dubai Marina",
+      "city": "Dubai",
+      "state_province": "Dubayy",
+      "postal_code": "7631",
+      "latitude": 25.087301761919,
+      "longitude": 55.146037638187,
+      "description": "Dubai Marriott Harbour is an all-suite property offering views over Dubai Marina. It features an outdoor pool, a spa with a hot tub and massage facilities and provides 24-hour room service.\n\nThe spacious suites of the Harbour Hotel include separate bedrooms with iPod docking stations and living rooms with a 42\u201d flat-screen TV and DVD player. There is a fully-equipped kitchen with washing machine and a private balcony.\n\nThe in-house AZ.U.R. Restaurant serves Mediterranean fusion cuisine, while international food is on offer at the Observatory Restaurant. The latter is located at the 52nd floor with 360-degree views over Dubai\u2019s Palm Island.\n\nPopular activities at the Dubai Marriott Harbour Hotel And Suites include golf in a nearby course and fitness in the well-equipped gym.\n\nComplimentary shuttle service is available to the Mall of the Emirates and Jumeirah Beach Park.",
+      "star_rating": 4,
+      "amenities": 1293,
+      "slug": "dubai-marriott-harbour-hotel-and-suites",
+      "main_image": {
+        "image_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_73_b.jpg",
+        "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_73_t.jpg"
+      },
+      "distance": 25636.263438518,
+      "offer": {
+        "provider": "venere",
+        "provider_id": 329613,
+        "min_price": 285.05,
+        "max_price": 285.05,
+        "saving": 0
+      },
+      "ratings": {
+        "overall": 84,
+        "booking": 84,
+        "expedia": 0,
+        "agoda": 85,
+        "venere": 90,
+        "easy_to_book": 90
+      },
+      "images": [
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_73_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_73_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_64_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_64_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_63_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_63_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_65_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_65_t.jpg"
+        },
+        {
+          "url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_67_b.jpg",
+          "thumbnail_url": "http:\/\/media.expedia.com\/hotels\/2000000\/1600000\/1596100\/1596020\/1596020_67_t.jpg"
+        }
+      ],
+      "channel": "hot5-com-2014-10-26-2014-10-27-gbp-7260546"
+    },
+    {
+   

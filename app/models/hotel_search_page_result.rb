@@ -136,7 +136,7 @@ class HotelSearchPageResult
       json.offer          hotel_comparison.offer
       json.ratings        hotel_comparison.hotel.ratings
       json.images         hotel_comparison.hotel.images.limit(5).map &:to_json
-      json.rooms          hotel_comparison.rooms
+      #json.rooms          hotel_comparison.rooms
       #json.providers(hotel_comparison.provider_deals) {|deal| json.(deal, *(deal.keys - [:rooms])) }
       json.channel        search_options[:search_criteria].channel_hotel hotel_comparison.id 
     end
