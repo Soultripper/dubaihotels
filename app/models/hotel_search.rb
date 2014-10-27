@@ -84,8 +84,9 @@ class HotelSearch
         matches += 1 if add_found_hotel(provider_hotel, provider) 
       end    
     end
+    return unless matches > 0
     persist
-    Log.info "Processed #{matches} matches for #{provider.upcase} out of #{provider_hotels_found.count} hotels in #{time}s"
+    Log.info "#{provider.upcase} #{matches} matches out of #{provider_hotels_found.count} hotels in #{time}s"
   end
 
   def find_hotel_for(provider, provider_id)

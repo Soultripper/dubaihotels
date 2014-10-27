@@ -1,6 +1,8 @@
 module Booking
   class SearchHotel < Booking::Search
 
+    INIT_BATCH_SIZE = 10
+
     attr_reader :ids
 
     def initialize(ids, search_criteria)
@@ -80,35 +82,46 @@ module Booking
       requests, search_params = [], params(options)
 
       HydraConnection.in_parallel do
-        ids.each_slice((options[:slice] || DEFAULT_SLICE)) { |hotel_ids| requests << request(hotel_ids, &block) }
+        requests << request(ids.take(INIT_BATCH_SIZE), &block) 
+        ids.drop(INIT_BATCH_SIZE).each_slice((options[:slice] || DEFAULT_SLICE)) { |hotel_ids| requests << request(hotel_ids, &block) }
         requests
       end
     end
 
     def request(hotel_ids=nil, &success_block)
-      req =  HydraConnection.post Booking::Client.url + '/bookings.getBlockAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
-      #req =  HydraConnection.post Booking::Client.url + '/bookings.getHotelAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
+      #req =  HydraConnection.post Booking::Client.url + '/bookings.getBlockAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
+      req =  HydraConnection.post Booking::Client.url + '/bookings.getHotelAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
       req.on_complete do |response|
-        Log.debug "Booking.com response complete: uri=#{response.request.base_url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
+        Log.debug "Booking.com response complete: uri=#{response.request.url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
 
         if response.success?
           #Log.debug response.body
-          begin
+         begin
             hotels_list = Booking::HotelListResponse.new(JSON.parse(response.body), 1)
           rescue Exception => msg
-            Log.error "Booking.com error response: #{response.body}, #{msg}"
+            Log.error "Booking error response: #{response.body}, #{msg}"
             nil  
           end
-          yield hotels_list.hotels if block_given? and hotels_list          
+          if hotels_list and hotels_list.hotels.count > 0
+            Log.debug "Booking: Found #{hotels_list.hotels.count} hotels out of #{(hotel_ids || ids).count}"
+            block_given? ? (yield hotels_list.hotels) : hotels_list
+          else
+            nil
+          end         
         elsif response.timed_out?
           Log.error ("BOOKING.com request timed out")
         elsif response.code == 0
           Log.error(response.return_message)
         else
-          Log.error("Booking.com HTTP request failed: #{response.code}, body=#{response.body}")
+          Log.error("Booking.com HTTP request failed: #{response.code}, body=#{response.request.url}")
         end
       end
       req
     end
+
+     def fetch_hotels(hotel_ids=nil)
+      request(hotel_ids).run.handled_response
+    end
+
   end
 end

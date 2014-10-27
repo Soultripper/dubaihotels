@@ -3,7 +3,7 @@ class Booking::Search
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {}
-
+  
   DEFAULT_SLICE = 75
 
   CACHE_OPTIONS = {

@@ -4,6 +4,7 @@ module LateRooms
     attr_reader :ids, :responses
 
     DEFAULT_SLICE = 200
+    INIT_BATCH_SIZE = 50
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -65,7 +66,8 @@ module LateRooms
     def page_hotels(options={}, &block)
       requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
       HydraConnection.in_parallel do
-        ids.each_slice(slice_by) { |hotel_ids| requests << request(hotel_ids, &block) }
+        requests << request(ids.take(INIT_BATCH_SIZE), &block) 
+        ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) { |hotel_ids| requests << request(hotel_ids, &block) }
         requests
       end
     end

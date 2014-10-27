@@ -4,6 +4,7 @@ module EasyToBook
     attr_reader :ids
 
     DEFAULT_SLICE = 250
+    INIT_BATCH_SIZE = 50
 
     def initialize(ids, search_criteria)
        super search_criteria
@@ -69,7 +70,9 @@ module EasyToBook
       requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       HydraConnection.in_parallel do
-        ids.each_slice(slice_by) do |hotel_ids| 
+        requests << request(ids.take(INIT_BATCH_SIZE), &block)  
+        
+        ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) do |hotel_ids| 
           requests << request(hotel_ids, options, &block) 
         end
 

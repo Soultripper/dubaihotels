@@ -4,6 +4,7 @@ module Splendia
     attr_reader :ids, :responses
 
     DEFAULT_SLICE = 150
+    INIT_BATCH_SIZE = 0
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -65,6 +66,7 @@ module Splendia
       requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       HydraConnection.in_parallel do
+        #requests << request(ids.take(INIT_BATCH_SIZE), &block) 
         ids.each_slice(slice_by) do |hotel_ids| 
           requests << request(hotel_ids, options, &block) 
         end

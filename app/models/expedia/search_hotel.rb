@@ -4,6 +4,7 @@ module Expedia
     attr_reader :ids, :responses
 
     DEFAULT_SLICE = 200
+    INIT_BATCH_SIZE = 50
 
     def initialize(ids, search_criteria)
       super search_criteria
@@ -24,24 +25,28 @@ module Expedia
     end
 
     def page_hotels(options={}, &block)
-      responses, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
+      requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       time = Benchmark.realtime do 
         (conn = Expedia::Client.http).in_parallel do 
-          ids.each_slice(slice_by) do |sliced_ids|          
+          requests << request(conn, ids.take(INIT_BATCH_SIZE))
+          ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) do |sliced_ids|          
             Log.info "Sending request of #{sliced_ids.count} hotels to Expedia:"
-            params = search_params.merge(hotel_params(sliced_ids)).merge(Expedia::Client.credentials)
-            responses << conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', params)
+            requests << request(conn, sliced_ids)
           end
         end
       end
 
       Log.info "Expedia query for #{ids.count} hotels took #{time}s to complete"
 
-      collect(responses,&block)
-
-
+      collect(requests,&block)
     end 
+
+    def request(conn, hotel_ids = nil)
+      params = search_params.merge(hotel_params(hotel_ids || ids)).merge(Expedia::Client.credentials)
+      conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', params)
+    end
+
 
     def collect(responses, &block)
       responses.each do |response|

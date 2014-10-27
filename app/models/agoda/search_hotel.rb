@@ -4,6 +4,7 @@ module Agoda
     attr_reader :ids
 
     DEFAULT_SLICE = 100
+    INIT_BATCH_SIZE = 50
 
     def initialize(ids, search_criteria)
        super search_criteria
@@ -64,7 +65,8 @@ module Agoda
       requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       HydraConnection.in_parallel do
-        ids.each_slice(slice_by) do |hotel_ids| 
+        requests << request(ids.take(INIT_BATCH_SIZE), &block)  
+        ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) do |hotel_ids|
           requests << request(hotel_ids, options, &block) 
         end
 
@@ -79,7 +81,7 @@ module Agoda
       req = HydraConnection.post Agoda::Client.url, :body=> xml_builder.to_xml, headers: headers
 
       req.on_complete do |response|
-        Log.debug "Agoda response complete: uri=#{response.request.base_url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
+        Log.debug "Agoda response complete: uri=#{response.request.url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
         if response.success?
           #Log.debug response.body
           begin
@@ -88,7 +90,9 @@ module Agoda
             Log.error "Agoda error response: #{response.body}, #{msg}"
             nil  
           end
-          if hotels_list
+          if hotels_list and hotels_list.hotels.count > 0
+            Log.debug "Agoda: Found #{hotels_list.hotels.count} hotels out of #{(hotel_ids || ids).count}"
+
             block_given? ? (yield hotels_list.hotels) : hotels_list
           else
             nil
