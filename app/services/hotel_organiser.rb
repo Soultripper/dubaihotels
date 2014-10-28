@@ -42,18 +42,19 @@ class HotelOrganiser
 
   def sort(key)
     @sort_key = key
+    Log.debug "Sorting elements by #{@sort_key}"
     case key.to_sym
       when :price; do_sort {|h1| h1.offer[:min_price].to_f}
       when :price_reverse; do_sort {|h1| h1.offer[:min_price].to_f}.reverse!
       when :rating; do_sort {|h1| h1.star_rating.to_f}.reverse!
       when :rating_reverse; do_sort {|h1| h1.star_rating.to_f}
-      when :user; do_sort {|h1| [h1.user_rating.to_f, h1.provider_hotel_count.to_i]}.reverse!
+      when :user; do_sort {|h1| [h1.user_rating.to_f, h1.provider_hotel_ranking.to_i]}.reverse!
       when :a_z; do_sort {|h1| h1.name}
       when :distance; do_sort {|h1| h1.distance_from_location.to_f}
       when :distance_reverse; do_sort {|h1| h1.distance_from_location.to_f}.reverse!
       when :saving; do_sort {|h1| h1.offer[:saving].to_f}.reverse!
       # else do_sort { |h1| (h1.star_rating.to_f * 16) + (h1.offer[:saving].to_f) - ((price_mean - h1.offer[:min_price].to_f) / 10).abs}.reverse!
-      else do_sort {|h1| h1.provider_hotel_ranking}.reverse!
+      #else do_sort {|h1| h1.provider_hotel_ranking}.reverse!
      # else do_sort {|h1|  [h1.ranking.to_f, h1.user_rating.to_f * h1.matches.to_i]}.reverse!
     end
     self

@@ -187,7 +187,7 @@ class HotelSearchPageResult
 
   def load_hotel_information(hotel_comparisons)
     ids = hotel_comparisons.map &:id
-    matched_hotels = Hotel.where(id: ids).includes(:provider_hotels)
+    matched_hotels = Hotel.where(id: ids).includes(:provider_hotels).order('provider_hotel_ranking desc')
     matched_hotels.each do |hotel|
       begin
         hotel_comparison =  hotel_comparisons.find {|hc| hc.id==hotel.id}

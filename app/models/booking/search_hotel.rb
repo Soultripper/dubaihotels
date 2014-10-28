@@ -89,8 +89,8 @@ module Booking
     end
 
     def request(hotel_ids=nil, &success_block)
-      #req =  HydraConnection.post Booking::Client.url + '/bookings.getBlockAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
-      req =  HydraConnection.post Booking::Client.url + '/bookings.getHotelAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
+      req =  HydraConnection.post Booking::Client.url + '/bookings.getBlockAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
+      #req =  HydraConnection.post Booking::Client.url + '/bookings.getHotelAvailability', :body=> search_params.merge(hotel_params(hotel_ids))
       req.on_complete do |response|
         Log.debug "Booking.com response complete: uri=#{response.request.url}, time=#{response.total_time}sec, code=#{response.response_code}, message=#{response.return_message}"
 

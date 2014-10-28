@@ -14,17 +14,12 @@ class HotelsHash
 
 
   def self.by_location_slug(slug)
-    hotels = Hotel.by_location_slug(slug).select(select_cols)
-    provider_hotels_list = ProviderHotel.for_comparison(hotels.map(&:id))
-    new hotels, provider_hotels_list
+    by_location Location.find_by_slug(slug)
   end
 
   def self.by_location(location)
-    Log.debug "HotelsHash::by_location - BEGIN"
     hotels = Hotel.by_location(location).select(select_cols)
     provider_hotels_list = ProviderHotel.for_comparison(hotels.map(&:id))
-    Log.debug "HotelsHash::by_location - END"
-
     new hotels, provider_hotels_list
   end
 
