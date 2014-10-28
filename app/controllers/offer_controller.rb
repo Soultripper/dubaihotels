@@ -7,6 +7,10 @@ class OfferController < ApplicationController
   def index    
   end
 
+  def mobile
+    render layout: false
+  end
+
   protected
 
   protected 

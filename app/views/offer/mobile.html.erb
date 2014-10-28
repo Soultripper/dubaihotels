@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html ng-app="Hot5">
+<head>
+  <title>Hot5 Mobile Hotel Search - Compare the major travel sites to find the cheapest hotels.</title>
+  <meta name="description" content="Hot5 compares all leading hotel booking engines, to find you the best price.">
+  <meta name="keywords" content="hot5, hotel, hotels, booking, location, vacation, hotel comparison, hotel compare, best hotel price">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="//fast.fonts.net/cssapi/9a61c6c9-8114-405c-9358-29dcb0b2c617.css"/>
+  <!-- <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" /> -->
+
+
+  <% set_meta_tags :og => {
+    type: 'website',
+    title: hotel.name,
+    url: request.original_url,
+    image: hotel.image_url,
+    description: truncate(hotel.description, separator:'.', escape: false, length: 500, omission:'.'),
+    site_name: 'Hot5.com'
+    } %>
+
+  <%= display_meta_tags %>
+  <%= stylesheet_link_tag    "mobile_offer_manifest" %>  
+  <%= csrf_meta_tags %>  
+
+  <%= jquery_include_tag :google %>
+  <%= render partial:'shared/facebook_tag' %>
+</head>
+  <body >
+    <%= render partial:'shared/google_tag_manager' %>
+    <div id="wrapper">
+      <div id="redirect" class="container">
+        <div class="message">
+          Please wait whilst we take you to
+        </div>
+        <div class="logo">
+          <%= image_tag "logos/#{provider}.gif", alt: provider %> </h4>
+        </div>
+        <div id="hotel" >
+          <section>
+            <div class="image" style='<%="background-image: url(#{hotel_image_src(hotel_image)});"%>'>
+            <% if saving > 0 and max_price.to_f > price.to_f %>
+              <div class="savings">
+                Save <%= saving %>%
+              </div>
+            <% end %>
+            </div>
+            <div class="details">
+              <h4><%= hotel.name %></h4>
+              <div class="location">
+                <i class="fa fa-map-marker"></i> <%= "#{hotel.address}, #{hotel.city}"%>
+              </div>
+              <ul class="summary">
+                <li>From <%= start_date.strftime('%d/%m/%Y') %></li>
+                <li>To <%= end_date.strftime('%d/%m/%Y') %></li>
+              </ul>
+              <div class="stars">
+                <% 5.times do |index| %>
+                  <%= display_star_rating index, hotel.star_rating %>
+                <% end %>
+              </div>
+            </div>
+            <div class="best-deal">
+                
+              <div class="high-price">
+                <% if max_price.to_f > 0 and max_price > price %>
+                  <%= "#{search_criteria.currency_symbol}#{max_price}" %>
+                <% end %>
+              </div>
+              
+              <div class="price">
+                <%= "#{search_criteria.currency_symbol}#{price}" %>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <%= render partial: 'shared/google_tmi' %>
+    <script>
+    $(function(){
+      setTimeout(function () {    
+        //window.location.replace('<%= target_url.html_safe %>')
+      }, 2500);
+    })
+    </script>
+    <%= render partial:'shared/tracking' %>
+  </body>
+</html>

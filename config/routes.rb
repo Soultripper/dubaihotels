@@ -45,6 +45,8 @@ Hotels::Application.routes.draw do
 
 
   get '/offer/:provider',           to: 'offer#index'
+  get '/offer/mobile/:provider',    to: 'offer#mobile'
+
   match '/geolocate_error',         to: 'analytics#geolocate_error', constraints: { subdomain: /^analytics\b/ }
 
   get '/locations',                 to: 'search#locations'
