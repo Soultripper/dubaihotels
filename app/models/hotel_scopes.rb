@@ -9,7 +9,7 @@ module HotelScopes
     def by_location(location, proximity_in_metres = 8000)
 
       limit = location.hotel_limit || 500
-      my_location_limit = 100
+      my_location_limit = 150
       distance_limit = 300
       query = limit(limit)
 
@@ -26,7 +26,7 @@ module HotelScopes
         query = query.where("country_code = ?", location.country_code.downcase)
       end
 
-      query.order('COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC')
+      query.order('provider_hotel_count desc, COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC')
     end
 
     def ids_within_distance_of(location, provider_key, limit=4000)
@@ -39,6 +39,10 @@ module HotelScopes
 
     def with_images
       includes(:images)
+    end
+
+    def with_provider(ids)
+      where(id: ids).includes(:provider_hotels).order('provider_hotel_count desc, COALESCE(provider_hotel_ranking,0) DESC, user_rating DESC')
     end
     
 

@@ -12,7 +12,7 @@ class ProviderHotel < ActiveRecord::Base
 
   def self.for_comparison(hotel_ids)
     #for_hotels(hotel_ids).select([:hotel_id, :provider, :provider_id])
-    for_hotels(hotel_ids).select([:hotel_id, :provider, :provider_id]).joins(:hotel).order('hotels.provider_hotel_ranking desc')
+    for_hotels(hotel_ids).select([:hotel_id, :provider, :provider_id]).joins(:hotel).order('hotels.provider_hotel_count desc, hotels.provider_hotel_ranking desc')
   end
 
   def to_json

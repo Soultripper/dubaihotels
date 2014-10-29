@@ -9,7 +9,7 @@ class HotelsHash
 
 
   def self.select_cols
-    'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_ranking, slug'
+    'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_ranking, provider_hotel_count, slug'
   end
 
 
