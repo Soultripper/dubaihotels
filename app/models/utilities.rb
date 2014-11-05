@@ -31,4 +31,9 @@ module Utilities
     f.close
     Hash.from_xml doc.to_xml    
   end
+
+  def report
+    size = (`ps ax -o pid,rss | grep -E "^[[:space:]]*#{$$}"`.strip.split[1].to_f / 1024).round(2)
+    puts "Memory: #{size}MB"
+  end
 end

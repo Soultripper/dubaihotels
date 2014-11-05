@@ -1,10 +1,9 @@
 class Hotel < ActiveRecord::Base
   include HotelScopes
-  include MultiPluck
   # self.table_name = "hotels_v2"
 
-  after_save :add_to_soulmate
-  before_destroy :remove_from_soulmate
+  # after_create :add_to_soulmate
+  # before_destroy :remove_from_soulmate
 
   acts_as_mappable :lat_column_name => :latitude,
                    :lng_column_name => :longitude

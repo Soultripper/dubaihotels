@@ -36,7 +36,7 @@ gem "mongoid"
 
 gem "jbuilder"
 gem 'money'
-gem 'kaminari', require: false #for pagination
+#gem 'kaminari', require: false #for pagination
 gem 'activerecord-import', '~> 0.3.1', require: false
 gem 'geokit-rails'
 gem 'geoip'
@@ -102,6 +102,7 @@ end
 
 group :development do
   gem "awesome_print"
+  gem 'meta_request'
   # gem 'better_errors'
   # gem "binding_of_caller"
 end
