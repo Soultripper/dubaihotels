@@ -68,7 +68,7 @@ module Venere
       @expensive_room ||= rooms[-1]
     end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria)
       return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
       {
         provider: :venere,

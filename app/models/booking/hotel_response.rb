@@ -77,7 +77,7 @@ module Booking
     #   @hotel||=Hotel.find_by_booking_hotel_id id
     # end
 
-    def commonize(search_criteria, location=nil)
+    def commonize(search_criteria)
       {
         provider: :booking,
         provider_id: id,

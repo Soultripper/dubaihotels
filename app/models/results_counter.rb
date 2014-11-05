@@ -8,7 +8,7 @@ class ResultsCounter
   end
 
   def reset(provider)
-    counter[provider] = {pages: 0, finished: false}
+    counter[provider] = {pages: 0, finished: false, errored: false}
   end
 
   def page_inc(provider)
@@ -28,8 +28,14 @@ class ResultsCounter
     counter[provider][:finished] = true
   end
 
+
+  def error(provider)
+    finish provider
+    counter[provider][:errored] = true
+  end
+
   def finished?
-    counter.all? {|c, p| p[:finished]}
+    counter.all? {|c, p| p[:finished] || p[:errored]}
   end
 
 end

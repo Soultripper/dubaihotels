@@ -3,15 +3,21 @@ require 'digest/bubblebabble'
 
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel, :timestamp
+  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel, :timestamp, :search_details
 
-  def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?
+  def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?, :error
+  def_delegators :@search_details, :search_criteria, :location, :valid?
 
   def initialize(location, search_criteria = SearchCriteria.new, use_cache=true)
     @use_cache = use_cache
     @results_counter = ResultsCounter.new 
-    @location, @search_criteria = location, search_criteria
+    @search_details = SearchDetails.new(search_criteria, location)
   end
+
+  def self.by_location_slug(slug)
+    find_or_create Location.find_by_slug(slug), SearchCriteria.from_tomorrow
+  end
+
 
   def self.find_or_create(location, search_criteria)
     HotelSearch.new(location, search_criteria).find_or_create   
@@ -55,11 +61,6 @@ class HotelSearch
     @hash_hotels.provider_ids_for provider
   end
 
-
-  def valid?
-    search_criteria.valid? and location
-  end
-
   def current_hotels
     (matched_hotels.length > 0 or state == :finished) ? matched_hotels : @hash_hotels.hotel_comparisons
   end
@@ -76,51 +77,10 @@ class HotelSearch
     @hash_hotels.hotels.count
   end
 
-  def compare_and_persist(provider_hotels_found, provider)
-    @state = :searching
-    matches = 0
-    time = Benchmark.realtime do 
-      provider_hotels_found.each do |provider_hotel|
-        matches += 1 if add_found_hotel(provider_hotel, provider) 
-      end    
-    end
-    return unless matches > 0
-    persist
-    Log.info "#{provider.upcase} #{matches} matches out of #{provider_hotels_found.count} hotels in #{time}s"
-  end
-
-  def find_hotel_for(provider, provider_id)
-    @hash_hotels.find_hotel_for(provider, provider_id)
-  end
-
-  def add_found_hotel(provider_hotel, provider)
-    hotel = find_hotel_for provider, provider_hotel.id
-    return unless hotel and provider_hotel
-    common_provider_hotel = provider_hotel.commonize(search_criteria, location)
-
-    return unless common_provider_hotel
-    deal = hotel.find_provider_deal(provider)
-    # if provider==:booking
-    #   common_provider_hotel[:link] = search_criteria.booking_link(deal)
-    #   set_rooms_link(common_provider_hotel)
-    # elsif provider==:laterooms
-    #   common_provider_hotel[:link] = search_criteria.laterooms_link(deal)
-    #   set_rooms_link(common_provider_hotel)
-    # end
-
-    add_to_list(hotel, common_provider_hotel)
-  end
-
-  # def set_rooms_link(hotel_hash)
-  #   hotel_hash[:rooms].each {|room| room[:link] = hotel_hash[:link]}
-  # end
-
-  def add_to_list(hotel_comparison, common_provider_hotel)
-    return false unless common_provider_hotel
-    hotel_comparison.compare_and_add(common_provider_hotel)
-    hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) unless hotel_comparison.distance_from_location
-
-    true
+  def compare_and_persist(found_provider_hotels, provider)
+    @state = :searching    
+    hotels_compared = HotelComparer.compare(@hash_hotels, found_provider_hotels, provider, search_details)  
+    persist if hotels_compared    
   end
 
   def finish_and_persist(provider)
@@ -130,8 +90,8 @@ class HotelSearch
     hotels.count
   end
 
-  def error(provider, msg)
-    finish provider
+  def error_and_persist(provider, msg)
+    error provider
     persist    
     Log.error "ERROR ----- Provider #{provider.upcase} errored. #{msg}" 
   end
@@ -140,6 +100,7 @@ class HotelSearch
     return unless @use_cache
     @timestamp = DateTime.now.utc.to_f
     Rails.cache.write(cache_key, self, expires_in: HotelsConfig.cache_expiry, race_condition_ttl: 60)
+    true
   end
 
   def cache_key
@@ -152,14 +113,12 @@ class HotelSearch
 
   protected
 
-
   def hash_hotels
     @hash_hotels = HotelsHash.by_location(location) 
   end
 
   def search      
-    HotelWorker.perform_async cache_key 
-    
+    HotelWorker.perform_async cache_key     
     #HotelWorker.new.perform cache_key
     self
   end

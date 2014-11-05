@@ -1,6 +1,5 @@
-class Booking::Search
+class Booking::Search < ProviderHotelSearch
 
-  attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {}
   
@@ -10,10 +9,6 @@ class Booking::Search
     expires_in: 4.hours,
     force: true
   }
-
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
-  end
 
   def self.by_location(location,search_criteria,params={})
     new(search_criteria).by_location(location, params)
@@ -25,6 +20,10 @@ class Booking::Search
   end 
 
   protected
+
+  def create_hotels_list(response_body)
+    Booking::HotelListResponse.new(JSON.parse(response_body), 1)
+  end
 
   def create_response(booking_response, page_no=0)
     Booking::HotelListResponse.new(booking_response, page_no)

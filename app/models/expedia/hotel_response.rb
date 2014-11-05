@@ -68,7 +68,7 @@ module Expedia
     #   self.HotelImages['HotelImage']
     # end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria)
       return nil unless expedia_id
       {
         provider: :expedia,
@@ -85,7 +85,7 @@ module Expedia
       nil
     end
 
-    def commonize_to_hotels_dot_com(search_criteria, location)
+    def commonize_to_hotels_dot_com(search_criteria)
       # return nil if rooms.empty?
       {
         provider: :hotels,

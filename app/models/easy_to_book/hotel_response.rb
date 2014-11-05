@@ -59,7 +59,7 @@ module EasyToBook
       rooms[-1]
     end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria)
       {
         provider: :easy_to_book,
         provider_id: hotel_id,

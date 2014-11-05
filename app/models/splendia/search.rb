@@ -1,21 +1,18 @@
-class Splendia::Search
+class Splendia::Search < ProviderHotelSearch
 
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {targeted_market:'united-kingdom', lang:'EN'}
 
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
+  def create_list_response(xml)
+    Splendia::HotelListResponse.new(xml)
   end
 
-
-  def create_list_response(response)
-    Splendia::HotelListResponse.new(response)
+  def create_hotels_list(response_body)
+    create_list_response Nokogiri.XML(response_body)
   end
 
   protected
-
-
 
   def search_params
     @params = DEFAULT_PARAMS

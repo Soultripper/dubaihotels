@@ -1,17 +1,17 @@
-class Venere::Search
+class Venere::Search < ProviderHotelSearch
 
   attr_reader :search_criteria, :response 
 
   DEFAULT_PARAMS =  {numRooms: 1}
 
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
-  end
-
   protected
 
-  def create_list_response(response)
-    Venere::HotelListResponse.new(response)
+  def create_list_response(xml)
+    Venere::HotelListResponse.new(xml)
+  end
+
+  def create_hotels_list(response_body)
+    create_list_response Nokogiri.XML(response_body).remove_namespaces!
   end
 
   def search_params

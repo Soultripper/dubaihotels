@@ -1,4 +1,4 @@
-class LateRooms::Search
+class LateRooms::Search < ProviderHotelSearch
 
   attr_reader :search_criteria, :response 
 
@@ -8,18 +8,16 @@ class LateRooms::Search
     compressed: true 
   }
 
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
+  def create_list_response(xml)
+    LateRooms::HotelListResponse.new(xml)
   end
 
-
-  def create_list_response(response)
-    LateRooms::HotelListResponse.new(response)
+  def create_hotels_list(response_body)
+    create_list_response Nokogiri.XML(response_body)
   end
 
 
   protected
-
 
   def search_params
     @params = DEFAULT_PARAMS

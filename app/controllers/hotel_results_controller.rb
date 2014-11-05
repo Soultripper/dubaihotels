@@ -16,9 +16,9 @@ class HotelResultsController < SearchController
     _filters = filters
     _filters[:min_price] = nil if hotel_search.state==:new_search
     render json: hotel_search.results.sort(sort).filter(_filters).select_for_mobile(count) 
-    rescue => msg
-      Log.error "HotelResultsController::mobile_search. error=#{msg}, params=#{params}"
-      head 500     
+    # rescue => msg
+    #   Log.error "HotelResultsController::mobile_search. error=#{msg}, params=#{params}"
+    #   head 500     
   end
 
   def map_search

@@ -44,20 +44,16 @@ class HotelWorker
     end
 
     Log.debug "Found #{hotels_ids.count} hotels to search for against provider #{provider.upcase}"
-    search_method_for(provider).page_hotels(hotels_ids, search_criteria) do |provider_hotels|
-      compare_and_persist provider_hotels, provider
+
+    search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
+      notify if @search.compare_and_persist(provider_hotels, provider)
     end
-  # rescue Exception => msg  
-  #   error provider, msg   
+  rescue => msg  
+    error provider, msg   
   end
 
   def error(provider, msg)
-    @search.error provider, msg
-  end
-
-  def compare_and_persist(provider_hotels, key)    
-    @search.compare_and_persist provider_hotels, key
-    notify
+    @search.error_and_persist provider, msg
   end
 
   def search_criteria

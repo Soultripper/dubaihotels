@@ -5,7 +5,7 @@ class Log
   end 
 
   def self.instance
-    $logger ||= Logger.new 
+    $logger ||= Rails.logger
   end
 
   def self.error(msg); instance.error(msg) end

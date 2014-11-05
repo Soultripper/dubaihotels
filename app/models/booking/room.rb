@@ -42,8 +42,6 @@ module Booking
       self['free_wifi'].to_i == 1
     end
 
-
-
     # def max_price
     #   other_currency? ? other_currency['price'] : price['price']
     # end
@@ -54,24 +52,15 @@ module Booking
         provider: :booking,
         description: description,
         price: avg_price(total, search_criteria.total_nights),
-        #link: link,
         breakfast: breakfast?,
         wifi: wifi?
       }
     end
 
-    # def create_aff_link(city_id, search_criteria)
-    #   "http://www.booking.com/searchresults.en-gb.html?city=#{location.city_id}&highlighted_hotels=#{id}&checkin=#{search_criteria.start_date}&checkout=#{search_criteria.end_date}&aid=371919&lang=en-gb&selected_currency=#{search_criteria.currency_code}&label=5e0213fdxf017x9f4bx153cxf42d81aeac1a" 
-    # end
-
-
     def avg_price(price, nights)
       price / nights
     end
-    # private 
-    # def method_missing(method, *args, &block)
-    #   @data[method.to_s]
-    # end
+
 
   end
 

@@ -26,12 +26,6 @@ module CacheHandler
       new(cache_key).find_or_create_from_cache   
     end
 
-
-
   end
-
-
-
-
 
 end

@@ -59,7 +59,7 @@ module LateRooms
       @expensive_room ||= rooms.reverse.find {|r| r.rooms_available?}
     end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria)
       return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
       {
         provider: :laterooms,

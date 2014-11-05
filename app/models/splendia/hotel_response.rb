@@ -59,7 +59,7 @@ module Splendia
       rooms[-1]
     end
 
-    def commonize(search_criteria, location)
+    def commonize(search_criteria)
       {
         provider: :splendia,
         provider_id: hotel_id,

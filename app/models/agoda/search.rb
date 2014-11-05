@@ -1,10 +1,6 @@
-class Agoda::Search
+class Agoda::Search < ProviderHotelSearch
 
   attr_reader :search_criteria, :response 
-
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
-  end
 
   protected
 
@@ -14,6 +10,10 @@ class Agoda::Search
 
   def create_hotel_response(response)
     Agoda::HotelResponse.from_response(response) if response
+  end
+
+  def create_hotels_list(response_body)
+    create_list_response Nokogiri.XML(response_body)
   end
 
   def search_params

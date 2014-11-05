@@ -1,10 +1,6 @@
-class EasyToBook::Search
+class EasyToBook::Search < ProviderHotelSearch
 
   attr_reader :search_criteria, :response 
-
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
-  end
 
   def self.by_city(city_id, search_criteria, params={})
     new(search_criteria).by_city(city_id, params)
@@ -25,10 +21,14 @@ class EasyToBook::Search
   end
 
 
-  def create_list_response(response)
-    EasyToBook::HotelListResponse.new(response) if response
+  def create_list_response(xml)
+    EasyToBook::HotelListResponse.new(xml) if xml
   end
   
+  def create_hotels_list(response_body)
+    create_list_response Nokogiri.XML(response_body)
+  end
+
   protected
 
 

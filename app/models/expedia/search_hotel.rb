@@ -1,22 +1,22 @@
 module Expedia
   class SearchHotel < Expedia::Search
 
-    attr_reader :ids, :responses
+    attr_reader :responses
 
     DEFAULT_SLICE = 200
     INIT_BATCH_SIZE = 50
 
-    def initialize(ids, search_criteria)
-      super search_criteria
-      @ids, @responses = ids, []
+    def initialize(search_criteria, ids)
+      super search_criteria, ids
+      @responses = []
     end
 
-    def self.search(ids, search_criteria, options={})
-      new(ids, search_criteria).search(options)
+    def self.search(search_criteria, ids, options={})
+      new(search_criteria, ids).search(options)
     end
 
-    def self.page_hotels(ids, search_criteria, options={}, &block)
-      new(ids, search_criteria).page_hotels(options, &block)
+    def self.request_hotels(search_criteria, ids, options={}, &block)
+      new(search_criteria, ids).request_hotels(options, &block)
     end
 
     def search(options={})
@@ -24,7 +24,7 @@ module Expedia
       create_list_response Expedia::Client.get_list(params)
     end
 
-    def page_hotels(options={}, &block)
+    def request_hotels(options={}, &block)
       requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       time = Benchmark.realtime do 

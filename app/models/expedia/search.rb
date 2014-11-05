@@ -1,6 +1,6 @@
 class Expedia::Search
 
-  attr_reader :search_criteria, :response 
+  attr_reader :search_criteria, :response, :ids
 
   DEFAULT_PARAMS =  {
     # options: 'ROOM_RATE_DETAILS',
@@ -9,8 +9,8 @@ class Expedia::Search
     # supplierType: 'E|V'
   }
 
-  def initialize(search_criteria)
-    @search_criteria = search_criteria
+  def initialize(search_criteria, ids=nil)
+    @search_criteria, @ids = search_criteria, ids
   end
 
   def self.by_destination(location, search_criteria, params={})

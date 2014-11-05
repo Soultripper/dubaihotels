@@ -1,8 +1,10 @@
 class HotelsHash
 
-  attr_reader :hotels, :providers
+  attr_reader :hotels, :providers, :location
 
-  def initialize(hotels_list, provider_hotels_list)
+
+  def initialize(hotels_list, provider_hotels_list, location)
+    @location = location
     hash_hotels hotels_list
     hash_provider_hotels provider_hotels_list
   end
@@ -12,7 +14,6 @@ class HotelsHash
     'id, star_rating, amenities, longitude, latitude, user_rating, provider_hotel_ranking, provider_hotel_count, slug'
   end
 
-
   def self.by_location_slug(slug)
     by_location Location.find_by_slug(slug)
   end
@@ -20,15 +21,8 @@ class HotelsHash
   def self.by_location(location)
     hotels = Hotel.by_location(location).select(select_cols)
     provider_hotels_list = ProviderHotel.for_comparison(hotels.map(&:id))
-    new hotels, provider_hotels_list
+    new hotels, provider_hotels_list, location
   end
-
-  def self.by_hotel_ids(ids)
-    hotels = Hotel.where(id: ids).select(select_cols)
-    provider_hotels_list = ProviderHotel.for_comparison(ids)
-    new hotels, provider_hotels_list
-  end
-
 
   def [](name)
     providers[name]
@@ -48,7 +42,7 @@ class HotelsHash
   end
 
   def hotels_ids_for(provider)
-    providers[provider.to_sym].value
+    providers[provider.to_sym].values
   end
 
   def find_hotel_for(provider, id)
@@ -60,10 +54,14 @@ class HotelsHash
   def hash_hotels(hotels_list)
     Log.debug "HotelsHash::hash_hotels - BEGIN"
     @hotels = {}
-    hotels_list.each {|hotel| hotels[hotel.id] = HotelComparisons.new(hotel)} 
+    hotels_list.each do |hotel| 
+      hotel_comparison = HotelComparisons.new(hotel)
+      hotel_comparison.distance_from_location = hotel_comparison.distance_from(location) 
+      hotels[hotel.id] = hotel_comparison
+    end
+
     hotels_list = nil
     Log.debug "HotelsHash::hash_hotels - END"
-
     hotels
   end
 

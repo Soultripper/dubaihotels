@@ -70,6 +70,10 @@ module Hotels
     Mongoid.raise_not_found_error = false
     Mongoid.protect_sensitive_fields = false
 
+    #config.logger = Hodel3000CompliantLogger.new(config.paths['log'].first)
+
+    Rails.logger = Logger.new(STDOUT)
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
