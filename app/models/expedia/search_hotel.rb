@@ -31,13 +31,13 @@ module Expedia
         (conn = Expedia::Client.http).in_parallel do 
           requests << request(conn, ids.take(INIT_BATCH_SIZE))
           ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) do |sliced_ids|          
-            Log.info "Sending request of #{sliced_ids.count} hotels to Expedia:"
+            Log.debug "Sending request of #{sliced_ids.count} hotels to Expedia:"
             requests << request(conn, sliced_ids)
           end
         end
       end
 
-      Log.info "Expedia query for #{ids.count} hotels took #{time}s to complete"
+      Log.debug "Expedia query for #{ids.count} hotels took #{time}s to complete"
 
       collect(requests,&block)
     end 

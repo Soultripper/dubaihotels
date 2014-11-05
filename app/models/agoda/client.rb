@@ -48,7 +48,7 @@ class Agoda::Client
 
     def send_request(request_type, params)
       builder = request_builder(request_type, params)
-      Log.info "Sending request to Agoda: #{builder.to_xml}"
+      Log.debug "Sending request to Agoda: #{builder.to_xml}"
       http.post(url, builder.to_xml)      
     end
 

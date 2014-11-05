@@ -43,7 +43,7 @@ class EasyToBook::Client
 
     def send_request(function_name, params)
       builder = request_builder(function_name, params)
-      Log.info "Sending request to EasyToBook: #{builder.to_xml}"
+      Log.debug "Sending request to EasyToBook: #{builder.to_xml}"
       http.post(uri.path, builder.to_xml)      
     end
 

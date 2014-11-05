@@ -32,8 +32,16 @@ module Utilities
     Hash.from_xml doc.to_xml    
   end
 
-  def report
-    size = (`ps ax -o pid,rss | grep -E "^[[:space:]]*#{$$}"`.strip.split[1].to_f / 1024).round(2)
-    puts "Memory: #{size}MB"
+  def mem_check(&block)
+    return puts(mem_report) unless block_given?
+    puts "Before " + mem_report
+    yield
+    puts "After " + mem_report
   end
+
+  def mem_report
+    size = (`ps ax -o pid,rss | grep -E "^[[:space:]]*#{$$}"`.strip.split[1].to_f / 1024).round(2)
+    "Memory: #{size}MB"
+  end
+
 end

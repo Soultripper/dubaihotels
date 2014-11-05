@@ -3,7 +3,7 @@ require 'digest/bubblebabble'
 
 class HotelSearch
   extend Forwardable
-  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel, :timestamp, :search_details
+  attr_reader :location, :search_criteria, :results_counter, :state, :use_cache, :channel, :timestamp, :search_details, :hashed_hotels
 
   def_delegators :@results_counter, :reset, :page_inc, :finished?, :finish, :include?, :error
   def_delegators :@search_details, :search_criteria, :location, :valid?
@@ -54,40 +54,46 @@ class HotelSearch
       timestamp: @timestamp
     }
 
-    HotelSearchPageResult.new current_hotels.clone, results
+    HotelSearchPageResult.new current_hotels, results
   end
 
   def provider_ids_for(provider)
-    @hash_hotels.provider_ids_for provider
+    @hashed_hotels.provider_ids_for provider
   end
 
   def current_hotels
-    (matched_hotels.length > 0 or state == :finished) ? matched_hotels : @hash_hotels.hotel_comparisons
+    (matched_hotels.length > 0 or state == :finished) ? matched_hotels : @hashed_hotels.hotel_comparisons
   end
 
   def matched_hotels
-    _matched_hotels ||= @hash_hotels.hotels_with_deals(location.hotel? ? location.slug : nil)
+    _matched_hotels ||= @hashed_hotels.hotels_with_deals(location.hotel? ? location.slug : nil)
   end
 
   def hotels
-    _hotels ||= @hash_hotels.hotel_comparisons
+    _hotels ||= @hashed_hotels.hotel_comparisons if @hashed_hotels
   end
 
   def total_hotels
-    @hash_hotels.hotels.count
+    @hashed_hotels.hotels.count
   end
 
   def compare_and_persist(found_provider_hotels, provider)
     @state = :searching    
-    hotels_compared = HotelComparer.compare(@hash_hotels, found_provider_hotels, provider, search_details)  
+    hotels_compared = HotelComparer.compare(@hashed_hotels, found_provider_hotels, provider, search_details)  
     persist if hotels_compared    
   end
 
   def finish_and_persist(provider)
     finish provider
     @state = finished? ? :finished : @state
+    clean_up if finished?
     persist
     hotels.count
+  end
+
+  def clean_up
+    Log.info "Clean up info: #{Utilities.mem_report}"
+    ObjectSpace.garbage_collect
   end
 
   def error_and_persist(provider, msg)
@@ -114,7 +120,7 @@ class HotelSearch
   protected
 
   def hash_hotels
-    @hash_hotels = HotelsHash.by_location(location) 
+    @hashed_hotels = HotelsHash.by_location(location) 
   end
 
   def search      
