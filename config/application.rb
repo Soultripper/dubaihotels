@@ -67,8 +67,8 @@ module Hotels
     config.assets.precompile += ['jquery.js']
     # config.assets.precompile += %w( jquery.js search_manifest.css offer_manifest.css hotel_manifest.css)
 
-    #Mongoid.raise_not_found_error = false
-    #Mongoid.protect_sensitive_fields = false
+    Mongoid.raise_not_found_error = false
+    Mongoid.protect_sensitive_fields = false
 
     #config.logger = Hodel3000CompliantLogger.new(config.paths['log'].first)
 
