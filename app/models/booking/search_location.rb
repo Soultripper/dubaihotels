@@ -48,6 +48,7 @@ module Booking
       hotels = collect_hotels(concat_responses(responses, 2))
       Log.info "Collected #{hotels.count} hotels out of #{total_pages} booking.com responses for comparison"
       yield hotels if block_given?
+      
     end
 
     def params(options={})

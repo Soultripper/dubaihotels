@@ -36,7 +36,7 @@ class HotelWorker
     search.reset provider  
     time = Benchmark.realtime {find_hotels_for provider }
     @search.finish_and_persist provider   
-    Log.debug "----- #{provider.upcase} COMPLETED (#{time} secs)--------"
+    Log.info "------ #{provider.upcase} FINISHED in #{time} secs ------"
   end
 
   def find_hotels_for(provider)   
@@ -52,8 +52,8 @@ class HotelWorker
     search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
       notify if @search.compare_and_persist(provider_hotels, provider)
     end
-  # rescue => msg  
-  #   error provider, msg   
+  rescue => msg  
+    error provider, msg   
   end
 
   def error(provider, msg)

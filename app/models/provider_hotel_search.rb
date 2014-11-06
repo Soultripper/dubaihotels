@@ -31,7 +31,8 @@ class ProviderHotelSearch
 
       requests
     end
-
+    requests = nil
+    ids = nil
   end
 
   def hydra_request(hotel_ids, options, &process_hotels)
@@ -53,12 +54,13 @@ class ProviderHotelSearch
         end
                  
       elsif response.timed_out?
-        Log.error ("#{provider} request timed out")
+        Log.error ("#{provider} request timed out, uri=#{response.request.url}")
       elsif response.code == 0
         Log.error("#{provider}: response_code=0, msg=#{response.return_message}")
       else
         Log.error("#{provider} HTTP request failed: #{response.code}, body=#{response.body}")
       end
+      response = nil
     end
 
     # req.on_success do |res|

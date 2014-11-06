@@ -22,7 +22,10 @@ class Booking::Search < ProviderHotelSearch
   protected
 
   def create_hotels_list(response_body)
-    Booking::HotelListResponse.new(JSON.parse(response_body), 1)
+    json = JSON.parse(response_body)
+    hotels_list = Booking::HotelListResponse.new(json, 1)
+    json = nil
+    hotels_list
   end
 
   def create_response(booking_response, page_no=0)

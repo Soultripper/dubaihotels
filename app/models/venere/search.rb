@@ -10,9 +10,14 @@ class Venere::Search < ProviderHotelSearch
     Venere::HotelListResponse.new(xml)
   end
 
+
   def create_hotels_list(response_body)
-    create_list_response Nokogiri.XML(response_body).remove_namespaces!
+    xml = Nokogiri.XML(response_body).remove_namespaces!
+    hotels_list = create_list_response xml
+    xml = nil
+    hotels_list
   end
+
 
   def search_params
     @params = DEFAULT_PARAMS

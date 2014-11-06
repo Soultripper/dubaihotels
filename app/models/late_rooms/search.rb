@@ -13,7 +13,10 @@ class LateRooms::Search < ProviderHotelSearch
   end
 
   def create_hotels_list(response_body)
-    create_list_response Nokogiri.XML(response_body)
+    xml = Nokogiri.XML(response_body)
+    hotels_list = create_list_response xml
+    xml = nil
+    hotels_list
   end
 
 

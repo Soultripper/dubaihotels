@@ -25,21 +25,21 @@ module Expedia
     end
 
     def request_hotels(options={}, &block)
-      requests, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
+      responses, slice_by = [],  (options[:slice] || DEFAULT_SLICE)
 
       time = Benchmark.realtime do 
         (conn = Expedia::Client.http).in_parallel do 
-          requests << request(conn, ids.take(INIT_BATCH_SIZE))
+          responses << request(conn, ids.take(INIT_BATCH_SIZE))
           ids.drop(INIT_BATCH_SIZE).each_slice(slice_by) do |sliced_ids|          
             Log.debug "Sending request of #{sliced_ids.count} hotels to Expedia:"
-            requests << request(conn, sliced_ids)
+            responses << request(conn, sliced_ids)
           end
         end
       end
 
       Log.debug "Expedia query for #{ids.count} hotels took #{time}s to complete"
 
-      collect(requests,&block)
+      collect(responses, &block)
     end 
 
     def request(conn, hotel_ids = nil)
@@ -56,12 +56,16 @@ module Expedia
     def collect(responses, &block)
       responses.each do |response|
         # begin
-          list_response = create_list_response(Expedia::Client.parse_response(response))
+          xml = Expedia::Client.parse_response(response)
+          list_response = create_list_response(xml)
           list_response.page_hotels(&block) if list_response.valid?
+          list_response = nil
+          xml = nil
         # rescue Exception => msg
         #   Log.error "Expedia error response: #{response}, #{msg}"
         # end        
       end
+      responses = nil
     end
 
 
