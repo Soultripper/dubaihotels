@@ -59,25 +59,19 @@ module Splendia
       rooms[-1]
     end
 
-    def commonize(search_criteria)
-      {
-        provider: :splendia,
-        provider_id: hotel_id,
-        room_count: rooms_count,
-        min_price: min_price.to_f,
-        max_price: max_price.to_f,        
-        ranking: ranking,
-        rooms: rooms.map{|r| r.commonize(search_criteria)},
-        #link: link
-      }
-    rescue Exception => msg  
-      Log.error "Splendia Hotel #{id} failed to convert: #{msg}"
-      nil
-    end
-
-    def link
-      value('trackingurl')
-    end
+    # def commonize(search_criteria)
+    #   {
+    #     provider: :splendia,
+    #     provider_id: hotel_id,
+    #     room_count: rooms_count,
+    #     min_price: min_price.to_f,
+    #     max_price: max_price.to_f,        
+    #     rooms: rooms.map{|r| r.commonize(search_criteria)},
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Splendia Hotel #{id} failed to convert: #{msg}"
+    #   nil
+    # end
 
     def avg_price(price, nights)
       price / nights
@@ -86,6 +80,26 @@ module Splendia
     def value(path)
       el = xml.at_xpath(path)
       el.text if el
+    end
+
+    def provider
+      :splendia
+    end
+    
+    def provider_id
+      hotel_id
+    end
+
+    def rooms_count
+      rooms.count
+    end
+
+    def avg_min_price(search_criteria)  
+      min_price.to_f
+    end
+
+    def avg_max_price(search_criteria)
+      max_price.to_f
     end
 
   end

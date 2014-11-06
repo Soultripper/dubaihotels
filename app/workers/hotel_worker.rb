@@ -8,7 +8,10 @@ class HotelWorker
     @search = Rails.cache.read cache_key
     return unless search
 
+
     Log.info "------ SEARCH BEGINNING (#{location.slug}) -------- "
+    #MemTool.start("HotelSearch-#{cache_key}")
+
     time = Benchmark.realtime{
       threads = []
       HotelsConfig.providers.each { |provider| threads << threaded(provider) }
@@ -16,6 +19,7 @@ class HotelWorker
       threads.each &:join
     }
     notify
+    #MemTool.stop
     Log.info "------ SEARCH COMPLETED IN #{time} seconds (state=#{@search.state}) -------- "
   end
 
@@ -48,8 +52,8 @@ class HotelWorker
     search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
       notify if @search.compare_and_persist(provider_hotels, provider)
     end
-  rescue => msg  
-    error provider, msg   
+  # rescue => msg  
+  #   error provider, msg   
   end
 
   def error(provider, msg)

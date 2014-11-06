@@ -31,7 +31,7 @@ class HotelComparer
 
   def compare_found_provider_hotel(provider_hotel)
     hotel_comparison = hash_hotels.find_hotel_for(provider, provider_hotel.id)
-    hotel_dto = provider_hotel.commonize(search_criteria)
+    hotel_dto = ProviderHotelUtility.hotel_dto(provider_hotel, search_criteria)
     hotel_comparison.compare_and_add(hotel_dto) if hotel_comparison and hotel_dto
   end
 

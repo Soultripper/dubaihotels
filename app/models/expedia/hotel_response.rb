@@ -6,22 +6,6 @@ module Expedia
 
     field :_id, type: Integer, default: ->{ self.hotelId}
 
-    # def total
-    #   charge_info['@total'] if charge_info
-    # end
-
-    # def currency
-    #   charge_info['@currencyCode'] if charge_info
-    # end
-
-    # def charge_info
-    #   rate_info['ChargeableRateInfo'] if rate_info
-    # end
-
-    # def rate_info
-    #   top_room_rate['RateInfos']['RateInfo'] if top_room_rate
-    # end
-
     def top_room_rate
       room_rates[0] if room_rates
     end
@@ -43,10 +27,6 @@ module Expedia
       self['@order']
     end
 
-    def rooms_count
-      rooms.count
-    end
-
     def room_list?
       room_rate_details.is_a? Array
     end
@@ -54,10 +34,6 @@ module Expedia
     def room_rates
       rooms.map{|r| r.total.to_f}.sort
       # rooms.map{|r| r.average.to_f}.sort
-    end
-
-    def fetch_hotel
-      @hotel ||= Hotel.find_by_ean_hotel_id id
     end
 
     def expedia_id
@@ -68,42 +44,61 @@ module Expedia
     #   self.HotelImages['HotelImage']
     # end
 
-    def commonize(search_criteria)
-      return nil unless expedia_id
-      {
-        provider: :expedia,
-        provider_id: expedia_id,
-        room_count: rooms_count,
-        min_price: avg_price(room_rates[0], search_criteria.total_nights),
-        max_price: avg_price(room_rates[-1], search_criteria.total_nights),
-        ranking: ranking,
-        #link: search_criteria.expedia_link(expedia_id),
-        rooms: rooms.map{|r| r.commonize(search_criteria)}
-      }
-    rescue Exception => msg  
-      Log.error "Hotel #{id} failed to convert for Expedia.co.uk: #{msg}"
-      nil
-    end
+    # def commonize(search_criteria)
+    #   return nil unless expedia_id
+    #   {
+    #     provider: :expedia,
+    #     provider_id: expedia_id,
+    #     room_count: rooms_count,
+    #     min_price: avg_price(room_rates[0], search_criteria.total_nights),
+    #     max_price: avg_price(room_rates[-1], search_criteria.total_nights),
+    #     ranking: ranking,
+    #     #link: search_criteria.expedia_link(expedia_id),
+    #     rooms: rooms.map{|r| r.commonize(search_criteria)}
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Hotel #{id} failed to convert for Expedia.co.uk: #{msg}"
+    #   nil
+    # end
 
-    def commonize_to_hotels_dot_com(search_criteria)
-      # return nil if rooms.empty?
-      {
-        provider: :hotels,
-        provider_id: id,
-        room_count: rooms_count,
-        min_price: avg_price(room_rates[0], search_criteria.total_nights),
-        max_price: avg_price(room_rates[-1], search_criteria.total_nights),
-        ranking: ranking,
-        #link: search_criteria.hotels_link(id),
-        rooms: rooms.map{|r| r.commonize_to_hotels_dot_com(search_criteria, id)}
-      }
-    rescue Exception => msg  
-      Log.error "Hotel #{id} failed to convert for hotels.com: #{msg}"
-      nil
-    end
+    # def commonize_to_hotels_dot_com(search_criteria)
+    #   # return nil if rooms.empty?
+    #   {
+    #     provider: :hotels,
+    #     provider_id: id,
+    #     room_count: rooms_count,
+    #     min_price: avg_price(room_rates[0], search_criteria.total_nights),
+    #     max_price: avg_price(room_rates[-1], search_criteria.total_nights),
+    #     #link: search_criteria.hotels_link(id),
+    #     rooms: rooms.map{|r| r.commonize_to_hotels_dot_com(search_criteria, id)}
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Hotel #{id} failed to convert for hotels.com: #{msg}"
+    #   nil
+    # end
 
     def avg_price(price, nights)
       price / nights
+    end
+    
+    def provider
+      :expedia
+    end
+
+    def provider_id
+      expedia_id
+    end
+
+    def avg_min_price(search_criteria)  
+      avg_price(room_rates[0], search_criteria.total_nights)
+    end
+
+    def avg_max_price(search_criteria)
+      avg_price(room_rates[-1], search_criteria.total_nights)
+    end
+
+    def rooms_count
+      rooms.count
     end
 
     private 

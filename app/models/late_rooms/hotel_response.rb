@@ -47,9 +47,6 @@ module LateRooms
       @rooms ||= LateRooms::Room.from_hotel_response(xml).sort_by(&:total_price).select {|room| room.total_price > 0 }
     end
 
-    def rooms_count
-      rooms.count
-    end
 
     def cheapest_room
       @cheapest_room ||= rooms.find {|r| r.rooms_available?}
@@ -59,25 +56,45 @@ module LateRooms
       @expensive_room ||= rooms.reverse.find {|r| r.rooms_available?}
     end
 
-    def commonize(search_criteria)
-      return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
-      {
-        provider: :laterooms,
-        provider_id: hotel_id,
-        room_count: rooms_count,
-        min_price: min_price.to_f,
-        max_price: max_price.to_f,        
-        ranking: ranking,
-        rooms: rooms.map{|r| r.commonize(search_criteria)},
-      }
-    # rescue Exception => msg  
-    #   Log.error "LateRooms Hotel #{id} failed to convert: #{msg}"
-    #   nil
-    end
+    # def commonize(search_criteria)
+    #   return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
+    #   {
+    #     provider: :laterooms,
+    #     provider_id: hotel_id,
+    #     room_count: rooms_count,
+    #     min_price: min_price.to_f,
+    #     max_price: max_price.to_f,        
+    #     ranking: ranking,
+    #     rooms: rooms.map{|r| r.commonize(search_criteria)},
+    #   }
+    # # rescue Exception => msg  
+    # #   Log.error "LateRooms Hotel #{id} failed to convert: #{msg}"
+    # #   nil
+    # end
     
     def value(path)
       el = xml.at_xpath(path)
       el.text if el
+    end
+
+    def provider
+      :laterooms
+    end
+
+    def provider_id
+      hotel_id
+    end
+    
+    def rooms_count
+      rooms.count
+    end
+
+    def avg_min_price(search_criteria)  
+      min_price.to_f
+    end
+
+    def avg_max_price(search_criteria)
+      max_price.to_f
     end
 
   end

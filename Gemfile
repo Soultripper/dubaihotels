@@ -26,7 +26,7 @@ gem 'pusher'
 
 gem "typhoeus"
 gem 'faraday'
-gem 'faraday_middleware'
+gem 'faraday_middleware', "0.9.0"
 
 gem 'simple_form'
 gem 'log4r'
@@ -40,7 +40,7 @@ gem 'money'
 gem 'activerecord-import', '~> 0.3.1', require: false
 gem 'geokit-rails'
 gem 'geoip'
-gem 'geo-distance'
+gem 'geo-distance', "0.2.0"
 gem 'geocoder' # for postcode lookup
 gem 'rubyzip', require: false
 
@@ -57,7 +57,6 @@ gem 'smarter_csv', require: false
 gem 'carrierwave'
 gem "fog", require: false
 
-gem 'ruby-prof', require: false
 gem 'meta-tags', :require => 'meta_tags'
 gem  'certified'
 gem 'hirefire-resource'
@@ -103,6 +102,9 @@ end
 group :development do
   gem "awesome_print"
   gem 'meta_request'
+  gem 'ruby-prof', require: false
+  gem 'rack-mini-profiler'
+  
   # gem 'better_errors'
   # gem "binding_of_caller"
 end

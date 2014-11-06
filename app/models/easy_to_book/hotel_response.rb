@@ -7,6 +7,8 @@ module EasyToBook
       @xml, @index = xml, index
     end
 
+
+
     def self.from_list_response(xml_response)
       xml_response.xpath('//Hotel').map.with_index {|hotel, index| new hotel, index}
     end
@@ -47,9 +49,6 @@ module EasyToBook
       @rooms ||= EasyToBook::Room.from_hotel_response xml
     end
 
-    def rooms_count
-      rooms.count
-    end
 
     def cheapest_room
       rooms[0]
@@ -59,24 +58,38 @@ module EasyToBook
       rooms[-1]
     end
 
-    def commonize(search_criteria)
-      {
-        provider: :easy_to_book,
-        provider_id: hotel_id,
-        room_count: rooms_count,
-        min_price: avg_price(min_price(search_criteria.currency_code), search_criteria.total_nights),
-        max_price: avg_price(max_price(search_criteria.currency_code), search_criteria.total_nights),        
-        ranking: ranking,
-        rooms: rooms.map{|r| r.commonize(search_criteria)},
-        #link: link
-      }
-    rescue Exception => msg  
-      Log.error "Hotel #{id} failed to convert: #{msg}"
-      nil
+    # def commonize(search_criteria)
+    #   {
+    #     provider: :easy_to_book,
+    #     provider_id: hotel_id,
+    #     room_count: rooms_count,
+    #     min_price: avg_price(min_price(search_criteria.currency_code), search_criteria.total_nights),
+    #     max_price: avg_price(max_price(search_criteria.currency_code), search_criteria.total_nights),        
+    #     rooms: rooms.map{|r| r.commonize(search_criteria)},
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Hotel #{id} failed to convert: #{msg}"
+    #   nil
+    # end
+
+    def provider
+      :easy_to_book
     end
 
-    def link
-      cheapest_room.link
+    def provider_id
+      hotel_id
+    end
+
+    def avg_min_price(search_criteria)  
+      avg_price(min_price(search_criteria.currency_code), search_criteria.total_nights)
+    end
+
+    def avg_max_price(search_criteria)
+      avg_price(max_price(search_criteria.currency_code), search_criteria.total_nights)
+    end
+
+    def rooms_count
+      rooms.count
     end
 
     def avg_price(price, nights)

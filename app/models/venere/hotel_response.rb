@@ -15,10 +15,6 @@ module Venere
       new xml_response.at_xpath('//AvailResult')
     end
 
-    def fetch_hotel
-      @hotel ||= Hotel.find_by_venere_hotel_id hotel_id
-    end
-
     def hotel
       @hotel ||= VenereHotel.find hotel_id
     end
@@ -29,10 +25,6 @@ module Venere
 
     def hotel_id
       id
-    end
-
-    def ranking
-      0
     end
 
     def min_price
@@ -55,44 +47,63 @@ module Venere
       temp_rooms
     end
 
-
-    def rooms_count
-      rooms.count
-    end
-
     def cheapest_room
-      @cheapest_room ||= rooms[0]
+      rooms[0]
     end
 
     def expensive_room
-      @expensive_room ||= rooms[-1]
+      rooms[-1]
     end
 
-    def commonize(search_criteria)
-      return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
-      {
-        provider: :venere,
-        provider_id: hotel_id,
-        room_count: rooms_count,
-        min_price: min_price.to_f / search_criteria.total_nights,
-        max_price: max_price.to_f / search_criteria.total_nights,        
-        ranking: ranking,
-        rooms: rooms.map {|room| room.commonize(search_criteria)},
-        #link: search_criteria.venere_link(hotel_id)
-      }
-    rescue Exception => msg  
-      Log.error "Venere Hotel #{id} failed to convert: #{msg}"
-      nil
-    end
+    # def commonize(search_criteria)
+    #   return unless rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
+    #   {
+    #     provider: :venere,
+    #     provider_id: hotel_id,
+    #     room_count: rooms_count,
+    #     min_price: min_price.to_f / search_criteria.total_nights,
+    #     max_price: max_price.to_f / search_criteria.total_nights,        
+    #     rooms: rooms.map {|room| room.commonize(search_criteria)},
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Venere Hotel #{id} failed to convert: #{msg}"
+    #   nil
+    # end
 
     def avg_price(price, nights)
-      price / nights
+      price.to_f / nights
     end
     
     def value(path)
       el = xml.at_xpath(path)
       el.text if el
     end
+
+    def rooms_available?
+      rooms and rooms.length > 0 and min_price.to_f > 0 and max_price.to_f > 0
+    end
+
+
+    def provider
+      :venere
+    end
+
+    def provider_id
+      hotel_id
+    end
+    
+    def rooms_count
+      rooms.count
+    end
+
+    def avg_min_price(search_criteria)  
+      avg_price(min_price,search_criteria.total_nights)   
+    end
+
+    def avg_max_price(search_criteria)
+      avg_price(max_price,search_criteria.total_nights)   
+    end
+
 
   end
 

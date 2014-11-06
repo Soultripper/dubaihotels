@@ -47,15 +47,20 @@ module Expedia
       conn.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', params)
     end
 
+    def fetch_hotels(hotel_ids = nil)
+      params = search_params.merge(hotel_params(hotel_ids || ids)).merge(Expedia::Client.credentials)
+      response = Expedia::Client.http.post( Expedia::Client.url + '/ean-services/rs/hotel/v3/list', params)
+      create_list_response(Expedia::Client.parse_response(response))
+    end
 
     def collect(responses, &block)
       responses.each do |response|
-        begin
+        # begin
           list_response = create_list_response(Expedia::Client.parse_response(response))
           list_response.page_hotels(&block) if list_response.valid?
-        rescue Exception => msg
-          Log.error "Expedia error response: #{response}, #{msg}"
-        end        
+        # rescue Exception => msg
+        #   Log.error "Expedia error response: #{response}, #{msg}"
+        # end        
       end
     end
 

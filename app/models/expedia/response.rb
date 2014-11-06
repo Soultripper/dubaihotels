@@ -4,7 +4,6 @@ module Expedia
     attr_reader :name, :data
 
     def initialize(name, data)
-
       @name, @data = name, data[name]
 
     end

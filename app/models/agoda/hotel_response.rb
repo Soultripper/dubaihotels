@@ -3,6 +3,8 @@ module Agoda
 
     attr_reader :xml, :index
 
+
+
     def initialize(xml, index=0)
       @xml, @index = xml, index
     end
@@ -15,20 +17,12 @@ module Agoda
       new xml_response.at_xpath('//Hotelinfo')
     end
 
-    def fetch_hotel
-      @hotel ||= Hotel.find_by_agoda_hotel_id hotel_id
-    end
-
     def hotel
       @hotel ||= AgodaHotel.find hotel_id
     end
 
     def id
       @id ||= value('@id').to_i
-    end
-
-    def hotel_id
-      id
     end
 
     def ranking
@@ -47,10 +41,6 @@ module Agoda
       @rooms ||= Agoda::Room.from_hotel_response xml
     end
 
-    def rooms_count
-      rooms.count
-    end
-
     def cheapest_room
       rooms[0]
     end
@@ -59,31 +49,43 @@ module Agoda
       rooms[-1]
     end
 
-    def commonize(search_criteria)
-      {
-        provider: :agoda,
-        provider_id: hotel_id,
-        room_count: rooms_count,
-        min_price: avg_price(min_price, search_criteria.total_nights),
-        max_price: avg_price(max_price, search_criteria.total_nights),        
-        ranking: ranking,
-        rooms: rooms.map {|r| r.commonize(search_criteria)},
-        #link: link
-      }
-    rescue Exception => msg  
-      Log.error "Agoda Hotel #{id} failed to convert: #{msg}"
-      nil
+    def provider
+      :agoda
     end
 
-    def link
-      cheapest_room.link
+    def provider_id
+      id
     end
 
-    def avg_price(price, nights)
-      price
-      # price / nights
+    def rooms_count
+      rooms.count
     end
-    
+
+    def avg_min_price(search_criteria)  
+      min_price
+    end
+
+    def avg_max_price(search_criteria)
+      max_price
+    end
+
+
+
+    # def commonize(search_criteria)
+    #   {
+    #     provider: :agoda,
+    #     provider_id: hotel_id,
+    #     room_count: rooms_count,
+    #     min_price: min_price,
+    #     max_price: max_price,        
+    #     ranking: ranking,
+    #     rooms: rooms.map {|r| r.commonize(search_criteria)},
+    #   }
+    # rescue Exception => msg  
+    #   Log.error "Agoda Hotel #{id} failed to convert: #{msg}"
+    #   nil
+    # end
+
     def value(path)
       el = xml.at_xpath(path)
       el.text if el
