@@ -2,7 +2,7 @@
   <tbody>
     <tr ng-repeat="room in hotel.rooms">
       <td class="logo">
-        <img ng-src=' <%= asset_path "logos/{{room.provider}}.gif" %>' />
+        <%= logo("{{room.provider}}.gif", "{{room.provider}}") %>
       </td>
       <td>{{room.description}}</td>
       <td class="price"><small>{{currency_symbol}}</small>{{formatPrice(room.price)}}</td>
