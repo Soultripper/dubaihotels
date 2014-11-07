@@ -20,10 +20,11 @@ module LateRooms
       }
     end
 
-    def request(count=nil, options={}, &success_block)
-      hotel_ids = count ? ids.take(count) : ids
-      HydraConnection.get LateRooms::Client.url, params: search_params.merge(hotel_params(hotel_ids))
+    def request(hotel_ids=nil, options={}, &success_block)
+      HydraConnection.get LateRooms::Client.url, params: search_params.merge(hotel_params(hotel_ids || ids))
     end
+
+    def slice_size; 50; end
 
   end
 end

@@ -40,7 +40,7 @@ class EasyToBook::Search < ProviderHotelSearch
   end
 
   def search_params
-    common_params.merge :SlimResponse=>1, :CommissionEnabled=>1, :MetaPrice=>1
+    common_params.merge :SlimResponse=>1, :CommissionEnabled=>0, :MetaPrice=>1
   end
 
   def common_params

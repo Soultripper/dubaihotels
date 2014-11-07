@@ -3,7 +3,9 @@ class ProviderHotelSearch
   attr_reader :search_criteria, :ids
   
   def initialize(search_criteria, ids = nil)
-    @search_criteria, @ids, @total_size, @total_hotels, @total_time = search_criteria, ids, 0, 0, 0
+    @search_criteria, @ids, = search_criteria, ids
+    @total_size, @total_hotels, @total_time, @max_time = 0, 0, 0, 0
+
   end
 
   def self.request_hotels( search_criteria, ids, options={}, &block)
@@ -11,7 +13,7 @@ class ProviderHotelSearch
   end
 
   def slice_size; 150; end
-  def first_slice_size; 30; end
+  def first_slice_size; 25; end
 
   def fetch_hotels(count=nil,options={}, &success_block)
       hotel_ids = count ? ids.take(count) : ids
@@ -19,7 +21,7 @@ class ProviderHotelSearch
     end
 
   def request_hotels(options={}, &block)
-    @total_size, @total_hotels, @total_time = 0, 0, 0
+    @total_size, @total_hotels, @total_time, @max_time = 0, 0, 0, 0
 
     requests = []
 
@@ -33,7 +35,7 @@ class ProviderHotelSearch
 
     percentage_found = (@total_hotels/ids.count.to_f * 100).round(2)
     avg_time = (@total_time / requests.count).round(2)
-    Log.info "Totals for #{self.class.name}: requests=#{requests.count} size=#{(@total_size.to_f / 1000000.to_f).round(2)}Mb searched=#{ids.count} found=#{@total_hotels} avg_time=#{avg_time}s percentage=#{percentage_found}%"
+    Log.info "Totals for #{self.class.name}: requests=#{requests.count} size=#{(@total_size.to_f / 1000000.to_f).round(2)}Mb searched=#{ids.count} found=#{@total_hotels} avg_time=#{avg_time}s max_time=#{@max_time.round(2)}s percentage=#{percentage_found}%"
 
     requests = nil
     ids = nil
@@ -56,19 +58,21 @@ class ProviderHotelSearch
       if hotels_list and hotels_list.hotels.count > 0      
         @total_hotels += hotels_list.hotels.count
         block_given? ? (yield hotels_list.hotels) : hotels_list
-      end          
+      end    
+      hotels_list      
     end
 
     req.on_complete do |response|
       size = response.body.size
       @total_size += size
       @total_time += response.total_time 
+      @max_time = response.total_time > @max_time ? response.total_time : @max_time
       msg = "#{provider} response complete: message=#{response.return_message} size=#{size/1000}Kb time=#{response.total_time.round(2)}s code=#{response.response_code} uri=#{response.request.base_url}"               
       if response.timed_out? || response.code != 200
         Log.error msg
         nil
       else
-        Log.debug msg
+        #Log.debug msg
         nil
       end
     end

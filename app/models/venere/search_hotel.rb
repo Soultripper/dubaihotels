@@ -50,5 +50,7 @@ module Venere
       HydraConnection.post Venere::Client.url + 'XHI_HotelAvail.soap', body: soap_envelope, headers: xml_headers
     end
 
+    def slice_size; 50; end
+
   end
 end

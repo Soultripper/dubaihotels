@@ -18,5 +18,7 @@ module EasyToBook
       HydraConnection.post EasyToBook::Client.uri, body: xml_builder.to_xml, headers: xml_headers
     end
 
+    def slice_size; 50; end
+
   end
 end
