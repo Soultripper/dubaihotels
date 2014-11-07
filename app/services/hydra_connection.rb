@@ -6,7 +6,6 @@ module HydraConnection
   def in_parallel(&block)
      hydra = Typhoeus::Hydra.hydra
      yield.each do |req| 
-      Log.debug "Queuing #{req.base_url}"
       hydra.queue req
       end
 

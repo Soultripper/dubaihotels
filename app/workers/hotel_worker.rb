@@ -10,10 +10,11 @@ class HotelWorker
 
 
     Log.info "------ SEARCH BEGINNING (#{location.slug}) -------- "
+    print_sys_info
     #MemTool.start("HotelSearch-#{cache_key}")
 
+    threads = []
     time = Benchmark.realtime{
-      threads = []
       HotelsConfig.providers.each { |provider| threads << threaded(provider) }
       Log.debug "Waiting for threads to finish"
       threads.each &:join
@@ -21,14 +22,15 @@ class HotelWorker
     notify
     #MemTool.stop
 
+    ObjectSpace.garbage_collect
+    print_sys_info
     Log.info "------ SEARCH COMPLETED IN #{time} seconds (state=#{@search.state}) -------- "
-    clean_up
+    
 
   end
 
-  def clean_up
-    Log.info "Clean up info: #{Utilities.mem_report}"
-    ObjectSpace.garbage_collect
+  def print_sys_info
+    Log.info "Sys info: #{Utilities.mem_report}"
   end
 
   def threaded(provider)
@@ -42,9 +44,8 @@ class HotelWorker
   def request_hotels(provider)
     return unless @search.include? provider
     search.reset provider  
-    time = Benchmark.realtime {find_hotels_for provider }
+    find_hotels_for provider
     @search.finish_and_persist provider   
-    Log.info "------ #{provider.upcase} FINISHED in #{time} secs ------"
   end
 
   def find_hotels_for(provider)   
@@ -55,11 +56,16 @@ class HotelWorker
       return 
     end
 
-    Log.debug "Found #{hotels_ids.count} hotels to search for against provider #{provider.upcase}"
-
-    search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
-      notify if @search.compare_and_persist(provider_hotels, provider)
+    stats = {}
+    time = Benchmark.realtime do 
+      stats = search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
+        notify if @search.compare_and_persist(provider_hotels, provider)
+      end
     end
+
+
+    Log.info "#{provider.upcase} Finished: time=#{time.round(2)}s requests=#{stats[:requests]} size=#{stats[:size]}Mb searched=#{hotels_ids.count} found=#{stats[:found]} avg_time=#{stats[:avg_time]}s max_time=#{stats[:max_time]}s percentage=#{stats[:percentage]}%" if stats
+
   rescue => msg  
     error provider, msg   
   end

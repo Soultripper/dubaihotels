@@ -43,5 +43,7 @@ Hotels::Application.configure do
   config.assets.debug = false
 
   Rails.logger = Logger.new(STDOUT)
+  
+
   #Expedia::Utils.logger = Rails.logger
 end

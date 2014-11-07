@@ -1,4 +1,5 @@
 Rails.application.config.to_prepare do
+  Rails.cache.silence!
   HotelsConfig.setup do |config|
     config.page_size  = 15
     config.max_page_size  = 50

@@ -35,10 +35,21 @@ class ProviderHotelSearch
 
     percentage_found = (@total_hotels/ids.count.to_f * 100).round(2)
     avg_time = (@total_time / requests.count).round(2)
-    Log.info "Totals for #{self.class.name}: requests=#{requests.count} size=#{(@total_size.to_f / 1000000.to_f).round(2)}Mb searched=#{ids.count} found=#{@total_hotels} avg_time=#{avg_time}s max_time=#{@max_time.round(2)}s percentage=#{percentage_found}%"
+
+
+
+    stats = {
+      requests: requests.count,
+      size: (@total_size.to_f / 1000000.to_f).round(2),
+      found: @total_hotels,
+      avg_time:avg_time,
+      max_time: @max_time.round(2),
+      percentage: percentage_found
+    }
 
     requests = nil
     ids = nil
+    stats
 
   end
 
