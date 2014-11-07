@@ -10,7 +10,7 @@ class ProviderHotelSearch
     new(search_criteria, ids).request_hotels(options, &block)
   end
 
-  def slice_size; 50; end
+  def slice_size; 150; end
   def first_slice_size; 30; end
 
   def fetch_hotels(count=nil,options={}, &success_block)
@@ -68,7 +68,7 @@ class ProviderHotelSearch
         Log.error msg
         nil
       else
-        #Log.debug response
+        Log.debug msg
         nil
       end
     end

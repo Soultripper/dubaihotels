@@ -18,6 +18,9 @@ module Agoda
       HydraConnection.post Agoda::Client.url, body: xml_builder.to_xml, headers: xml_headers
     end
     
+    def slice_size; 50; end
+    def first_slice_size; 25; end
+
   end
 
 end
