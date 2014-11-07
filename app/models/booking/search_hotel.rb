@@ -30,7 +30,7 @@ module Booking
       HydraConnection.post Booking::Client.url + request_type, body: search_params.merge(hotel_params(hotel_ids))
     end
 
-    def slice_size; 100; end
+    def slice_size; 40; end
     def first_slice_size; 10; end
 
   end

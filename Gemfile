@@ -49,7 +49,7 @@ gem 'savon', '~> 2.3.0' # used for SOAP messaging
 gem 'zipruby', require: false
 
 gem 'newrelic_rpm'
-gem "oink" #Rails AR profiler
+gem "oink", require: false #Rails AR profiler
 gem 'jquery-rails-cdn'
 
 # gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"

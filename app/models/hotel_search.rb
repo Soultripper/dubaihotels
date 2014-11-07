@@ -86,15 +86,11 @@ class HotelSearch
   def finish_and_persist(provider)
     finish provider
     @state = finished? ? :finished : @state
-    clean_up if finished?
     persist
     hotels.count
   end
 
-  def clean_up
-    Log.info "Clean up info: #{Utilities.mem_report}"
-    ObjectSpace.garbage_collect
-  end
+
 
   def error_and_persist(provider, msg)
     error provider

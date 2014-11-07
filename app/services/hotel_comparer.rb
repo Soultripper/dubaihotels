@@ -25,7 +25,7 @@ class HotelComparer
       end    
     end
 
-    Log.debug "#{provider.upcase} #{hotels_compared} hotels compared out of #{found_provider_hotels.count} found provider hotels in #{time}s"
+    #Log.debug "#{provider.upcase} #{hotels_compared} hotels compared out of #{found_provider_hotels.count} found provider hotels in #{time}s"
     hotels_compared > 0
   end
 

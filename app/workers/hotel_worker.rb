@@ -20,7 +20,15 @@ class HotelWorker
     }
     notify
     #MemTool.stop
+
     Log.info "------ SEARCH COMPLETED IN #{time} seconds (state=#{@search.state}) -------- "
+    clean_up
+
+  end
+
+  def clean_up
+    Log.info "Clean up info: #{Utilities.mem_report}"
+    ObjectSpace.garbage_collect
   end
 
   def threaded(provider)
@@ -73,7 +81,7 @@ class HotelWorker
   end
 
   def notify
-    Log.debug "Notifying channel #{channel} for hotels update. state=#{@search.state}"
+    #Log.debug "Notifying channel #{channel} for hotels update. state=#{@search.state}"
     Pusher[channel].trigger_async('results_update', { key: @search.cache_key})    
   end
 

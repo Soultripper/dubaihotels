@@ -17,7 +17,6 @@ module Agoda
 
     def page_hotels(&block)
       total = hotels.count
-      Log.debug "Processing #{total} Agoda hotels"
       yield self.hotels if block_given?      
     end
 
