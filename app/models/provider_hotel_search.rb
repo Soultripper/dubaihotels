@@ -3,14 +3,14 @@ class ProviderHotelSearch
   attr_reader :search_criteria, :ids
   
   def initialize(search_criteria, ids = nil)
-    @search_criteria, @ids, @total_size, @total_hotels = search_criteria, ids, 0, 0
+    @search_criteria, @ids, @total_size, @total_hotels, @total_time = search_criteria, ids, 0, 0, 0
   end
 
   def self.request_hotels( search_criteria, ids, options={}, &block)
     new(search_criteria, ids).request_hotels(options, &block)
   end
 
-  def slice_size; 150; end
+  def slice_size; 50; end
   def first_slice_size; 30; end
 
   def fetch_hotels(count=nil,options={}, &success_block)
@@ -64,11 +64,11 @@ class ProviderHotelSearch
       @total_size += size
       @total_time += response.total_time 
       msg = "#{provider} response complete: message=#{response.return_message} size=#{size/1000}Kb time=#{response.total_time.round(2)}s code=#{response.response_code} uri=#{response.request.base_url}"               
-      if response.timed_out? || response.code == 0
+      if response.timed_out? || response.code != 200
         Log.error msg
         nil
       else
-        #Log.debug msg
+        #Log.debug response
         nil
       end
     end

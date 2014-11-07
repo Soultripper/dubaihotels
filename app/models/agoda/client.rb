@@ -13,7 +13,7 @@ class Agoda::Client
     end
 
     def wait_time
-      15
+      10
     end
 
     def url

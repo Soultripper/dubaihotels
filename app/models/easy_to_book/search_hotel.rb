@@ -13,7 +13,7 @@ module EasyToBook
     end
 
     def request(hotel_ids=nil, options={}, &success_block)
-      request_params = {:Hotellist=> {:Hotelid=> (hotel_ids || ids)}}.merge(search_params.merge(options)) 
+      request_params = {:Hotellist=> {:Hotelid=> (hotel_ids || ids)}}.merge(search_params) 
       xml_builder = EasyToBook::Client.request_builder(:SearchAvailability, request_params)
       HydraConnection.post EasyToBook::Client.uri, body: xml_builder.to_xml, headers: xml_headers
     end

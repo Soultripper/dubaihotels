@@ -13,7 +13,7 @@ module Agoda
     end
 
     def request(hotel_ids=nil, options={}, &success_block)
-      request_params = {:Id => (hotel_ids || ids).join(',')}.merge(search_params.merge(options)) 
+      request_params = {:Id => (hotel_ids || ids).join(',')}.merge(search_params) 
       xml_builder = Agoda::Client.request_builder(6, request_params)
       HydraConnection.post Agoda::Client.url, body: xml_builder.to_xml, headers: xml_headers
     end
