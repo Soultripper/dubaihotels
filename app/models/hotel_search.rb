@@ -74,7 +74,7 @@ class HotelSearch
   end
 
   def total_hotels
-    @hashed_hotels.hotels.count
+    @hashed_hotels ? @hashed_hotels.hotels.count : 0
   end
 
   def compare_and_persist(found_provider_hotels, provider)
