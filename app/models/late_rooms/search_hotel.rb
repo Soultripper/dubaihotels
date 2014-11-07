@@ -21,6 +21,7 @@ module LateRooms
     end
 
     def request(hotel_ids=nil, options={}, &success_block)
+      search_params[:detailsearch] = options[:norooms] ? false : true 
       HydraConnection.get LateRooms::Client.url, params: search_params.merge(hotel_params(hotel_ids || ids))
     end
 

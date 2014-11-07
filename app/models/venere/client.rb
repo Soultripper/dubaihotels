@@ -114,7 +114,7 @@ class Venere::Client
         <soapenv:Body>
           <xhi:XHI_HotelAvailRQ msgVersion="#{MSG_VERSION}" start="#{params[:start_date]}" end="#{params[:end_date]}" numGuests="#{params[:numGuests]}" numRooms="#{params[:numRooms]}" guestCountryCode="#{params[:country_code]}" preferredPaymentCurrency="#{params[:currency_code]}">
             #{yield block if block_given?}
-            <xhi:AvailResultFormat showDailyRates="false" showPropertyDetails="false" showLowestPriceOnly="false"  />
+            <xhi:AvailResultFormat showDailyRates="false" showPropertyDetails="false" showLowestPriceOnly="#{params[:show_lowest] || false}"  />
           </xhi:XHI_HotelAvailRQ>
         </soapenv:Body>
       </soapenv:Envelope>

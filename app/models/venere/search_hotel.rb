@@ -46,6 +46,7 @@ module Venere
 
     def request(hotel_ids=nil, options={}, &success_block)
       params = search_params.merge(hotel_params(hotel_ids || ids))
+      params[:show_lowest] = options[:norooms] ? true : false
       soap_envelope = Venere::Client.soap_envelope(params)  {Venere::Client.by_property(params)}
       HydraConnection.post Venere::Client.url + 'XHI_HotelAvail.soap', body: soap_envelope, headers: xml_headers
     end

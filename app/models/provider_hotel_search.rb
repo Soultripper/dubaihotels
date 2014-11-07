@@ -25,12 +25,14 @@ class ProviderHotelSearch
 
     requests = []
 
-    HydraConnection.in_parallel do
-      requests << hydra_request(ids.take(first_slice_size), options, &block)  
-      ids.drop(first_slice_size).each_slice(options[:slice_size] || slice_size) do |hotel_ids| 
-        requests << hydra_request(hotel_ids, options, &block)
+    time = Benchmark.realtime do 
+      HydraConnection.in_parallel do
+        requests << hydra_request(ids.take(first_slice_size), options, &block)  
+        ids.drop(first_slice_size).each_slice(options[:slice_size] || slice_size) do |hotel_ids| 
+          requests << hydra_request(hotel_ids, options, &block)
+        end
+        requests
       end
-      requests
     end
 
     percentage_found = (@total_hotels/ids.count.to_f * 100).round(2)
@@ -39,6 +41,8 @@ class ProviderHotelSearch
 
 
     stats = {
+      time: time.round(2),
+      searched: ids.count,
       requests: requests.count,
       size: (@total_size.to_f / 1000000.to_f).round(2),
       found: @total_hotels,

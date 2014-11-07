@@ -9,27 +9,40 @@ class HotelWorker
     return unless search
 
 
-    Log.info "------ SEARCH BEGINNING (#{location.slug}) -------- "
+    Log.info "-- BEGINNING (#{location.slug}) --"
     print_sys_info
     #MemTool.start("HotelSearch-#{cache_key}")
 
     threads = []
-    time = Benchmark.realtime{
-      HotelsConfig.providers.each { |provider| threads << threaded(provider) }
-      Log.debug "Waiting for threads to finish"
-      threads.each &:join
-    }
+    HotelsConfig.providers.each { |provider| threads << threaded(provider) }
+    Log.debug "Waiting for threads to finish"
+    threads.each &:join
     notify
     #MemTool.stop
 
-    ObjectSpace.garbage_collect
     print_sys_info
-    Log.info "------ SEARCH COMPLETED IN #{time} seconds (state=#{@search.state}) -------- "
+    Log.info"-- COMPLETED IN #{stats_agg[:max_time]} seconds (state=#{@search.state}) providers=#{stats_agg[:count]} requests=#{stats_agg[:requests]} size=#{stats_agg[:size].round(2)}Mb searched=#{stats_agg[:searched]} found=#{stats_agg[:found]} avg_time=#{stats_agg[:avg_time]}s max_time=#{stats_agg[:max_time]}s percentage=#{stats_agg[:percentage]}% --"
     
 
   end
 
+  def stats_agg
+    @stats_agg ||= {
+      count: 0,
+      time: 0,
+      max_time: 0,
+      requests: 0,
+      size: 0,
+      searched: 0,
+      found: 0,
+      requests: 0,
+      percentage_found: 0,
+      avg_time: 0
+    }
+  end
+
   def print_sys_info
+    ObjectSpace.garbage_collect
     Log.info "Sys info: #{Utilities.mem_report}"
   end
 
@@ -56,18 +69,30 @@ class HotelWorker
       return 
     end
 
-    stats = {}
-    time = Benchmark.realtime do 
-      stats = search_method_for(provider).request_hotels(search_criteria, hotels_ids) do |provider_hotels|
-        notify if @search.compare_and_persist(provider_hotels, provider)
-      end
+    options = {norooms: false}
+
+    stats = search_method_for(provider).request_hotels(search_criteria, hotels_ids, options) do |provider_hotels|
+      notify if @search.compare_and_persist(provider_hotels, provider)
     end
 
-
-    Log.info "#{provider.upcase} Finished: time=#{time.round(2)}s requests=#{stats[:requests]} size=#{stats[:size]}Mb searched=#{hotels_ids.count} found=#{stats[:found]} avg_time=#{stats[:avg_time]}s max_time=#{stats[:max_time]}s percentage=#{stats[:percentage]}%" if stats
+    aggregate_stats stats
+    Log.info "#{provider.upcase} Finished: time=#{stats[:time]}s requests=#{stats[:requests]} size=#{stats[:size]}Mb searched=#{stats[:searched]} found=#{stats[:found]} avg_time=#{stats[:avg_time]}s max_time=#{stats[:max_time]}s percentage=#{stats[:percentage]}%" if stats
 
   rescue => msg  
     error provider, msg   
+  end
+
+  def aggregate_stats(stats)
+    stats_agg[:count]     += 1
+    return unless stats
+    stats_agg[:max_time]  =  stats[:max_time] > stats_agg[:max_time] || 0 ? stats[:max_time] :  stats_agg[:max_time]
+    stats_agg[:requests]  += stats[:requests]
+    stats_agg[:size]      += stats[:size].round(2)
+    stats_agg[:searched]  += stats[:searched]
+    stats_agg[:found]     += stats[:found]
+    stats_agg[:requests]  += stats[:requests]
+    stats_agg[:percentage] = (stats_agg[:found]/stats_agg[:searched].to_f * 100).round(2)
+    stats_agg[:avg_time] = (stats_agg[:max_time] /  stats_agg[:count]).round(2)
   end
 
   def error(provider, msg)
