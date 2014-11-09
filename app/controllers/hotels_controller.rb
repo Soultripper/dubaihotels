@@ -19,7 +19,8 @@ class HotelsController < ApplicationController
   def mobile_show
     publish_hotel_seo
     _rooms = cached_hotel_rooms
-    unless _rooms
+    
+    unless _rooms and !_rooms.empty?
       _rooms = hotel_room_search.rooms_results
     end
     # room_search=hotel_room_search
@@ -72,7 +73,7 @@ class HotelsController < ApplicationController
   def cached_hotel_rooms
     return unless cached_search and cached_search.hotels
     hotel_comparison = cached_search.hotels.find {|h| h.slug == params[:id]}
-    Log.debug "Found cached search"
+    Log.debug "Found cached search" if hotel_comparison
     hotel_comparison.rooms if hotel_comparison
     # hotel_rooms = cached_rooms.find_hotel params[:id]
     # throw hotel_rooms

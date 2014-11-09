@@ -18,7 +18,7 @@ class ProviderHotel < ActiveRecord::Base
   def to_json
     {
       provider: provider,
-      description: description_clean,
+      #description: description_clean,
       user_rating: user_rating
     }
   end

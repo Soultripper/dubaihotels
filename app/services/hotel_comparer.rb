@@ -1,7 +1,7 @@
 class HotelComparer
   extend Forwardable
 
-  attr_reader :hash_hotels, :found_provider_hotels, :dictionary, :provider, :search_details
+  attr_reader :hash_hotels, :found_provider_hotels, :dictionary, :provider, :search_details, :options
 
   def_delegators :search_details, :search_criteria, :location
 
@@ -9,7 +9,8 @@ class HotelComparer
     @hash_hotels            = hash_hotels
     @found_provider_hotels  = found_provider_hotels
     @provider               =  provider
-    @search_details        = search_details
+    @search_details         = search_details
+    @options                = options
   end
 
   def self.compare(hash_hotels, found_provider_hotels, provider, search_details, options={})

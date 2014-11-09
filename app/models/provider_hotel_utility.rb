@@ -1,6 +1,6 @@
 class ProviderHotelUtility
 
-  def self.hotel_dto(provider_hotel, search_criteria)
+  def self.hotel_dto(provider_hotel, search_criteria, options={})
     return nil unless provider_hotel.provider_id
 
 
@@ -14,7 +14,7 @@ class ProviderHotelUtility
       min_price: provider_hotel.avg_min_price(search_criteria),
       max_price: provider_hotel.avg_max_price(search_criteria),
       room_count: provider_hotel.rooms_count,
-      rooms: rooms_dto(provider_hotel.rooms, search_criteria)
+      rooms: rooms_dto(provider_hotel.rooms, search_criteria) 
 
     }
   # rescue => msg  
