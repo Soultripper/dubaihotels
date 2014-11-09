@@ -69,7 +69,7 @@ class HotelWorker
       return 
     end
 
-    options = {norooms: true}
+    options = {norooms: false}
 
     stats = search_method_for(provider).request_hotels(search_criteria, hotels_ids, options) do |provider_hotels|
       notify if @search.compare_and_persist(provider_hotels, provider)
