@@ -331,8 +331,10 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       var slider = angular.element('#priceSlider').data("ionRangeSlider")
       if(slider)
       {
-        if(info.price_values[0]==0)
+        if(info.price_values.length==0)
+        {
           slider.reset();
+        }
         else
         {
           var to_val  = info.max_price_filter || info.max_price || 1000;
@@ -608,6 +610,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       grid:false,
      // to_value: 100,
       from: 0,
+      to: vals.length-1,
       //to: vals.length-1,
       onFinish: Hotels.priceRange.change
     })

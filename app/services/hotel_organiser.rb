@@ -19,7 +19,7 @@ class HotelOrganiser
 
   def find_prices
   end
-  
+
 
   def round_up(price, nearest=5.0)
     (price.to_f / nearest).ceil * nearest
@@ -34,7 +34,7 @@ class HotelOrganiser
   end
 
   def price_values
-    @price_values ||= hotels.map {|hotel| round_up(hotel.offer[:min_price])}.uniq.sort
+    @price_values ||= hotels.map {|hotel| round_up(hotel.offer[:min_price])}.uniq.sort.select {|p| p >= HotelsConfig.min_price}
   end
 
   def price_median

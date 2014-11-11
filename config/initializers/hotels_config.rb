@@ -4,7 +4,8 @@ Rails.application.config.to_prepare do
     config.page_size  = 15
     config.max_page_size  = 50
     config.min_page_size = 1    
-    config.max_price = 100,
+    config.min_price = 25
+    config.max_price = 1000
     config.cache_expiry = 20.minutes
 
     if Rails.env == "production"

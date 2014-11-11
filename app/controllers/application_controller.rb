@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  MIN_PRICE = 25
   START_DATE = Date.tomorrow
   END_DATE = 2.days.from_now
   CURRENCY_CODE = :GBP
@@ -45,7 +44,7 @@ class ApplicationController < ActionController::Base
 
   def min_price
     @min_price = Utilities.nil_round(params['min_price'])
-    @min_price < MIN_PRICE ? MIN_PRICE : @min_price
+    @min_price < HotelsConfig.min_price ? HotelsConfig.min_price  : @min_price
   end
 
   def max_price
