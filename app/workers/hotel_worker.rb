@@ -113,7 +113,7 @@ class HotelWorker
 
   def notify
     #Log.debug "Notifying channel #{channel} for hotels update. state=#{@search.state}"
-    Pusher[channel].trigger_async('results_update', { key: @search.cache_key})    
+    #Pusher[channel].trigger_async('results_update', { key: @search.cache_key})    
   end
 
   def search_method_for(provider)

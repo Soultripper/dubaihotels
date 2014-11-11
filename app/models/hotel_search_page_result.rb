@@ -83,12 +83,13 @@ class HotelSearchPageResult
       json.criteria           search_options[:search_criteria]
       json.state              search_options[:state]
 
-      return if matched_hotels.empty?
-      
-      if options[:mobile]
-        json_for_mobile(json, matched_hotels, user_filters)
-      else
-        json_for_web(json, matched_hotels, user_filters)
+       
+      unless  matched_hotels.empty?
+        if options[:mobile]
+          json_for_mobile(json, matched_hotels, user_filters)
+        else
+          json_for_web(json, matched_hotels, user_filters)
+        end
       end
     end
   end 

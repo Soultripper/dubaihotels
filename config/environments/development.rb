@@ -8,7 +8,7 @@ Hotels::Application.configure do
 
   # config.action_controller.asset_host = "d2xu03gcpx4g7w.cloudfront.net" #"cdn.staging.hot5.com"
   # config.action_controller.asset_host = "hot5.s3-website-eu-west-1.amazonaws.com"
-  config.assets.digest = true
+  config.assets.digest = false
 
 
   # Log error messages when you accidentally call methods on nil.
@@ -40,7 +40,7 @@ Hotels::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = false
+  config.assets.debug = true
 
   Rails.logger = Logger.new(STDOUT)
   

@@ -1,6 +1,6 @@
 
-app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'HotelResults', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory', '$log', 
-  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, HotelResults, HotelRooms, Page, HotelProvider, HotelFactory, $log) { 
+app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '$timeout', '$location', '$filter', 'HotelResults', 'HotelRooms', 'Page', 'HotelProvider','HotelFactory', '$log','$interval', 
+  function ($scope, $rootScope, $http, $routeParams, $timeout, $location, $filter, HotelResults, HotelRooms, Page, HotelProvider, HotelFactory, $log, $interval) { 
 
     // var searchInput = angular.element('#search-input');
     
@@ -14,7 +14,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     // })
 
     var tuttimer = [];
-    var timeoutId, initTimeoutId;
+    var timeoutId, initTimeoutId, intervalId;
 
     $scope.hotelProvider = HotelProvider;    
     $rootScope.Page = Page;
@@ -61,6 +61,7 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     var stopLoader = function(){
       $timeout.cancel(timeoutId);
       $timeout.cancel(initTimeoutId);
+
       for (var i = 0; i < tuttimer.length; i++) {
         $timeout.cancel(tuttimer[i])
       }
@@ -180,9 +181,12 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
       $scope.pageState = response.state;
       
+       console.log("timestamp:" + response.info.timestamp + " state:" + response.state);
+
       if($scope.pageState==='finished' || $scope.pageState==='invalid')
       {
-        $timeout.cancel(initTimeoutId);
+        //$timeout.cancel(initTimeoutId);
+        $interval.cancel(intervalId);
         stopLoader();
         Hot5.Connections.Pusher.unsubscribe($rootScope.channel);
         $scope.unsubscribed = true
@@ -590,9 +594,11 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
       onFinish: Hotels.priceRange.change
     })
 
-    initTimeoutId = $timeout(function() {
-      $scope.search()                 
-    }, 6000);
+    intervalId = $interval(function(){$scope.search();}, 1500, 10);
+
+    // initTimeoutId = $timeout(function() {
+    //   $scope.search()                 
+    // }, 6000);
 
     $timeout(function() {
       Hot5.Connections.Pusher.unsubscribe($rootScope.channel);

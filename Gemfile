@@ -103,7 +103,7 @@ group :development do
   gem "awesome_print"
   gem 'meta_request'
   gem 'ruby-prof', require: false
-  gem 'rack-mini-profiler'
+ # gem 'rack-mini-profiler'
   
   # gem 'better_errors'
   # gem "binding_of_caller"
