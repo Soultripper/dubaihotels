@@ -1,11 +1,12 @@
 class HotelOrganiser
 
-  attr_reader :hotels, :sort_key, :user_filters, :min_price, :max_price
+  attr_reader :hotels, :sort_key, :user_filters, :min_price, :max_price, :prices
 
   def initialize(hotel_comparisons)
     @hotels = hotel_comparisons
     find_min_price
     find_max_price
+    price_values
   end
 
   def find_min_price
@@ -15,6 +16,10 @@ class HotelOrganiser
   def find_max_price 
     @max_price ||= round_up price_stats.max 
   end
+
+  def find_prices
+  end
+  
 
   def round_up(price, nearest=5.0)
     (price.to_f / nearest).ceil * nearest

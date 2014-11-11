@@ -328,23 +328,38 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
 
     var updateSlider = function(info)
     {
-      var slider = angular.element('#priceSlider')
+      var slider = angular.element('#priceSlider').data("ionRangeSlider")
       if(slider)
       {
-        // console.log(info.price_values)
-        // slider.ionRangeSlider("update",{
-        //   values: info.price_values
-        // })
-
-
-        slider.ionRangeSlider("update", {
-            min:  Math.round(25),
-            max:  Math.round(info.max_price || 300),
-            from: Math.round(info.min_price_filter || 25),               // change default FROM setting
-            to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
+        if(info.price_values[0]==0)
+          slider.reset();
+        else
+        {
+          var to_val  = info.max_price_filter || info.max_price || 1000;
+          var from_val = info.min_price_filter || info.in_price || 25;
+          slider.update({
+            values: info.price_values,
+            // from:info.price_values[0],
+            min: info.price_values[0],
+            max: info.price_values[info.price_values.length-1],
+            from:  info.price_values.indexOf(from_val),
+            to: info.price_values.indexOf(to_val),
             prefix: $rootScope.currency_symbol
-           // values: info.price_values  
-        });
+
+            //to_value:info.price_values[info.price_values.length],
+            // to:info.price_values[6]
+
+          })
+        }
+
+        // slider.update({
+        //     min:  Math.round(25),
+        //     max:  Math.round(info.max_price || 300),
+        //     from: Math.round(info.min_price_filter || 25),               // change default FROM setting
+        //     to:   Math.round(info.max_price_filter || (info.max_price || 300)), 
+        //     prefix: $rootScope.currency_symbol
+        //    // values: info.price_values  
+        // });
       } 
     };
 
@@ -419,9 +434,8 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     };
 
     $rootScope.changePrice = function(min_price, max_price){
-
       $routeParams.min_price = min_price; //Page.info.price_values[min_price];
-      $routeParams.max_price = max_price; ///Page.info.price_values[max_price];
+      $routeParams.max_price = max_price; //Page.info.price_values[max_price];
 
       if(min_price<=10)
         delete $routeParams.min_price
@@ -430,7 +444,6 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
         delete $routeParams.max_price
       else if(max_price < min_price)
         max_price = min_price
-
       applyFilter();
     };
 
@@ -580,20 +593,24 @@ app.controller('HotelsCtrl', ['$scope', '$rootScope', '$http', '$routeParams', '
     $routeParams.page_no = 1;
     var slider = angular.element('#priceSlider')
 
+    var vals = _.range(25,1001, 5);
     slider.ionRangeSlider({
       type: 'double', 
       prefix: '£',
       hideMinMax: false,
       hideFromTo: false,
-      min: 25,
-      max: 300,
-      from: 25,
-      to: 300,
-      step: 5,
-      // values: _.range(1,100),
+      // min: 25,
+      // max: 500,
+      // from: 25,
+      // to: 500,
+      // step: 5,
+      values: vals,
+      grid:false,
+     // to_value: 100,
+      from: 0,
+      //to: vals.length-1,
       onFinish: Hotels.priceRange.change
     })
-
     intervalId = $interval(function(){$scope.search();}, 1500, 10);
 
     // initTimeoutId = $timeout(function() {

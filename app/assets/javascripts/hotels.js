@@ -45,9 +45,10 @@ var Hotels = function(){
 
   var priceRange = {
     change: function(priceSlider){
+      console.log(priceSlider)
       var scope = angular.element($("#hotel-results")).scope();
       scope.safeApply(function(){
-        scope.changePrice(priceSlider.fromNumber,priceSlider.toNumber)
+        scope.changePrice(priceSlider.from_value,priceSlider.to_value)
       });
     }
   }

@@ -69,8 +69,8 @@ class HotelSearchPageResult
         json.available_hotels hotels.count 
         json.min_price        hotel_organiser.min_price 
         json.max_price        hotel_organiser.max_price  
-        json.min_price_filter user_filters[:min_price] if user_filters
-        json.max_price_filter user_filters[:max_price] if user_filters  
+        json.min_price_filter user_filters[:min_price].to_i if user_filters and user_filters[:min_price]
+        json.max_price_filter user_filters[:max_price].to_i if user_filters and user_filters[:max_price]
         json.price_values     hotel_organiser.price_values      
         json.star_ratings     user_filters[:star_ratings] if user_filters
         json.amenities        user_filters[:amenities] if user_filters
